@@ -50,7 +50,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -75,6 +75,7 @@ import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
+import in.ac.iitm.students.fragments.month_fragments.AprilFragment;
 import in.ac.iitm.students.objects.Calendar_Event;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
@@ -100,7 +101,8 @@ public class HomeActivity extends AppCompatActivity
     private long CalID;
     private String[] months = {"january", "february", "march", "april", "may", "june", "july", "august", "september",
             "october", "november", "december"};
-    private String cal_url = "";//url of api file
+    private int month = 0;
+    private String cal_url = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";//url of api file
 
     public static Context getContext() {
         return mContext;
@@ -305,9 +307,9 @@ public class HomeActivity extends AppCompatActivity
 
                     if (!getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", this))) {
                         deleteallevents();
-                        for (int m = 0; m < 12; m++) {
-                            sendJsonRequest(m);
-                        }
+
+                        sendJsonRequest();
+
                         Utils.saveprefString("Cal_Ver", getVersion(), this);
                     }
 
@@ -337,32 +339,43 @@ public class HomeActivity extends AppCompatActivity
         getContentResolver().delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events._ID + "= *", null);
     }
 
-    void sendJsonRequest(final int month) {
-        JsonArrayRequest jrequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+    void sendJsonRequest() {
+        JsonObjectRequest jrequest = new JsonObjectRequest(Request.Method.POST, cal_url, null, new Response.Listener<JSONObject>() {
+
 
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
 
                 try {
-                    for (int i = 0; i < 31; i++) {
-                        if (response.isNull(i)) {
-                            return;
-                        }
-                        JSONObject jsonObject = response.getJSONObject(i);
-                        Calendar_Event event = new Calendar_Event();
-                        event.setDate(jsonObject.getInt("date"));
-                        event.setMonth(month);  //0 for Jan, 11 for December and so on 7 for August
-                        event.setDay(jsonObject.getString("day"));
-                        event.setDetails(jsonObject.getString("details"));
-                        event.setHoliday(jsonObject.getInt("holiday") == 1);
-                        event.setRemind(jsonObject.getInt("remind") == 1);
 
-                        if (event.getDetails().length() > 0 && !exists(event)) {
-                            insertEvents(CalID, event);
-                        }
+                    for (month = 0; month < months.length; month++) {
 
-                        Log.i("JSONResp3", event.getDay());
+                        JSONArray eachMonth = response.getJSONArray(months[month]);
+
+                        for (int j = 0; j < eachMonth.length(); j++) {
+                            JSONObject eachDay = eachMonth.getJSONObject(j);
+                            Calendar_Event event = new Calendar_Event();
+                            event.setDate(Integer.parseInt(eachDay.getString("date")));
+                            event.setMonth(month);  //0 for Jan, 11 for December and so on 7 for August
+                            event.setDay(eachDay.getString("day"));
+                            event.setDetails(eachDay.getString("details"));
+                            event.setHoliday(eachDay.getString("holiday").equals("TRUE"));
+                            event.setRemind(eachDay.getString("remind").equals("TRUE"));
+
+
+                            // fetches the data directly from server and sends to cardviews
+                            AprilFragment.day[month][j] = event.getDay();
+                            AprilFragment.desc[month][j] = event.getDetails();
+
+
+                            if (event.getDetails().length() > 0 && !exists(event)) {
+                                insertEvents(CalID, event);
+                            }
+
+                            Log.i("JSONResp3", event.getDay());
+                        }
                     }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -372,7 +385,9 @@ public class HomeActivity extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 Log.e("VolleyError", error.toString());
+
             }
         }) {
             @Override
