@@ -20,11 +20,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import in.ac.iitm.students.Organisations.activities.main.Organizations;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.ImpContactsAdapter;
+import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -160,7 +160,7 @@ public class ImpContactsActivity extends AppCompatActivity
             intent = new Intent(context, HomeActivity.class);
             flag = true;
         } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, Organizations.class);
+            intent = new Intent(context, OrganizationActivity.class);
             flag = true;
         } else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
