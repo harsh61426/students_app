@@ -32,6 +32,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -63,6 +64,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -112,7 +114,6 @@ public class HomeActivity extends AppCompatActivity
 
         Drawable dialog_icon;
         dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setIcon(dialog_icon);
@@ -183,6 +184,15 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+    public interface ItemTouchHelperAdapter {
+
+        boolean onItemMove(int fromPosition, int toPosition);
+
+        void onItemDismiss(int position);
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,6 +226,9 @@ public class HomeActivity extends AppCompatActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+
+
 
 
         // Here, thisActivity is the current activity
@@ -599,8 +612,15 @@ public class HomeActivity extends AppCompatActivity
     private void goToAdapter(String response) {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.content_home);
-        recyclerView.setAdapter(new HomeAdapter(response, this));
+        HomeAdapter adapter = new HomeAdapter(response, this);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
+
         pbar.setVisibility(View.GONE);
     }
 
@@ -876,7 +896,13 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+
+
+    public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements ItemTouchHelperAdapter {
+
+
+
+
 
         Context context;
         String response;
@@ -889,6 +915,9 @@ public class HomeActivity extends AppCompatActivity
         private ArrayList<String> subscribed = new ArrayList<>();
         private ArrayList<String> links = new ArrayList<>();
         private ImageLoader imageLoader;
+
+
+
 
 
         public HomeAdapter(String response, Context _context) {
@@ -1019,6 +1048,44 @@ public class HomeActivity extends AppCompatActivity
 
         }
 
+
+        @Override
+        public boolean onItemMove(int fromPosition, int toPosition) {
+
+            if (fromPosition < toPosition) {
+                for (int i = fromPosition; i < toPosition; i++) {
+                    Collections.swap(titles, i, i + 1);
+                }
+            } else {
+                for (int i = fromPosition; i > toPosition; i--) {
+                    Collections.swap(titles, i, i - 1);
+                }
+            }
+            notifyItemMoved(fromPosition, toPosition);
+            return true;
+
+        }
+
+        @Override
+        public void onItemDismiss(int position) {
+
+            titles.remove(position);
+            notifyItemRemoved(position);
+
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+
         @Override
         public int getItemCount() {
             return titles.size();
@@ -1045,6 +1112,45 @@ public class HomeActivity extends AppCompatActivity
             }
 
 
+        }
+
+    }
+
+    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        private final ItemTouchHelperAdapter mAdapter;
+
+        public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+            mAdapter = adapter;
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                              RecyclerView.ViewHolder target) {
+            mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
         }
 
     }
