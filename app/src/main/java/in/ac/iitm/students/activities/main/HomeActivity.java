@@ -97,7 +97,8 @@ public class HomeActivity extends AppCompatActivity
     private static int optionalUpdateDialogCount = 0;
     private static Context mContext;
     private final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
-    String url = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
+    String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
+    String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
     private Toolbar toolbar;
     private ProgressBar pbar;
     private Snackbar snackbar;
@@ -474,7 +475,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     void sendJsonRequest() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
