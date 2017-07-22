@@ -27,6 +27,7 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
+import in.ac.iitm.students.fragments.month_fragments.AprilFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
@@ -39,16 +40,13 @@ import in.ac.iitm.students.others.Utils;
 public class CalendarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017;
+    public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
     //RecyclerView recyclerView;
     // RecyclerView.Adapter recyclerAdapter;
     //RecyclerView.LayoutManager layoutManager;
-    int currentMonth;
+
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private String[] months = {"january", "february", "march", "april", "may", "june", "july", "august", "september",
-            "october", "november", "december"};
-    private String url = "";//url of api file
     private RelativeLayout relativeLayout;
 
     @Override
@@ -60,7 +58,7 @@ public class CalendarActivity extends AppCompatActivity
 
         relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
         // Set the content of the activity to use the activity_main.xml layout file
-        currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+        AprilFragment.currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
         //monthForRecyclerView = currentMonth;
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -70,7 +68,7 @@ public class CalendarActivity extends AppCompatActivity
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(currentMonth - 6);
+        viewPager.setCurrentItem(AprilFragment.currentlyDisplayedMonth - 6);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -81,6 +79,8 @@ public class CalendarActivity extends AppCompatActivity
             public void onPageSelected(int position) {
                 int current = position % 12;
                 monthForRecyclerView = current + 6;
+                AprilFragment.currentlyDisplayedMonth = current;
+                AprilFragment.adapter.notifyDataSetChanged();
 
             }
 

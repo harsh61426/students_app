@@ -81,6 +81,7 @@ import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
+import in.ac.iitm.students.fragments.month_fragments.AprilFragment;
 import in.ac.iitm.students.objects.Calendar_Event;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
@@ -96,7 +97,7 @@ public class HomeActivity extends AppCompatActivity
     private static int optionalUpdateDialogCount = 0;
     private static Context mContext;
     private final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
-    String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
+    String url = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
     private Toolbar toolbar;
     private ProgressBar pbar;
     private Snackbar snackbar;
@@ -309,12 +310,13 @@ public class HomeActivity extends AppCompatActivity
                         Utils.saveprefLong("CalID", CalID, this);
                     }
 
-                    if (!getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", this))) {
+                    sendJsonRequest();
+                    /*if (!getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", this))) {
                         deleteallevents();
                         sendJsonRequest();
 
                         Utils.saveprefString("Cal_Ver", getVersion(), this);
-                    }
+                    }*/
 
                 } else {
 
@@ -323,11 +325,13 @@ public class HomeActivity extends AppCompatActivity
 
                 }
                 return;
+
             }
 
             // other 'case' lines to check for other
             // permissions this app might request
         }
+        return;
     }
 
     //calendar code
@@ -427,6 +431,7 @@ public class HomeActivity extends AppCompatActivity
 
         reader.beginObject();
         while (reader.hasNext()) {
+            int i = 0;
             String name = reader.nextName();
             if (name.equals("date")) {
                 event.setDate(reader.nextInt());
@@ -446,7 +451,10 @@ public class HomeActivity extends AppCompatActivity
             } else {
                 reader.skipValue();
             }
-
+            AprilFragment.date[month - 6][i] = String.valueOf(event.getDate());
+            AprilFragment.day[month - 6][i] = event.getDay();
+            AprilFragment.desc[month - 6][i] = event.getDetails();
+            i++;
         }
         reader.endObject();
 
