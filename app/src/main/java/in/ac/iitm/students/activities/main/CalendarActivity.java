@@ -27,7 +27,7 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
-import in.ac.iitm.students.fragments.month_fragments.AprilFragment;
+import in.ac.iitm.students.fragments.monthFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
@@ -58,7 +58,7 @@ public class CalendarActivity extends AppCompatActivity
 
         relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
         // Set the content of the activity to use the activity_main.xml layout file
-        AprilFragment.currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
+        monthFragment.currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
         //monthForRecyclerView = currentMonth;
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -68,7 +68,7 @@ public class CalendarActivity extends AppCompatActivity
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(AprilFragment.currentlyDisplayedMonth - 6);
+        viewPager.setCurrentItem(monthFragment.currentlyDisplayedMonth - 6);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -79,8 +79,8 @@ public class CalendarActivity extends AppCompatActivity
             public void onPageSelected(int position) {
                 int current = position % 12;
                 monthForRecyclerView = current + 6;
-                AprilFragment.currentlyDisplayedMonth = current;
-                AprilFragment.adapter.notifyDataSetChanged();
+                monthFragment.currentlyDisplayedMonth = current;
+                monthFragment.adapter.notifyDataSetChanged();
 
             }
 

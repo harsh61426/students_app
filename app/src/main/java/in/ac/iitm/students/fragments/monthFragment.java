@@ -1,4 +1,4 @@
-package in.ac.iitm.students.fragments.month_fragments;
+package in.ac.iitm.students.fragments;
 
 
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import in.ac.iitm.students.adapters.RecyclerAdapter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AprilFragment extends Fragment {
+public class monthFragment extends Fragment {
 
     public static String[][] day, date, desc;
     public static int currentlyDisplayedMonth; // this variable shows the value -6 (ex: for july is 6 instead it shows 0)
@@ -70,7 +70,7 @@ public class AprilFragment extends Fragment {
         desc[5] = new String[31];
     }
 
-    public AprilFragment() {
+    public monthFragment() {
         // Required empty public constructor
     }
 

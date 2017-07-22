@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import in.ac.iitm.students.fragments.month_fragments.AprilFragment;
+import in.ac.iitm.students.fragments.monthFragment;
 
 /**
  * Created by harshitha on 8/6/17.
@@ -22,9 +22,9 @@ public class MonthFmAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         int current = position % 6; // 6 is used instead of 12 beacuse only 6 months are displayed in the viewpager
-        AprilFragment.currentlyDisplayedMonth = current;
-        AprilFragment.adapter.notifyDataSetChanged();
-        return new AprilFragment();
+        monthFragment.currentlyDisplayedMonth = current;
+        monthFragment.adapter.notifyDataSetChanged();
+        return new monthFragment();
 
 
     }

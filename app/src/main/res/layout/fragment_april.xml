@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.ac.iitm.students.fragments.month_fragments.AprilFragment">
+    tools:context="in.ac.iitm.students.fragments.monthFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

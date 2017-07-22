@@ -81,7 +81,7 @@ import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
-import in.ac.iitm.students.fragments.month_fragments.AprilFragment;
+import in.ac.iitm.students.fragments.monthFragment;
 import in.ac.iitm.students.objects.Calendar_Event;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
@@ -452,9 +452,9 @@ public class HomeActivity extends AppCompatActivity
             } else {
                 reader.skipValue();
             }
-            AprilFragment.date[month - 6][i] = String.valueOf(event.getDate());
-            AprilFragment.day[month - 6][i] = event.getDay();
-            AprilFragment.desc[month - 6][i] = event.getDetails();
+            monthFragment.date[month - 6][i] = String.valueOf(event.getDate());
+            monthFragment.day[month - 6][i] = event.getDay();
+            monthFragment.desc[month - 6][i] = event.getDetails();
             i++;
         }
         reader.endObject();
