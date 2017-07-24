@@ -90,14 +90,15 @@ import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
+import static in.ac.iitm.students.activities.main.HomeActivity.sendJsonRequest;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static int optionalUpdateDialogCount = 0;
     private static Context mContext;
-    private final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
-    String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
+    static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
+    static String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
     String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
     private Toolbar toolbar;
     private ProgressBar pbar;
@@ -106,7 +107,7 @@ public class HomeActivity extends AppCompatActivity
     private SwipeRefreshLayout swipeRefreshLayout;
     private DrawerLayout drawer;
     //for calendar
-    private long CalID;
+    static long CalID;
     private String[] months = {"january", "february", "march", "april", "may", "june", "july", "august", "september",
             "october", "november", "december"};
     private String calversion_url = "https://students.iitm.ac.in/studentsapp/calendar/cal_ver.php"; //url of api file
@@ -245,6 +246,10 @@ public class HomeActivity extends AppCompatActivity
                         .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
                 snackbar.show();
 
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+
             } else {
 
                 // No explanation needed, we can request the permission.
@@ -257,6 +262,8 @@ public class HomeActivity extends AppCompatActivity
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
+        }else{
+            fetchingCalendarData();
         }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
@@ -299,24 +306,8 @@ public class HomeActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    fetchingCalendarData();
 
-                    String acc = "students.iitm";
-                    String disp = "IITM Calendar";
-                    String inter = "IITM Calendar";
-
-                    CalID = Utils.getprefLong("CalID", this);
-                    if (CalID == -1) {
-                        CalID = insertCalendar(acc, inter, disp);
-                        Log.i("CalID", CalID + "");
-                        Utils.saveprefLong("CalID", CalID, this);
-                    }
-                    Utils.saveprefLong("Cal_Ver", -1, this);
-                    if (!getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", this))) {
-                        deleteallevents();
-                        sendJsonRequest();
-
-                        Utils.saveprefString("Cal_Ver", getVersion(), this);
-                    }
 
                 } else {
 
@@ -376,7 +367,7 @@ public class HomeActivity extends AppCompatActivity
         getContentResolver().delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events._ID + "= *", null);
     }
 
-    public void readMonthObject(JsonReader reader) throws IOException {
+    public static void readMonthObject(JsonReader reader) throws IOException {
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -425,7 +416,7 @@ public class HomeActivity extends AppCompatActivity
         reader.endObject();
     }
 
-    public void readDayObject(JsonReader reader, int month, int i) throws IOException {
+    public static void readDayObject(JsonReader reader, int month, int i) throws IOException {
 
         Calendar_Event event = new Calendar_Event();
 
@@ -464,12 +455,12 @@ public class HomeActivity extends AppCompatActivity
         reader.endObject();
 
         event.setMonth(month);
-        if (event.getDetails().length() > 0 && !exists(event)) {
+        if (event.getDetails().length() > 0 && !exists(event)  ) {
             insertEvents(CalID, event);
         }
     }
 
-    public void readMonthArray(JsonReader reader, int month) throws IOException {
+    public static void readMonthArray(JsonReader reader, int month) throws IOException {
 
         reader.beginArray();
         int i = 0;
@@ -480,7 +471,7 @@ public class HomeActivity extends AppCompatActivity
         reader.endArray();
     }
 
-    void sendJsonRequest() {
+    static void sendJsonRequest() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
 
             @Override
@@ -516,11 +507,31 @@ public class HomeActivity extends AppCompatActivity
                 Log.e("VolleyError", error.toString());
             }
         });
-        MySingleton.getInstance(this).addToRequestQueue(stringRequest);
+        MySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
 
     }
 
-    void insertEvents(long calId, Calendar_Event event) {
+    static void fetchingCalendarData(){
+        String acc = "students.iitm";
+        String disp = "IITM Calendar";
+        String inter = "IITM Calendar";
+
+        CalID = Utils.getprefLong("CalID", getContext());
+        if (CalID == -1) {
+            CalID = insertCalendar(acc, inter, disp);
+            Log.i("CalID", CalID + "");
+            Utils.saveprefLong("CalID", CalID, getContext());
+        }
+        //Utils.saveprefLong("Cal_Ver", -1, this);
+        //if (!getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", this))) {
+        //  deleteallevents();
+        sendJsonRequest();
+
+        //Utils.saveprefString("Cal_Ver", getVersion(), this);
+        //}
+    }
+
+    static void insertEvents(long calId, Calendar_Event event) {
 
         Calendar cal = new GregorianCalendar(2017, event.getMonth() - 1, event.getDate());    //Jan is 0
         cal.setTimeZone(TimeZone.getTimeZone("IST"));
@@ -544,18 +555,18 @@ public class HomeActivity extends AppCompatActivity
         values.put(CalendarContract.Events.SELF_ATTENDEE_STATUS,
                 CalendarContract.Events.STATUS_CONFIRMED);
         values.put(CalendarContract.Events.ALL_DAY, 1);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             Uri uri =
-                    getContentResolver().
+                    getContext().getContentResolver().
                             insert(CalendarContract.Events.CONTENT_URI, values);
             long eventId = new Long(uri.getLastPathSegment());
             Log.i("EventID", eventId + "");
         }
     }
 
-    boolean exists(Calendar_Event event) {
+    static boolean exists(Calendar_Event event) {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 
             String[] proj =
                     new String[]{CalendarContract.Events.TITLE};
@@ -568,7 +579,7 @@ public class HomeActivity extends AppCompatActivity
 
             long start = cal.getTimeInMillis();
 
-            Cursor cursor = getContentResolver().query(
+            Cursor cursor = getContext().getContentResolver().query(
                     CalendarContract.Events.CONTENT_URI,
                     proj,
                     CalendarContract.Events.TITLE + " = ? AND " + CalendarContract.Events.DTSTART + " = ?",
@@ -579,14 +590,14 @@ public class HomeActivity extends AppCompatActivity
         return false;
     }
 
-    long getCalendarId(String acc) {
+    static long getCalendarId(String acc) {
         Cursor cur = null;
-        ContentResolver cr = getContentResolver();
+        ContentResolver cr = getContext().getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
         String selection = CalendarContract.Calendars.ACCOUNT_NAME + " = ?";
         String[] selectionArgs = new String[]{acc};
 // Submit the query and get a Cursor object back.
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             String[] EVENT_PROJECTION = new String[]{
                     CalendarContract.Calendars._ID,                           // 0
                     CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
@@ -603,7 +614,7 @@ public class HomeActivity extends AppCompatActivity
         return -1;
     }
 
-    long insertCalendar(String acc, String inter, String disp) {
+    static long insertCalendar(String acc, String inter, String disp) {
 
         Uri calUri = CalendarContract.Calendars.CONTENT_URI;
         ContentValues cv = new ContentValues();
@@ -622,7 +633,7 @@ public class HomeActivity extends AppCompatActivity
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, acc)
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
                 .build();
-        Uri result = this.getContentResolver().insert(calUri, cv);
+        Uri result = getContext().getContentResolver().insert(calUri, cv);
         Log.i("Result", result.toString());
         return getCalendarId(acc);
     }
