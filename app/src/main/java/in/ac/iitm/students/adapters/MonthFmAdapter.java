@@ -21,9 +21,9 @@ public class MonthFmAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        int current = position % 6; // 6 is used instead of 12 beacuse only 6 months are displayed in the viewpager
-        monthFragment.currentlyDisplayedMonth = current;
-        monthFragment.adapter.notifyDataSetChanged();
+        //   int current = position % 6; // 6 is used instead of 12 beacuse only 6 months are displayed in the viewpager
+        //   CalendarActivity.currentlyDisplayedMonth = current;
+//        monthFragment.adapter.notifyDataSetChanged();
         return new monthFragment();
 
 

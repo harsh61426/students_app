@@ -27,11 +27,18 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
+import in.ac.iitm.students.adapters.RecyclerAdapter;
 import in.ac.iitm.students.fragments.monthFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
+
+import static in.ac.iitm.students.fragments.monthFragment.date_list;
+import static in.ac.iitm.students.fragments.monthFragment.day_list;
+import static in.ac.iitm.students.fragments.monthFragment.desc_list;
+import static in.ac.iitm.students.fragments.monthFragment.holiday_list;
+import static in.ac.iitm.students.fragments.monthFragment.rv;
 
 /**
  * Created by admin on 14-12-2016.
@@ -41,6 +48,7 @@ public class CalendarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
+    public static int currentlyDisplayedMonth = 0; // this variable shows the value -6 (ex: for july is 6 instead it shows 0)
     //RecyclerView recyclerView;
     // RecyclerView.Adapter recyclerAdapter;
     //RecyclerView.LayoutManager layoutManager;
@@ -58,7 +66,8 @@ public class CalendarActivity extends AppCompatActivity
 
         relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
         // Set the content of the activity to use the activity_main.xml layout file
-        monthFragment.currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
+        currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
+        currentlyDisplayedMonth -= 6;
         //monthForRecyclerView = currentMonth;
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -68,7 +77,8 @@ public class CalendarActivity extends AppCompatActivity
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(monthFragment.currentlyDisplayedMonth - 6);
+        viewPager.setCurrentItem(currentlyDisplayedMonth);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -77,11 +87,14 @@ public class CalendarActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
-                int current = position % 12;
+                int current = position % 6;
                 monthForRecyclerView = current + 6;
-                monthFragment.currentlyDisplayedMonth = current;
+                currentlyDisplayedMonth = current;
+                monthFragment.resetLists();
                 monthFragment.adapter.notifyDataSetChanged();
-
+                monthFragment.setMonthName(CalendarActivity.currentlyDisplayedMonth);
+                monthFragment.adapter = new RecyclerAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
+                rv.setAdapter(monthFragment.adapter);
             }
 
             @Override

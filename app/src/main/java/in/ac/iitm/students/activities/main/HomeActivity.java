@@ -310,14 +310,13 @@ public class HomeActivity extends AppCompatActivity
                         Log.i("CalID", CalID + "");
                         Utils.saveprefLong("CalID", CalID, this);
                     }
-
-                    sendJsonRequest();
-                    /*if (!getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", this))) {
+                    Utils.saveprefLong("Cal_Ver", -1, this);
+                    if (!getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", this))) {
                         deleteallevents();
                         sendJsonRequest();
 
                         Utils.saveprefString("Cal_Ver", getVersion(), this);
-                    }*/
+                    }
 
                 } else {
 
@@ -426,36 +425,41 @@ public class HomeActivity extends AppCompatActivity
         reader.endObject();
     }
 
-    public void readDayObject(JsonReader reader, int month) throws IOException {
+    public void readDayObject(JsonReader reader, int month, int i) throws IOException {
 
         Calendar_Event event = new Calendar_Event();
 
         reader.beginObject();
         while (reader.hasNext()) {
-            int i = 0;
+
             String name = reader.nextName();
             if (name.equals("date")) {
-                event.setDate(reader.nextInt());
+                event.setDate(Integer.parseInt(reader.nextString()));
+                monthFragment.date[month - 6][i] = String.valueOf(event.getDate());
 
             } else if (name.equals("day")) {
                 event.setDay(reader.nextString());
+                monthFragment.day[month - 6][i] = event.getDay();
 
             } else if (name.equals("details")) {
                 event.setDetails(reader.nextString());
+                monthFragment.desc[month - 6][i] = event.getDetails();
 
             } else if (name.equals("holiday")) {
-                event.setHoliday(reader.nextInt() == 1);
+                event.setHoliday(reader.nextString().equals("TRUE"));
+                if (event.isHoliday()) {
+                    monthFragment.holiday[month - 6][i] = new String("TRUE");
+                } else {
+                    monthFragment.holiday[month - 6][i] = new String("FALSE");
+                }
 
             } else if (name.equals("remind")) {
-                event.setRemind(reader.nextInt() == 1);
+                event.setRemind(reader.nextString().equals("TRUE"));
 
             } else {
                 reader.skipValue();
             }
-            monthFragment.date[month - 6][i] = String.valueOf(event.getDate());
-            monthFragment.day[month - 6][i] = event.getDay();
-            monthFragment.desc[month - 6][i] = event.getDetails();
-            i++;
+
         }
         reader.endObject();
 
@@ -468,8 +472,10 @@ public class HomeActivity extends AppCompatActivity
     public void readMonthArray(JsonReader reader, int month) throws IOException {
 
         reader.beginArray();
+        int i = 0;
         while (reader.hasNext()) {
-            readDayObject(reader, month);
+            readDayObject(reader, month, i);
+            i++;
         }
         reader.endArray();
     }
