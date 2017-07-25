@@ -41,15 +41,21 @@
                     android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:text="ADD" />
+                    android:background="@color/colorPrimary"
+                    android:text="ADD"
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/done"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:text="DONE" />
+                    android:background="@color/colorPrimary"
+                    android:text="DONE"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
         </LinearLayout>

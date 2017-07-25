@@ -90,6 +90,15 @@ public class CourseTimetableFragment extends Fragment {
             Utils.saveprefBool("OldLaunch_TT",true,getActivity());
         }
 
+
+        Calendar calendar = Calendar.getInstance();
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        if(week!=Utils.getprefInt("LastLogTT",getActivity()))
+        {
+            clearbunks();
+        }
+        Utils.saveprefInt("LastLogTT",week,getActivity());
+
         flipper = (ViewFlipper) view.findViewById(R.id.flipper);
         flipper.setDisplayedChild(Utils.getprefInt("TT_Screen", getActivity()));
 
@@ -151,14 +160,6 @@ public class CourseTimetableFragment extends Fragment {
         for (Bunks c : bunks) {
             mapslots(c.getSlot(), c.getDays());
         }
-
-        Calendar calendar = Calendar.getInstance();
-        int week = calendar.get(Calendar.WEEK_OF_YEAR);
-        if(week>Utils.getprefInt("LastLogTT",getActivity()))
-        {
-            clearbunks();
-        }
-        Utils.saveprefInt("LastLogTT",week,getActivity());
 
 
 
@@ -252,7 +253,7 @@ public class CourseTimetableFragment extends Fragment {
     }
 
 
-    public void getbunks()
+    private void getbunks()
     {
         int number = Utils.getprefInt(UtilStrings.COURSES_COUNT,getActivity());
         for(int i=0;i<number;i++)
@@ -268,7 +269,7 @@ public class CourseTimetableFragment extends Fragment {
         }
     }
 
-    public void mapslots(char c, int days)
+    private void mapslots(char c, int days)
     {
         switch(c)
         {
@@ -1112,37 +1113,42 @@ public class CourseTimetableFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String coursed = courseid.getText().toString().toUpperCase();
-                char slt = Character.toUpperCase(slot.getText().charAt(0));
-                boolean flag = true;
-                if(coursed.length()!=6)
+                if(slot.getText().toString().isEmpty())
                 {
-                    courseid.setError("Course ID is incorrect");
-                    flag = false;
+                    slot.setError("Please enter the slot");
                 }
-                else if(!(Character.isLetter(coursed.charAt(0))&&Character.isLetter(coursed.charAt(1))
-                        &&Character.isDigit(coursed.charAt(2))&&Character.isDigit(coursed.charAt(3))
-                        &&Character.isDigit(coursed.charAt(4))&&Character.isDigit(coursed.charAt(5))))
+                if(courseid.getText().toString().isEmpty())
                 {
-                    courseid.setError("Incorrect ID format");
-                    flag = false;
+                    courseid.setError("Please enter the Course ID");
                 }
-                if(!(slt-'A'>=0&&slt-'A'<22&&slt!='I'))
-                {
-                    slot.setError("Invalid slot");
-                    flag = false;
-                }
-                if(clash(slt))
-                {
-                    slot.setError("There is a slot clash");
-                    flag = false;
-                }
-                if(flag) {
-                    course.setCourse_id(coursed);
-                    course.setSlot(afternoon.isChecked()?Character.toLowerCase(slt):Character.toUpperCase(slt));
-                    courses.add(course);
-                    courseAdapter.notifyDataSetChanged();
-                    dialog.dismiss();
+                else {
+                    String coursed = courseid.getText().toString().toUpperCase();
+                    char slt = Character.toUpperCase(slot.getText().charAt(0));
+                    boolean flag = true;
+                    if (coursed.length() != 6) {
+                        courseid.setError("Course ID is incorrect");
+                        flag = false;
+                    } else if (!(Character.isLetter(coursed.charAt(0)) && Character.isLetter(coursed.charAt(1))
+                            && Character.isDigit(coursed.charAt(2)) && Character.isDigit(coursed.charAt(3))
+                            && Character.isDigit(coursed.charAt(4)) && Character.isDigit(coursed.charAt(5)))) {
+                        courseid.setError("Incorrect ID format");
+                        flag = false;
+                    }
+                    if (!(slt - 'A' >= 0 && slt - 'A' < 22 && slt != 'I')) {
+                        slot.setError("Invalid slot");
+                        flag = false;
+                    }
+                    if (clash(slt)) {
+                        slot.setError("There is a slot clash");
+                        flag = false;
+                    }
+                    if (flag) {
+                        course.setCourse_id(coursed);
+                        course.setSlot(afternoon.isChecked() ? Character.toLowerCase(slt) : Character.toUpperCase(slt));
+                        courses.add(course);
+                        courseAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
                 }
             }
         });
