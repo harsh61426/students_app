@@ -16,12 +16,14 @@ import java.util.Calendar;
  * Created by arun on 21-Jul-15.
  */
 public class Utils {
+
     public static void saveprefString(String key, String value, Context context) {
         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);
         editor.commit();
     }
+
 
     public static String getprefString(String key, Context cont) {
         SharedPreferences pref = cont.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
@@ -84,11 +86,7 @@ public class Utils {
     }
 
     public static boolean isEmpty(EditText etText) {
-        if (etText.getText().toString().trim().length() > 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return etText.getText().toString().trim().length() <= 0;
     }
 
     public static boolean isFreshie(Context context)

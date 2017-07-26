@@ -79,6 +79,7 @@ import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.fragments.month_fragments.AprilFragment;
 import in.ac.iitm.students.objects.Calendar_Event;
+import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -93,13 +94,22 @@ public class HomeActivity extends AppCompatActivity
     private static Context mContext;
     private final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
     String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
+    String cardKey;
+    String response1;
+    HomeNotifObject notifObject;
+    String SwipePrefsName = "Ids_of_swiped_notifs";
+    SharedPreferences swipedprefs;
+    SharedPreferences prefs;
+    HomeAdapter adapter;
+    RecyclerView recyclerView;
     private Toolbar toolbar;
     private ProgressBar pbar;
     private Snackbar snackbar;
     private FragmentManager fm;
     private SwipeRefreshLayout swipeRefreshLayout;
     private DrawerLayout drawer;
-    //for calendar
+    private ArrayList<String> subscribed = new ArrayList<>();
+    private ArrayList<HomeNotifObject> notifObjects = new ArrayList<>();
     private long CalID;
     private String[] months = {"january", "february", "march", "april", "may", "june", "july", "august", "september",
             "october", "november", "december"};
@@ -184,15 +194,6 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    public interface ItemTouchHelperAdapter {
-
-        boolean onItemMove(int fromPosition, int toPosition);
-
-        void onItemDismiss(int position);
-    }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -267,6 +268,7 @@ public class HomeActivity extends AppCompatActivity
 
         String firebaseToken = FirebaseInstanceId.getInstance().getToken();
         //Log.d("tada", firebaseToken.toString());
+
         sendRegistrationToServer(firebaseToken, name, roll_no);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -290,10 +292,6 @@ public class HomeActivity extends AppCompatActivity
                 .centerCrop()
                 .into(imageView);
     }
-
-    //calendar code
-    //***************************
-    //***************************
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -339,6 +337,10 @@ public class HomeActivity extends AppCompatActivity
             // permissions this app might request
         }
     }
+
+    //calendar code
+    //***************************
+    //***************************
 
     String getVersion() {
         //TODO: Add code to get calendar version
@@ -473,7 +475,6 @@ public class HomeActivity extends AppCompatActivity
         return false;
     }
 
-
     long getCalendarId(String acc) {
         Cursor cur = null;
         ContentResolver cr = getContentResolver();
@@ -522,15 +523,15 @@ public class HomeActivity extends AppCompatActivity
         return getCalendarId(acc);
     }
 
-
-    //*****************************
-    //*****************************
-    //calendar code ends
-
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
         refreshList();
     }
+
+
+    //*****************************
+    //*****************************
+    //calendar code ends
 
     public void refreshList() {
 
@@ -552,7 +553,6 @@ public class HomeActivity extends AppCompatActivity
 
         pbar.setVisibility(View.VISIBLE);
         String url = getString(R.string.url_home);
-
         // Request a string response from the provided URL.
         StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
                 url, new Response.Listener<String>() {
@@ -611,8 +611,8 @@ public class HomeActivity extends AppCompatActivity
 
     private void goToAdapter(String response) {
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.content_home);
-        HomeAdapter adapter = new HomeAdapter(response, this);
+        recyclerView = (RecyclerView) findViewById(R.id.content_home);
+        adapter = new HomeAdapter(response, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -622,6 +622,7 @@ public class HomeActivity extends AppCompatActivity
         touchHelper.attachToRecyclerView(recyclerView);
 
         pbar.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -896,44 +897,47 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    public interface ItemTouchHelperAdapter {
 
+        boolean onItemMove(int fromPosition, int toPosition);
+
+        void onItemDismiss(int position);
+    }
 
     public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
-
-
-
-
         Context context;
-        String response;
-
-        private ArrayList<String> titles = new ArrayList<>();
-        private ArrayList<String> details = new ArrayList<>();
+        /*private ArrayList<String> details = new ArrayList<>();
         private ArrayList<String> image_urls = new ArrayList<>();
         private ArrayList<String> cats = new ArrayList<>();
         private ArrayList<String> createdat = new ArrayList<>();
-        private ArrayList<String> subscribed = new ArrayList<>();
-        private ArrayList<String> links = new ArrayList<>();
+        private ArrayList<String> links = new ArrayList<>();*/
+
         private ImageLoader imageLoader;
-
-
 
 
 
         public HomeAdapter(String response, Context _context) {
 
-            this.response = response;
+            response1 = response;
             context = _context;
 
             imageLoader = MySingleton.getInstance(context).getImageLoader();
-            SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+
+
+            prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             Map<String, ?> allEntries = prefs.getAll();
             for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
                 if (entry.getValue().toString().equals("true")) {
-                    subscribed.add(entry.getKey());
+                    cardKey = entry.getKey();
+                    subscribed.add(cardKey);
                 }
             }
 
+            swipedprefs = getContext().getSharedPreferences(SwipePrefsName, MODE_PRIVATE);
+            // SharedPreferences.Editor editor = swipedprefs.edit();
+            // editor.clear();
+            //editor.apply();
             setUpData();
         }
 
@@ -949,29 +953,50 @@ public class HomeActivity extends AppCompatActivity
 
             try {
 
-                JSONArray jsonArray = new JSONArray(response);
+                JSONArray jsonArray = new JSONArray(response1);
                 JSONObject jsonObject;
                 for (int i = 0; i < jsonArray.length(); i++) {
                     jsonObject = jsonArray.getJSONObject(i);
-                    String cat = jsonObject.getString("topic");
+                    //String cat = jsonObject.getString("topic");
+                    notifObject = new HomeNotifObject(jsonObject.getString("topic"));
 
                     if (subscribed.size() != 0) {
-                        if (subscribed.contains(cat)) {
-                            titles.add(jsonObject.getString("title"));
+                        if (subscribed.contains(notifObject.Topic)) {
+
+                            //notifObject.id = String.valueOf(jsonObject.getInt("id"));
+                            notifObject.title = jsonObject.getString("title");
+                            notifObject.detail = jsonObject.getString("description");
+                            notifObject.image_url = jsonObject.getString("url");
+                            notifObject.link = jsonObject.getString("link");
+                            notifObject.createdat = jsonObject.getString("created_at");
+                            notifObjects.add(notifObject);
+                            if (notifObject.title.equals(swipedprefs.getString(notifObject.title, ""))) {
+                                notifObjects.remove(notifObject);
+                            }
+
+                            /*titles.add(jsonObject.getString("title"));
                             details.add(jsonObject.getString("description"));
                             image_urls.add(jsonObject.getString("url"));
                             cats.add(cat);
                             links.add(jsonObject.getString("link"));
-                            createdat.add(jsonObject.getString("created_at"));
+                            createdat.add(jsonObject.getString("created_at"));*/
                         }
 
                     } else {
-                        links.add(jsonObject.getString("link"));
+
+                        notifObject.title = jsonObject.getString("title");
+                        notifObject.detail = jsonObject.getString("description");
+                        notifObject.image_url = jsonObject.getString("url");
+                        notifObject.link = jsonObject.getString("link");
+                        notifObject.createdat = jsonObject.getString("created_at");
+                        notifObjects.add(notifObject);
+
+                        /*links.add(jsonObject.getString("link"));
                         titles.add(jsonObject.getString("title"));
                         details.add(jsonObject.getString("description"));
                         cats.add(cat);
                         createdat.add(jsonObject.getString("created_at"));
-                        image_urls.add(jsonObject.getString("url"));
+                        image_urls.add(jsonObject.getString("url"));*/
                     }
 
                 }
@@ -984,11 +1009,12 @@ public class HomeActivity extends AppCompatActivity
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            final String title = titles.get(position);
-            final String detail = details.get(position);
-            final String image_url = image_urls.get(position);
-            final String link = links.get(position);
-            final String topic = cats.get(position);
+            final String title = notifObjects.get(holder.getAdapterPosition()).title;
+            final String detail = notifObjects.get(holder.getAdapterPosition()).detail;
+            final String image_url = notifObjects.get(holder.getAdapterPosition()).image_url;
+            final String link = notifObjects.get(holder.getAdapterPosition()).link;
+            final String topic = notifObjects.get(holder.getAdapterPosition()).Topic;
+
             Log.d("pani", title + " : " + link);
 
             holder.tvTitle.setText(title);
@@ -1054,11 +1080,11 @@ public class HomeActivity extends AppCompatActivity
 
             if (fromPosition < toPosition) {
                 for (int i = fromPosition; i < toPosition; i++) {
-                    Collections.swap(titles, i, i + 1);
+                    Collections.swap(notifObjects, i, i + 1);
                 }
             } else {
                 for (int i = fromPosition; i > toPosition; i--) {
-                    Collections.swap(titles, i, i - 1);
+                    Collections.swap(notifObjects, i, i - 1);
                 }
             }
             notifyItemMoved(fromPosition, toPosition);
@@ -1069,7 +1095,7 @@ public class HomeActivity extends AppCompatActivity
         @Override
         public void onItemDismiss(int position) {
 
-            titles.remove(position);
+            notifObjects.remove(position);
             notifyItemRemoved(position);
 
         }
@@ -1088,7 +1114,7 @@ public class HomeActivity extends AppCompatActivity
 
         @Override
         public int getItemCount() {
-            return titles.size();
+            return notifObjects.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -1149,10 +1175,42 @@ public class HomeActivity extends AppCompatActivity
         }
 
         @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+            //mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+            final int adapterPosition = viewHolder.getAdapterPosition();
+
+            final SharedPreferences[] sharedprefs = {getContext().getSharedPreferences(SwipePrefsName, MODE_PRIVATE)};
+            final SharedPreferences.Editor editor = sharedprefs[0].edit();
+            editor.putString(notifObjects.get(adapterPosition).title, notifObjects.get(adapterPosition).title);
+            editor.apply();
+            HomeNotifObject notifobj = new HomeNotifObject("");
+            notifobj = notifObjects.remove(adapterPosition);
+
+            adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+
+            final HomeNotifObject finalNotifobj = notifobj;
+            final HomeNotifObject finalNotifobj1 = notifobj;
+            Snackbar snackbar = Snackbar    //assuming that a Snackbar with "UNDO" button is what you want.
+                    .make(viewHolder.itemView, "Notification Deleted", Snackbar.LENGTH_LONG)
+                    .setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            notifObjects.add(adapterPosition, finalNotifobj); //deleted element readded to ArrayList
+                            adapter.notifyItemInserted(adapterPosition);
+                            sharedprefs[0] = getContext().getSharedPreferences(SwipePrefsName, MODE_PRIVATE);
+                            editor.remove(finalNotifobj1.title);
+                            editor.apply();
+                            recyclerView.scrollToPosition(adapterPosition);
+                            //this happens when "Undo" is clicked.
+
+                            // viewHolder.itemView.scroll(viewHolder.getAdapterPosition());
+                        }
+                    });
+            snackbar.show();
         }
 
     }
+
 
 }
