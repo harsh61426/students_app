@@ -1,11 +1,16 @@
 package in.ac.iitm.students.activities.main;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -23,14 +28,23 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 
-import in.ac.iitm.students.Organisations.activities.main.Organizations;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
+import in.ac.iitm.students.adapters.RecyclerAdapter;
+import in.ac.iitm.students.fragments.monthFragment;
+import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
+
+import static in.ac.iitm.students.activities.main.HomeActivity.fetchingCalendarData;
+import static in.ac.iitm.students.fragments.monthFragment.date_list;
+import static in.ac.iitm.students.fragments.monthFragment.day_list;
+import static in.ac.iitm.students.fragments.monthFragment.desc_list;
+import static in.ac.iitm.students.fragments.monthFragment.holiday_list;
+import static in.ac.iitm.students.fragments.monthFragment.rv;
 
 /**
  * Created by admin on 14-12-2016.
@@ -39,16 +53,14 @@ import in.ac.iitm.students.others.Utils;
 public class CalendarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017;
+    public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
+    public static int currentlyDisplayedMonth = 0; // this variable shows the value -6 (ex: for july is 6 instead it shows 0)
     //RecyclerView recyclerView;
     // RecyclerView.Adapter recyclerAdapter;
     //RecyclerView.LayoutManager layoutManager;
-    int currentMonth;
+
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private String[] months = {"january", "february", "march", "april", "may", "june", "july", "august", "september",
-            "october", "november", "december"};
-    private String url = "";//url of api file
     private RelativeLayout relativeLayout;
 
     @Override
@@ -58,9 +70,45 @@ public class CalendarActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Checking the permission for writing calendar
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_CALENDAR)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                Snackbar snackbar = Snackbar
+                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
         relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
         // Set the content of the activity to use the activity_main.xml layout file
-        currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+        currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
+        currentlyDisplayedMonth -= 6;
         //monthForRecyclerView = currentMonth;
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -70,8 +118,9 @@ public class CalendarActivity extends AppCompatActivity
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(currentMonth - 6);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.setCurrentItem(currentlyDisplayedMonth);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -79,9 +128,14 @@ public class CalendarActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
-                int current = position % 12;
+                int current = position % 6;
                 monthForRecyclerView = current + 6;
-
+                currentlyDisplayedMonth = current;
+                monthFragment.resetLists();
+                monthFragment.adapter.notifyDataSetChanged();
+                monthFragment.setMonthName(CalendarActivity.currentlyDisplayedMonth);
+                monthFragment.adapter = new RecyclerAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
+                rv.setAdapter(monthFragment.adapter);
             }
 
             @Override
@@ -127,6 +181,37 @@ public class CalendarActivity extends AppCompatActivity
                 .centerCrop()
                 .into(imageView);
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    HomeActivity.fetchingCalendarData();
+
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Intent intent = new Intent(CalendarActivity.this,HomeActivity.class);
+                    startActivity(intent);
+                }
+                return;
+
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+        return;
     }
 
 
@@ -181,7 +266,7 @@ public class CalendarActivity extends AppCompatActivity
             intent = new Intent(context, HomeActivity.class);
             flag = true;
         } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, Organizations.class);
+            intent = new Intent(context, OrganizationActivity.class);
             flag = true;
         } else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);

@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
@@ -24,13 +24,14 @@ import in.ac.iitm.students.activities.main.CalendarActivity;
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    List<String> day_dataset, date_dataset, desc_dataset;
+    ArrayList<String> day_dataset, date_dataset, desc_dataset, holiday_dataset;
     Context context;
 
-    public RecyclerAdapter(List<String> list1, List<String> list2, List<String> list3, Context context) {
+    public RecyclerAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
         day_dataset = list1;
         date_dataset = list2;
         desc_dataset = list3;
+        holiday_dataset = list4;
         this.context = context;
     }
 
@@ -47,8 +48,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.tv_day.setText(day_dataset.get(position));
         holder.tv_date.setText(date_dataset.get(position));
         holder.tv_desc.setText(desc_dataset.get(position));
+        if (holiday_dataset.get(position).equals("TRUE"))
+            holder.tv_holiday.setText("(Holiday)");
 
-        if (day_dataset.get(position).equals("Sun") || day_dataset.get(position).equals("Sat"))
+
+        if (day_dataset.get(position).equals("Sunday") || day_dataset.get(position).equals("Saturday"))
             holder.cardView.setCardBackgroundColor(Color.parseColor("#ba68c8"));//violet color
         else
             holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFFFF"));
@@ -78,7 +82,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_day, tv_date, tv_desc;
+        TextView tv_day, tv_date, tv_desc, tv_holiday;
         CardView cardView;
 
         ViewHolder(View itemView) {
@@ -86,6 +90,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             tv_day = (TextView) itemView.findViewById(R.id.tv_day);
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_desc = (TextView) itemView.findViewById(R.id.tv_description);
+            tv_holiday = (TextView) itemView.findViewById(R.id.tv_hoilday);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
     }

@@ -87,8 +87,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 dialog.show();
             }
         });
-        holder.c1.setText(gettext(courses.get(position).getSlot(),1));
-        holder.c2.setText(gettext(courses.get(position).getSlot(),2));
+        final boolean freshie = Utils.isFreshie(context);
+        holder.c1.setText(gettext(courses.get(position).getSlot(),1,freshie));
+        holder.c2.setText(gettext(courses.get(position).getSlot(),2,freshie));
+        holder.c3.setText(gettext(courses.get(position).getSlot(),3,freshie));
+        holder.c4.setText(gettext(courses.get(position).getSlot(),4,freshie));
         if(courses.get(position).getDays()%2!=0&&courses.get(position).getDays()!=1)
         {
             holder.c1.setVisibility(View.INVISIBLE);
@@ -98,7 +101,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             holder.c1.setVisibility(View.VISIBLE);
         }
 
-        if(!gettext(courses.get(position).getSlot(),2).isEmpty()&&courses.get(position).getDays()%3==0)
+        if(!gettext(courses.get(position).getSlot(),2,freshie).isEmpty()&&courses.get(position).getDays()%3==0)
         {
             holder.c2.setVisibility(View.VISIBLE);
         }
@@ -106,7 +109,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         {
             holder.c2.setVisibility(View.INVISIBLE);
         }
-        if(!gettext(courses.get(position).getSlot(),3).isEmpty()&&courses.get(position).getDays()%5==0)
+        if(!gettext(courses.get(position).getSlot(),3,freshie).isEmpty()&&courses.get(position).getDays()%5==0)
         {
             holder.c3.setVisibility(View.VISIBLE);
         }
@@ -114,7 +117,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         {
             holder.c3.setVisibility(View.INVISIBLE);
         }
-        if(!gettext(courses.get(position).getSlot(),4).isEmpty()&&courses.get(position).getDays()%7==0)
+        if(!gettext(courses.get(position).getSlot(),4,freshie).isEmpty()&&courses.get(position).getDays()%7==0)
         {
             holder.c4.setVisibility(View.VISIBLE);
         }
@@ -122,8 +125,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         {
             holder.c4.setVisibility(View.INVISIBLE);
         }
-        holder.c3.setText(gettext(courses.get(position).getSlot(),3));
-        holder.c4.setText(gettext(courses.get(position).getSlot(),4));
         holder.slot.setText("Slot: "+courses.get(position).getSlot());
         holder.courseid.setText("Course ID: "+courses.get(position).getCourse_id());
     }
@@ -138,7 +139,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         {
             shift.setVisibility(View.GONE);
         }
-        final Course course = courses.get(position);
+        final Course course;
+        try {
+            course = courses.get(position);
+        }
+        catch(IndexOutOfBoundsException e)
+        {
+            notifyDataSetChanged();
+            return;
+        }
         final EditText slot = (EditText) dialog.findViewById(R.id.slot);
         slot.setText(Character.toString(course.getSlot()));
         final EditText courseid = (EditText) dialog.findViewById(R.id.course_id);
@@ -175,9 +184,16 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                courses.remove(position);
-                notifyItemRemoved(position);
-                dialog.dismiss();
+                if(courses.isEmpty())
+                {
+                    notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+                else {
+                    courses.remove(position);
+                    notifyItemRemoved(position);
+                    dialog.dismiss();
+                }
             }
         });
         char sl = course.getSlot();
@@ -814,9 +830,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
                             c1.setText("M");
-                            c2.setText("W");
-                            c3.setVisibility(View.INVISIBLE);
+                            c2.setText("T");
+                            c3.setText("Th");
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
@@ -828,9 +845,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c1.setText("T");
-                            c2.setText("Th");
-                            c3.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c1.setText("M");
+                            c2.setText("W");
+                            c3.setText("Th");
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
@@ -842,27 +860,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c1.setText("T");
-                            c2.setText("W");
+                            c1.setText("W");
+                            c2.setText("F");
                             c3.setVisibility(View.INVISIBLE);
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
                         case 'L': {
-                            if(freshie)
-                            {
-                                slot.setError("Invalid slot");
-                            }
-                            days.setVisibility(View.VISIBLE);
-                            c1.setVisibility(View.VISIBLE);
-                            c2.setVisibility(View.VISIBLE);
-                            c1.setText("M");
-                            c2.setText("Th");
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            break;
-                        }
-                        case 'M': {
                             if(freshie)
                             {
                                 slot.setError("Invalid slot");
@@ -876,7 +880,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
-                        case 'N': {
+                        case 'M': {
                             if(freshie)
                             {
                                 slot.setError("Invalid slot");
@@ -885,7 +889,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
                             c1.setText("M");
-                            c2.setText("F");
+                            c2.setText("T");
                             c3.setVisibility(View.INVISIBLE);
                             c4.setVisibility(View.INVISIBLE);
                             break;
@@ -1071,26 +1075,26 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         boolean flag = false;
         for(Course c:courses)
         {
-            flag = flag||((c.getSlot()=='P'&(slot=='H'||slot=='L')));
-            flag = flag||((c.getSlot()=='Q'&(slot=='J'||slot=='K')));
-            flag = flag||((c.getSlot()=='R'&(slot=='H'||slot=='K')));
-            flag = flag||((c.getSlot()=='S'&(slot=='J'||slot=='L')));
-            flag = flag||((c.getSlot()=='T'&(slot=='M'||slot=='N')));
+            flag = flag||((c.getSlot()=='P'&(slot=='H'||slot=='M')));
+            flag = flag||((c.getSlot()=='Q'&(slot=='M'||slot=='H')));
+            flag = flag||((c.getSlot()=='R'&(slot=='J'||slot=='K')));
+            flag = flag||((c.getSlot()=='S'&(slot=='L'||slot=='J')));
+            flag = flag||((c.getSlot()=='T'&(slot=='K'||slot=='L')));
         }
         return flag;
     }
 
 
-    private String gettext(char c, int pos)
+    private String gettext(char c, int pos, boolean freshie)
     {
         switch (c) {
             case 'A': {
                 switch (pos)
                 {
                     case 1: return "M";
-                    case 2: return "T";
-                    case 3: return "Th";
-                    case 4: return "F";
+                    case 2: return freshie?"Th":"T";
+                    case 3: return freshie?"F":"Th";
+                    case 4: return freshie?"":"F";
                     default: return "";
                 }
             }
@@ -1099,8 +1103,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 {
                     case 1: return "M"; 
                     case 2: return "T"; 
-                    case 3: return "W"; 
-                    case 4: return "F"; 
+                    case 3: return freshie?"F":"W";
+                    case 4: return freshie?"":"F";
                     default: return ""; 
                 }
                 
@@ -1111,7 +1115,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                     case 1: return "M"; 
                     case 2: return "T"; 
                     case 3: return "W"; 
-                    case 4: return "F"; 
+                    case 4: return freshie?"":"F";
                     default: return ""; 
                 }
                 
@@ -1121,8 +1125,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 {
                     case 1: return "M"; 
                     case 2: return "T"; 
-                    case 3: return "W"; 
-                    case 4: return "Th"; 
+                    case 3: return "W";
+                    case 4: return freshie?"":"Th";
                     default: return ""; 
                 }
                 
@@ -1133,7 +1137,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                     case 1: return "T"; 
                     case 2: return "W"; 
                     case 3: return "Th"; 
-                    case 4: return "F"; 
+                    case 4: return freshie?"":"F";
                     default: return ""; 
                 }
                 
@@ -1141,10 +1145,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             case 'F': {
                 switch (pos)
                 {
-                    case 1: return "T"; 
-                    case 2: return "W"; 
-                    case 3: return "Th"; 
-                    case 4: return "F"; 
+                    case 1: return freshie?"W":"T";
+                    case 2: return freshie?"Th":"W";
+                    case 3: return freshie?"F":"Th";
+                    case 4: return freshie?"":"F";
                     default: return ""; 
                 }
                 
@@ -1152,19 +1156,89 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             case 'G': {
                 switch (pos)
                 {
-                    case 1: return "M"; 
-                    case 2: return "W"; 
-                    case 3: return "Th"; 
-                    case 4: return "F"; 
-                    default: return ""; 
+                    case 1: return freshie?"Th":"M";
+                    case 2: return freshie?"F":"W";
+                    case 3: return "Th";
+                    case 4: return "F";
+                    default: return "";
                 }
                 
+            }
+            case 'a': {
+                switch (pos)
+                {
+                    case 1: return "T";
+                    case 2: return "W";
+                    case 3: return "F";
+                    default: return "";
+                }
+
+            }
+            case 'b': {
+                switch (pos)
+                {
+                    case 1: return "W";
+                    case 2: return "Th";
+                    case 3: return "F";
+                    default: return "";
+                }
+
+            }
+            case 'c': {
+                switch (pos)
+                {
+                    case 1: return "M";
+                    case 2: return "W";
+                    case 3: return "Th";
+                    default: return "";
+                }
+
+            }
+            case 'd': {
+                switch (pos)
+                {
+                    case 1: return "M";
+                    case 2: return "W";
+                    case 3: return "Th";
+                    default: return "";
+                }
+
+            }
+            case 'e': {
+                switch (pos)
+                {
+                    case 1: return "M";
+                    case 2: return "T";
+                    case 3: return "Th";
+                    default: return "";
+                }
+
+            }
+            case 'f': {
+                switch (pos)
+                {
+                    case 1: return "M";
+                    case 2: return "T";
+                    case 3: return "F";
+                    default: return "";
+                }
+
+            }
+            case 'g': {
+                switch (pos)
+                {
+                    case 1: return "T";
+                    case 2: return "F";
+                    default: return "";
+                }
+
             }
             case 'H': {
                 switch (pos)
                 {
                     case 1: return "M"; 
-                    case 2: return "W"; 
+                    case 2: return "T";
+                    case 3: return "Th";
                     default: return ""; 
                 }
                 
@@ -1172,8 +1246,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             case 'J': {
                 switch (pos)
                 {
-                    case 1: return "T"; 
-                    case 2: return "Th"; 
+                    case 1: return "M";
+                    case 2: return "W";
+                    case 3: return "Th";
                     default: return ""; 
                 }
                 
@@ -1181,8 +1256,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             case 'K': {
                 switch (pos)
                 {
-                    case 1: return "T"; 
-                    case 2: return "W"; 
+                    case 1: return "W";
+                    case 2: return "F";
                     default: return ""; 
                 }
                 
@@ -1190,8 +1265,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             case 'L': {
                 switch (pos)
                 {
-                    case 1: return "M"; 
-                    case 2: return "Th"; 
+                    case 1: return "Th";
+                    case 2: return "F";
                     default: return ""; 
                 }
                 
@@ -1199,17 +1274,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             case 'M': {
                 switch (pos)
                 {
-                    case 1: return "Th"; 
-                    case 2: return "F"; 
-                    default: return ""; 
-                }
-                
-            }
-            case 'N': {
-                switch (pos)
-                {
-                    case 1: return "M"; 
-                    case 2: return "F"; 
+                    case 1: return "M";
+                    case 2: return "T";
                     default: return ""; 
                 }
                 

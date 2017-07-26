@@ -120,19 +120,26 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
+
         <Button
             android:id="@+id/add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
             android:layout_weight="1"
-            android:text="ADD" />
+            android:background="@color/colorPrimary"
+            android:text="ADD"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/remove"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
             android:text="REMOVE"
+            android:textColor="@color/white"
             android:visibility="gone" />
     </LinearLayout>
 

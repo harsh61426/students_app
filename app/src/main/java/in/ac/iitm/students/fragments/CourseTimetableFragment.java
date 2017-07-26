@@ -43,6 +43,7 @@ public class CourseTimetableFragment extends Fragment {
             {R.id.w1,R.id.w2,R.id.w3,R.id.w4,R.id.w5,R.id.w6,R.id.w7,R.id.w8},
             {R.id.h1,R.id.h2,R.id.h3,R.id.h4,R.id.h5,R.id.h6,R.id.h7,R.id.h8},
             {R.id.f1,R.id.f2,R.id.f3,R.id.f4,R.id.f5,R.id.f6,R.id.f7,R.id.f8}};
+    int texids[] = {R.id.mex,R.id.tex,R.id.wex,R.id.hex,R.id.fex,R.id.mex_m,R.id.tex_m,R.id.wex_m,R.id.hex_m,R.id.fex_m};
     TextView tvs[][] = new TextView[5][8];
     char slots[][] = new char[5][8];
     boolean bunk[][] = new boolean[5][8];
@@ -65,11 +66,20 @@ public class CourseTimetableFragment extends Fragment {
 
         if(!freshie) {
             view = inflater.inflate(R.layout.fragment_course_timetable, container, false);
-
+            for(int i = 0;i<5;i++)
+            {
+                TextView textView = (TextView)view.findViewById(texids[i]);
+                textView.setVisibility(View.INVISIBLE);
+            }
         }
         else
         {
             view = inflater.inflate(R.layout.fragment_course_timetable_freshie,container,false);
+            for(int i = 0;i<texids.length;i++)
+            {
+                TextView textView = (TextView)view.findViewById(texids[i]);
+                textView.setVisibility(View.INVISIBLE);
+            }
         }
 
         if(!Utils.getprefBool("OldLaunch_TT",getActivity()))
@@ -79,6 +89,15 @@ public class CourseTimetableFragment extends Fragment {
             dialog.show();
             Utils.saveprefBool("OldLaunch_TT",true,getActivity());
         }
+
+
+        Calendar calendar = Calendar.getInstance();
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        if(week!=Utils.getprefInt("LastLogTT",getActivity()))
+        {
+            clearbunks();
+        }
+        Utils.saveprefInt("LastLogTT",week,getActivity());
 
         flipper = (ViewFlipper) view.findViewById(R.id.flipper);
         flipper.setDisplayedChild(Utils.getprefInt("TT_Screen", getActivity()));
@@ -110,7 +129,7 @@ public class CourseTimetableFragment extends Fragment {
                 public void onClick(View v) {
                 addcourses();
                 Utils.saveprefInt("TT_Screen",1,getActivity());
-                flipper.showNext();
+                getActivity().recreate();
             }
         });
 
@@ -141,14 +160,6 @@ public class CourseTimetableFragment extends Fragment {
         for (Bunks c : bunks) {
             mapslots(c.getSlot(), c.getDays());
         }
-
-        Calendar calendar = Calendar.getInstance();
-        int week = calendar.get(Calendar.WEEK_OF_YEAR);
-        if(week>Utils.getprefInt("LastLogTT",getActivity()))
-        {
-            clearbunks();
-        }
-        Utils.saveprefInt("LastLogTT",week,getActivity());
 
 
 
@@ -242,7 +253,7 @@ public class CourseTimetableFragment extends Fragment {
     }
 
 
-    public void getbunks()
+    private void getbunks()
     {
         int number = Utils.getprefInt(UtilStrings.COURSES_COUNT,getActivity());
         for(int i=0;i<number;i++)
@@ -258,7 +269,7 @@ public class CourseTimetableFragment extends Fragment {
         }
     }
 
-    public void mapslots(char c, int days)
+    private void mapslots(char c, int days)
     {
         switch(c)
         {
@@ -331,8 +342,8 @@ public class CourseTimetableFragment extends Fragment {
                 }
                 else
                 {
-                    slots[1][4] = (days%2 == 0) ? 'E' : 'X';
-                    slots[2][3] = (days%3 == 0) ? 'E' : 'X';
+                    slots[1][3] = (days%2 == 0) ? 'E' : 'X';
+                    slots[2][2] = (days%3 == 0) ? 'E' : 'X';
                     slots[3][0] = (days%5 == 0) ? 'E' : 'X';
                     slots[4][7] = (days%7 == 0) ? 'E' : 'X';
                 }
@@ -369,38 +380,36 @@ public class CourseTimetableFragment extends Fragment {
             }
             case 'H': {
                 slots[0][5] = (days%2==0)?'H':'X';
-                slots[2][6] = (days%3==0)?'H':'X';
+                slots[1][6] = (days%3==0)?'H':'X';
+                slots[3][7] = (days%5==0)?'H':'X';
                 break;
             }
             case 'J': {
-                slots[1][5] = (days%2==0)?'J':'X';
-                slots[3][6] = (days%3==0)?'J':'X';
+                slots[0][7] = (days%2==0)?'J':'X';
+                slots[2][5] = (days%3==0)?'J':'X';
+                slots[3][6] = (days%5==0)?'J':'X';
                 break;
             }
             case 'K': {
-                slots[1][6] = (days%2==0)?'K':'X';
-                slots[2][5] = (days%3==0)?'K':'X';
+                slots[2][6] = (days%2==0)?'K':'X';
+                slots[4][5] = (days%3==0)?'K':'X';
                 break;
             }
             case 'L': {
-                slots[0][6] = (days%2==0)?'L':'X';
-                slots[3][5] = (days%3==0)?'L':'X';
+                slots[3][5] = (days%2==0)?'L':'X';
+                slots[4][6] = (days%3==0)?'L':'X';
                 break;
             }
             case 'M': {
-                slots[4][5] = (days%2==0)?'M':'X';
-                slots[3][7] = (days%3==0)?'M':'X';
-                break;
-            }
-            case 'N': {
-                slots[4][6] = (days%2==0)?'N':'X';
-                slots[0][7] = (days%3==0)?'N':'X';
+                slots[0][6] = (days%2==0)?'M':'X';
+                slots[1][5] = (days%3==0)?'M':'X';
                 break;
             }
             case 'P': {
                 slots[0][5] = 'P';
                 ids[0][5] = R.id.mex;
                 tvs[0][5] = (TextView)view.findViewById(ids[0][5]);
+                tvs[0][5].setVisibility(View.VISIBLE);
                 if(bunk[0][5])
                 {
                     tvs[0][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -415,6 +424,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[1][5] = 'Q';
                 ids[1][5] = R.id.tex;
                 tvs[1][5] = (TextView)view.findViewById(ids[1][5]);
+                tvs[1][5].setVisibility(View.VISIBLE);
                 if(bunk[1][5])
                 {
                     tvs[1][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -429,6 +439,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[2][5] = 'R';
                 ids[2][5] = R.id.wex;
                 tvs[2][5] = (TextView)view.findViewById(ids[2][5]);
+                tvs[2][5].setVisibility(View.VISIBLE);
                 if(bunk[2][5])
                 {
                     tvs[2][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -443,6 +454,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[3][5] = 'S';
                 ids[3][5] = R.id.hex;
                 tvs[3][5] = (TextView)view.findViewById(ids[3][5]);
+                tvs[3][5].setVisibility(View.VISIBLE);
                 if(bunk[3][5])
                 {
                     tvs[3][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -457,6 +469,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[4][5] = 'T';
                 ids[4][5] = R.id.fex;
                 tvs[4][5] = (TextView)view.findViewById(ids[4][5]);
+                tvs[4][5].setVisibility(View.VISIBLE);
                 if(bunk[4][5])
                 {
                     tvs[4][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -513,6 +526,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[0][1] = 'P';
                 ids[0][1] = R.id.mex_m;
                 tvs[0][1] = (TextView)view.findViewById(ids[0][1]);
+                tvs[0][1].setVisibility(View.VISIBLE);
                 if(bunk[0][1])
                 {
                     tvs[0][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -527,6 +541,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[1][1] = 'Q';
                 ids[1][1] = R.id.tex_m;
                 tvs[1][1] = (TextView)view.findViewById(ids[1][1]);
+                tvs[1][1].setVisibility(View.VISIBLE);
                 if(bunk[1][1])
                 {
                     tvs[1][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -541,6 +556,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[2][1] = 'R';
                 ids[2][1] = R.id.wex_m;
                 tvs[2][1] = (TextView)view.findViewById(ids[2][1]);
+                tvs[2][1].setVisibility(View.VISIBLE);
                 if(bunk[2][1])
                 {
                     tvs[2][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -555,6 +571,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[3][1] = 'S';
                 ids[3][1] = R.id.hex_m;
                 tvs[3][1] = (TextView)view.findViewById(ids[3][1]);
+                tvs[3][1].setVisibility(View.VISIBLE);
                 if(bunk[3][1])
                 {
                     tvs[3][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -569,6 +586,7 @@ public class CourseTimetableFragment extends Fragment {
                 slots[4][1] = 'T';
                 ids[4][1] = R.id.fex_m;
                 tvs[4][1] = (TextView)view.findViewById(ids[4][1]);
+                tvs[4][1].setVisibility(View.VISIBLE);
                 if(bunk[4][1])
                 {
                     tvs[4][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
@@ -613,6 +631,7 @@ public class CourseTimetableFragment extends Fragment {
     {
         Utils.saveprefInt(UtilStrings.COURSES_COUNT,0,getActivity());
     }
+
 
     private void initdialog()
     {
@@ -903,9 +922,10 @@ public class CourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
                             c1.setText("M");
-                            c2.setText("W");
-                            c3.setVisibility(View.INVISIBLE);
+                            c2.setText("T");
+                            c3.setText("Th");
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
@@ -917,9 +937,10 @@ public class CourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c1.setText("T");
-                            c2.setText("Th");
-                            c3.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c1.setText("M");
+                            c2.setText("W");
+                            c3.setText("Th");
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
@@ -931,27 +952,13 @@ public class CourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c1.setText("T");
-                            c2.setText("W");
+                            c1.setText("W");
+                            c2.setText("F");
                             c3.setVisibility(View.INVISIBLE);
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
                         case 'L': {
-                            if(freshie)
-                            {
-                                slot.setError("Invalid slot");
-                            }
-                            days.setVisibility(View.VISIBLE);
-                            c1.setVisibility(View.VISIBLE);
-                            c2.setVisibility(View.VISIBLE);
-                            c1.setText("M");
-                            c2.setText("Th");
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            break;
-                        }
-                        case 'M': {
                             if(freshie)
                             {
                                 slot.setError("Invalid slot");
@@ -965,7 +972,7 @@ public class CourseTimetableFragment extends Fragment {
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
-                        case 'N': {
+                        case 'M': {
                             if(freshie)
                             {
                                 slot.setError("Invalid slot");
@@ -974,7 +981,7 @@ public class CourseTimetableFragment extends Fragment {
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
                             c1.setText("M");
-                            c2.setText("F");
+                            c2.setText("T");
                             c3.setVisibility(View.INVISIBLE);
                             c4.setVisibility(View.INVISIBLE);
                             break;
@@ -1106,37 +1113,42 @@ public class CourseTimetableFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String coursed = courseid.getText().toString().toUpperCase();
-                char slt = Character.toUpperCase(slot.getText().charAt(0));
-                boolean flag = true;
-                if(coursed.length()!=6)
+                if(slot.getText().toString().isEmpty())
                 {
-                    courseid.setError("Course ID is incorrect");
-                    flag = false;
+                    slot.setError("Please enter the slot");
                 }
-                else if(!(Character.isLetter(coursed.charAt(0))&&Character.isLetter(coursed.charAt(1))
-                        &&Character.isDigit(coursed.charAt(2))&&Character.isDigit(coursed.charAt(3))
-                        &&Character.isDigit(coursed.charAt(4))&&Character.isDigit(coursed.charAt(5))))
+                if(courseid.getText().toString().isEmpty())
                 {
-                    courseid.setError("Incorrect ID format");
-                    flag = false;
+                    courseid.setError("Please enter the Course ID");
                 }
-                if(!(slt-'A'>=0&&slt-'A'<22&&slt!='I'))
-                {
-                    slot.setError("Invalid slot");
-                    flag = false;
-                }
-                if(clash(slt))
-                {
-                    slot.setError("There is a slot clash");
-                    flag = false;
-                }
-                if(flag) {
-                    course.setCourse_id(coursed);
-                    course.setSlot(afternoon.isChecked()?Character.toLowerCase(slt):Character.toUpperCase(slt));
-                    courses.add(course);
-                    courseAdapter.notifyDataSetChanged();
-                    dialog.dismiss();
+                else {
+                    String coursed = courseid.getText().toString().toUpperCase();
+                    char slt = Character.toUpperCase(slot.getText().charAt(0));
+                    boolean flag = true;
+                    if (coursed.length() != 6) {
+                        courseid.setError("Course ID is incorrect");
+                        flag = false;
+                    } else if (!(Character.isLetter(coursed.charAt(0)) && Character.isLetter(coursed.charAt(1))
+                            && Character.isDigit(coursed.charAt(2)) && Character.isDigit(coursed.charAt(3))
+                            && Character.isDigit(coursed.charAt(4)) && Character.isDigit(coursed.charAt(5)))) {
+                        courseid.setError("Incorrect ID format");
+                        flag = false;
+                    }
+                    if (!(slt - 'A' >= 0 && slt - 'A' < 22 && slt != 'I')) {
+                        slot.setError("Invalid slot");
+                        flag = false;
+                    }
+                    if (clash(slt)) {
+                        slot.setError("There is a slot clash");
+                        flag = false;
+                    }
+                    if (flag) {
+                        course.setCourse_id(coursed);
+                        course.setSlot(afternoon.isChecked() ? Character.toLowerCase(slt) : Character.toUpperCase(slt));
+                        courses.add(course);
+                        courseAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
                 }
             }
         });
@@ -1152,11 +1164,11 @@ public class CourseTimetableFragment extends Fragment {
         for(Course c:courses)
         {
             flag = flag||(c.getSlot()==slot);
-            flag = flag||((c.getSlot()=='P'&(slot=='H'||slot=='L')));
-            flag = flag||((c.getSlot()=='Q'&(slot=='J'||slot=='K')));
-            flag = flag||((c.getSlot()=='R'&(slot=='H'||slot=='K')));
-            flag = flag||((c.getSlot()=='S'&(slot=='J'||slot=='L')));
-            flag = flag||((c.getSlot()=='T'&(slot=='M'||slot=='N')));
+            flag = flag||((c.getSlot()=='P'&(slot=='H'||slot=='M')));
+            flag = flag||((c.getSlot()=='Q'&(slot=='M'||slot=='H')));
+            flag = flag||((c.getSlot()=='R'&(slot=='J'||slot=='K')));
+            flag = flag||((c.getSlot()=='S'&(slot=='L'||slot=='J')));
+            flag = flag||((c.getSlot()=='T'&(slot=='K'||slot=='L')));
         }
         return flag;
     }

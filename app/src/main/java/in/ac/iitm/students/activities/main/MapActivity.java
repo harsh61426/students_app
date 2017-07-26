@@ -79,13 +79,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import in.ac.iitm.students.Organisations.activities.main.Organizations;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.ClusterMarkerLocation;
-import in.ac.iitm.students.others.DataParser;
 import in.ac.iitm.students.others.IITMBusStops;
+import in.ac.iitm.students.others.JSONRouteParser;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -875,7 +875,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 try {
                     jObject = new JSONObject(jsonString);
-                    DataParser parser = new DataParser();
+                    JSONRouteParser parser = new JSONRouteParser();
 
                     // Starts parsing data
                     routes = parser.parse(jObject);
@@ -987,7 +987,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             intent = new Intent(context, HomeActivity.class);
             flag = true;
         } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, Organizations.class);
+            intent = new Intent(context, OrganizationActivity.class);
             flag = true;
         } else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
