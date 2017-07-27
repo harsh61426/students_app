@@ -16,14 +16,12 @@ import java.util.Calendar;
  * Created by arun on 21-Jul-15.
  */
 public class Utils {
-
     public static void saveprefString(String key, String value, Context context) {
         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
-
 
     public static String getprefString(String key, Context cont) {
         SharedPreferences pref = cont.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
@@ -35,7 +33,7 @@ public class Utils {
         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean(key, value);
-        editor.commit();
+        editor.apply();
 
     }
 
@@ -43,7 +41,7 @@ public class Utils {
         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public static int getprefInt(String key, Context cont) {
@@ -62,7 +60,7 @@ public class Utils {
         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putLong(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public static long getprefLong(String key, Context context) {
@@ -75,7 +73,7 @@ public class Utils {
         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isNetworkAvailable(Context context) {

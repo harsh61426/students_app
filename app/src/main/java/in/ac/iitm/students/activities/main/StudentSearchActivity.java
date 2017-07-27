@@ -29,6 +29,7 @@ import java.util.List;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
 import in.ac.iitm.students.fragments.NameSearchFragment;
 import in.ac.iitm.students.fragments.RollSearchFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
