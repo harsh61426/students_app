@@ -36,6 +36,7 @@ import in.ac.iitm.students.adapters.RecyclerAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
 import in.ac.iitm.students.fragments.monthFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
+import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -194,7 +195,7 @@ public class CalendarActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    HomeActivity.fetchingCalendarData();
+                    new InstiCalendar(CalendarActivity.this).fetchCalData();
 
 
                 } else {
