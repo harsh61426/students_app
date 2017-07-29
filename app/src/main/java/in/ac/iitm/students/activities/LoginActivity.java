@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -147,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                             Utils.saveprefString(UtilStrings.ROLLNO, username.getText().toString().toUpperCase(), getBaseContext());
                             Utils.saveprefBool(UtilStrings.LOGEDIN, true, context);
 
+
                             finish();
                         } else if (success[0] == 0) {
                             MakeSnSnackbar(message[0]);
@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void MakeSnSnackbar(String text) {
         hideKeyboard();
-        Snackbar snack = Snackbar.make((LinearLayout) findViewById(R.id.container), text, Snackbar.LENGTH_LONG);
+        Snackbar snack = Snackbar.make(findViewById(R.id.container), text, Snackbar.LENGTH_LONG);
         ViewGroup group = (ViewGroup) snack.getView();
         for (int i = 0; i < group.getChildCount(); i++) {
             View v = group.getChildAt(i);

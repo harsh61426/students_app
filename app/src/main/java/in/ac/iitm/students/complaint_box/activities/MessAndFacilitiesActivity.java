@@ -1,4 +1,4 @@
-package in.ac.iitm.students.activities;
+package in.ac.iitm.students.complaint_box.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.ComplaintBoxActivity;
+import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 

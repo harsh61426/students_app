@@ -1,11 +1,11 @@
-package in.ac.iitm.students.activities;
+package in.ac.iitm.students.complaint_box.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import in.ac.iitm.students.R;
 
-public class HostelComplaints extends AppCompatActivity {
+public class HostelComplaintsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

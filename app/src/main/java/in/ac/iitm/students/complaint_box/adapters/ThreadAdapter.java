@@ -1,4 +1,4 @@
-package in.ac.iitm.students.adapters;
+package in.ac.iitm.students.complaint_box.adapters;
 
 /**
  * Created by sai_praneeth7777 on 18-Jun-16.
@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.MessageChatActivity;
-import in.ac.iitm.students.objects.ThreadObject;
+import in.ac.iitm.students.complaint_box.activities.MessageChatActivity;
+import in.ac.iitm.students.complaint_box.objects.ThreadObject;
 
 /**
  * Created by sai_praneeth7777 on 13-Jun-16.

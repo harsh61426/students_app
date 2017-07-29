@@ -1,4 +1,4 @@
-package in.ac.iitm.students.activities;
+package in.ac.iitm.students.complaint_box.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

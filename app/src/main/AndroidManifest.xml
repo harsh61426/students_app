@@ -116,7 +116,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.noAnimation" />
         <activity
-            android:name=".activities.MessAndFacilitiesActivity"
+            android:name="in.ac.iitm.students.complaint_box.activities.MessAndFacilitiesActivity"
             android:label="@string/title_activity_mess_and_facilities"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.noAnimation" />
@@ -126,22 +126,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.MyComplaintsActivity"
+            android:name="in.ac.iitm.students.complaint_box.activities.MyComplaintsActivity"
             android:label="@string/title_activity_thread"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.MessageChatActivity"
+            android:name="in.ac.iitm.students.complaint_box.activities.MessageChatActivity"
             android:label="@string/title_activity_message_chat"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.MessOrFacilitiesListActivity"
+            android:name="in.ac.iitm.students.complaint_box.activities.MessOrFacilitiesListActivity"
             android:label="@string/title_activity_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.ComplaintActivity"
+            android:name="in.ac.iitm.students.complaint_box.activities.ComplaintActivity"
             android:label="@string/title_activity_complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -193,7 +193,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".activities.main.ComplaintBoxActivity"
+            android:name="in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity"
             android:label="Complaint Box"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -205,12 +205,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".activities.HostelComplaints"
+            android:name="in.ac.iitm.students.complaint_box.activities.HostelComplaintsActivity"
             android:label="Hostel Complaints"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.GeneralComplaints"
+            android:name="in.ac.iitm.students.complaint_box.activities.GeneralComplaintsActivity"
             android:label="General Complaints"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

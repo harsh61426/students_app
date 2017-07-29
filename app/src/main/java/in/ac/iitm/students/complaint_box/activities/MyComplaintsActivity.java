@@ -1,4 +1,4 @@
-package in.ac.iitm.students.activities;
+package in.ac.iitm.students.complaint_box.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.adapters.ThreadAdapter;
-import in.ac.iitm.students.objects.ThreadObject;
+import in.ac.iitm.students.complaint_box.adapters.ThreadAdapter;
+import in.ac.iitm.students.complaint_box.objects.ThreadObject;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;

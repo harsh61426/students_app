@@ -1,4 +1,4 @@
-package in.ac.iitm.students.activities;
+package in.ac.iitm.students.complaint_box.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,8 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.adapters.ChatAdapter;
-import in.ac.iitm.students.objects.ChatObject;
+import in.ac.iitm.students.complaint_box.adapters.ChatAdapter;
+import in.ac.iitm.students.complaint_box.objects.ChatObject;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;

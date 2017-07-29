@@ -1,4 +1,4 @@
-package in.ac.iitm.students.activities.main;
+package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,10 +21,16 @@ import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
-import in.ac.iitm.students.activities.GeneralComplaints;
-import in.ac.iitm.students.activities.HostelComplaints;
-import in.ac.iitm.students.activities.MessAndFacilitiesActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.activities.main.CalendarActivity;
+import in.ac.iitm.students.activities.main.HomeActivity;
+import in.ac.iitm.students.activities.main.ImpContactsActivity;
+import in.ac.iitm.students.activities.main.MapActivity;
+import in.ac.iitm.students.activities.main.StudentSearchActivity;
+import in.ac.iitm.students.activities.main.TimetableActivity;
+import in.ac.iitm.students.complaint_box.activities.GeneralComplaintsActivity;
+import in.ac.iitm.students.complaint_box.activities.HostelComplaintsActivity;
+import in.ac.iitm.students.complaint_box.activities.MessAndFacilitiesActivity;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
@@ -79,7 +85,7 @@ public class ComplaintBoxActivity extends AppCompatActivity implements Navigatio
             // The code in this method will be executed when the hostel cardView is clicked on.
             @Override
             public void onClick(View view) {
-                Intent hostelIntent = new Intent(ComplaintBoxActivity.this, HostelComplaints.class);
+                Intent hostelIntent = new Intent(ComplaintBoxActivity.this, HostelComplaintsActivity.class);
                 startActivity(hostelIntent);
             }
         });
@@ -105,7 +111,7 @@ public class ComplaintBoxActivity extends AppCompatActivity implements Navigatio
             // The code in this method will be executed when the general cardView is clicked on.
             @Override
             public void onClick(View view) {
-                Intent generalIntent = new Intent(ComplaintBoxActivity.this, GeneralComplaints.class);
+                Intent generalIntent = new Intent(ComplaintBoxActivity.this, GeneralComplaintsActivity.class);
                 startActivity(generalIntent);
             }
         });

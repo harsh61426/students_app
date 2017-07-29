@@ -1,4 +1,4 @@
-package in.ac.iitm.students.activities;
+package in.ac.iitm.students.complaint_box.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,8 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.adapters.AdapterClass;
-import in.ac.iitm.students.objects.ObjectClass;
+import in.ac.iitm.students.complaint_box.adapters.AdapterClass;
+import in.ac.iitm.students.complaint_box.objects.ObjectClass;
 import in.ac.iitm.students.others.MySingleton;
 
 /**

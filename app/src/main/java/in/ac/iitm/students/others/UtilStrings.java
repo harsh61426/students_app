@@ -7,6 +7,7 @@ public class    UtilStrings {
     public static String NAME = "username";
     public static String ROLLNO = "rollno";
     public static String HOSTEl = "hostel";
+    public static String ROOMNO = "roomno";
     public static String DEPARTMENT = "department";
     public static String LOGEDIN = "logedin";
     public static String FEEDBACK = "feedbackjsonstring";

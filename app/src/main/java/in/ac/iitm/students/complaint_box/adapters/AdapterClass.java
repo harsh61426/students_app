@@ -1,4 +1,4 @@
-package in.ac.iitm.students.adapters;
+package in.ac.iitm.students.complaint_box.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.ComplaintActivity;
-import in.ac.iitm.students.objects.ObjectClass;
+import in.ac.iitm.students.complaint_box.activities.ComplaintActivity;
+import in.ac.iitm.students.complaint_box.objects.ObjectClass;
 
 /**
  * Created by sai_praneeth7777 on 13-Jun-16.

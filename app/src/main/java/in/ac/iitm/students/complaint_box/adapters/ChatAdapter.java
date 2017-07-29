@@ -1,4 +1,4 @@
-package in.ac.iitm.students.adapters;
+package in.ac.iitm.students.complaint_box.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.objects.ChatObject;
-import in.ac.iitm.students.objects.ThreadObject;
+import in.ac.iitm.students.complaint_box.objects.ChatObject;
+import in.ac.iitm.students.complaint_box.objects.ThreadObject;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 

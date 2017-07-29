@@ -1,122 +1,122 @@
 package in.ac.iitm.students.activities.main;
 
-        import android.Manifest;
-        import android.app.Activity;
-        import android.content.ContentResolver;
-        import android.content.ContentValues;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.content.SharedPreferences;
-        import android.content.pm.PackageInfo;
-        import android.content.pm.PackageManager;
-        import android.database.Cursor;
-        import android.graphics.drawable.Drawable;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.os.Handler;
-        import android.provider.CalendarContract;
-        import android.support.design.widget.NavigationView;
-        import android.support.design.widget.Snackbar;
-        import android.support.v4.app.ActivityCompat;
-        import android.support.v4.app.DialogFragment;
-        import android.support.v4.app.FragmentManager;
-        import android.support.v4.content.ContextCompat;
-        import android.support.v4.view.GravityCompat;
-        import android.support.v4.widget.DrawerLayout;
-        import android.support.v4.widget.SwipeRefreshLayout;
-        import android.support.v7.app.ActionBarDrawerToggle;
-        import android.support.v7.app.AlertDialog;
-        import android.support.v7.app.AppCompatActivity;
-        import android.support.v7.widget.CardView;
-        import android.support.v7.widget.LinearLayoutManager;
-        import android.support.v7.widget.RecyclerView;
-        import android.support.v7.widget.Toolbar;
-        import android.support.v7.widget.helper.ItemTouchHelper;
-        import android.util.JsonReader;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.ImageView;
-        import android.widget.ProgressBar;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.provider.CalendarContract;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.JsonReader;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.android.volley.DefaultRetryPolicy;
-        import com.android.volley.Request;
-        import com.android.volley.Response;
-        import com.android.volley.VolleyError;
-        import com.android.volley.toolbox.ImageLoader;
-        import com.android.volley.toolbox.NetworkImageView;
-        import com.android.volley.toolbox.StringRequest;
-        import com.google.firebase.iid.FirebaseInstanceId;
-        import com.google.firebase.messaging.FirebaseMessaging;
-        import com.squareup.picasso.Picasso;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.squareup.picasso.Picasso;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import java.io.ByteArrayInputStream;
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.io.InputStreamReader;
-        import java.io.UnsupportedEncodingException;
-        import java.nio.charset.Charset;
-        import java.util.ArrayList;
-        import java.util.Calendar;
-        import java.util.Collections;
-        import java.util.EmptyStackException;
-        import java.util.GregorianCalendar;
-        import java.util.HashMap;
-        import java.util.Map;
-        import java.util.TimeZone;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.EmptyStackException;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
-        import in.ac.iitm.students.R;
-        import in.ac.iitm.students.activities.AboutUsActivity;
-        import in.ac.iitm.students.activities.SubscriptionActivity;
-        import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
-        import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
-        import in.ac.iitm.students.fragments.monthFragment;
-        import in.ac.iitm.students.objects.Calendar_Event;
-        import in.ac.iitm.students.objects.HomeNotifObject;
-        import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
-        import in.ac.iitm.students.others.LogOutAlertClass;
-        import in.ac.iitm.students.others.MySingleton;
-        import in.ac.iitm.students.others.UtilStrings;
-        import in.ac.iitm.students.others.Utils;
+import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.AboutUsActivity;
+import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
+import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
+import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
+import in.ac.iitm.students.fragments.monthFragment;
+import in.ac.iitm.students.objects.Calendar_Event;
+import in.ac.iitm.students.objects.HomeNotifObject;
+import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
+import in.ac.iitm.students.others.LogOutAlertClass;
+import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
-        import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
-        import static in.ac.iitm.students.activities.main.HomeActivity.sendJsonRequest;
+import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private static int optionalUpdateDialogCount = 0;
-    private static Context mContext;
     static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
     static String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
+    //for calendar
+    static long CalID;
+    private static int optionalUpdateDialogCount = 0;
+    private static Context mContext;
     String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
-    private Toolbar toolbar;
-    private ProgressBar pbar;
-    private Snackbar snackbar;
-    private FragmentManager fm;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private DrawerLayout drawer;
     HomeAdapter adapter;
     RecyclerView recyclerView;
     HomeNotifObject notifObject;
     String SwipePrefsName = "Ids_of_swiped_notifs";
     SharedPreferences swipedprefs;
     SharedPreferences prefs;
+    private Toolbar toolbar;
+    private ProgressBar pbar;
+    private Snackbar snackbar;
+    private FragmentManager fm;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private DrawerLayout drawer;
     private ArrayList<String> subscribed = new ArrayList<>();
     private ArrayList<HomeNotifObject> notifObjects = new ArrayList<>();
-    //for calendar
-    static long CalID;
     private String[] months = {"january", "february", "march", "april", "may", "june", "july", "august", "september",
             "october", "november", "december"};
     private String calversion_url = "https://students.iitm.ac.in/studentsapp/calendar/cal_ver.php"; //url of api file
@@ -183,197 +183,6 @@ public class HomeActivity extends AppCompatActivity
         } else {
             Toast.makeText(mContext, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        PackageInfo pInfo;
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pInfo.versionName;
-            //Toast.makeText(this,version, Toast.LENGTH_SHORT).show();
-            checkVersionMatch(version);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        mContext = getBaseContext();
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        updatePreferences();
-
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefreshhome);
-        swipeRefreshLayout.setOnRefreshListener(HomeActivity.this);
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        pbar = (ProgressBar) findViewById(R.id.pb_home);
-
-        snackbar = Snackbar
-                .make(drawer, R.string.error_connection, Snackbar.LENGTH_LONG);
-        getData();
-
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-
-
-
-
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_CALENDAR)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_CALENDAR)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                Snackbar snackbar = Snackbar
-                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
-                snackbar.show();
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_CALENDAR},
-                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_CALENDAR},
-                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }else{
-            fetchingCalendarData();
-        }
-
-        String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
-        String name = Utils.getprefString(UtilStrings.NAME, this);
-
-        String firebaseToken = FirebaseInstanceId.getInstance().getToken();
-        //Log.d("tada", firebaseToken.toString());
-        sendRegistrationToServer(firebaseToken, name, roll_no);
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_home)).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View header = navigationView.getHeaderView(0);
-
-        TextView username = (TextView) header.findViewById(R.id.tv_username);
-        TextView userrollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
-
-        username.setText(name);
-        userrollNumber.setText(roll_no);
-        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
-        String urlPic = "https://photos.iitm.ac.in//byroll.php?roll=" + roll_no;
-        Picasso.with(this)
-                .load(urlPic)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .fit()
-                .centerCrop()
-                .into(imageView);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                    fetchingCalendarData();
-
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-
-                }
-                return;
-
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-        return;
-    }
-
-    //calendar code
-    //***************************
-    //***************************
-
-    String getVersion() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, calversion_url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JSONArray jsArray = new JSONArray(response);
-                            JSONObject jsObject = jsArray.getJSONObject(0);
-                            cal_ver = jsObject.getString("version");
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                //Snackbar snackbar = Snackbar.make("Internet Connection Failed.", Snackbar.LENGTH_SHORT);
-                //snackbar.show();
-
-            }
-        }) {
-        };
-// Access the RequestQueue through your singleton class.
-        MySingleton.getInstance(this).addToRequestQueue(stringRequest);
-        return cal_ver;
-    }
-
-    void deleteallevents() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        getContentResolver().delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events._ID + "= *", null);
     }
 
     public static void readMonthObject(JsonReader reader) throws IOException {
@@ -479,6 +288,10 @@ public class HomeActivity extends AppCompatActivity
         }
         reader.endArray();
     }
+
+    //calendar code
+    //***************************
+    //***************************
 
     static void sendJsonRequest() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
@@ -645,6 +458,190 @@ public class HomeActivity extends AppCompatActivity
         Uri result = getContext().getContentResolver().insert(calUri, cv);
         Log.i("Result", result.toString());
         return getCalendarId(acc);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PackageInfo pInfo;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            //Toast.makeText(this,version, Toast.LENGTH_SHORT).show();
+            checkVersionMatch(version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        mContext = getBaseContext();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        updatePreferences();
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefreshhome);
+        swipeRefreshLayout.setOnRefreshListener(HomeActivity.this);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        pbar = (ProgressBar) findViewById(R.id.pb_home);
+
+        snackbar = Snackbar
+                .make(drawer, R.string.error_connection, Snackbar.LENGTH_LONG);
+        getData();
+
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_CALENDAR)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                Snackbar snackbar = Snackbar
+                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            fetchingCalendarData();
+        }
+
+        String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
+        String name = Utils.getprefString(UtilStrings.NAME, this);
+
+        String firebaseToken = FirebaseInstanceId.getInstance().getToken();
+        //Log.d("tada", firebaseToken.toString());
+        sendRegistrationToServer(firebaseToken, name, roll_no);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_home)).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View header = navigationView.getHeaderView(0);
+
+        TextView username = (TextView) header.findViewById(R.id.tv_username);
+        TextView userrollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+
+        username.setText(name);
+        userrollNumber.setText(roll_no);
+        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
+        String urlPic = "https://photos.iitm.ac.in//byroll.php?roll=" + roll_no;
+        Picasso.with(this)
+                .load(urlPic)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .fit()
+                .centerCrop()
+                .into(imageView);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    fetchingCalendarData();
+
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
+
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+        return;
+    }
+
+    String getVersion() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, calversion_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONArray jsArray = new JSONArray(response);
+                            JSONObject jsObject = jsArray.getJSONObject(0);
+                            cal_ver = jsObject.getString("version");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                //Snackbar snackbar = Snackbar.make("Internet Connection Failed.", Snackbar.LENGTH_SHORT);
+                //snackbar.show();
+
+            }
+        }) {
+        };
+// Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(this).addToRequestQueue(stringRequest);
+        return cal_ver;
+    }
+
+    void deleteallevents() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        getContentResolver().delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events._ID + "= *", null);
     }
 
     public void onRefresh() {
