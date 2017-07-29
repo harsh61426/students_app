@@ -21,7 +21,7 @@ import in.ac.iitm.students.adapters.RecyclerAdapter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class monthFragment extends Fragment {
+public class MonthFragment extends Fragment {
 
     public static String[][] day, date, desc, holiday;
 
@@ -89,7 +89,7 @@ public class monthFragment extends Fragment {
         holiday[5] = new String[31];
     }
 
-    public monthFragment() {
+    public MonthFragment() {
         // Required empty public constructor
     }
 

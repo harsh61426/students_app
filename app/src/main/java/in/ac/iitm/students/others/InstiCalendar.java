@@ -31,7 +31,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import in.ac.iitm.students.fragments.monthFragment;
+import in.ac.iitm.students.fragments.MonthFragment;
 import in.ac.iitm.students.objects.Calendar_Event;
 
 /**
@@ -106,22 +106,22 @@ public class InstiCalendar {
             String name = reader.nextName();
             if (name.equals("date")) {
                 event.setDate(Integer.parseInt(reader.nextString()));
-                monthFragment.date[month - 6][i] = String.valueOf(event.getDate());
+                MonthFragment.date[month - 6][i] = String.valueOf(event.getDate());
 
             } else if (name.equals("day")) {
                 event.setDay(reader.nextString());
-                monthFragment.day[month - 6][i] = event.getDay();
+                MonthFragment.day[month - 6][i] = event.getDay();
 
             } else if (name.equals("details")) {
                 event.setDetails(reader.nextString());
-                monthFragment.desc[month - 6][i] = event.getDetails();
+                MonthFragment.desc[month - 6][i] = event.getDetails();
 
             } else if (name.equals("holiday")) {
                 event.setHoliday(reader.nextString().equals("TRUE"));
                 if (event.isHoliday()) {
-                    monthFragment.holiday[month - 6][i] = "TRUE";
+                    MonthFragment.holiday[month - 6][i] = "TRUE";
                 } else {
-                    monthFragment.holiday[month - 6][i] = "FALSE";
+                    MonthFragment.holiday[month - 6][i] = "FALSE";
                 }
 
             } else if (name.equals("remind")) {

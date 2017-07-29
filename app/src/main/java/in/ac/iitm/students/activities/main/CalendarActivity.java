@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -34,18 +33,18 @@ import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
 import in.ac.iitm.students.adapters.RecyclerAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
-import in.ac.iitm.students.fragments.monthFragment;
+import in.ac.iitm.students.fragments.MonthFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-import static in.ac.iitm.students.fragments.monthFragment.date_list;
-import static in.ac.iitm.students.fragments.monthFragment.day_list;
-import static in.ac.iitm.students.fragments.monthFragment.desc_list;
-import static in.ac.iitm.students.fragments.monthFragment.holiday_list;
-import static in.ac.iitm.students.fragments.monthFragment.rv;
+import static in.ac.iitm.students.fragments.MonthFragment.date_list;
+import static in.ac.iitm.students.fragments.MonthFragment.day_list;
+import static in.ac.iitm.students.fragments.MonthFragment.desc_list;
+import static in.ac.iitm.students.fragments.MonthFragment.holiday_list;
+import static in.ac.iitm.students.fragments.MonthFragment.rv;
 
 /**
  * Created by admin on 14-12-2016.
@@ -62,7 +61,6 @@ public class CalendarActivity extends AppCompatActivity
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,8 +104,7 @@ public class CalendarActivity extends AppCompatActivity
             }
         }
 
-        relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
-        // Set the content of the activity to use the activity_main.xml layout file
+
         currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
         currentlyDisplayedMonth -= 6;
         //monthForRecyclerView = currentMonth;
@@ -132,11 +129,11 @@ public class CalendarActivity extends AppCompatActivity
                 int current = position % 6;
                 monthForRecyclerView = current + 6;
                 currentlyDisplayedMonth = current;
-                monthFragment.resetLists();
-                monthFragment.adapter.notifyDataSetChanged();
-                monthFragment.setMonthName(CalendarActivity.currentlyDisplayedMonth);
-                monthFragment.adapter = new RecyclerAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
-                rv.setAdapter(monthFragment.adapter);
+                MonthFragment.resetLists();
+                MonthFragment.adapter.notifyDataSetChanged();
+                MonthFragment.setMonthName(CalendarActivity.currentlyDisplayedMonth);
+                MonthFragment.adapter = new RecyclerAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
+                rv.setAdapter(MonthFragment.adapter);
             }
 
             @Override

@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
@@ -33,6 +35,7 @@ import in.ac.iitm.students.complaint_box.activities.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.MessAndFacilitiesActivity;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
+import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
@@ -79,6 +82,19 @@ public class ComplaintBoxActivity extends AppCompatActivity implements Navigatio
 
         // Find the View that shows the hostel complaints
         CardView hostel = (CardView) findViewById(R.id.cv_hostel);
+
+        NetworkImageView iv_hostel = (NetworkImageView) findViewById(R.id.hostel);
+        NetworkImageView iv_general = (NetworkImageView) findViewById(R.id.general);
+        NetworkImageView iv_mess_fac = (NetworkImageView) findViewById(R.id.mess_fac);
+
+        String img_himalaya = "https://students.iitm.ac.in/studentsapp/complaints_portal/himalaya.jpg";
+        String img_ccw = "https://students.iitm.ac.in/studentsapp/complaints_portal/ccw_office.jpg";
+        String img_sac = "https://students.iitm.ac.in/studentsapp/complaints_portal/sac.jpg";
+
+        ImageLoader imageLoader = MySingleton.getInstance(this).getImageLoader();
+        iv_hostel.setImageUrl(img_ccw, imageLoader);
+        iv_general.setImageUrl(img_sac, imageLoader);
+        iv_mess_fac.setImageUrl(img_himalaya, imageLoader);
 
         // Set a click listener on that View
         hostel.setOnClickListener(new View.OnClickListener() {
