@@ -26,21 +26,13 @@ import java.util.Calendar;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
-import in.ac.iitm.students.adapters.DateAdapter;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
-import in.ac.iitm.students.fragments.MonthFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
-
-import static in.ac.iitm.students.fragments.MonthFragment.date_list;
-import static in.ac.iitm.students.fragments.MonthFragment.day_list;
-import static in.ac.iitm.students.fragments.MonthFragment.desc_list;
-import static in.ac.iitm.students.fragments.MonthFragment.holiday_list;
-import static in.ac.iitm.students.fragments.MonthFragment.rv;
 
 /**
  * Created by admin on 14-12-2016.
@@ -116,7 +108,7 @@ public class CalendarActivity extends AppCompatActivity
 
         // Create an adapter that knows which fragment should be shown on each page
         MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
-        //MonthFmAdapter.eventArrayList = InstiCalendar.eventArrayList;
+        MonthFmAdapter.cal_events = InstiCalendar.cal_events;
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(currentlyDisplayedMonth);
@@ -129,14 +121,16 @@ public class CalendarActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
+                /*
                 int current = position % 6;
                 monthForRecyclerView = current + 6;
                 currentlyDisplayedMonth = current;
                 MonthFragment.resetLists();
                 MonthFragment.adapter.notifyDataSetChanged();
                 MonthFragment.setMonthName(CalendarActivity.currentlyDisplayedMonth);
-                MonthFragment.adapter = new DateAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
+                MonthFragment.adapter = new DayAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
                 rv.setAdapter(MonthFragment.adapter);
+                */
             }
 
             @Override
@@ -148,7 +142,7 @@ public class CalendarActivity extends AppCompatActivity
         //  recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         //layoutManager = new LinearLayoutManager(this);
         //recyclerView.setLayoutManager(layoutManager);
-        //recyclerAdapter= new DateAdapter();
+        //recyclerAdapter= new DayAdapter();
         //recyclerView.setAdapter(recyclerAdapter);
 
 

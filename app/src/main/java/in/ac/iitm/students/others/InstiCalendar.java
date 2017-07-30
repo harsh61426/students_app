@@ -39,7 +39,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
  */
 
 public class InstiCalendar {
-    public static ArrayList<ArrayList<Calendar_Event>> eventArrayList = new ArrayList<>();
+    public static ArrayList<ArrayList<Calendar_Event>> cal_events;
     static long CalID;
     private Context context;
     private String cal_ver = "0";
@@ -50,44 +50,57 @@ public class InstiCalendar {
 
     private static void readMonthObject(JsonReader reader, Context context, int mode) throws IOException {
 
+        ArrayList<ArrayList<Calendar_Event>> cal_events = new ArrayList<>();
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
             if (name.equals("january")) {
-                readMonthArray(reader, 0, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 0, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("february")) {
-                readMonthArray(reader, 1, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 1, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("march")) {
-                readMonthArray(reader, 2, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 2, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("april")) {
-                readMonthArray(reader, 3, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 3, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("may")) {
-                readMonthArray(reader, 4, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 4, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("june")) {
-                readMonthArray(reader, 5, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 5, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("july")) {
-                readMonthArray(reader, 6, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 6, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("august")) {
-                readMonthArray(reader, 7, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 7, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("september")) {
-                readMonthArray(reader, 8, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 8, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("october")) {
-                readMonthArray(reader, 9, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 9, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("november")) {
-                readMonthArray(reader, 10, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 10, context, mode);
+                cal_events.add(eventList);
 
             } else if (name.equals("december")) {
-                readMonthArray(reader, 11, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 11, context, mode);
+                cal_events.add(eventList);
 
             } else {
                 reader.skipValue();
@@ -95,9 +108,11 @@ public class InstiCalendar {
 
         }
         reader.endObject();
+        InstiCalendar.cal_events = cal_events;
+
     }
 
-    private static void readDayObject(JsonReader reader, int month, int i, Context context, int mode) throws IOException {
+    private static Calendar_Event readDayObject(JsonReader reader, int month, int i, Context context, int mode) throws IOException {
 
         Calendar_Event event = new Calendar_Event();
 
@@ -127,7 +142,7 @@ public class InstiCalendar {
         }
         reader.endObject();
         event.setMonth(month);
-        eventArrayList.add(event);
+        //eventArrayList.add(event);
 
         /*
         MonthFragment.date[month - 6][i] = String.valueOf(event.getDate());
@@ -143,17 +158,21 @@ public class InstiCalendar {
         if (mode == 0 && event.getDetails().length() > 0 && !exists(event, context)) {
             insertEvents(CalID, event, context);
         }
+        return event;
     }
 
-    private static void readMonthArray(JsonReader reader, int month, Context context, int mode) throws IOException {
+    private static ArrayList<Calendar_Event> readMonthArray(JsonReader reader, int month, Context context, int mode) throws IOException {
 
+        ArrayList<Calendar_Event> eventList = new ArrayList<>();
         reader.beginArray();
         int i = 0;
         while (reader.hasNext()) {
-            readDayObject(reader, month, i, context, mode);
+            Calendar_Event event = readDayObject(reader, month, i, context, mode);
+            eventList.add(event);
             i++;
         }
         reader.endArray();
+        return eventList;
     }
 
     private static void sendJsonRequest(final Context context, final int mode) {

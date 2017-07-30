@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
-import in.ac.iitm.students.adapters.DateAdapter;
+import in.ac.iitm.students.adapters.DayAdapter;
 import in.ac.iitm.students.objects.Calendar_Event;
 
 
@@ -24,7 +24,9 @@ import in.ac.iitm.students.objects.Calendar_Event;
  */
 public class MonthFragment extends Fragment {
     public static String[][] day, date, desc, holiday;
-    public static DateAdapter adapter;
+
+    // todo dont make them static, find a work-around
+    public static DayAdapter adapter;
     public static RecyclerView rv;
     public static TextView monthName;
     public static ArrayList<String> day_list, date_list, desc_list, holiday_list;
@@ -87,7 +89,7 @@ public class MonthFragment extends Fragment {
         holiday[5] = new String[31];
     }
 
-    private Calendar_Event event;
+    private ArrayList<Calendar_Event> month_events;
 
 
     public MonthFragment() {
@@ -141,7 +143,7 @@ public class MonthFragment extends Fragment {
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_month);
         rv.setHasFixedSize(true);
-        adapter = new DateAdapter(day_list, date_list, desc_list, holiday_list, getActivity());
+        adapter = new DayAdapter(month_events);
         rv.setAdapter(adapter);
 
 
@@ -156,7 +158,7 @@ public class MonthFragment extends Fragment {
         super.onStop();
     }
 
-    public void setEventList(Calendar_Event event) {
-        this.event = event;
+    public void setEventList(ArrayList<Calendar_Event> month_events) {
+        this.month_events = month_events;
     }
 }

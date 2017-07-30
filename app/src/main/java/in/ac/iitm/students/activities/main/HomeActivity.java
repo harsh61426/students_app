@@ -70,7 +70,6 @@ import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
-import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -222,7 +221,7 @@ public class HomeActivity extends AppCompatActivity
                 // sees the explanation, try again to request the permission.
 
                 Snackbar snackbar = Snackbar
-                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
+                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_INDEFINITE);
                 snackbar.show();
 
                 ActivityCompat.requestPermissions(this,
@@ -242,7 +241,7 @@ public class HomeActivity extends AppCompatActivity
                 // result of the request.
             }
         } else {
-            new InstiCalendar(HomeActivity.this).fetchCalData(0);
+            //           new InstiCalendar(HomeActivity.this).fetchCalData(0);
         }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
@@ -285,7 +284,7 @@ public class HomeActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
+                    //               new InstiCalendar(HomeActivity.this).fetchCalData(0);
 
 
                 } else {
@@ -798,26 +797,7 @@ public class HomeActivity extends AppCompatActivity
                 holder.rlHomeFeed.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        switch (topic) {
-                            case "eml": {
-                                //Intent intent = new Intent(context, EMLActivity.class);
-                                //context.startActivity(intent);
-                                break;
-                            }
-                            case "t5e": {
-                                //Intent intent = new Intent(context, T5EActivity.class);
-                                //context.startActivity(intent);
-                                break;
-                            }
-                            default: {
-                                try {
-                                    HomeActivity.showAlert(HomeActivity.this, title, detail);
-                                } catch (Exception e) {
-                                    Log.e("tada", "home fragment", e);
-                                }
-                                break;
-                            }
-                        }
+                        HomeActivity.showAlert(HomeActivity.this, title, detail);
 
                     }
                 });

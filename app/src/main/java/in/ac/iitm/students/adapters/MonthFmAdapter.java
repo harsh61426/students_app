@@ -14,7 +14,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
  */
 
 public class MonthFmAdapter extends FragmentPagerAdapter {
-    public static ArrayList<Calendar_Event> eventArrayList = new ArrayList<>();
+    public static ArrayList<ArrayList<Calendar_Event>> cal_events;
 
     public MonthFmAdapter(FragmentManager fm) {
         super(fm);
@@ -26,7 +26,7 @@ public class MonthFmAdapter extends FragmentPagerAdapter {
         //   CalendarActivity.currentlyDisplayedMonth = current;
 //        MonthFragment.adapter.notifyDataSetChanged();
         MonthFragment monthFragment = new MonthFragment();
-        monthFragment.setEventList(eventArrayList.get(position));
+        monthFragment.setEventList(cal_events.get(position));
         return monthFragment;
     }
 
