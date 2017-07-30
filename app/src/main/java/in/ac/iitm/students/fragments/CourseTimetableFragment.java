@@ -43,7 +43,7 @@ public class CourseTimetableFragment extends Fragment {
             {R.id.w1,R.id.w2,R.id.w3,R.id.w4,R.id.w5,R.id.w6,R.id.w7,R.id.w8},
             {R.id.h1,R.id.h2,R.id.h3,R.id.h4,R.id.h5,R.id.h6,R.id.h7,R.id.h8},
             {R.id.f1,R.id.f2,R.id.f3,R.id.f4,R.id.f5,R.id.f6,R.id.f7,R.id.f8}};
-    int texids[] = {R.id.mex,R.id.tex,R.id.wex,R.id.hex,R.id.fex,R.id.mex_m,R.id.tex_m,R.id.wex_m,R.id.hex_m,R.id.fex_m};
+    int texids[] = {R.id.mex,R.id.tex,R.id.wex,R.id.hex,R.id.fex};
     TextView tvs[][] = new TextView[5][8];
     char slots[][] = new char[5][8];
     boolean bunk[][] = new boolean[5][8];

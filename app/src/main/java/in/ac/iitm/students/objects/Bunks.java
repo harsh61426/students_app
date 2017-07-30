@@ -12,6 +12,7 @@ public class Bunks extends Course {
 
     private int bunk_tot;
     private int bunk_done;
+    private ArrayList<RowCol> rowCols;
 
     public int getBunk_done() {
         return bunk_done;
@@ -29,4 +30,11 @@ public class Bunks extends Course {
         this.bunk_tot = bunk_tot;
     }
 
+    public void setRowCols(ArrayList<RowCol> rowCols) {
+        this.rowCols = rowCols;
+    }
+
+    public ArrayList<RowCol> getRowCols() {
+        return rowCols;
+    }
 }
