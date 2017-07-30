@@ -49,7 +49,7 @@ public class BunksAdapter extends ArrayAdapter {
         else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.slot.setText(Character.toString(bunks.get(position).getSlot())+" slot");
+        holder.slot.setText("Slot "+Character.toString(bunks.get(position).getSlot()));
         holder.course.setText("Course: "+bunks.get(position).getCourse_id());
         holder.bunkcount.setText(bunks.get(position).getBunk_done()+"/"+bunks.get(position).getBunk_tot());
         if(bunks.get(position).getBunk_done()*2>=bunks.get(position).getBunk_tot())
