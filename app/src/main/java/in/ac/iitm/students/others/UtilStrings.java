@@ -34,6 +34,10 @@ public class    UtilStrings {
     public static String COURSE_DAYS = "crsdays";
     public static String BUNKS_TOTAL = "bunktot";
     public static String BUNKS_DONE = "bunkdone";
+    public static String ROWCOLS_NUM = "rcnum";
+    public static String ROWCOLS_COUNT = "rccount";
+    public static String ROW = "row";
+    public static String COLUMN = "col";
 
     //Format: COURSE_NUM+int+SLOT = slot[i] and so on..
 

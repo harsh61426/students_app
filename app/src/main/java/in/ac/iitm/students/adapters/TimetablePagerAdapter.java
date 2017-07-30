@@ -36,12 +36,14 @@ public class TimetablePagerAdapter extends FragmentPagerAdapter{
     public CharSequence getPageTitle(int position) {
         switch(position)
         {
-            case 0: return "Courses";
+            case 0: return "TimeTable";
             //case 1: return "TimeTable";
             case 1: return "Bunk Monitor";
             default: return null;
         }
     }
+
+
 
     @Override
     public int getItemPosition(Object object) {
