@@ -142,9 +142,11 @@ public class GraphGetRequest  {
                                                             else if(PostActivity.isT5e){
                                                                 PostActivity.pageadapter2.notifyDataSetChanged();
                                                             }
+                                                            else if(PostActivity.isLitsoc || PostActivity.isTechsoc){
+                                                                PostActivity.pageadapter3.notifyDataSetChanged();
+                                                            }
                                                             else {
                                                                 PostActivity.pageadapter1.notifyDataSetChanged();
-
                                                             }
 
                                                         }

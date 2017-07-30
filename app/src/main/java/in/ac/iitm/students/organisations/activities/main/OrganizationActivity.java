@@ -146,11 +146,23 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
             yt_username.add(indexofyoutube[j].substring(indexofyoutube[j].lastIndexOf("|") + 1));
         }
 
+        String describe;
+
         for (int i = 0; i < PagesList.length; i++) {
             final int finalI = i;
+            final int finalI1 = i;
+            if(PagesList[i].substring(PagesList[i].lastIndexOf("|") + 1).equalsIgnoreCase("Litsoc") || PagesList[i].substring(PagesList[i].lastIndexOf("|") + 1).equalsIgnoreCase("Techsoc")){
+                describe = "description";
+                PagesList[i] = PagesList[i].substring(PagesList[i].lastIndexOf("|") - 1);
+
+            }
+            else{
+                describe = "about";
+            }
+
             final GraphRequest request = new GraphRequest(
                     key,
-                    PagesList[i] + "?fields=picture.type(large),name,about",
+                    PagesList[i] + "?fields=picture.type(large),name,"+describe,
                     null,
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
@@ -192,6 +204,8 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                                         orgsList.add(org);
                                         adapter = new OrganisationAdapter(OrganizationActivity.this, orgsList);
                                         rv_org_list.setAdapter(adapter);
+                                        adapter.notifyItemInserted(finalI1);
+                                        adapter.notifyDataSetChanged();
                                 }
                             }
                         }
@@ -221,6 +235,7 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                             orgsList.add(org);
                             adapter = new OrganisationAdapter(OrganizationActivity.this, orgsList);
                             rv_org_list.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             orgsList.add(org);
