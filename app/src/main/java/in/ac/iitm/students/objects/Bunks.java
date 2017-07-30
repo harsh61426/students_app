@@ -1,10 +1,15 @@
 package in.ac.iitm.students.objects;
 
+import android.inputmethodservice.Keyboard;
+
+import java.util.ArrayList;
+
 /**
  * Created by SAM10795 on 19-06-2017.
  */
 
 public class Bunks extends Course {
+
     private int bunk_tot;
     private int bunk_done;
 
@@ -23,4 +28,5 @@ public class Bunks extends Course {
     public void setBunk_tot(int bunk_tot) {
         this.bunk_tot = bunk_tot;
     }
+
 }

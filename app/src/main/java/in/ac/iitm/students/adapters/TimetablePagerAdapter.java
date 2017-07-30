@@ -6,16 +6,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import in.ac.iitm.students.fragments.BunkMonitorFragment;
 import in.ac.iitm.students.fragments.CourseTimetableFragment;
+import in.ac.iitm.students.fragments.FreshieTimetableFragment;
 
 /**
  * Created by SAM10795 on 20-06-2017.
  */
 
-public class CalendarPagerAdapter extends FragmentPagerAdapter{
+public class TimetablePagerAdapter extends FragmentPagerAdapter{
 
     private static int NUM_ITEMS = 2;
 
-    public CalendarPagerAdapter(FragmentManager fragmentManager)
+    public TimetablePagerAdapter(FragmentManager fragmentManager)
     {
         super(fragmentManager);
     }

@@ -20,13 +20,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
-import in.ac.iitm.students.adapters.CalendarPagerAdapter;
+import in.ac.iitm.students.adapters.TimetablePagerAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
@@ -41,7 +42,7 @@ public class TimetableActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager viewPager;
-    private CalendarPagerAdapter calendarPagerAdapter;
+    private TimetablePagerAdapter timetablePagerAdapter;
     private Toolbar toolbar;
     private DrawerLayout drawer;
 
@@ -52,9 +53,15 @@ public class TimetableActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if(Utils.isFreshie(this))
+        {
+            Toast.makeText(this,"This feature is currently under development",Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        calendarPagerAdapter = new CalendarPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(calendarPagerAdapter);
+        timetablePagerAdapter = new TimetablePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(timetablePagerAdapter);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -92,8 +99,8 @@ public class TimetableActivity extends AppCompatActivity
         return viewPager;
     }
 
-    public CalendarPagerAdapter returnadapter() {
-        return calendarPagerAdapter;
+    public TimetablePagerAdapter returnadapter() {
+        return timetablePagerAdapter;
     }
 
     public boolean isOnline() {
@@ -146,7 +153,7 @@ public class TimetableActivity extends AppCompatActivity
         }
         else if(id==R.id.action_editcour) {
             Utils.saveprefInt("TT_Screen",0,this);
-            calendarPagerAdapter.notifyDataSetChanged();
+            timetablePagerAdapter.notifyDataSetChanged();
             return true;
         }
 
