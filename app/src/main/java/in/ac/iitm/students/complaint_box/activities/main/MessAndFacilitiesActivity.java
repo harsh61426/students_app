@@ -7,18 +7,19 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
@@ -30,25 +31,32 @@ import in.ac.iitm.students.activities.main.ImpContactsActivity;
 import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
+import in.ac.iitm.students.complaint_box.activities.MessOrFacilitiesListActivity;
+import in.ac.iitm.students.complaint_box.activities.MyComplaintsActivity;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
-import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-public class ComplaintBoxActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private Toolbar toolbar;
-    private ActionBarDrawerToggle toggle;
+public class MessAndFacilitiesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    Toolbar toolbar;
     private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complaints_box);
+        setContentView(R.layout.activity_mess_and_facilities);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setElevation(0);
+        actionBar.setTitle(R.string.title_activity_mess_and_facilities);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout_complaint_box);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout_mess_and_fac);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -77,57 +85,44 @@ public class ComplaintBoxActivity extends AppCompatActivity implements Navigatio
                 .centerCrop()
                 .into(imageView);
 
-        // Find the View that shows the hostel complaints
-        CardView hostel = (CardView) findViewById(R.id.cv_hostel);
+        TextView header_name = (TextView) findViewById(R.id.header_name);
 
-        NetworkImageView iv_hostel = (NetworkImageView) findViewById(R.id.hostel);
-        NetworkImageView iv_general = (NetworkImageView) findViewById(R.id.general);
-        NetworkImageView iv_mess_fac = (NetworkImageView) findViewById(R.id.mess_fac);
+//        FirebaseInstanceId.getInstance().getToken();
+//        FirebaseMessaging.getInstance().subscribeToTopic("test");
+        String firebaseToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Firebase::", "Id" + firebaseToken);
 
-        String img_himalaya = "https://students.iitm.ac.in/studentsapp/complaints_portal/himalaya.JPG";
-        String img_ccw = "https://students.iitm.ac.in/studentsapp/complaints_portal/ccw_office.jpg";
-        String img_sac = "https://students.iitm.ac.in/studentsapp/complaints_portal/sac.jpg";
+        header_name.setText("Logged in as " + name);
 
-        ImageLoader imageLoader = MySingleton.getInstance(this).getImageLoader();
-        iv_hostel.setImageUrl(img_ccw, imageLoader);
-        iv_general.setImageUrl(img_sac, imageLoader);
-        iv_mess_fac.setImageUrl(img_himalaya, imageLoader);
-
-        // Set a click listener on that View
-        hostel.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the hostel cardView is clicked on.
+        RelativeLayout complaint_thread = (RelativeLayout) findViewById(R.id.complaint_thread);
+        complaint_thread.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent hostelIntent = new Intent(ComplaintBoxActivity.this, HostelComplaintsActivity.class);
-                startActivity(hostelIntent);
+            public void onClick(View v) {
+                Intent in3 = new Intent(MessAndFacilitiesActivity.this, MyComplaintsActivity.class);
+                startActivity(in3);
             }
         });
 
-        // Find the View that shows the mess and facilities complaints
-        CardView mess_fac = (CardView) findViewById(R.id.cv_mess_fac);
+    }
 
-        // Set a click listener on that View
-        mess_fac.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the mess and facilities cardView is clicked on.
-            @Override
-            public void onClick(View view) {
-                Intent mess_facIntent = new Intent(ComplaintBoxActivity.this, MessAndFacilitiesActivity.class);
-                startActivity(mess_facIntent);
-            }
-        });
+    public void onMessClick(View v) {
+        changeActivity("Mess");
+    }
 
-        // Find the View that shows the general complaints
-        CardView general = (CardView) findViewById(R.id.cv_general);
+    private void changeActivity(String type) {
+        Intent i = new Intent(this, MessOrFacilitiesListActivity.class);
+        i.putExtra("type", type);
+        startActivity(i);
+    }
 
-        // Set a click listener on that View
-        general.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the general cardView is clicked on.
-            @Override
-            public void onClick(View view) {
-                Intent generalIntent = new Intent(ComplaintBoxActivity.this, GeneralComplaintsActivity.class);
-                startActivity(generalIntent);
-            }
-        });
+    public void onFacilitiesClick(View v) {
+        changeActivity("Facility");
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MessAndFacilitiesActivity.this, ComplaintBoxActivity.class);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -137,7 +132,7 @@ public class ComplaintBoxActivity extends AppCompatActivity implements Navigatio
         int id = item.getItemId();
         Intent intent = new Intent();
         boolean flag = false;
-        final Context context = ComplaintBoxActivity.this;
+        final Context context = MessAndFacilitiesActivity.this;
 
         if (id == R.id.nav_home) {
             intent = new Intent(context, HomeActivity.class);
@@ -179,7 +174,7 @@ public class ComplaintBoxActivity extends AppCompatActivity implements Navigatio
                         @Override
                         public void run() {
                             LogOutAlertClass lg = new LogOutAlertClass();
-                            lg.isSure(ComplaintBoxActivity.this);
+                            lg.isSure(MessAndFacilitiesActivity.this);
                         }
                     }
                     , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
@@ -208,16 +203,6 @@ public class ComplaintBoxActivity extends AppCompatActivity implements Navigatio
     }
 
     @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            Intent intent = new Intent(ComplaintBoxActivity.this, HomeActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -235,12 +220,12 @@ public class ComplaintBoxActivity extends AppCompatActivity implements Navigatio
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         } else if (id == R.id.action_about) {
-            Intent intent = new Intent(ComplaintBoxActivity.this, AboutUsActivity.class);
+            Intent intent = new Intent(MessAndFacilitiesActivity.this, AboutUsActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_log_out) {
             LogOutAlertClass lg = new LogOutAlertClass();
-            lg.isSure(ComplaintBoxActivity.this);
+            lg.isSure(MessAndFacilitiesActivity.this);
             return true;
         }
 

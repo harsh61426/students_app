@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.ac.iitm.students.complaint_box.activities.HostelComplaintsActivity">
+    tools:context="in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity">
 
-    <ImageView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/coming_soon" />
+        android:gravity="center"
+        android:text="Coming Soon!"
+        android:textSize="30dp" />
 
 </LinearLayout>

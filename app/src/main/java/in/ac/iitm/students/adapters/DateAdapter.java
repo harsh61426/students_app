@@ -23,11 +23,11 @@ import in.ac.iitm.students.activities.main.CalendarActivity;
  * Created by harshitha on 8/6/17.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     ArrayList<String> day_dataset, date_dataset, desc_dataset, holiday_dataset;
     Context context;
 
-    public RecyclerAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
+    public DateAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
         day_dataset = list1;
         date_dataset = list2;
         desc_dataset = list3;

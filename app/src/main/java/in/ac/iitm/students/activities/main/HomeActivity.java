@@ -242,7 +242,7 @@ public class HomeActivity extends AppCompatActivity
                 // result of the request.
             }
         } else {
-            new InstiCalendar(HomeActivity.this).fetchCalData();
+            new InstiCalendar(HomeActivity.this).fetchCalData(0);
         }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
@@ -285,7 +285,7 @@ public class HomeActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    new InstiCalendar(HomeActivity.this).fetchCalData();
+                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
 
 
                 } else {

@@ -1,4 +1,4 @@
-package in.ac.iitm.students.complaint_box.activities;
+package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

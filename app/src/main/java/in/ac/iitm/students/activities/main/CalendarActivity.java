@@ -1,6 +1,5 @@
 package in.ac.iitm.students.activities.main;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,9 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -30,8 +26,8 @@ import java.util.Calendar;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.adapters.DateAdapter;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
-import in.ac.iitm.students.adapters.RecyclerAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
 import in.ac.iitm.students.fragments.MonthFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
@@ -56,7 +52,7 @@ public class CalendarActivity extends AppCompatActivity
     public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
     public static int currentlyDisplayedMonth = 0; // this variable shows the value -6 (ex: for july is 6 instead it shows 0)
     //RecyclerView recyclerView;
-    // RecyclerView.Adapter recyclerAdapter;
+    //RecyclerView.Adapter recyclerAdapter;
     //RecyclerView.LayoutManager layoutManager;
 
     private Toolbar toolbar;
@@ -69,6 +65,7 @@ public class CalendarActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*
         //Checking the permission for writing calendar
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_CALENDAR)
@@ -103,7 +100,13 @@ public class CalendarActivity extends AppCompatActivity
                 // result of the request.
             }
         }
+        else{
+            new InstiCalendar(CalendarActivity.this).fetchCalData(1);
+        }
+        */
 
+        InstiCalendar instiCalendar = new InstiCalendar(this);
+        instiCalendar.fetchCalData(1);
 
         currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
         currentlyDisplayedMonth -= 6;
@@ -113,7 +116,7 @@ public class CalendarActivity extends AppCompatActivity
 
         // Create an adapter that knows which fragment should be shown on each page
         MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
-
+        //MonthFmAdapter.eventArrayList = InstiCalendar.eventArrayList;
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(currentlyDisplayedMonth);
@@ -132,7 +135,7 @@ public class CalendarActivity extends AppCompatActivity
                 MonthFragment.resetLists();
                 MonthFragment.adapter.notifyDataSetChanged();
                 MonthFragment.setMonthName(CalendarActivity.currentlyDisplayedMonth);
-                MonthFragment.adapter = new RecyclerAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
+                MonthFragment.adapter = new DateAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
                 rv.setAdapter(MonthFragment.adapter);
             }
 
@@ -145,7 +148,7 @@ public class CalendarActivity extends AppCompatActivity
         //  recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         //layoutManager = new LinearLayoutManager(this);
         //recyclerView.setLayoutManager(layoutManager);
-        //recyclerAdapter= new RecyclerAdapter();
+        //recyclerAdapter= new DateAdapter();
         //recyclerView.setAdapter(recyclerAdapter);
 
 
@@ -192,7 +195,7 @@ public class CalendarActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    new InstiCalendar(CalendarActivity.this).fetchCalData();
+                    new InstiCalendar(CalendarActivity.this).fetchCalData(1);
 
 
                 } else {

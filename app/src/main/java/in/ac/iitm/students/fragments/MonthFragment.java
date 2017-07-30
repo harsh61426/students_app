@@ -15,21 +15,19 @@ import java.util.Arrays;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
-import in.ac.iitm.students.adapters.RecyclerAdapter;
+import in.ac.iitm.students.adapters.DateAdapter;
+import in.ac.iitm.students.objects.Calendar_Event;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MonthFragment extends Fragment {
-
     public static String[][] day, date, desc, holiday;
-
-    public static RecyclerAdapter adapter;
+    public static DateAdapter adapter;
     public static RecyclerView rv;
     public static TextView monthName;
     public static ArrayList<String> day_list, date_list, desc_list, holiday_list;
-
 
     static {
         day = new String[6][];
@@ -89,6 +87,9 @@ public class MonthFragment extends Fragment {
         holiday[5] = new String[31];
     }
 
+    private Calendar_Event event;
+
+
     public MonthFragment() {
         // Required empty public constructor
     }
@@ -120,8 +121,8 @@ public class MonthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_april, container, false);
-        monthName = (TextView) rootView.findViewById(R.id.tv_april);
+        View rootView = inflater.inflate(R.layout.fragment_month, container, false);
+        monthName = (TextView) rootView.findViewById(R.id.tv_month_name);
 
         setMonthName(CalendarActivity.currentlyDisplayedMonth);
 
@@ -138,9 +139,9 @@ public class MonthFragment extends Fragment {
         holiday_list = new ArrayList(Arrays.asList(desc[CalendarActivity.currentlyDisplayedMonth]));
 
 
-        rv = (RecyclerView) rootView.findViewById(R.id.rv_april);
+        rv = (RecyclerView) rootView.findViewById(R.id.rv_month);
         rv.setHasFixedSize(true);
-        adapter = new RecyclerAdapter(day_list, date_list, desc_list, holiday_list, getActivity());
+        adapter = new DateAdapter(day_list, date_list, desc_list, holiday_list, getActivity());
         rv.setAdapter(adapter);
 
 
@@ -155,4 +156,7 @@ public class MonthFragment extends Fragment {
         super.onStop();
     }
 
+    public void setEventList(Calendar_Event event) {
+        this.event = event;
+    }
 }
