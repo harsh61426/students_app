@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -151,15 +152,15 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
         for (int i = 0; i < PagesList.length; i++) {
             final int finalI = i;
             final int finalI1 = i;
-            if(PagesList[i].substring(PagesList[i].lastIndexOf("|") + 1).equalsIgnoreCase("Litsoc") || PagesList[i].substring(PagesList[i].lastIndexOf("|") + 1).equalsIgnoreCase("Techsoc")){
+            if(PagesList[i].matches("[0-9]+") && PagesList[i].length()>2){
                 describe = "description";
-                PagesList[i] = PagesList[i].substring(PagesList[i].lastIndexOf("|") - 1);
-
+                Log.i("XXSWFW",describe);
             }
             else{
                 describe = "about";
             }
 
+            final String finalDescribe = describe;
             final GraphRequest request = new GraphRequest(
                     key,
                     PagesList[i] + "?fields=picture.type(large),name,"+describe,
@@ -172,7 +173,14 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                                 final JSONObject jsonresponse = new JSONObject(String.valueOf(response.getJSONObject()));
                                 String pic_url = jsonresponse.getJSONObject("picture").getJSONObject("data").getString("url");
                                 String name = jsonresponse.getString("name");
-                                String about = jsonresponse.getString("about");
+                                String about;
+                                if(finalDescribe.equalsIgnoreCase("description")){
+                                     about = jsonresponse.getString("description");
+                                }
+                                else{
+                                about = jsonresponse.getString("about");
+                                }
+
                                 String id = jsonresponse.getString("id");
                                 org = new OrganisationObject(pic_url, name, id, about);
                             } catch (JSONException e) {
@@ -204,7 +212,6 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                                         orgsList.add(org);
                                         adapter = new OrganisationAdapter(OrganizationActivity.this, orgsList);
                                         rv_org_list.setAdapter(adapter);
-                                        adapter.notifyItemInserted(finalI1);
                                         adapter.notifyDataSetChanged();
                                 }
                             }

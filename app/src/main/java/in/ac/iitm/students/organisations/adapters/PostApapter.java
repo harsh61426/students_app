@@ -33,9 +33,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.AccessToken;
 import com.google.android.youtube.player.YouTubeIntents;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -102,7 +104,7 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
         final String type = Postlist.get(holder.getAdapterPosition()).type;
         final String  s = "video";
         final String s1 = "youtube.com";
-        String strDate = NewsAdapter.getlongtoago(Long.parseLong(Postlist.get(holder.getAdapterPosition()).created_time)) ;
+        String strDate = getlongtoago(Postlist.get(holder.getAdapterPosition()).created_time) ;
         //String datetime = GetLocalDateStringFromUTCString(strDate);
 
         holder.tv_org.setText(pagename);
@@ -148,6 +150,7 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
                     .placeholder(R.color.Imageback)
                     .crossFade(500)
                     .into(holder.iv_content);
+
                             }
 
             if(Postlist.get(holder.getAdapterPosition()).sub_imgurls!=null && Postlist.get(holder.getAdapterPosition()).sub_imgurls.size()!=0) {
@@ -669,6 +672,71 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
         return Postlist.size();
     }
 
+
+    public static String getlongtoago(String createdAt) {
+
+        SimpleDateFormat fb_dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZZZZZ",Locale.getDefault());
+        Long crdate1 = null;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZZZZZ");
+        
+        try {
+            crdate1 = fb_dateFormat.parse(createdAt).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // get current date time with Calendar()
+        Calendar cal = Calendar.getInstance();
+        String currenttime = dateFormat.format(cal.getTime());
+
+        Date CreatedAt = null;
+        Date current = null;
+        try {
+            CreatedAt = (new Date(crdate1));
+            current = dateFormat.parse(currenttime);
+        } catch (java.text.ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // Get msec from each, and subtract.
+        long diff = current.getTime() - CreatedAt.getTime();
+        long diffSeconds = diff / 1000;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+
+        String time = null;
+        if (diffDays > 0) {
+            if (diffDays == 1) {
+                time = diffDays + " day ago";
+            } else {
+                time = diffDays + " days ago ";
+            }
+        } else {
+            if (diffHours > 0) {
+                if (diffHours == 1) {
+                    time = diffHours + " hour ago";
+                } else {
+                    time = diffHours + " hours ago";
+                }
+            } else {
+                if (diffMinutes > 0) {
+                    if (diffMinutes == 1) {
+                        time = diffMinutes + " minute ago";
+                    } else {
+                        time = diffMinutes + " minutes ago";
+                    }
+                } else {
+                    if (diffSeconds > 0) {
+                        time = diffSeconds + " seconds ago";
+                    }
+                }
+
+            }
+        }
+        return time;
+    }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {

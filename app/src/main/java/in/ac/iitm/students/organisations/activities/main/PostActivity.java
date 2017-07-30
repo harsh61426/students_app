@@ -188,6 +188,11 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
 
         callviewpager();
 
+
+
+
+
+
     }
 
     public void getdata(){
@@ -198,7 +203,7 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         }
         GraphGetRequest request = new GraphGetRequest();
         try {
-            request.dorequest(key, pageid + "/posts", null,postList,pd, reaction_url);
+            request.dorequest(key, pageid + "/feed" , null,postList,pd, reaction_url);
         } catch (Exception e) {
             e.printStackTrace();
         }

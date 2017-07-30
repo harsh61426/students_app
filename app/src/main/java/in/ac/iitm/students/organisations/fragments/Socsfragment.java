@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,8 @@ public class Socsfragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
@@ -66,38 +70,33 @@ public class Socsfragment extends Fragment {
 
         pactivity = (PostActivity) getActivity();
 
+
+        TextView tv_head = (TextView)view.findViewById(R.id.tv_heading);
+        TextView tv_message = (TextView)view.findViewById(R.id.tv_message);
+
+        tv_head.setText(PostActivity.Pagename+" Coming Soon");
+        tv_message.setText(PostActivity.Pagedes);
+        tv_message.setMovementMethod(new ScrollingMovementMethod());
+
         /*mRecyclerView = (RecyclerView)view. findViewById(R.id.recyclerfifthsetate);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
         adapter = new NewsAdapter(getContext(),NewsList);
         mRecyclerView.setAdapter(adapter);*/
 
-        Drawable dialog_icon;
-        dialog_icon = ContextCompat.getDrawable(getActivity(), R.drawable.app_logo);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setIcon(dialog_icon);
-        builder.setTitle(PostActivity.Pagename+" Coming Soon!");
-        builder.setMessage(PostActivity.Pagedes)
-                .setNeutralButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.dismiss();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
 
         return view;
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
        /* mRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();*/
+
     }
 
 }
