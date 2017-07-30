@@ -51,7 +51,6 @@ public class CourseTimetableFragment extends Fragment {
     ArrayList<Bunks> bunks;
     View view;
     ViewFlipper flipper;
-    boolean freshie = false;
 
     public CourseTimetableFragment() {
         // Required empty public constructor
@@ -62,24 +61,11 @@ public class CourseTimetableFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        freshie = Utils.isFreshie(getActivity());
-
-        if(!freshie) {
-            view = inflater.inflate(R.layout.fragment_course_timetable, container, false);
-            for(int i = 0;i<5;i++)
-            {
-                TextView textView = (TextView)view.findViewById(texids[i]);
-                textView.setVisibility(View.INVISIBLE);
-            }
-        }
-        else
+        view = inflater.inflate(R.layout.fragment_course_timetable, container, false);
+        for(int i = 0;i<5;i++)
         {
-            view = inflater.inflate(R.layout.fragment_course_timetable_freshie,container,false);
-            for(int i = 0;i<texids.length;i++)
-            {
-                TextView textView = (TextView)view.findViewById(texids[i]);
-                textView.setVisibility(View.INVISIBLE);
-            }
+            TextView textView = (TextView)view.findViewById(texids[i]);
+            textView.setVisibility(View.INVISIBLE);
         }
 
         if(!Utils.getprefBool("OldLaunch_TT",getActivity()))
@@ -89,15 +75,6 @@ public class CourseTimetableFragment extends Fragment {
             dialog.show();
             Utils.saveprefBool("OldLaunch_TT",true,getActivity());
         }
-
-
-        Calendar calendar = Calendar.getInstance();
-        int week = calendar.get(Calendar.WEEK_OF_YEAR);
-        if(week!=Utils.getprefInt("LastLogTT",getActivity()))
-        {
-            clearbunks();
-        }
-        Utils.saveprefInt("LastLogTT",week,getActivity());
 
         flipper = (ViewFlipper) view.findViewById(R.id.flipper);
         flipper.setDisplayedChild(Utils.getprefInt("TT_Screen", getActivity()));
@@ -160,6 +137,14 @@ public class CourseTimetableFragment extends Fragment {
         for (Bunks c : bunks) {
             mapslots(c.getSlot(), c.getDays());
         }
+
+        Calendar calendar = Calendar.getInstance();
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        if(week>Utils.getprefInt("LastLogTT",getActivity()))
+        {
+            clearbunks();
+        }
+        Utils.saveprefInt("LastLogTT",week,getActivity());
 
 
 
@@ -274,108 +259,52 @@ public class CourseTimetableFragment extends Fragment {
         switch(c)
         {
             case 'A': {
-                if(freshie) {
-                    slots[0][0] = (days % 2 == 0) ? 'A' : 'X';
-                    slots[3][3] = (days % 3 == 0) ? 'A' : 'X';
-                    slots[4][2] = (days % 5 == 0) ? 'A' : 'X';
-                }
-                else
-                {
-                    slots[0][0] = (days%2 == 0) ? 'A' : 'X';
-                    slots[1][4] = (days%3 == 0) ? 'A' : 'X';
-                    slots[3][3] = (days%5 == 0) ? 'A' : 'X';
-                    slots[4][2] = (days%7 == 0) ? 'A' : 'X';
-                }
+                slots[0][0] = (days%2 == 0) ? 'A' : 'X';
+                slots[1][4] = (days%3 == 0) ? 'A' : 'X';
+                slots[3][3] = (days%5 == 0) ? 'A' : 'X';
+                slots[4][2] = (days%7 == 0) ? 'A' : 'X';
                 break;
             }
             case 'B': {
-                if(freshie) {
-                    slots[0][1] = (days % 2 == 0) ? 'B' : 'X';
-                    slots[1][0] = (days % 3 == 0) ? 'B' : 'X';
-                    slots[4][3] = (days % 5 == 0) ? 'B' : 'X';
-                }
-
-                else
-                {
-                    slots[0][1] = (days%2 == 0) ? 'B' : 'X';
-                    slots[1][0] = (days%3 == 0) ? 'B' : 'X';
-                    slots[2][4] = (days%5 == 0) ? 'B' : 'X';
-                    slots[4][3] = (days%7 == 0) ? 'B' : 'X';
-                }
+                slots[0][1] = (days%2 == 0) ? 'B' : 'X';
+                slots[1][0] = (days%3 == 0) ? 'B' : 'X';
+                slots[2][4] = (days%5 == 0) ? 'B' : 'X';
+                slots[4][3] = (days%7 == 0) ? 'B' : 'X';
                 break;
             }
             case 'C': {
-                if(freshie) {
-                    slots[0][2] = (days % 2 == 0) ? 'C' : 'X';
-                    slots[1][1] = (days % 3 == 0) ? 'C' : 'X';
-                    slots[2][0] = (days % 5 == 0) ? 'C' : 'X';
-                }
-                else
-                {
-                    slots[0][2] = (days%2 == 0) ? 'C' : 'X';
-                    slots[1][1] = (days%3 == 0) ? 'C' : 'X';
-                    slots[2][0] = (days%5 == 0) ? 'C' : 'X';
-                    slots[4][4] = (days%7 == 0) ? 'C' : 'X';
-                }
+                slots[0][2] = (days%2 == 0) ? 'C' : 'X';
+                slots[1][1] = (days%3 == 0) ? 'C' : 'X';
+                slots[2][0] = (days%5 == 0) ? 'C' : 'X';
+                slots[4][4] = (days%7 == 0) ? 'C' : 'X';
                 break;
             }
             case 'D': {
-                if(freshie) {
-                    slots[0][3] = (days % 2 == 0) ? 'D' : 'X';
-                    slots[1][2] = (days % 3 == 0) ? 'D' : 'X';
-                    slots[2][1] = (days % 5 == 0) ? 'D' : 'X';
-                }
-                else
-                {
-                    slots[0][3] = (days%2 == 0) ? 'D' : 'X';
-                    slots[1][2] = (days%3 == 0) ? 'D' : 'X';
-                    slots[2][1] = (days%5 == 0) ? 'D' : 'X';
-                    slots[3][4] = (days%7 == 0) ? 'D' : 'X';
-                }
+                slots[0][3] = (days%2 == 0) ? 'D' : 'X';
+                slots[1][2] = (days%3 == 0) ? 'D' : 'X';
+                slots[2][1] = (days%5 == 0) ? 'D' : 'X';
+                slots[3][4] = (days%7 == 0) ? 'D' : 'X';
                 break;
             }
             case 'E': {
-                if(freshie) {
-                    slots[1][3] = (days % 2 == 0) ? 'E' : 'X';
-                    slots[2][2] = (days % 3 == 0) ? 'E' : 'X';
-                    slots[3][0] = (days % 5 == 0) ? 'E' : 'X';
-                }
-                else
-                {
-                    slots[1][3] = (days%2 == 0) ? 'E' : 'X';
-                    slots[2][2] = (days%3 == 0) ? 'E' : 'X';
-                    slots[3][0] = (days%5 == 0) ? 'E' : 'X';
-                    slots[4][7] = (days%7 == 0) ? 'E' : 'X';
-                }
+                slots[1][3] = (days%2 == 0) ? 'E' : 'X';
+                slots[2][2] = (days%3 == 0) ? 'E' : 'X';
+                slots[3][0] = (days%5 == 0) ? 'E' : 'X';
+                slots[4][7] = (days%7 == 0) ? 'E' : 'X';
                 break;
             }
             case 'F': {
-                if(freshie) {
-                    slots[2][3] = (days % 2 == 0) ? 'F' : 'X';
-                    slots[3][1] = (days % 3 == 0) ? 'F' : 'X';
-                    slots[4][0] = (days % 5 == 0) ? 'F' : 'X';
-                }
-                else
-                {
-                    slots[1][7] = (days%2 == 0) ? 'F' : 'X';
-                    slots[2][3] = (days%3 == 0) ? 'F' : 'X';
-                    slots[3][1] = (days%5 == 0) ? 'F' : 'X';
-                    slots[4][0] = (days%7 == 0) ? 'F' : 'X';
-                }
+                slots[1][7] = (days%2 == 0) ? 'F' : 'X';
+                slots[2][3] = (days%3 == 0) ? 'F' : 'X';
+                slots[3][1] = (days%5 == 0) ? 'F' : 'X';
+                slots[4][0] = (days%7 == 0) ? 'F' : 'X';
                 break;
             }
             case 'G': {
-                if(freshie) {
-                    slots[3][2] = (days % 2 == 0) ? 'G' : 'X';
-                    slots[4][1] = (days % 3 == 0) ? 'G' : 'X';
-                }
-                else
-                {
-                    slots[0][4] = (days%2 == 0) ? 'G' : 'X';
-                    slots[2][7] = (days%3 == 0) ? 'G' : 'X';
-                    slots[3][2] = (days%5 == 0) ? 'G' : 'X';
-                    slots[4][1] = (days%7 == 0) ? 'G' : 'X';
-                }
+                slots[0][4] = (days%2 == 0) ? 'G' : 'X';
+                slots[2][7] = (days%3 == 0) ? 'G' : 'X';
+                slots[3][2] = (days%5 == 0) ? 'G' : 'X';
+                slots[4][1] = (days%7 == 0) ? 'G' : 'X';
                 break;
             }
             case 'H': {
@@ -480,123 +409,6 @@ public class CourseTimetableFragment extends Fragment {
                 }
                 break;
             }
-            //lower case => afternoon shift
-            case 'a': {
-                slots[1][7] = (days%2==0)?'A':'X';
-                slots[2][4] = (days%3==0)?'A':'X';
-                slots[4][6] = (days%5==0)?'A':'X';
-                break;
-            }
-            case 'b': {
-                slots[2][5] = (days%2==0)?'B':'X';
-                slots[3][4] = (days%3==0)?'B':'X';
-                slots[4][7] = (days%5==0)?'B':'X';
-                break;
-            }
-            case 'c': {
-                slots[0][4] = (days%2==0)?'C':'X';
-                slots[2][6] = (days%3==0)?'C':'X';
-                slots[3][5] = (days%5==0)?'C':'X';
-                break;
-            }
-            case 'd': {
-                slots[0][5] = (days%2==0)?'D':'X';
-                slots[2][7] = (days%3==0)?'D':'X';
-                slots[3][6] = (days%5==0)?'D':'X';
-                break;
-            }
-            case 'e': {
-                slots[0][6] = (days%2==0)?'E':'X';
-                slots[1][4] = (days%3==0)?'E':'X';
-                slots[3][7] = (days%5==0)?'E':'X';
-                break;
-            }
-            case 'f': {
-                slots[0][7] = (days%2==0)?'F':'X';
-                slots[1][5] = (days%3==0)?'F':'X';
-                slots[4][4] = (days%5==0)?'F':'X';
-                break;
-            }
-            case 'g': {
-                slots[1][6] = (days%2==0)?'G':'X';
-                slots[4][5] = (days%3==0)?'G':'X';
-                break;
-            }
-            case 'p': {
-                slots[0][1] = 'P';
-                ids[0][1] = R.id.mex_m;
-                tvs[0][1] = (TextView)view.findViewById(ids[0][1]);
-                tvs[0][1].setVisibility(View.VISIBLE);
-                if(bunk[0][1])
-                {
-                    tvs[0][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
-                }
-                else
-                {
-                    tvs[0][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
-                }
-                break;
-            }
-            case 'q': {
-                slots[1][1] = 'Q';
-                ids[1][1] = R.id.tex_m;
-                tvs[1][1] = (TextView)view.findViewById(ids[1][1]);
-                tvs[1][1].setVisibility(View.VISIBLE);
-                if(bunk[1][1])
-                {
-                    tvs[1][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
-                }
-                else
-                {
-                    tvs[1][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
-                }
-                break;
-            }
-            case 'r': {
-                slots[2][1] = 'R';
-                ids[2][1] = R.id.wex_m;
-                tvs[2][1] = (TextView)view.findViewById(ids[2][1]);
-                tvs[2][1].setVisibility(View.VISIBLE);
-                if(bunk[2][1])
-                {
-                    tvs[2][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
-                }
-                else
-                {
-                    tvs[2][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
-                }
-                break;
-            }
-            case 's': {
-                slots[3][1] = 'S';
-                ids[3][1] = R.id.hex_m;
-                tvs[3][1] = (TextView)view.findViewById(ids[3][1]);
-                tvs[3][1].setVisibility(View.VISIBLE);
-                if(bunk[3][1])
-                {
-                    tvs[3][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
-                }
-                else
-                {
-                    tvs[3][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
-                }
-                break;
-            }
-            case 't': {
-                slots[4][1] = 'T';
-                ids[4][1] = R.id.fex_m;
-                tvs[4][1] = (TextView)view.findViewById(ids[4][1]);
-                tvs[4][1].setVisibility(View.VISIBLE);
-                if(bunk[4][1])
-                {
-                    tvs[4][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
-                }
-                else
-                {
-                    tvs[4][1].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
-                }
-                break;
-            }
             default:
                 break;
         }
@@ -637,11 +449,6 @@ public class CourseTimetableFragment extends Fragment {
     {
         dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.dialog_add_course);
-        final LinearLayout shift = (LinearLayout) dialog.findViewById(R.id.shift);
-        if(!freshie)
-        {
-            shift.setVisibility(View.GONE);
-        }
         final EditText slot = (EditText) dialog.findViewById(R.id.slot);
         final EditText courseid = (EditText) dialog.findViewById(R.id.course_id);
         final LinearLayout days = (LinearLayout) dialog.findViewById(R.id.days);
@@ -654,22 +461,6 @@ public class CourseTimetableFragment extends Fragment {
         final CheckBox c2 = (CheckBox) dialog.findViewById(R.id.day2);
         final CheckBox c3 = (CheckBox) dialog.findViewById(R.id.day3);
         final CheckBox c4 = (CheckBox) dialog.findViewById(R.id.day4);
-        final CheckBox morning = (CheckBox) dialog.findViewById(R.id.morning);
-        morning.setChecked(true);
-        final CheckBox afternoon = (CheckBox) dialog.findViewById(R.id.afternoon);
-        afternoon.setChecked(false);
-        morning.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                afternoon.setChecked(!isChecked);
-            }
-        });
-        afternoon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                morning.setChecked(!isChecked);
-            }
-        });
         slot.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -682,243 +473,93 @@ public class CourseTimetableFragment extends Fragment {
                 {
                     char sl = s.charAt(0);
                     sl = Character.toUpperCase(sl);
-                    boolean after = afternoon.isChecked();
                     switch(sl)
                     {
                         case 'A': {
-                            if(freshie) {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.INVISIBLE);
-                                if(after)
-                                {
-                                    c1.setText("T");
-                                    c2.setText("W");
-                                    c3.setText("F");
-                                }
-                                else
-                                {
-                                    c1.setText("M");
-                                    c2.setText("Th");
-                                    c3.setText("F");
-                                }
-                            }
-                            else {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.VISIBLE);
-                                c1.setText("M");
-                                c2.setText("T");
-                                c3.setText("Th");
-                                c4.setText("F");
-                            }
+                            days.setVisibility(View.VISIBLE);
+                            c1.setVisibility(View.VISIBLE);
+                            c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c4.setVisibility(View.VISIBLE);
+                            c1.setText("M");
+                            c2.setText("T");
+                            c3.setText("Th");
+                            c4.setText("F");
                             break;
                         }
                         case 'B': {
-                            if(freshie) {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.INVISIBLE);
-                                if(after)
-                                {
-                                    c1.setText("W");
-                                    c2.setText("Th");
-                                    c3.setText("F");
-                                }
-                                else
-                                {
-                                    c1.setText("M");
-                                    c2.setText("T");
-                                    c3.setText("F");
-                                }
-                            }
-                            else {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.VISIBLE);
-                                c1.setText("M");
-                                c2.setText("T");
-                                c3.setText("W");
-                                c4.setText("F");
-                            }
+                            days.setVisibility(View.VISIBLE);
+                            c1.setVisibility(View.VISIBLE);
+                            c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c4.setVisibility(View.VISIBLE);
+                            c1.setText("M");
+                            c2.setText("T");
+                            c3.setText("W");
+                            c4.setText("F");
                             break;
                         }
                         case 'C': {
-                            if(freshie) {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.INVISIBLE);
-                                if(after)
-                                {
-                                    c1.setText("M");
-                                    c2.setText("W");
-                                    c3.setText("Th");
-                                }
-                                else
-                                {
-                                    c1.setText("M");
-                                    c2.setText("T");
-                                    c3.setText("W");
-                                }
-                            }
-                            else {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.VISIBLE);
-                                c1.setText("M");
-                                c2.setText("T");
-                                c3.setText("W");
-                                c4.setText("F");
-                            }
+                            days.setVisibility(View.VISIBLE);
+                            c1.setVisibility(View.VISIBLE);
+                            c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c4.setVisibility(View.VISIBLE);
+                            c1.setText("M");
+                            c2.setText("T");
+                            c3.setText("W");
+                            c4.setText("F");
                             break;
                         }
                         case 'D': {
-                            if(freshie) {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.INVISIBLE);
-                                if(after)
-                                {
-                                    c1.setText("M");
-                                    c2.setText("W");
-                                    c3.setText("Th");
-                                }
-                                else
-                                {
-                                    c1.setText("M");
-                                    c2.setText("T");
-                                    c3.setText("W");
-                                }
-                            }
-                            else {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.VISIBLE);
-                                c1.setText("M");
-                                c2.setText("T");
-                                c3.setText("W");
-                                c4.setText("Th");
-                            }
+                            days.setVisibility(View.VISIBLE);
+                            c1.setVisibility(View.VISIBLE);
+                            c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c4.setVisibility(View.VISIBLE);
+                            c1.setText("M");
+                            c2.setText("T");
+                            c3.setText("W");
+                            c4.setText("Th");
                             break;
                         }
                         case 'E': {
-                            if(freshie) {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.INVISIBLE);
-                                if(after)
-                                {
-                                    c1.setText("M");
-                                    c2.setText("T");
-                                    c3.setText("Th");
-                                }
-                                else
-                                {
-                                    c1.setText("T");
-                                    c2.setText("W");
-                                    c3.setText("Th");
-                                }
-                            }
-                            else {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.VISIBLE);
-                                c1.setText("T");
-                                c2.setText("W");
-                                c3.setText("Th");
-                                c4.setText("F");
-                            }
+                            days.setVisibility(View.VISIBLE);
+                            c1.setVisibility(View.VISIBLE);
+                            c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c4.setVisibility(View.VISIBLE);
+                            c1.setText("T");
+                            c2.setText("W");
+                            c3.setText("Th");
+                            c4.setText("F");
                             break;
                         }
                         case 'F': {
-                            if(freshie) {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.INVISIBLE);
-                                if(after)
-                                {
-                                    c1.setText("M");
-                                    c2.setText("T");
-                                    c3.setText("F");
-                                }
-                                else
-                                {
-                                    c1.setText("W");
-                                    c2.setText("Th");
-                                    c3.setText("F");
-                                }
-                            }
-                            else {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.VISIBLE);
-                                c1.setText("T");
-                                c2.setText("W");
-                                c3.setText("Th");
-                                c4.setText("F");
-                            }
+                            days.setVisibility(View.VISIBLE);
+                            c1.setVisibility(View.VISIBLE);
+                            c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c4.setVisibility(View.VISIBLE);
+                            c1.setText("T");
+                            c2.setText("W");
+                            c3.setText("Th");
+                            c4.setText("F");
                             break;
                         }
                         case 'G': {
-                            if(freshie) {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.INVISIBLE);
-                                c4.setVisibility(View.INVISIBLE);
-                                if(after)
-                                {
-                                    c1.setText("T");
-                                    c2.setText("F");
-                                }
-                                else
-                                {
-                                    c1.setText("Th");
-                                    c2.setText("F");
-                                }
-                            }
-                            else {
-                                days.setVisibility(View.VISIBLE);
-                                c1.setVisibility(View.VISIBLE);
-                                c2.setVisibility(View.VISIBLE);
-                                c3.setVisibility(View.VISIBLE);
-                                c4.setVisibility(View.VISIBLE);
-                                c1.setText("M");
-                                c2.setText("W");
-                                c3.setText("Th");
-                                c4.setText("F");
-                            }
+                            days.setVisibility(View.VISIBLE);
+                            c1.setVisibility(View.VISIBLE);
+                            c2.setVisibility(View.VISIBLE);
+                            c3.setVisibility(View.VISIBLE);
+                            c4.setVisibility(View.VISIBLE);
+                            c1.setText("M");
+                            c2.setText("W");
+                            c3.setText("Th");
+                            c4.setText("F");
                             break;
                         }
                         case 'H': {
-                            if(freshie)
-                            {
-                                slot.setError("Invalid slot");
-                            }
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
@@ -930,10 +571,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'J': {
-                            if(freshie)
-                            {
-                                slot.setError("Invalid slot");
-                            }
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
@@ -945,10 +582,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'K': {
-                            if(freshie)
-                            {
-                                slot.setError("Invalid slot");
-                            }
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
@@ -959,10 +592,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'L': {
-                            if(freshie)
-                            {
-                                slot.setError("Invalid slot");
-                            }
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
@@ -973,10 +602,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'M': {
-                            if(freshie)
-                            {
-                                slot.setError("Invalid slot");
-                            }
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
@@ -987,9 +612,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'P': {
-                            if(freshie) {
-                                Toast.makeText(getActivity(),"Note that afternoon shift P slot takes place in the morning",Toast.LENGTH_SHORT).show();
-                            }
                             days.setVisibility(View.INVISIBLE);
                             c1.setVisibility(View.INVISIBLE);
                             c2.setVisibility(View.INVISIBLE);
@@ -998,9 +620,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'Q': {
-                            if(freshie) {
-                                Toast.makeText(getActivity(),"Note that afternoon shift Q slot takes place in the morning",Toast.LENGTH_SHORT).show();
-                            }
                             days.setVisibility(View.INVISIBLE);
                             c1.setVisibility(View.INVISIBLE);
                             c2.setVisibility(View.INVISIBLE);
@@ -1009,9 +628,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'R': {
-                            if(freshie) {
-                                Toast.makeText(getActivity(),"Note that afternoon shift R slot takes place in the morning",Toast.LENGTH_SHORT).show();
-                            }
                             days.setVisibility(View.INVISIBLE);
                             c1.setVisibility(View.INVISIBLE);
                             c2.setVisibility(View.INVISIBLE);
@@ -1020,9 +636,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'S': {
-                            if(freshie) {
-                                Toast.makeText(getActivity(),"Note that afternoon shift S slot takes place in the morning",Toast.LENGTH_SHORT).show();
-                            }
                             days.setVisibility(View.INVISIBLE);
                             c1.setVisibility(View.INVISIBLE);
                             c2.setVisibility(View.INVISIBLE);
@@ -1031,9 +644,6 @@ public class CourseTimetableFragment extends Fragment {
                             break;
                         }
                         case 'T': {
-                            if(freshie) {
-                                Toast.makeText(getActivity(),"Note that afternoon shift T slot takes place in the morning",Toast.LENGTH_SHORT).show();
-                            }
                             days.setVisibility(View.INVISIBLE);
                             c1.setVisibility(View.INVISIBLE);
                             c2.setVisibility(View.INVISIBLE);
@@ -1144,7 +754,7 @@ public class CourseTimetableFragment extends Fragment {
                     }
                     if (flag) {
                         course.setCourse_id(coursed);
-                        course.setSlot(afternoon.isChecked() ? Character.toLowerCase(slt) : Character.toUpperCase(slt));
+                        course.setSlot(Character.toUpperCase(slt));
                         courses.add(course);
                         courseAdapter.notifyDataSetChanged();
                         dialog.dismiss();
@@ -1164,11 +774,11 @@ public class CourseTimetableFragment extends Fragment {
         for(Course c:courses)
         {
             flag = flag||(c.getSlot()==slot);
-            flag = flag||((c.getSlot()=='P'&(slot=='H'||slot=='M')));
-            flag = flag||((c.getSlot()=='Q'&(slot=='M'||slot=='H')));
-            flag = flag||((c.getSlot()=='R'&(slot=='J'||slot=='K')));
-            flag = flag||((c.getSlot()=='S'&(slot=='L'||slot=='J')));
-            flag = flag||((c.getSlot()=='T'&(slot=='K'||slot=='L')));
+            flag = flag||((c.getSlot()=='P')&&(slot=='H'||slot=='M'));
+            flag = flag||((c.getSlot()=='Q')&&(slot=='M'||slot=='H'));
+            flag = flag||((c.getSlot()=='R')&&(slot=='J'||slot=='K'));
+            flag = flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
+            flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));
         }
         return flag;
     }
