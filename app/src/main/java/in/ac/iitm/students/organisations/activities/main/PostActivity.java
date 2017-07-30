@@ -42,6 +42,7 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.objects.News;
 import in.ac.iitm.students.organisations.adapters.OrgPagerAdapter;
 import in.ac.iitm.students.organisations.fragments.Fbfragment;
+import in.ac.iitm.students.organisations.fragments.Socsfragment;
 import in.ac.iitm.students.organisations.fragments.T5eFragment;
 import in.ac.iitm.students.organisations.fragments.VideoFragment;
 import in.ac.iitm.students.organisations.fragments.YoutubeFragment;
@@ -53,7 +54,6 @@ import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.Utils;
 
 
-
 public class PostActivity extends AppCompatActivity implements VideoFragment.OnFragmentInteractionListener{
 
     public  static ArrayList<Posts> postList;
@@ -61,10 +61,12 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
     public static String channelID;
     public static ArrayList<VideoItem> videoList;
     public static OrgPagerAdapter pageadapter;
-    public static OrgPagerAdapter pageadapter1, pageadapter2;
+    public static OrgPagerAdapter pageadapter1, pageadapter2, pageadapter3;
     public static TabLayout tabLayout;
     public static ArrayList<News> newses;
     public static Boolean isT5e;
+    public static Boolean isLitsoc;
+    public static Boolean isTechsoc;
     static ViewPager viewPager;
     final Gson gson = new Gson();
     public  AccessToken key;
@@ -73,7 +75,7 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
     public CardView  containerLayout;
     public RelativeLayout containerLayout2;
     public String logo_url;
-    public String Pagename;
+    public static String Pagename;
     public android.support.v4.app.FragmentManager fragmentManager;
     public VideoFragment fragment;
     public View layout1,layout;
@@ -83,6 +85,7 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
     String pageid;
     String appid ;
     String reaction_url;
+    public static String Pagedes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +93,6 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         setContentView(R.layout.pager_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -106,10 +108,14 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         }
         pageid = i.getStringExtra("pageid");
         Pagename = i.getStringExtra("pagename");
+        Pagedes = i.getStringExtra("pagedes");
         logo_url = i.getStringExtra("logo_url");
 
         setTitle(Pagename);
+
         isT5e = false;
+        isLitsoc = false;
+        isTechsoc = false;
 
         containerLayout = (CardView) findViewById(R.id.cv_popup);
         reactions_popup = new PopupWindow(PostActivity.this);
@@ -172,7 +178,20 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
             isT5e = true;
             getNews();
         }
+        else if(Pagename.equalsIgnoreCase("TechSoc")){
+            isTechsoc = true;
+
+        }
+        else if(Pagename.equalsIgnoreCase("LitSoc")){
+            isLitsoc = true;
+        }
+
         callviewpager();
+
+
+
+
+
 
     }
 
@@ -184,7 +203,7 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         }
         GraphGetRequest request = new GraphGetRequest();
         try {
-            request.dorequest(key, pageid + "/posts", null,postList,pd, reaction_url);
+            request.dorequest(key, pageid + "/feed" , null,postList,pd, reaction_url);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -295,16 +314,42 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
                     tabLayout.setVisibility(View.VISIBLE);
                 }
             }
-            else if(!isYoutube && !Pagename.equalsIgnoreCase("The Fifth Estate, IIT Madras")){
+            else if(!isYoutube && !Pagename.equalsIgnoreCase("The Fifth Estate, IIT Madras") && !Pagename.equalsIgnoreCase("LitSoc") && !Pagename.equalsIgnoreCase("TechSoc")){
                 tabLayout.setVisibility(View.INVISIBLE);
                 tabLayout.getLayoutParams().width = 0;
                 tabLayout.getLayoutParams().height = 0;
                 setupViewPagerNoYoutube(viewPager);
             }
-
+            else if(Pagename.equalsIgnoreCase("LitSoc")){
+                setupViewPagerNoYoutubeWithSocs(viewPager);
+                if (tabLayout != null) {
+                    tabLayout.setupWithViewPager(viewPager);
+                    tabLayout.setVisibility(View.VISIBLE);
+                }
+            }
+            else if(Pagename.equalsIgnoreCase("TechSoc")){
+                setupViewPagerNoYoutubeWithSocs(viewPager);
+                if (tabLayout != null) {
+                    tabLayout.setupWithViewPager(viewPager);
+                    tabLayout.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 
+
+    public void setupViewPagerNoYoutubeWithSocs(final ViewPager mviewPager){
+
+        pageadapter3 = new OrgPagerAdapter(getSupportFragmentManager());
+        Fbfragment fbfragment = new Fbfragment();
+        Socsfragment socsfragment = new Socsfragment();
+        fbfragment.setResponse(postList, viewPager);
+        pageadapter3.addFragment(fbfragment,"Feed");
+        pageadapter3.addFragment(socsfragment,"New Arrival");
+        mviewPager.setAdapter(pageadapter3);
+        pageadapter3.notifyDataSetChanged();
+
+    }
 
     public void setupViewPager(final ViewPager mviewPager) {
 

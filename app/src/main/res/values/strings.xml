@@ -104,11 +104,6 @@
     <string name="instrucions">Guide for using the timetable:\n\n
         Enter the course details in the first screen. Tick the days on which the class will be held.
         If you want to remove or edit a course, click on the entry and you will be shown a dialog which lets you edit the details.
-        Freshies need to select the correct shift before entering the course details.
-        Morning shift courses are in slot A1, B1, C1 and so on.
-        While afternoon shift courses are in slot A2, B2, C2 and so on.
-        Note that the afternoon shift courses are depicted by lower case in the timetable
-        while morning shift courses are depicted by upper case.
         \n\n
         Guide for using the bunk monitor:\n\n
         If you click on a slot in the timetable, it will turn red.This indicates a bunk.
@@ -148,7 +143,12 @@
         <item>"saathi.iitm/"</item>
         <item>"eml.iitm/"</item>
         <item>"t5e.iitm/"</item>
+        <item>"152210554869211"</item>
+        <item>"362692757076050"</item>
     </string-array>
+
+    <string name="ID_Techsoc">"362692757076050"</string>
+    <string name="ID_Litsoc">"152210554869211"</string>
 
     <string-array name="organisations">
         <item>IIT Madras</item>

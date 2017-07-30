@@ -46,8 +46,12 @@ public class GraphGetRequest  {
                                     if (postjs.has("message")) {
                                         post.message = postjs.getString("message");
                                     }
-
-                                    post.created_time = postjs.getString("created_time");
+                                    if(PostActivity.isLitsoc || PostActivity.isTechsoc){
+                                        post.created_time = postjs.getString("updated_time");
+                                    }
+                                    else {
+                                        post.created_time = postjs.getString("created_time");
+                                    }
                                     final int finalI = i;
                                     final int finalI1 = i;
                                     new GraphRequest(key,
@@ -142,9 +146,11 @@ public class GraphGetRequest  {
                                                             else if(PostActivity.isT5e){
                                                                 PostActivity.pageadapter2.notifyDataSetChanged();
                                                             }
+                                                            else if(PostActivity.isLitsoc || PostActivity.isTechsoc){
+                                                                PostActivity.pageadapter3.notifyDataSetChanged();
+                                                            }
                                                             else {
                                                                 PostActivity.pageadapter1.notifyDataSetChanged();
-
                                                             }
 
                                                         }

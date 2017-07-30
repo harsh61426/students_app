@@ -68,6 +68,7 @@ public class OrganisationAdapter extends RecyclerView.Adapter <OrganisationAdapt
                 }
                 i.putExtra("pageid",OrgList.get(holder.getAdapterPosition()).pageid);
                 i.putExtra("pagename",OrgList.get(holder.getAdapterPosition()).org_name);
+                i.putExtra("pagedes",OrgList.get(holder.getAdapterPosition()).org_about);
                 i.putExtra("logo_url",OrgList.get(holder.getAdapterPosition()).logo_url);
 
                 context.startActivity(i);
@@ -93,6 +94,8 @@ public class OrganisationAdapter extends RecyclerView.Adapter <OrganisationAdapt
     public int getItemCount() {
         return OrgList.size();
     }
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView iv_org_logo;
         public TextView tv_org_name,tv_org_about;
