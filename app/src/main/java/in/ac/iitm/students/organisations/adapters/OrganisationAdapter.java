@@ -68,6 +68,7 @@ public class OrganisationAdapter extends RecyclerView.Adapter <OrganisationAdapt
                 }
                 i.putExtra("pageid",OrgList.get(holder.getAdapterPosition()).pageid);
                 i.putExtra("pagename",OrgList.get(holder.getAdapterPosition()).org_name);
+                i.putExtra("pagedes",OrgList.get(holder.getAdapterPosition()).org_about);
                 i.putExtra("logo_url",OrgList.get(holder.getAdapterPosition()).logo_url);
 
                 context.startActivity(i);

@@ -131,6 +131,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="Listofpagenames">
+
+        <item>"152210554869211|Litsoc"</item>
+        <item>"362692757076050|Techsoc"</item>
         <item> "Mediaclubiitm/"</item>
         <item> "IITPodDa/"</item>
         <item>"fineartsclubiitmadras/"</item>
@@ -149,6 +152,9 @@
         <item>"eml.iitm/"</item>
         <item>"t5e.iitm/"</item>
     </string-array>
+
+    <string name="ID_Techsoc">"362692757076050"</string>
+    <string name="ID_Litsoc">"152210554869211"</string>
 
     <string-array name="organisations">
         <item>IIT Madras</item>

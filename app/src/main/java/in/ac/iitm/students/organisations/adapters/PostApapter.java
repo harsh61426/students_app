@@ -102,11 +102,11 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
         final String type = Postlist.get(holder.getAdapterPosition()).type;
         final String  s = "video";
         final String s1 = "youtube.com";
-        String strDate = Postlist.get(holder.getAdapterPosition()).created_time ;
-        String datetime = GetLocalDateStringFromUTCString(strDate);
+        String strDate = NewsAdapter.getlongtoago(Long.parseLong(Postlist.get(holder.getAdapterPosition()).created_time)) ;
+        //String datetime = GetLocalDateStringFromUTCString(strDate);
 
         holder.tv_org.setText(pagename);
-        holder.tv_time.setText(datetime);
+        holder.tv_time.setText(strDate);
 
         Glide.with(context)
                 .load(logo_url)
