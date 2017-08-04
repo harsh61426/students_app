@@ -14,7 +14,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
  */
 
 public class MonthFmAdapter extends FragmentPagerAdapter {
-    public static ArrayList<ArrayList<Calendar_Event>> cal_events;
+    private ArrayList<ArrayList<Calendar_Event>> cal_events;
 
     public MonthFmAdapter(FragmentManager fm) {
         super(fm);
@@ -33,5 +33,9 @@ public class MonthFmAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return Integer.MAX_VALUE;
+    }
+
+    public void setCal_events(ArrayList<ArrayList<Calendar_Event>> cal_events) {
+        this.cal_events = cal_events;
     }
 }

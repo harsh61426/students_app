@@ -11,6 +11,7 @@ import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.util.JsonReader;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -39,7 +40,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
  */
 
 public class InstiCalendar {
-    public static ArrayList<ArrayList<Calendar_Event>> cal_events;
+    public ArrayList<ArrayList<Calendar_Event>> cal_events;
     static long CalID;
     private Context context;
     private String cal_ver = "0";
@@ -48,7 +49,7 @@ public class InstiCalendar {
         this.context = context;
     }
 
-    private static void readMonthObject(JsonReader reader, Context context, int mode) throws IOException {
+    public static ArrayList<ArrayList<Calendar_Event>> readMonthObject(JsonReader reader, Context context, int mode) throws IOException {
 
         ArrayList<ArrayList<Calendar_Event>> cal_events = new ArrayList<>();
         reader.beginObject();
@@ -108,7 +109,7 @@ public class InstiCalendar {
 
         }
         reader.endObject();
-        InstiCalendar.cal_events = cal_events;
+        return cal_events;
 
     }
 
@@ -329,16 +330,16 @@ public class InstiCalendar {
         String disp = "IITM Calendar";
         String inter = "IITM Calendar";
 
-        CalID = Utils.getprefLong("CalID", context);
-        if (CalID == -1) {
-            CalID = insertCalendar(acc, inter, disp, context);
-            Log.i("CalID", CalID + "");
-            Utils.saveprefLong("CalID", CalID, context);
-        }
-
         // mode 0 for updating the calendar repo from the server
         // mode 1 for getting the event arrayList for populating the calendar recyclerView
         if (mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
+            CalID = Utils.getprefLong("CalID", context);
+            if (CalID == -1) {
+                CalID = insertCalendar(acc, inter, disp, context);
+                Log.i("CalID", CalID + "");
+                Utils.saveprefLong("CalID", CalID, context);
+            }
+            Toast.makeText(context, "Updating Calendar", Toast.LENGTH_SHORT).show();
             deleteallevents();
             sendJsonRequest(context, mode);
             Utils.saveprefString("Cal_Ver", getVersion(), context);

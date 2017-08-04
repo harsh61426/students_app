@@ -13,14 +13,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.JsonReader;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import in.ac.iitm.students.R;
@@ -28,9 +41,11 @@ import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
+import in.ac.iitm.students.objects.Calendar_Event;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
+import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
@@ -49,6 +64,7 @@ public class CalendarActivity extends AppCompatActivity
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,21 +113,57 @@ public class CalendarActivity extends AppCompatActivity
         }
         */
 
-        InstiCalendar instiCalendar = new InstiCalendar(this);
-        instiCalendar.fetchCalData(1);
-
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
         currentlyDisplayedMonth -= 6;
         //monthForRecyclerView = currentMonth;
         // Find the view pager that will allow the user to swipe between fragments
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        // Create an adapter that knows which fragment should be shown on each page
-        MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
-        MonthFmAdapter.cal_events = InstiCalendar.cal_events;
-        // Set the adapter onto the view pager
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(currentlyDisplayedMonth);
+        String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("kaka", response);
+                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+
+                JsonReader reader = null;
+                try {
+                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                    reader.setLenient(true);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    try {
+                        ArrayList<ArrayList<Calendar_Event>> cal_events = InstiCalendar.readMonthObject(reader, CalendarActivity.this, 1);
+                        // Create an adapter that knows which fragment should be shown on each page
+                        MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
+                        adapter.setCal_events(cal_events);
+                        // Set the adapter onto the view pager
+                        viewPager.setAdapter(adapter);
+                        viewPager.setCurrentItem(currentlyDisplayedMonth);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } finally {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VolleyError", error.toString());
+            }
+        });
+        MySingleton.getInstance(CalendarActivity.this).addToRequestQueue(stringRequest);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
