@@ -18,21 +18,30 @@ import java.util.Calendar;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
+import in.ac.iitm.students.objects.Calendar_Event;
 
 /**
  * Created by harshitha on 8/6/17.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    ArrayList<String> day_dataset, date_dataset, desc_dataset, holiday_dataset;
-    Context context;
+public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
+    //ArrayList<String> day_dataset, date_dataset, desc_dataset, holiday_dataset;
+    ArrayList<Calendar_Event> month_events = new ArrayList<>();
+    private Context context;
 
-    public RecyclerAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
+    /*
+    public DayAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
         day_dataset = list1;
         date_dataset = list2;
         desc_dataset = list3;
         holiday_dataset = list4;
         this.context = context;
+    }
+    */
+
+    public DayAdapter(ArrayList<Calendar_Event> month_events, Context context) {
+        this.month_events = month_events;
+        this.context=context;
     }
 
     @Override
@@ -44,15 +53,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.tv_day.setText(day_dataset.get(position));
-        holder.tv_date.setText(date_dataset.get(position));
-        holder.tv_desc.setText(desc_dataset.get(position));
-        if (holiday_dataset.get(position).equals("TRUE"))
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.tv_day.setText(month_events.get(position).getDay());
+        holder.tv_date.setText(String.valueOf(month_events.get(position).getDate()));
+        holder.tv_desc.setText(month_events.get(position).getDetails());
+        if (month_events.get(position).isHoliday())
             holder.tv_holiday.setText("(Holiday)");
 
 
-        if (day_dataset.get(position).equals("Sunday") || day_dataset.get(position).equals("Saturday"))
+        if (month_events.get(position).getDay().equals("Sunday") || month_events.get(position).getDay().equals("Saturday"))
             holder.cardView.setCardBackgroundColor(Color.parseColor("#ba68c8"));//violet color
         else
             holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFFFF"));
@@ -61,8 +70,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Calendar beginTime = Calendar.getInstance();
-                beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position + 1);
+                //beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position + 1);
                 // A date-time specified in milliseconds since the epoch.
                 long hr = beginTime.getTimeInMillis();
 
@@ -78,7 +88,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return date_dataset.size();
+        return month_events.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -6,10 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
 
@@ -30,7 +27,6 @@ public class StudentDetailsActivity extends AppCompatActivity {
         TextView rollno = (TextView) findViewById(R.id.student_roll_no);
         TextView address = (TextView) findViewById(R.id.student_address);
         TextView mail = (TextView) findViewById(R.id.student_email_id);
-        ImageView photo = (ImageView) findViewById(R.id.student_photo);
 
         Intent intent = getIntent();
 
@@ -58,6 +54,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
             mail.setText(sMail);
         }
 
+        /*
         Picasso.with(this)
                 .load(intent.getStringExtra("photo"))
                 .placeholder(R.drawable.ic_menu_camera)
@@ -65,6 +62,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
                 .fit()
                 .centerCrop()
                 .into(photo);
+                */
 
     }
 

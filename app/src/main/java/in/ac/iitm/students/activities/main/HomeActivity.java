@@ -2,20 +2,16 @@ package in.ac.iitm.students.activities.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.CalendarContract;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -33,7 +29,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,20 +56,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.EmptyStackException;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
@@ -82,8 +68,6 @@ import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
 import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
-import in.ac.iitm.students.fragments.monthFragment;
-import in.ac.iitm.students.objects.Calendar_Event;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
@@ -97,18 +81,14 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
-    static String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
-    //for calendar
-    static long CalID;
     private static int optionalUpdateDialogCount = 0;
-    private static Context mContext;
     String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
     HomeAdapter adapter;
     RecyclerView recyclerView;
     HomeNotifObject notifObject;
     String SwipePrefsName = "Ids_of_swiped_notifs";
     SharedPreferences swipedprefs;
-    SharedPreferences prefs;
+    private Context mContext;
     private Toolbar toolbar;
     private ProgressBar pbar;
     private Snackbar snackbar;
@@ -117,14 +97,6 @@ public class HomeActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private ArrayList<String> subscribed = new ArrayList<>();
     private ArrayList<HomeNotifObject> notifObjects = new ArrayList<>();
-    private String[] months = {"january", "february", "march", "april", "may", "june", "july", "august", "september",
-            "october", "november", "december"};
-    private String calversion_url = "https://students.iitm.ac.in/studentsapp/calendar/cal_ver.php"; //url of api file
-    private String cal_ver = "1";
-
-    public static Context getContext() {
-        return mContext;
-    }
 
     public static void showAlert(Activity activity, String title, String message) {
 
@@ -146,7 +118,7 @@ public class HomeActivity extends AppCompatActivity
         alert.show();
     }
 
-    public static void showAlert(Activity activity, String title, String message, final String link) {
+    public static void showAlert(final Activity activity, String title, String message, final String link) {
 
         Drawable dialog_icon;
         dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
@@ -164,7 +136,7 @@ public class HomeActivity extends AppCompatActivity
                 .setPositiveButton(R.string.go_to_link, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        openWebPage(link);
+                        openWebPage(link, activity);
                         dialog.dismiss();
                     }
                 });
@@ -173,291 +145,16 @@ public class HomeActivity extends AppCompatActivity
         alert.show();
     }
 
-    private static void openWebPage(String url) {
-        Toast.makeText(mContext, "Getting data...", Toast.LENGTH_SHORT).show();
+    private static void openWebPage(String url, Activity activity) {
+        Toast.makeText(activity, "Getting data...", Toast.LENGTH_SHORT).show();
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (intent.resolveActivity(mContext.getPackageManager()) != null) {
-            mContext.startActivity(intent);
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(intent);
         } else {
-            Toast.makeText(mContext, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public static void readMonthObject(JsonReader reader) throws IOException {
-
-        reader.beginObject();
-        while (reader.hasNext()) {
-            String name = reader.nextName();
-            if (name.equals("january")) {
-                readMonthArray(reader, 0);
-
-            } else if (name.equals("february")) {
-                readMonthArray(reader, 1);
-
-            } else if (name.equals("march")) {
-                readMonthArray(reader, 2);
-
-            } else if (name.equals("april")) {
-                readMonthArray(reader, 3);
-
-            } else if (name.equals("may")) {
-                readMonthArray(reader, 4);
-
-            } else if (name.equals("june")) {
-                readMonthArray(reader, 5);
-
-            } else if (name.equals("july")) {
-                readMonthArray(reader, 6);
-
-            } else if (name.equals("august")) {
-                readMonthArray(reader, 7);
-
-            } else if (name.equals("september")) {
-                readMonthArray(reader, 8);
-
-            } else if (name.equals("october")) {
-                readMonthArray(reader, 9);
-
-            } else if (name.equals("november")) {
-                readMonthArray(reader, 10);
-
-            } else if (name.equals("december")) {
-                readMonthArray(reader, 11);
-
-            } else {
-                reader.skipValue();
-            }
-
-        }
-        reader.endObject();
-    }
-
-    public static void readDayObject(JsonReader reader, int month, int i) throws IOException {
-
-        Calendar_Event event = new Calendar_Event();
-
-        reader.beginObject();
-        while (reader.hasNext()) {
-
-            String name = reader.nextName();
-            if (name.equals("date")) {
-                event.setDate(Integer.parseInt(reader.nextString()));
-                monthFragment.date[month - 6][i] = String.valueOf(event.getDate());
-
-            } else if (name.equals("day")) {
-                event.setDay(reader.nextString());
-                monthFragment.day[month - 6][i] = event.getDay();
-
-            } else if (name.equals("details")) {
-                event.setDetails(reader.nextString());
-                monthFragment.desc[month - 6][i] = event.getDetails();
-
-            } else if (name.equals("holiday")) {
-                event.setHoliday(reader.nextString().equals("TRUE"));
-                if (event.isHoliday()) {
-                    monthFragment.holiday[month - 6][i] = new String("TRUE");
-                } else {
-                    monthFragment.holiday[month - 6][i] = new String("FALSE");
-                }
-
-            } else if (name.equals("remind")) {
-                event.setRemind(reader.nextString().equals("TRUE"));
-
-            } else {
-                reader.skipValue();
-            }
-
-        }
-        reader.endObject();
-
-        event.setMonth(month);
-        if (event.getDetails().length() > 0 && !exists(event)  ) {
-            insertEvents(CalID, event);
-        }
-    }
-
-    public static void readMonthArray(JsonReader reader, int month) throws IOException {
-
-        reader.beginArray();
-        int i = 0;
-        while (reader.hasNext()) {
-            readDayObject(reader, month, i);
-            i++;
-        }
-        reader.endArray();
-    }
-
-    //calendar code
-    //***************************
-    //***************************
-
-    static void sendJsonRequest() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-
-                JsonReader reader = null;
-                try {
-                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-                    reader.setLenient(true);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    try {
-                        readMonthObject(reader);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } finally {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VolleyError", error.toString());
-            }
-        });
-        MySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
-
-    }
-
-    static void fetchingCalendarData(){
-        String acc = "students.iitm";
-        String disp = "IITM Calendar";
-        String inter = "IITM Calendar";
-
-        CalID = Utils.getprefLong("CalID", getContext());
-        if (CalID == -1) {
-            CalID = insertCalendar(acc, inter, disp);
-            Log.i("CalID", CalID + "");
-            Utils.saveprefLong("CalID", CalID, getContext());
-        }
-        //Utils.saveprefLong("Cal_Ver", -1, this);
-        //if (!getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", this))) {
-        //  deleteallevents();
-        sendJsonRequest();
-
-        //Utils.saveprefString("Cal_Ver", getVersion(), this);
-        //}
-    }
-
-    static void insertEvents(long calId, Calendar_Event event) {
-
-        Calendar cal = new GregorianCalendar(2017, event.getMonth() - 1, event.getDate());    //Jan is 0
-        cal.setTimeZone(TimeZone.getTimeZone("IST"));
-        cal.set(Calendar.HOUR, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-
-        long start = cal.getTimeInMillis();
-
-        ContentValues values = new ContentValues();
-        values.put(CalendarContract.Events.DTSTART, start);
-        values.put(CalendarContract.Events.DTEND, start);
-        values.put(CalendarContract.Events.TITLE, event.getDetails());
-        values.put(CalendarContract.Events.EVENT_LOCATION, "Chennai");
-        values.put(CalendarContract.Events.CALENDAR_ID, calId);
-        values.put(CalendarContract.Events.EVENT_TIMEZONE, "India");
-        values.put(CalendarContract.Events.DESCRIPTION, event.isHoliday() ? "Holiday" : "");
-// reasonable defaults exist:
-        values.put(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_DEFAULT);
-        values.put(CalendarContract.Events.SELF_ATTENDEE_STATUS,
-                CalendarContract.Events.STATUS_CONFIRMED);
-        values.put(CalendarContract.Events.ALL_DAY, 1);
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-            Uri uri =
-                    getContext().getContentResolver().
-                            insert(CalendarContract.Events.CONTENT_URI, values);
-            long eventId = new Long(uri.getLastPathSegment());
-            Log.i("EventID", eventId + "");
-        }
-    }
-
-    static boolean exists(Calendar_Event event) {
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-
-            String[] proj =
-                    new String[]{CalendarContract.Events.TITLE};
-            Calendar cal = new GregorianCalendar(2017, event.getMonth(), event.getDate());
-            cal.setTimeZone(TimeZone.getTimeZone("IST"));
-            cal.set(Calendar.HOUR, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-
-            long start = cal.getTimeInMillis();
-
-            Cursor cursor = getContext().getContentResolver().query(
-                    CalendarContract.Events.CONTENT_URI,
-                    proj,
-                    CalendarContract.Events.TITLE + " = ? AND " + CalendarContract.Events.DTSTART + " = ?",
-                    new String[]{event.getDetails(), Long.toString(start)},
-                    null);
-            return cursor.moveToFirst();
-        }
-        return false;
-    }
-
-    static long getCalendarId(String acc) {
-        Cursor cur = null;
-        ContentResolver cr = getContext().getContentResolver();
-        Uri uri = CalendarContract.Calendars.CONTENT_URI;
-        String selection = CalendarContract.Calendars.ACCOUNT_NAME + " = ?";
-        String[] selectionArgs = new String[]{acc};
-// Submit the query and get a Cursor object back.
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-            String[] EVENT_PROJECTION = new String[]{
-                    CalendarContract.Calendars._ID,                           // 0
-                    CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
-                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
-                    CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
-            };
-
-            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
-            if (cur.moveToFirst()) {
-                return cur.getLong(0);
-            }
-            Log.i("CurCount", cur.getCount() + "");
-        }
-        return -1;
-    }
-
-    static long insertCalendar(String acc, String inter, String disp) {
-
-        Uri calUri = CalendarContract.Calendars.CONTENT_URI;
-        ContentValues cv = new ContentValues();
-        cv.put(CalendarContract.Calendars.ACCOUNT_NAME, acc);
-        cv.put(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
-        cv.put(CalendarContract.Calendars.NAME, inter);
-        cv.put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, disp);
-        //cv.put(CalendarContract.Calendars.CALENDAR_COLOR, yourColor);
-        cv.put(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, CalendarContract.Calendars.CAL_ACCESS_OWNER);
-        cv.put(CalendarContract.Calendars.OWNER_ACCOUNT, true);
-        cv.put(CalendarContract.Calendars.VISIBLE, 1);
-        cv.put(CalendarContract.Calendars.SYNC_EVENTS, 1);
-
-        calUri = calUri.buildUpon()
-                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
-                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, acc)
-                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
-                .build();
-        Uri result = getContext().getContentResolver().insert(calUri, cv);
-        Log.i("Result", result.toString());
-        return getCalendarId(acc);
     }
 
     @Override
@@ -524,7 +221,7 @@ public class HomeActivity extends AppCompatActivity
                 // sees the explanation, try again to request the permission.
 
                 Snackbar snackbar = Snackbar
-                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
+                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_INDEFINITE);
                 snackbar.show();
 
                 ActivityCompat.requestPermissions(this,
@@ -544,7 +241,7 @@ public class HomeActivity extends AppCompatActivity
                 // result of the request.
             }
         } else {
-            fetchingCalendarData();
+            //           new InstiCalendar(HomeActivity.this).fetchCalData(0);
         }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
@@ -587,7 +284,7 @@ public class HomeActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    fetchingCalendarData();
+                    //               new InstiCalendar(HomeActivity.this).fetchCalData(0);
 
 
                 } else {
@@ -606,53 +303,10 @@ public class HomeActivity extends AppCompatActivity
         return;
     }
 
-    String getVersion() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, calversion_url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JSONArray jsArray = new JSONArray(response);
-                            JSONObject jsObject = jsArray.getJSONObject(0);
-                            cal_ver = jsObject.getString("version");
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                //Snackbar snackbar = Snackbar.make("Internet Connection Failed.", Snackbar.LENGTH_SHORT);
-                //snackbar.show();
-
-            }
-        }) {
-        };
-// Access the RequestQueue through your singleton class.
-        MySingleton.getInstance(this).addToRequestQueue(stringRequest);
-        return cal_ver;
-    }
-
-    void deleteallevents() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        getContentResolver().delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events._ID + "= *", null);
-    }
-
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
         refreshList();
     }
-
-
-    //*****************************
-    //*****************************
-    //calendar code ends
 
     public void refreshList() {
 
@@ -1047,7 +701,7 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
 
-            swipedprefs = getContext().getSharedPreferences(SwipePrefsName, MODE_PRIVATE);
+            swipedprefs = HomeActivity.this.getSharedPreferences(SwipePrefsName, MODE_PRIVATE);
             //SharedPreferences.Editor editor = swipedprefs.edit();
             //editor.clear();
             //editor.apply();
@@ -1143,26 +797,7 @@ public class HomeActivity extends AppCompatActivity
                 holder.rlHomeFeed.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        switch (topic) {
-                            case "eml": {
-                                //Intent intent = new Intent(context, EMLActivity.class);
-                                //context.startActivity(intent);
-                                break;
-                            }
-                            case "t5e": {
-                                //Intent intent = new Intent(context, T5EActivity.class);
-                                //context.startActivity(intent);
-                                break;
-                            }
-                            default: {
-                                try {
-                                    HomeActivity.showAlert(HomeActivity.this, title, detail);
-                                } catch (Exception e) {
-                                    Log.e("tada", "home fragment", e);
-                                }
-                                break;
-                            }
-                        }
+                        HomeActivity.showAlert(HomeActivity.this, title, detail);
 
                     }
                 });
@@ -1292,7 +927,7 @@ public class HomeActivity extends AppCompatActivity
 
             final int adapterPosition = viewHolder.getAdapterPosition();
 
-            final SharedPreferences[] sharedprefs = {getContext().getSharedPreferences(SwipePrefsName, MODE_PRIVATE)};
+            final SharedPreferences[] sharedprefs = {HomeActivity.this.getSharedPreferences(SwipePrefsName, MODE_PRIVATE)};
             final SharedPreferences.Editor editor = sharedprefs[0].edit();
             editor.putString(notifObjects.get(adapterPosition).title, notifObjects.get(adapterPosition).title);
             editor.apply();
@@ -1311,7 +946,7 @@ public class HomeActivity extends AppCompatActivity
 
                             notifObjects.add(adapterPosition, finalNotifobj); //deleted element readded to ArrayList
                             adapter.notifyItemInserted(adapterPosition);
-                            sharedprefs[0] = getContext().getSharedPreferences(SwipePrefsName, MODE_PRIVATE);
+                            sharedprefs[0] = HomeActivity.this.getSharedPreferences(SwipePrefsName, MODE_PRIVATE);
                             editor.remove(finalNotifobj1.title);
                             editor.apply();
                             recyclerView.scrollToPosition(adapterPosition);

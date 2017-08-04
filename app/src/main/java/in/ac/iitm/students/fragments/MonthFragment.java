@@ -15,17 +15,18 @@ import java.util.Arrays;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
-import in.ac.iitm.students.adapters.RecyclerAdapter;
+import in.ac.iitm.students.adapters.DayAdapter;
+import in.ac.iitm.students.objects.Calendar_Event;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class monthFragment extends Fragment {
-
+public class MonthFragment extends Fragment {
     public static String[][] day, date, desc, holiday;
 
-    public static RecyclerAdapter adapter;
+    // todo dont make them static, find a work-around
+    public static DayAdapter adapter;
     public static RecyclerView rv;
     public static TextView monthName;
     public static ArrayList<String> day_list, date_list, desc_list, holiday_list;
@@ -33,12 +34,14 @@ public class monthFragment extends Fragment {
 
     static {
         day = new String[6][];
-        /*day[0] = new String[31];
+        /*
+        day[0] = new String[31];
         day[1] = new String[28];
         day[2] = new String[31];
         day[3] = new String[30];
         day[4] = new String[31];
-        day[5] = new String[30];*/
+        day[5] = new String[30];
+        */
         day[0] = new String[31];
         day[1] = new String[31];
         day[2] = new String[30];
@@ -89,7 +92,10 @@ public class monthFragment extends Fragment {
         holiday[5] = new String[31];
     }
 
-    public monthFragment() {
+    private ArrayList<Calendar_Event> month_events;
+
+
+    public MonthFragment() {
         // Required empty public constructor
     }
 
@@ -120,8 +126,8 @@ public class monthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_april, container, false);
-        monthName = (TextView) rootView.findViewById(R.id.tv_april);
+        View rootView = inflater.inflate(R.layout.fragment_month, container, false);
+        monthName = (TextView) rootView.findViewById(R.id.tv_month_name);
 
         setMonthName(CalendarActivity.currentlyDisplayedMonth);
 
@@ -138,9 +144,9 @@ public class monthFragment extends Fragment {
         holiday_list = new ArrayList(Arrays.asList(desc[CalendarActivity.currentlyDisplayedMonth]));
 
 
-        rv = (RecyclerView) rootView.findViewById(R.id.rv_april);
+        rv = (RecyclerView) rootView.findViewById(R.id.rv_month);
         rv.setHasFixedSize(true);
-        adapter = new RecyclerAdapter(day_list, date_list, desc_list, holiday_list, getActivity());
+        adapter = new DayAdapter(month_events, getActivity());
         rv.setAdapter(adapter);
 
 
@@ -155,4 +161,7 @@ public class monthFragment extends Fragment {
         super.onStop();
     }
 
+    public void setEventList(ArrayList<Calendar_Event> month_events) {
+        this.month_events = month_events;
+    }
 }
