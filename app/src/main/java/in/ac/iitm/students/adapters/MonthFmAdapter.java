@@ -32,7 +32,7 @@ public class MonthFmAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return cal_events.size();
     }
 
     public void setCal_events(ArrayList<ArrayList<Calendar_Event>> cal_events) {

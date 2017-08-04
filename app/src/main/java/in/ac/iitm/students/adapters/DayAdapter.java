@@ -1,7 +1,11 @@
 package in.ac.iitm.students.adapters;
 
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
 
 /**
@@ -20,8 +26,8 @@ import in.ac.iitm.students.objects.Calendar_Event;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     //ArrayList<String> day_dataset, date_dataset, desc_dataset, holiday_dataset;
-    Context context;
     ArrayList<Calendar_Event> month_events = new ArrayList<>();
+    private Context context;
 
     /*
     public DayAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
@@ -33,8 +39,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     }
     */
 
-    public DayAdapter(ArrayList<Calendar_Event> month_events) {
+    public DayAdapter(ArrayList<Calendar_Event> month_events, Context context) {
         this.month_events = month_events;
+        this.context=context;
     }
 
     @Override
@@ -48,7 +55,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tv_day.setText(month_events.get(position).getDay());
-        holder.tv_date.setText(month_events.get(position).getDate());
+        holder.tv_date.setText(String.valueOf(month_events.get(position).getDate()));
         holder.tv_desc.setText(month_events.get(position).getDetails());
         if (month_events.get(position).isHoliday())
             holder.tv_holiday.setText("(Holiday)");
@@ -63,9 +70,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
+
                 Calendar beginTime = Calendar.getInstance();
-                beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position + 1);
+                //beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position + 1);
                 // A date-time specified in milliseconds since the epoch.
                 long hr = beginTime.getTimeInMillis();
 
@@ -75,7 +82,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
                 Intent intent = new Intent(Intent.ACTION_VIEW)
                         .setData(builder.build());
                 context.startActivity(intent);
-                */
             }
         });
     }

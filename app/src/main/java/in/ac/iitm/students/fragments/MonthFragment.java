@@ -31,14 +31,17 @@ public class MonthFragment extends Fragment {
     public static TextView monthName;
     public static ArrayList<String> day_list, date_list, desc_list, holiday_list;
 
+
     static {
         day = new String[6][];
-        /*day[0] = new String[31];
+        /*
+        day[0] = new String[31];
         day[1] = new String[28];
         day[2] = new String[31];
         day[3] = new String[30];
         day[4] = new String[31];
-        day[5] = new String[30];*/
+        day[5] = new String[30];
+        */
         day[0] = new String[31];
         day[1] = new String[31];
         day[2] = new String[30];
@@ -143,7 +146,7 @@ public class MonthFragment extends Fragment {
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_month);
         rv.setHasFixedSize(true);
-        adapter = new DayAdapter(month_events);
+        adapter = new DayAdapter(month_events, getActivity());
         rv.setAdapter(adapter);
 
 
