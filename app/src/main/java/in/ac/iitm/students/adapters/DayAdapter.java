@@ -53,12 +53,15 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.tv_day.setText(month_events.get(position).getDay());
         holder.tv_date.setText(String.valueOf(month_events.get(position).getDate()));
         holder.tv_desc.setText(month_events.get(position).getDetails());
+
         if (month_events.get(position).isHoliday())
             holder.tv_holiday.setText("(Holiday)");
+        else
+            holder.tv_holiday.setText("");
 
 
         if (month_events.get(position).getDay().equals("Sunday") || month_events.get(position).getDay().equals("Saturday"))
@@ -72,7 +75,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             public void onClick(View v) {
 
                 Calendar beginTime = Calendar.getInstance();
-                //beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position + 1);
+                beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
                 // A date-time specified in milliseconds since the epoch.
                 long hr = beginTime.getTimeInMillis();
 

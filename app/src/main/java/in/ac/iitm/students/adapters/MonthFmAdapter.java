@@ -22,17 +22,18 @@ public class MonthFmAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        //   int current = position % 6; // 6 is used instead of 12 beacuse only 6 months are displayed in the viewpager
+        int current = position % 6; // 6 is used instead of 12 beacuse only 6 months are displayed in the viewpager
         //   CalendarActivity.currentlyDisplayedMonth = current;
 //        MonthFragment.adapter.notifyDataSetChanged();
         MonthFragment monthFragment = new MonthFragment();
-        monthFragment.setEventList(cal_events.get(position));
+        monthFragment.setEventList(cal_events.get(current),current);
         return monthFragment;
     }
 
     @Override
     public int getCount() {
-        return cal_events.size();
+        //return cal_events.size();
+        return Integer.MAX_VALUE;
     }
 
     public void setCal_events(ArrayList<ArrayList<Calendar_Event>> cal_events) {

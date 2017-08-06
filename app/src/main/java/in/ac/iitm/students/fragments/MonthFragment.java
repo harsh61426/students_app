@@ -26,71 +26,10 @@ public class MonthFragment extends Fragment {
     public static String[][] day, date, desc, holiday;
 
     // todo dont make them static, find a work-around
-    public static DayAdapter adapter;
-    public static RecyclerView rv;
-    public static TextView monthName;
-    public static ArrayList<String> day_list, date_list, desc_list, holiday_list;
-
-
-    static {
-        day = new String[6][];
-        /*
-        day[0] = new String[31];
-        day[1] = new String[28];
-        day[2] = new String[31];
-        day[3] = new String[30];
-        day[4] = new String[31];
-        day[5] = new String[30];
-        */
-        day[0] = new String[31];
-        day[1] = new String[31];
-        day[2] = new String[30];
-        day[3] = new String[31];
-        day[4] = new String[30];
-        day[5] = new String[31];
-
-        date = new String[6][];
-        /*date[0] = new String[31];
-        date[1] = new String[28];
-        date[2] = new String[31];
-        date[3] = new String[30];
-        date[4] = new String[31];
-        date[5] = new String[30];*/
-        date[0] = new String[31];
-        date[1] = new String[31];
-        date[2] = new String[30];
-        date[3] = new String[31];
-        date[4] = new String[30];
-        date[5] = new String[31];
-
-        desc = new String[6][];
-        /*desc[0] = new String[31];
-        desc[1] = new String[28];
-        desc[2] = new String[31];
-        desc[3] = new String[30];
-        desc[4] = new String[31];
-        desc[5] = new String[30];*/
-        desc[0] = new String[31];
-        desc[1] = new String[31];
-        desc[2] = new String[30];
-        desc[3] = new String[31];
-        desc[4] = new String[30];
-        desc[5] = new String[31];
-
-        holiday = new String[6][];
-        /*date[0] = new String[31];
-        date[1] = new String[28];
-        date[2] = new String[31];
-        date[3] = new String[30];
-        date[4] = new String[31];
-        date[5] = new String[30];*/
-        holiday[0] = new String[31];
-        holiday[1] = new String[31];
-        holiday[2] = new String[30];
-        holiday[3] = new String[31];
-        holiday[4] = new String[30];
-        holiday[5] = new String[31];
-    }
+    public  DayAdapter adapter;
+    public  RecyclerView rv;
+    public  TextView monthName=null;
+    int monthNo=0;
 
     private ArrayList<Calendar_Event> month_events;
 
@@ -99,8 +38,7 @@ public class MonthFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static void setMonthName(int i) {
-
+    private void setMonthName(int i) {
         if (i == 0)
             monthName.setText("July,2017");
         else if (i == 1)
@@ -116,33 +54,15 @@ public class MonthFragment extends Fragment {
 
     }
 
-    public static void resetLists() {
-        day_list = new ArrayList(Arrays.asList(day[CalendarActivity.currentlyDisplayedMonth]));
-        date_list = new ArrayList(Arrays.asList(date[CalendarActivity.currentlyDisplayedMonth]));
-        desc_list = new ArrayList(Arrays.asList(desc[CalendarActivity.currentlyDisplayedMonth]));
-        holiday_list = new ArrayList(Arrays.asList(desc[CalendarActivity.currentlyDisplayedMonth]));
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_month, container, false);
+
         monthName = (TextView) rootView.findViewById(R.id.tv_month_name);
-
-        setMonthName(CalendarActivity.currentlyDisplayedMonth);
-
-
-        /*day = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon"};
-        date = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-                "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
-        desc = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b", "c", "d"};
-*/
-        day_list = new ArrayList(Arrays.asList(day[CalendarActivity.currentlyDisplayedMonth]));
-        date_list = new ArrayList(Arrays.asList(date[CalendarActivity.currentlyDisplayedMonth]));
-        desc_list = new ArrayList(Arrays.asList(desc[CalendarActivity.currentlyDisplayedMonth]));
-        holiday_list = new ArrayList(Arrays.asList(desc[CalendarActivity.currentlyDisplayedMonth]));
-
+        setMonthName(monthNo);
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_month);
         rv.setHasFixedSize(true);
@@ -161,7 +81,9 @@ public class MonthFragment extends Fragment {
         super.onStop();
     }
 
-    public void setEventList(ArrayList<Calendar_Event> month_events) {
+    public void setEventList(ArrayList<Calendar_Event> month_events,int i) {
+
         this.month_events = month_events;
+        monthNo = i;
     }
 }

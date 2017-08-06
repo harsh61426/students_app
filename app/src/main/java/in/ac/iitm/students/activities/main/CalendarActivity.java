@@ -57,7 +57,7 @@ public class CalendarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
-    public static int currentlyDisplayedMonth = 0; // this variable shows the value -6 (ex: for july is 6 instead it shows 0)
+    public static int currentlyDisplayedMonth; // this variable shows the (value-6) (ex: july is 6 instead it shows 0)
     //RecyclerView recyclerView;
     //RecyclerView.Adapter recyclerAdapter;
     //RecyclerView.LayoutManager layoutManager;
@@ -173,16 +173,10 @@ public class CalendarActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
-                /*
+
                 int current = position % 6;
                 monthForRecyclerView = current + 6;
-                currentlyDisplayedMonth = current;
-                MonthFragment.resetLists();
-                MonthFragment.adapter.notifyDataSetChanged();
-                MonthFragment.setMonthName(CalendarActivity.currentlyDisplayedMonth);
-                MonthFragment.adapter = new DayAdapter(day_list, date_list, desc_list, holiday_list, CalendarActivity.this);
-                rv.setAdapter(MonthFragment.adapter);
-                */
+
             }
 
             @Override
