@@ -16,40 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/iv_home_feed_icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="18dp"
-            android:paddingRight="16dp"
-            android:src="@mipmap/ic_launcher"
-            android:tint="@color/colorAccent" />
-
-        <ImageView
-            android:id="@+id/link_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="3dp"
-            android:src="@drawable/ic_link_black_24dp"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/text_title_home_feed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_toEndOf="@id/iv_home_feed_icon"
-            android:layout_toRightOf="@id/iv_home_feed_icon"
             android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:paddingRight="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="16dp"
             android:text="Title appears here"
             android:textAlignment="inherit"
             android:textColor="@color/colorPrimaryText"
@@ -62,13 +36,11 @@
             android:layout_below="@id/text_title_home_feed"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
-            android:layout_toEndOf="@id/iv_home_feed_icon"
-            android:layout_toRightOf="@id/iv_home_feed_icon"
             android:ellipsize="end"
             android:maxLines="3"
             android:paddingBottom="4dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="16dp"
             android:text="Details appear here"
             android:textColor="@color/colorSecondaryText"
             android:textSize="16sp" />
