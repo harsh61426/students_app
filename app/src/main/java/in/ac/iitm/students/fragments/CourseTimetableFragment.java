@@ -726,10 +726,12 @@ public class CourseTimetableFragment extends Fragment {
                 if(slot.getText().toString().isEmpty())
                 {
                     slot.setError("Please enter the slot");
+                    return;
                 }
                 if(courseid.getText().toString().isEmpty())
                 {
                     courseid.setError("Please enter the Course ID");
+                    return;
                 }
                 else {
                     String coursed = courseid.getText().toString().toUpperCase();

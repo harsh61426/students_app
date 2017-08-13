@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,21 +19,32 @@ import java.util.Calendar;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
+import in.ac.iitm.students.objects.Calendar_Event;
+
+import static com.google.android.gms.R.color.cast_libraries_material_featurehighlight_outer_highlight_default_color;
 
 /**
  * Created by harshitha on 8/6/17.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    ArrayList<String> day_dataset, date_dataset, desc_dataset, holiday_dataset;
-    Context context;
+public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
+    //ArrayList<String> day_dataset, date_dataset, desc_dataset, holiday_dataset;
+    ArrayList<Calendar_Event> month_events = new ArrayList<>();
+    private Context context;
 
-    public RecyclerAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
+    /*
+    public DayAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
         day_dataset = list1;
         date_dataset = list2;
         desc_dataset = list3;
         holiday_dataset = list4;
         this.context = context;
+    }
+    */
+
+    public DayAdapter(ArrayList<Calendar_Event> month_events, Context context) {
+        this.month_events = month_events;
+        this.context=context;
     }
 
     @Override
@@ -45,24 +57,50 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.tv_day.setText(day_dataset.get(position));
-        holder.tv_date.setText(date_dataset.get(position));
-        holder.tv_desc.setText(desc_dataset.get(position));
-        if (holiday_dataset.get(position).equals("TRUE"))
-            holder.tv_holiday.setText("(Holiday)");
+        String day = null;
+        switch (month_events.get(position).getDay()) {
+            case "Sunday":
+                day = "Sun";
+                break;
+            case "Monday":
+                day = "Mon";
+                break;
+            case "Tuesday":
+                day = "Tue";
+                break;
+            case "Wednesday":
+                day = "Wed";
+                break;
+            case "Thursday":
+                day = "Thu";
+                break;
+            case "Friday":
+                day = "Fri";
+                break;
+            case "Saturday":
+                day = "Sat";
+                break;
+            default:
+                day = "";
+        }
+        holder.tv_day.setText(day);
+        holder.tv_date.setText(String.valueOf(month_events.get(position).getDate()));
+        holder.tv_desc.setText(month_events.get(position).getDetails());
 
 
-        if (day_dataset.get(position).equals("Sunday") || day_dataset.get(position).equals("Saturday"))
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#ba68c8"));//violet color
-        else
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFFFF"));
-
-
+        if (month_events.get(position).isHoliday()){
+            holder.cardView.setBackgroundColor(Color.parseColor("#8e24aa"));//violet color
+            holder.tv_date.setTextColor(Color.parseColor("#2b2b2b"));
+        }else{
+            holder.cardView.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+            holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
+        }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Calendar beginTime = Calendar.getInstance();
-                beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position + 1);
+                beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
                 // A date-time specified in milliseconds since the epoch.
                 long hr = beginTime.getTimeInMillis();
 
@@ -78,19 +116,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return date_dataset.size();
+        return month_events.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_day, tv_date, tv_desc, tv_holiday;
-        CardView cardView;
+        TextView tv_day, tv_date, tv_desc;
+        CardView cardView,despCardView;
 
         ViewHolder(View itemView) {
             super(itemView);
             tv_day = (TextView) itemView.findViewById(R.id.tv_day);
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_desc = (TextView) itemView.findViewById(R.id.tv_description);
-            tv_holiday = (TextView) itemView.findViewById(R.id.tv_hoilday);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
     }
