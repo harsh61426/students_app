@@ -54,7 +54,10 @@ public class RequestVolley {
                             else {
                                 JSONObject snippet = item.getJSONObject("snippet");
                                 String title= snippet.getString("title");
-                                String videoId = id.getString("videoId");
+                                String videoId = null;
+                                if(id.has("videoId")){
+                                 videoId = id.getString("videoId");
+                                }
 
                                 VideoItem vi = new VideoItem();
                                 vi.videoId = videoId;
