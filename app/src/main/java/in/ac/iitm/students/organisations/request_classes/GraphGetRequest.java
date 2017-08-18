@@ -57,7 +57,10 @@ public class GraphGetRequest  {
                                     }
                                     else if(postjs.has("story")){
                                         post.message = postjs.getString("story");
+                                    }else{
+                                        post.message = null;
                                     }
+
                                     if(PostActivity.isLitsoc || PostActivity.isTechsoc){
                                         post.created_time = postjs.getString("updated_time");
                                     }
@@ -106,8 +109,14 @@ public class GraphGetRequest  {
                             if (jsonresponse2.has("full_picture")) {
                                 post.img_url = jsonresponse2.getString("full_picture");
                             }
+                            else{
+                                post.img_url = null;
+                            }
                             if (jsonresponse2.getString("type").equals("video")) {
                                 post.vid_url = jsonresponse2.getString("source");
+                            }
+                            else {
+                                post.vid_url = null;
                             }
                             if(jsonresponse2.has("attachments")){
                                 JSONObject attachments = jsonresponse2.getJSONObject("attachments");
@@ -196,8 +205,9 @@ public class GraphGetRequest  {
                                 }
                             });
 
-
-                            postList.add(post);
+                            if(post.message != null || post.img_url!=null || post.vid_url!=null){
+                                postList.add(post);
+                            }
 
                             if(finalI1 == postsjson.length()-1){
                                 pd.dismiss();
