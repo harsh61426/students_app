@@ -1,7 +1,5 @@
 package in.ac.iitm.students.objects;
 
-import android.inputmethodservice.Keyboard;
-
 import java.util.ArrayList;
 
 /**
@@ -18,23 +16,23 @@ public class Bunks extends Course {
         return bunk_done;
     }
 
-    public int getBunk_tot() {
-        return bunk_tot;
-    }
-
     public void setBunk_done(int bunk_done) {
         this.bunk_done = bunk_done;
+    }
+
+    public int getBunk_tot() {
+        return bunk_tot;
     }
 
     public void setBunk_tot(int bunk_tot) {
         this.bunk_tot = bunk_tot;
     }
 
-    public void setRowCols(ArrayList<RowCol> rowCols) {
-        this.rowCols = rowCols;
-    }
-
     public ArrayList<RowCol> getRowCols() {
         return rowCols;
+    }
+
+    public void setRowCols(ArrayList<RowCol> rowCols) {
+        this.rowCols = rowCols;
     }
 }

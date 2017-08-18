@@ -14,7 +14,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +26,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenSource;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.squareup.picasso.Picasso;
@@ -36,7 +37,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import in.ac.iitm.students.R;
@@ -52,6 +58,7 @@ import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
 import in.ac.iitm.students.organisations.activities.DeveloperKey;
 import in.ac.iitm.students.organisations.adapters.OrganisationAdapter;
 import in.ac.iitm.students.organisations.object_items.OrganisationObject;
+import in.ac.iitm.students.organisations.object_items.Posts;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -69,26 +76,30 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
     List<OrganisationObject> orgsList;
     String[] PagesList;
     OrganisationObject org = null;
-
+    final ArrayList<String> yt_username = new ArrayList<>();
+    ProgressDialog pd;
     private DrawerLayout drawer;
+    String describe;
+    String url_1 = "https://graph.facebook.com/v2.10/";
+    String url_2 = "?fields=picture.type(large),name,";
 
     @Override
     protected void onCreate(Bundle onRetainNonConfigurationChanges) {
         super.onCreate(onRetainNonConfigurationChanges);
         setContentView(R.layout.activity_organisations);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle("Organisations in IITM");
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Organisations in IITM");
+        }
         //nav drawer code
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -115,7 +126,6 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                 .centerCrop()
                 .into(imageView);
 
-
         //nav drawer code ends
 
         String apptoken = getString(R.string.Apptoken);
@@ -134,95 +144,109 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
 
         PagesList = getResources().getStringArray(R.array.Listofpagenames);
 
-        final ProgressDialog pd = new ProgressDialog(OrganizationActivity.this);
+        pd = new ProgressDialog(OrganizationActivity.this);
         pd.setMessage("Loading Organisations");
         pd.show();
 
         String[] indexofyoutube = getResources().getStringArray(R.array.indexOfYoutubeOrg);
 
 
-        final ArrayList<String> yt_username = new ArrayList<>();
-
         for (int j = 0; j < indexofyoutube.length; j++) {
             yt_username.add(indexofyoutube[j].substring(indexofyoutube[j].lastIndexOf("|") + 1));
         }
 
-        String describe;
 
-        for (int i = 0; i < PagesList.length; i++) {
-            final int finalI = i;
-            final int finalI1 = i;
-            if(PagesList[i].matches("[0-9]+") && PagesList[i].length()>2){
+        adapter = new OrganisationAdapter(OrganizationActivity.this, orgsList);
+        rv_org_list.setAdapter(adapter);
+
+        for(final int[] i = {0}; i[0] < PagesList.length; i[0]++) {
+            final int finalI = i[0];
+            if (PagesList[i[0]].matches("[0-9]+") && PagesList[i[0]].length() > 2) {
                 describe = "description";
-                Log.i("XXSWFW",describe);
-            }
-            else{
+            } else {
                 describe = "about";
             }
-
             final String finalDescribe = describe;
-            final GraphRequest request = new GraphRequest(
-                    key,
-                    PagesList[i] + "?fields=picture.type(large),name,"+describe,
-                    null,
-                    HttpMethod.GET,
-                    new GraphRequest.Callback() {
+
+            JsonObjectRequest jsObjRequest1 = new JsonObjectRequest
+                    (Request.Method.GET,url_1+PagesList[i[0]]+url_2+describe+"&access_token="+apptoken, null, new Response.Listener<JSONObject>() {
                         @Override
-                        public void onCompleted(GraphResponse response) {
+                        public void onResponse(JSONObject response) {
+                            org = new OrganisationObject();
+
                             try {
-                                final JSONObject jsonresponse = new JSONObject(String.valueOf(response.getJSONObject()));
+                                final JSONObject jsonresponse = response;
                                 String pic_url = jsonresponse.getJSONObject("picture").getJSONObject("data").getString("url");
                                 String name = jsonresponse.getString("name");
                                 String about;
-                                if(finalDescribe.equalsIgnoreCase("description")){
-                                     about = jsonresponse.getString("description");
+                                if (finalDescribe.equalsIgnoreCase("description")) {
+                                    about = jsonresponse.getString("description");
+                                } else {
+                                    about = jsonresponse.getString("about");
                                 }
-                                else{
-                                about = jsonresponse.getString("about");
-                                }
-
                                 String id = jsonresponse.getString("id");
-                                org = new OrganisationObject(pic_url, name, id, about);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } finally {
+                                org.pageid = id;
+                                org.logo_url = pic_url;
+                                org.org_name = name;
+                                org.org_about = about;
+                                org.index = finalI;
+
                                 pd.dismiss();
                                 switch (finalI) {
                                     case 0:
                                         channelIDrequest(yt_username.get(0), org);
                                         break;
-                                    case 4:
+                                    case 3:
                                         channelIDrequest(yt_username.get(1), org);
                                         break;
-                                    case 5:
+                                    case 1:
                                         channelIDrequest(yt_username.get(2), org);
                                         break;
-                                    case 10:
+                                    case 2:
                                         channelIDrequest(yt_username.get(3), org);
                                         break;
-                                    case 11:
+                                    case 5:
                                         channelIDrequest(yt_username.get(4), org);
                                         break;
-                                    case 15:
+                                    case 4:
                                         channelIDrequest(yt_username.get(5), org);
                                         break;
                                     default:
                                         org.isYoutube = false;
                                         org.channelID = null;
+                                        Collections.sort(orgsList, new Comparator<OrganisationObject>() {
+                                            @Override
+                                            public int compare(OrganisationObject o1, OrganisationObject o2) {
+                                                return o1.index-o2.index;
+                                            }
+                                        });
                                         orgsList.add(org);
-                                        adapter = new OrganisationAdapter(OrganizationActivity.this, orgsList);
-                                        rv_org_list.setAdapter(adapter);
                                         adapter.notifyDataSetChanged();
+                                        break;
                                 }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }finally {
+
+
+
+                                adapter.notifyDataSetChanged();
                             }
                         }
-                    });
-            request.executeAsync();
+                    }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        // Access the RequestQueue through your singleton class.
+            MySingleton.getInstance(OrganizationActivity.this).addToRequestQueue(jsObjRequest1);
+
         }
-
-
     }
-
 
     private void channelIDrequest(final String username, final OrganisationObject org) {
         final JsonObjectRequest jsObjRequest1 = new JsonObjectRequest
@@ -239,17 +263,21 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                                 org.channelID = jsonitem.getString("id");
                             }
                             org.isYoutube = true;
+                            Collections.sort(orgsList, new Comparator<OrganisationObject>() {
+                                @Override
+                                public int compare(OrganisationObject o1, OrganisationObject o2) {
+                                    return o1.index-o2.index;
+                                }
+                            });
                             orgsList.add(org);
-                            adapter = new OrganisationAdapter(OrganizationActivity.this, orgsList);
-                            rv_org_list.setAdapter(adapter);
+                            ///adapter.notifyItemInserted(finalI3);
+                            //Log.i("DDSXX"+String.valueOf(i),orgsList.get(i).org_name);
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            orgsList.add(org);
-                            adapter = new OrganisationAdapter(OrganizationActivity.this, orgsList);
-                            rv_org_list.setAdapter(adapter);
+                            //orgsList.add(org);
+                           // adapter.notifyItemInserted(finalI3);
                         }
-
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -263,13 +291,18 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
     }
 
 
+
+
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            Intent intent = new Intent(OrganizationActivity.this, HomeActivity.class);
-            startActivity(intent);
+        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+        if(drawer!=null) {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                Intent intent = new Intent(OrganizationActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
         }
     }
 

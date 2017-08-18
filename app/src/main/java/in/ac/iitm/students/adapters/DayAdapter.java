@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import java.util.Calendar;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
+
+import static com.google.android.gms.R.color.cast_libraries_material_featurehighlight_outer_highlight_default_color;
 
 /**
  * Created by harshitha on 8/6/17.
@@ -54,22 +57,44 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.tv_day.setText(month_events.get(position).getDay());
+        String day = null;
+        switch (month_events.get(position).getDay()) {
+            case "Sunday":
+                day = "Sun";
+                break;
+            case "Monday":
+                day = "Mon";
+                break;
+            case "Tuesday":
+                day = "Tue";
+                break;
+            case "Wednesday":
+                day = "Wed";
+                break;
+            case "Thursday":
+                day = "Thu";
+                break;
+            case "Friday":
+                day = "Fri";
+                break;
+            case "Saturday":
+                day = "Sat";
+                break;
+            default:
+                day = "";
+        }
+        holder.tv_day.setText(day);
         holder.tv_date.setText(String.valueOf(month_events.get(position).getDate()));
         holder.tv_desc.setText(month_events.get(position).getDetails());
 
-        if (month_events.get(position).isHoliday())
-            holder.tv_holiday.setText("(Holiday)");
-        else
-            holder.tv_holiday.setText("");
 
-
-        if (month_events.get(position).getDay().equals("Sunday") || month_events.get(position).getDay().equals("Saturday"))
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#ba68c8"));//violet color
-        else
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFFFF"));
-
-
+        if (month_events.get(position).isHoliday()){
+            holder.cardView.setBackgroundColor(Color.parseColor("#8e24aa"));//violet color
+            holder.tv_date.setTextColor(Color.parseColor("#2b2b2b"));
+        }else{
+            holder.cardView.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+            holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
+        }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,15 +120,14 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_day, tv_date, tv_desc, tv_holiday;
-        CardView cardView;
+        TextView tv_day, tv_date, tv_desc;
+        CardView cardView,despCardView;
 
         ViewHolder(View itemView) {
             super(itemView);
             tv_day = (TextView) itemView.findViewById(R.id.tv_day);
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_desc = (TextView) itemView.findViewById(R.id.tv_description);
-            tv_holiday = (TextView) itemView.findViewById(R.id.tv_hoilday);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
     }

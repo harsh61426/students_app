@@ -38,22 +38,28 @@ import in.ac.iitm.students.others.Utils;
 
 public class CourseTimetableFragment extends Fragment {
 
-
+    // adapter for the recyclerView in the edit courses page
     CourseAdapter courseAdapter;
     ArrayList<Course> courses;
     Dialog dialog;
+    // ids representing each cell in the grid in timetable.
+    // The initial character is for the day and the integer is for the slot sequence
     int ids[][] = {{R.id.m1,R.id.m2,R.id.m3,R.id.m4,R.id.m5,R.id.m6,R.id.m7,R.id.m8},
             {R.id.t1,R.id.t2,R.id.t3,R.id.t4,R.id.t5,R.id.t6,R.id.t7,R.id.t8},
             {R.id.w1,R.id.w2,R.id.w3,R.id.w4,R.id.w5,R.id.w6,R.id.w7,R.id.w8},
             {R.id.h1,R.id.h2,R.id.h3,R.id.h4,R.id.h5,R.id.h6,R.id.h7,R.id.h8},
             {R.id.f1,R.id.f2,R.id.f3,R.id.f4,R.id.f5,R.id.f6,R.id.f7,R.id.f8}};
     int texids[] = {R.id.mex,R.id.tex,R.id.wex,R.id.hex,R.id.fex};
+    // The timetable is basically a grid of textViews
     TextView tvs[][] = new TextView[5][8];
+    // grid for corresponding slots
     char slots[][] = new char[5][8];
+    // grid for corresponding bunks
     boolean bunk[][] = new boolean[5][8];
     HashMap<Character,String> coursemap;
     ArrayList<Bunks> bunks;
     View view;
+    // viewFlipper to flip between the timetable and the edit courses page
     ViewFlipper flipper;
     boolean flag=false;
 
@@ -66,7 +72,9 @@ public class CourseTimetableFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
         view = inflater.inflate(R.layout.fragment_course_timetable, container, false);
+        // declaring the top row, ie the row with day names
         for(int i = 0;i<5;i++)
         {
             TextView textView = (TextView)view.findViewById(texids[i]);
@@ -84,10 +92,14 @@ public class CourseTimetableFragment extends Fragment {
         flipper = (ViewFlipper) view.findViewById(R.id.flipper);
         flipper.setDisplayedChild(Utils.getprefInt("TT_Screen", getActivity()));
 
+        // courses is an arrayList of Course object
         courses = new ArrayList<>();
 
+        // gets all the courses from preferences.
+        // Initialises Course objects, which contains all the course related information, except the bunks tally.
         getcourses();
 
+        // edit course page code starts here
         courseAdapter = new CourseAdapter(getActivity(), courses);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.courses_recycler);
@@ -115,9 +127,14 @@ public class CourseTimetableFragment extends Fragment {
             }
         });
 
+        // ends
+
+        // bunks is an arrayList of Bunk object
         bunks = new ArrayList<>();
+        // hashMap <Character, String>
         coursemap = new HashMap<>();
 
+        // setting background color for the cells in the grid according to whether it is bunked or not.
         for(int i=0;i<5;i++)
         {
             for(int j=0;j<8;j++)
@@ -136,8 +153,11 @@ public class CourseTimetableFragment extends Fragment {
             }
         }
 
-
+        // Bunks class extends the course class which implies that to completely initialize a Bunks object you have to
+        // initialize all the variables in the Course class along with the Bunks class.
+        // getBunks() initializes the bunks arrayList from prefs
         getbunks();
+        // hashMap for slot (char) and course id (string)
         getcoursemap();
         for (Bunks c : bunks) {
             mapslots(c.getSlot(), c.getDays());
@@ -145,13 +165,16 @@ public class CourseTimetableFragment extends Fragment {
 
         Calendar calendar = Calendar.getInstance();
         int week = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        // This gets the current week and compares it with the value stored in prefs.
+        // If it does not match then it removes the red colour from slots and updates the bunks tally.
         if(week>Utils.getprefInt("LastLogTT",getActivity()))
         {
             clearbunks();
+            ((TimetableActivity) getActivity()).returnadapter().notifyDataSetChanged();
+            // Todo test
         }
         Utils.saveprefInt("LastLogTT",week,getActivity());
-
-
 
 
         for(int i=0;i<5;i++)
@@ -160,14 +183,20 @@ public class CourseTimetableFragment extends Fragment {
             {
                 final int x = i;
                 final int y = j;
+                // initializing the textViews
                 tvs[i][j].setText(Character.toString(slots[i][j])+'\n'+coursemap.get(slots[i][j]));
+                // The cells in the grid to which slots are not assigned are 'X' by default
                 if(slots[i][j]=='X')
                 {
+                    // there are 3 colors in the timetable- red indicating bunked,
+                    // white indicating the presence of a slot in that hour and transparent implying free hour.
                     tvs[i][j].setVisibility(View.INVISIBLE);
                 }
-                tvs[i][j].setOnLongClickListener(new View.OnLongClickListener() {
+
+                // setting listeners for the textViews (in the grid)
+                tvs[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public void onClick(View v) {
                         if(bunk[x][y])
                         {
                             v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
@@ -296,6 +325,7 @@ public class CourseTimetableFragment extends Fragment {
         for(int i=0;i<number;i++)
         {
             Bunks course = new Bunks();
+            // Bunk class extends the Course class
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));

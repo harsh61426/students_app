@@ -1,5 +1,6 @@
 package in.ac.iitm.students.activities.main;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -7,6 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -73,7 +77,7 @@ public class CalendarActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*
+
         //Checking the permission for writing calendar
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_CALENDAR)
@@ -111,7 +115,8 @@ public class CalendarActivity extends AppCompatActivity
         else{
             new InstiCalendar(CalendarActivity.this).fetchCalData(1);
         }
-        */
+
+
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
@@ -161,6 +166,10 @@ public class CalendarActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("VolleyError", error.toString());
+                Snackbar snackbar = Snackbar
+                        .make(drawer,"No internet connection", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
             }
         });
         MySingleton.getInstance(CalendarActivity.this).addToRequestQueue(stringRequest);

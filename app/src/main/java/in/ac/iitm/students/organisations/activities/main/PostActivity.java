@@ -56,7 +56,7 @@ import in.ac.iitm.students.others.Utils;
 
 public class PostActivity extends AppCompatActivity implements VideoFragment.OnFragmentInteractionListener{
 
-    public  static ArrayList<Posts> postList;
+    public static ArrayList<Posts> postList;
     public static Boolean isYoutube;
     public static String channelID;
     public static ArrayList<VideoItem> videoList;
@@ -86,6 +86,8 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
     String appid ;
     String reaction_url;
     public static String Pagedes;
+    String url_main = "https://graph.facebook.com/v2.10/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +166,7 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
 
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
-        postList = new ArrayList<>();
+        postList = new ArrayList<Posts>();
         videoList = new ArrayList<VideoItem>();
         newses = new ArrayList<News>();
 
@@ -203,24 +205,17 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         }
         GraphGetRequest request = new GraphGetRequest();
         try {
-            request.dorequest(key, pageid + "/feed" , null,postList,pd, reaction_url);
+            request.dorequest(PostActivity.this,getString(R.string.Apptoken),url_main + pageid + "/feed?limit=50&access_token=" , null,postList,pd, reaction_url);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void getNews() {
-        //final ProgressDialog progress;
 
         final Context context1 = PostActivity.this;
         String url = getString(R.string.fifthettateurl);
 
-        /*progress = //new ProgressDialog(context1);
-        progress.setCancelable(false);
-        progress.setMessage("Loading T5E...");
-        progress.show();*/
 
         JsonArrayRequest jsObjRequest = new JsonArrayRequest
                 (url, new Response.Listener<JSONArray>() {
@@ -242,7 +237,9 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
                                 } catch (java.text.ParseException e) {
                                     e.printStackTrace();
                                 }
+                                if(date!=null){
                                 dateINT = date.getTime();
+                                }
                                 title = jsonObject.getJSONObject("title").getString("rendered");
                                 summary = jsonObject.getJSONObject("excerpt").getString("rendered");
                                 summary = Html.fromHtml(summary).toString();

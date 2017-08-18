@@ -59,7 +59,7 @@ public class YoutubeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        vadapter = new VideoAdapter(response1, context);
+        vadapter = new VideoAdapter(response1,getActivity());
         recyclerView.setAdapter(vadapter);
         return view;
     }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.youtube.player.YouTubeIntents;
-import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
 import java.util.ArrayList;
@@ -26,14 +25,11 @@ import in.ac.iitm.students.organisations.object_items.VideoItem;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
     Context context;
-    //public static ArrayList<Integer> playlistno = new ArrayList<>();  //Required if we want to display playlist thumbnails also
-    YouTubeThumbnailLoader youTubeThumbnailLoader;
     private ArrayList<VideoItem> videoList;
 
     public VideoAdapter(ArrayList<VideoItem> videoList, Context context) {
         this.videoList = videoList;
         this.context = context;
-
     }
 
     @Override
@@ -55,12 +51,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         Glide.with(context).
                 load(url+videoList.get(position).videoId+url_2)
-                .placeholder(R.drawable.loading)
+                .placeholder(R.color.Imageback)
                 .crossFade(500)
                 .centerCrop()
                 .into(holder.thumbnailView);
-
-        //This onClickListner for thumnailview alone however onClickListner for whole cardview is also included
 
         holder.thumbnailView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,14 +62,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
                 Intent intent = null;
 
-                //********Required for playlist thumbnails
-                /*if(playlistno.contains(position))
-                    intent = YouTubeIntents.createPlayPlaylistIntent(context,videoList.get(position).videoId);
-                else*/
-
                 intent = YouTubeIntents.createPlayVideoIntentWithOptions(context,videoList.get(holder.getAdapterPosition()).videoId,true,false);
                 context.startActivity(intent);
-
             }
         });
 
@@ -83,10 +71,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             @Override
             public void onClick(View v) {
                 Intent intent = null;
-                //********Required for playlist thumbnails
-                /*if(playlistno.contains(position))
-                    intent = YouTubeIntents.createPlayPlaylistIntent(context,videoList.get(position).videoId);
-                else*/
+
                 intent = YouTubeIntents.createPlayVideoIntentWithOptions(context,videoList.get(holder.getAdapterPosition()).videoId,true,false);
                 context.startActivity(intent);
             }
