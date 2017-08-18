@@ -160,6 +160,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+
+
         <service android:name=".others.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -203,6 +205,10 @@
             android:label="Calendar"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+
+
+
 
         <activity
             android:name="in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity"

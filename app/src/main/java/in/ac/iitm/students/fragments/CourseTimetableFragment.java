@@ -1,9 +1,11 @@
 package in.ac.iitm.students.fragments;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +28,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.main.EditCourseDialogActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.adapters.CourseAdapter;
 import in.ac.iitm.students.objects.Bunks;
@@ -51,6 +55,7 @@ public class CourseTimetableFragment extends Fragment {
     ArrayList<Bunks> bunks;
     View view;
     ViewFlipper flipper;
+    boolean flag=false;
 
     public CourseTimetableFragment() {
         // Required empty public constructor
@@ -148,6 +153,7 @@ public class CourseTimetableFragment extends Fragment {
 
 
 
+
         for(int i=0;i<5;i++)
         {
             for(int j=0;j<8;j++)
@@ -159,9 +165,9 @@ public class CourseTimetableFragment extends Fragment {
                 {
                     tvs[i][j].setVisibility(View.INVISIBLE);
                 }
-                tvs[i][j].setOnClickListener(new View.OnClickListener() {
+                tvs[i][j].setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public boolean onLongClick(View v) {
                         if(bunk[x][y])
                         {
                             v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
@@ -176,8 +182,54 @@ public class CourseTimetableFragment extends Fragment {
                             Utils.saveprefBool("state"+8*x+y,true,getActivity());
                             updatebunks(x,y,true);
                         }
+                        return true;
                     }
                 });
+
+
+                tvs[i][j].setOnClickListener(new View.OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View v) {
+
+
+
+
+                        if(!flag) {
+
+                            //v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+
+
+                            TextView edit = (TextView) (v);
+                            edit.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pencil, 0,R.drawable.close_circle, 0);
+                            v.setAlpha(0.5f);
+                            flag = true;
+                            return;
+
+                        }
+                        if(flag){
+
+                            EditCourseDialogActivity cdd=new EditCourseDialogActivity(getActivity());
+                            cdd.show();
+
+
+
+
+                        }
+
+
+
+
+
+
+
+
+
+
+                    }
+                });
+
             }
         }
 

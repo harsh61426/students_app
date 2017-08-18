@@ -797,7 +797,9 @@ public class HomeActivity extends AppCompatActivity
                 holder.rlHomeFeed.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        HomeActivity.showAlert(HomeActivity.this, title, detail);
+
+                        CustomDialogActivity cdd=new CustomDialogActivity(HomeActivity.this);
+                        cdd.show();
 
                     }
                 });
@@ -811,7 +813,8 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         try {
-                            HomeActivity.showAlert(HomeActivity.this, title, detail, link);
+                            CustomDialogActivity cdd=new CustomDialogActivity(HomeActivity.this);
+                            cdd.show();
                         } catch (Exception e) {
                             Log.e("tada", "home fragment", e);
                         }

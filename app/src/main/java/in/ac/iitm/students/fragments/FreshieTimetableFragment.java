@@ -160,9 +160,9 @@ public class FreshieTimetableFragment extends Fragment {
                 {
                     tvs[i][j].setVisibility(View.INVISIBLE);
                 }
-                tvs[i][j].setOnClickListener(new View.OnClickListener() {
+                tvs[i][j].setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public boolean onLongClick(View v) {
                         if(bunk[x][y])
                         {
                             v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
@@ -177,6 +177,7 @@ public class FreshieTimetableFragment extends Fragment {
                             Utils.saveprefBool("state"+8*x+y,true,getActivity());
                             updatebunks(x,y,true);
                         }
+                        return true;
                     }
                 });
             }
