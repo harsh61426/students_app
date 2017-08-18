@@ -685,11 +685,9 @@ public class HomeActivity extends AppCompatActivity
     public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
         Context context;
-        String response;
 
         public HomeAdapter(String response, Context _context) {
 
-            this.response = response;
             context = _context;
 
             SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -706,7 +704,7 @@ public class HomeActivity extends AppCompatActivity
             //editor.apply();
 
             try {
-                setUpData();
+                setUpData(response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -770,7 +768,8 @@ public class HomeActivity extends AppCompatActivity
             return notifObject;
         }
 
-        private void setUpData() throws IOException {
+        private void setUpData(String response) throws IOException {
+            Log.d("damn", response);
 
             InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
             JsonReader reader = null;
