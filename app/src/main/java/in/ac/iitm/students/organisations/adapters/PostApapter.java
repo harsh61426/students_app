@@ -15,6 +15,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,9 +71,6 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
     PopupWindow reactionpopup,multipopup;
     View layout,layout1;
 
-
-
-
     public PostApapter(Context context, ArrayList<Posts> postList, AccessToken key, String pagename, String logo_url, FragmentManager fragmentManager, VideoFragment fragment, FrameLayout layout_MainMenu, ProgressDialog pd, PopupWindow reactions_popup, View view, PopupWindow multipopup, View layout1) {
         this.context = context;
         this.Postlist = postList;
@@ -90,29 +88,28 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
     }
 
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.pods_activity, parent, false);
-
         return new ViewHolder(itemView,layout);
 
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final PostApapter.ViewHolder holder, int position) {
         final String type = Postlist.get(holder.getAdapterPosition()).type;
         final String  s = "video";
         final String s1 = "youtube.com";
         String strDate = getlongtoago(Postlist.get(holder.getAdapterPosition()).created_time) ;
         //String datetime = GetLocalDateStringFromUTCString(strDate);
 
+
         holder.tv_org.setText(pagename);
         holder.tv_time.setText(strDate);
 
         Glide.with(context)
                 .load(logo_url)
-                .placeholder(R.drawable.loading)
+                .placeholder(R.color.Imageback)
                 .error(null)
                 .crossFade(500)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -141,8 +138,8 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
             }
         });*/
 
+        if(Postlist.get(holder.getAdapterPosition()).type!=null && Postlist.get(holder.getAdapterPosition()).type.equalsIgnoreCase("photo") || Postlist.get(holder.getAdapterPosition()).type.equalsIgnoreCase("video") || Postlist.get(holder.getAdapterPosition()).img_url!=null) {
 
-        if(Postlist.get(holder.getAdapterPosition()).type!=null && Postlist.get(holder.getAdapterPosition()).type.equalsIgnoreCase("photo") || Postlist.get(holder.getAdapterPosition()).type.equalsIgnoreCase("video") ) {
 
             if(Postlist.get(holder.getAdapterPosition()).sub_imgurls!=null && Postlist.get(holder.getAdapterPosition()).sub_imgurls.size()==0){
             Glide.with(context).
@@ -165,20 +162,20 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
 
                     Glide.with(context).
                                 load(Postlist.get(holder.getAdapterPosition()).sub_imgurls.get(0))
-                                .placeholder(R.drawable.loading)
-                                .crossFade(1000)
+                                .placeholder(R.color.Imageback)
+                                .crossFade(500)
                                 .centerCrop()
                                 .into(holder.iv_imag11);
                     Glide.with(context).
                             load(Postlist.get(holder.getAdapterPosition()).sub_imgurls.get(1))
-                            .placeholder(R.drawable.loading)
-                            .crossFade(1000)
+                            .placeholder(R.color.Imageback)
+                            .crossFade(500)
                             .into(holder.iv_image12);
 
                     Glide.with(context).
                             load(Postlist.get(holder.getAdapterPosition()).sub_imgurls.get(2))
-                            .placeholder(R.drawable.loading)
-                            .crossFade(1000)
+                            .placeholder(R.color.Imageback)
+                            .crossFade(500)
                             .into(holder.iv_image13);
 
                         holder.rv_gridimages.setVisibility(View.VISIBLE);
@@ -189,13 +186,13 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
 
                         Glide.with(context).
                                 load(Postlist.get(holder.getAdapterPosition()).sub_imgurls.get(0))
-                                .placeholder(R.drawable.loading)
+                                .placeholder(R.color.Imageback)
                                 .crossFade(500)
                                 .centerCrop()
                                 .into(holder.iv_image21);
                         Glide.with(context).
                                 load(Postlist.get(holder.getAdapterPosition()).sub_imgurls.get(1))
-                                .placeholder(R.drawable.loading)
+                                .placeholder(R.color.Imageback)
                                 .crossFade(500)
                                 .centerCrop()
                                 .into(holder.iv_image22);
@@ -436,25 +433,25 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
                 holder.iv_content.getLayoutParams().width = 0;
             }
 
-        holder.iv_content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder imagezoom = new AlertDialog.Builder(context,R.style.custom_alert_dialog);
-                LayoutInflater layout = LayoutInflater.from(context);
-                final View view = layout.inflate(R.layout.imagezoom, null);
-                ImageView image = (ImageView)view.findViewById(R.id.iv_imagezoom);
-
-                Glide.with(context)
-                        .load(Postlist.get(holder.getAdapterPosition()).img_url)
-                        .placeholder(R.color.Imageback)
-                        .error(null)
-                        .crossFade(1000)
-                        .into(image);
-                imagezoom.setView(view);
-                imagezoom.show();
-
-            }
-        });
+//        holder.iv_content.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog.Builder imagezoom = new AlertDialog.Builder(context,R.style.custom_alert_dialog);
+//                LayoutInflater layout = LayoutInflater.from(context);
+//                final View view = layout.inflate(R.layout.imagezoom, null);
+//                ImageView image = (ImageView)view.findViewById(R.id.iv_imagezoom);
+//
+//                Glide.with(context)
+//                        .load(Postlist.get(holder.getAdapterPosition()).img_url)
+//                        .placeholder(R.color.Imageback)
+//                        .error(null)
+//                        .crossFade(1000)
+//                        .into(image);
+//                imagezoom.setView(view);
+//                imagezoom.show();
+//
+//            }
+//        });
 
 
 
@@ -466,11 +463,18 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
             holder.tv_post_des.getLayoutParams().height = 0;
         }
 
-
-        String udata=String.valueOf("Reactions: "+Postlist.get(holder.getAdapterPosition()).count);
-        final SpannableString content = new SpannableString(udata);
-        content.setSpan(new UnderlineSpan(), 0, udata.length(), 0);
-        holder.tv_likes.setText(content);
+        if(Postlist.get(holder.getAdapterPosition()).count!=0 ) {
+            String udata = String.valueOf(Postlist.get(holder.getAdapterPosition()).count);
+            final SpannableString content = new SpannableString(udata);
+            content.setSpan(new UnderlineSpan(), 0, udata.length(), 0);
+            holder.tv_likes.setText(content);
+        }
+        else{
+            holder.reaction_divider.setVisibility(View.INVISIBLE);
+            holder.rv_reactions.setVisibility(View.INVISIBLE);
+            holder.rv_reactions.getLayoutParams().height = 0;
+            holder.rv_reactions.getLayoutParams().width =0;
+        }
 
 
         hideview(holder.iv_2,Postlist.get(holder.getAdapterPosition()).haha_count);
@@ -536,7 +540,8 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
 
 
         if( type!=null && type.equalsIgnoreCase(s)) {
-           holder.iv_videocover.setOnClickListener(new View.OnClickListener() {
+
+           holder.iv_content.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
 
@@ -573,15 +578,57 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
                                    context.startActivity(intent);
                                }
                                else {
-                                   Toast.makeText(context,"Sorry, There was some error",Toast.LENGTH_SHORT);
+                                   Toast.makeText(context,"Sorry, There was some error",Toast.LENGTH_SHORT).show();
                                }
                            }
-
-
-                           }
                        }
+                   }
+                });
 
-               });
+            holder.iv_videocover.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    holder.iv_content.setClickable(false);
+
+                    String type1 = Postlist.get(holder.getAdapterPosition()).type;
+                    if(type1!=null && type1.equalsIgnoreCase(s)) {
+                        if (!Postlist.get(holder.getAdapterPosition()).vid_url.toLowerCase().contains(s1.toLowerCase())) {
+
+                            Bundle args = new Bundle();
+                            args.putString("video_url", Postlist.get(holder.getAdapterPosition()).vid_url);
+                            fragment.getArguments().putAll(args);
+                            android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+                            transaction.replace(R.id.fragment_container, fragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+
+                        } else {
+                            String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*";
+                            String videoid;
+                            Pattern compiledPattern = Pattern.compile(pattern);
+                            Matcher matcher = compiledPattern.matcher(Postlist.get(holder.getAdapterPosition()).vid_url); //url is youtube url for which you want to extract the id.
+                            if (matcher.find()) {
+                                videoid = matcher.group();
+                            }
+                            else {
+                                videoid = null;
+                            }
+
+                            if(videoid!=null) {
+
+                                Intent intent = null;
+                                intent = YouTubeIntents.createPlayVideoIntentWithOptions(context,videoid,true, false);
+                                context.startActivity(intent);
+                            }
+                            else {
+                                Toast.makeText(context,"Sorry, There was some error",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+            });
+
            }
     }
 
@@ -692,47 +739,49 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
         Date CreatedAt = null;
         Date current = null;
         try {
-            CreatedAt = (new Date(crdate1));
+            if(crdate1!=null)
+                CreatedAt = (new Date(crdate1));
             current = dateFormat.parse(currenttime);
         } catch (java.text.ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        // Get msec from each, and subtract.
-        long diff = current.getTime() - CreatedAt.getTime();
-        long diffSeconds = diff / 1000;
-        long diffMinutes = diff / (60 * 1000) % 60;
-        long diffHours = diff / (60 * 60 * 1000) % 24;
-        long diffDays = diff / (24 * 60 * 60 * 1000);
-
         String time = null;
-        if (diffDays > 0) {
-            if (diffDays == 1) {
-                time = diffDays + " day ago";
-            } else {
-                time = diffDays + " days ago ";
-            }
-        } else {
-            if (diffHours > 0) {
-                if (diffHours == 1) {
-                    time = diffHours + " hour ago";
-                } else {
-                    time = diffHours + " hours ago";
-                }
-            } else {
-                if (diffMinutes > 0) {
-                    if (diffMinutes == 1) {
-                        time = diffMinutes + " minute ago";
-                    } else {
-                        time = diffMinutes + " minutes ago";
-                    }
-                } else {
-                    if (diffSeconds > 0) {
-                        time = diffSeconds + " seconds ago";
-                    }
-                }
+        // Get msec from each, and subtract.
+        if(current!=null && CreatedAt!=null) {
+            long diff = current.getTime() - CreatedAt.getTime();
+            long diffSeconds = diff / 1000;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
 
+            if (diffDays > 0) {
+                if (diffDays == 1) {
+                    time = diffDays + " day ago";
+                } else {
+                    time = diffDays + " days ago ";
+                }
+            } else {
+                if (diffHours > 0) {
+                    if (diffHours == 1) {
+                        time = diffHours + " hour ago";
+                    } else {
+                        time = diffHours + " hours ago";
+                    }
+                } else {
+                    if (diffMinutes > 0) {
+                        if (diffMinutes == 1) {
+                            time = diffMinutes + " minute ago";
+                        } else {
+                            time = diffMinutes + " minutes ago";
+                        }
+                    } else {
+                        if (diffSeconds > 0) {
+                            time = diffSeconds + " seconds ago";
+                        }
+                    }
+
+                }
             }
         }
         return time;
@@ -750,16 +799,18 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
         public LinearLayout lin_emojis;
         ImageView iv_11,iv_21,iv_31,iv_41,iv_51,iv_61,iv_imag11,iv_image12,iv_image13,iv_image21,iv_image22;
         TextView tv_likecount,tv_hahacount,tv_lovecount,tv_wowcount,tv_angrycount,tv_sadcount;
-        RelativeLayout rv_gridimages,rv_gridimages2;
-
-
+        LinearLayout rv_gridimages;
+        LinearLayout rv_gridimages2;
+        RelativeLayout rv_reactions;
+        View reaction_divider;
 
         public ViewHolder(View itemView,View layout) {
             super(itemView);
 
             tv_post_des = (TextView) itemView.findViewById(R.id.tv_post_des);
             tv_org = (TextView) itemView.findViewById(R.id.tv_org);
-
+            rv_reactions = (RelativeLayout)itemView.findViewById(R.id.rv_reactions);
+            reaction_divider = (View)itemView.findViewById(R.id.v_bottom);
             cv_popup = (CardView)itemView.findViewById(R.id.cv_popup);
             cv_post = (CardView) itemView.findViewById(R.id.cv_post);
             iv_org = (ImageView) itemView.findViewById(R.id.iv_org_profilepic);
@@ -772,8 +823,8 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
             fl_images = (FrameLayout)itemView.findViewById(R.id.fl_images);
             lin_emojis = (LinearLayout)itemView.findViewById(R.id.lin_emojis);
 
-            rv_gridimages = (RelativeLayout)itemView.findViewById(R.id.rv_gridimages3);
-            rv_gridimages2 = (RelativeLayout)itemView.findViewById(R.id.rv_gridimages2);
+            rv_gridimages = (LinearLayout)itemView.findViewById(R.id.rv_gridimages3);
+            rv_gridimages2 = (LinearLayout)itemView.findViewById(R.id.rv_gridimages2);
             tv_nofimages = (TextView)itemView.findViewById(R.id.tv_nofimages);
             iv_imag11 = (ImageView)itemView.findViewById(R.id.iv_image11);
             iv_image12 = (ImageView)itemView.findViewById(R.id.iv_image12);

@@ -59,7 +59,9 @@
         android:foregroundGravity="center"
         android:layout_below="@+id/tv_post_des"
         android:id="@+id/fl_images"
+        android:clickable="true"
         >
+
 
         <ImageView
         android:layout_width="match_parent"
@@ -72,7 +74,7 @@
         android:longClickable="true"
         android:layout_margin="2dp"/>
 
-    <ImageView
+        <ImageView
         android:layout_width="wrap_content"
         android:id="@+id/iv_videocover"
         android:layout_height="wrap_content"
@@ -83,25 +85,32 @@
         android:clickable="true"
         android:layout_margin="8dp"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rv_gridimages3"
+            android:weightSum="2"
             android:clickable="true"
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="180dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="280dp"
                 android:id="@+id/iv_image11"
                 android:layout_margin="2dp"
                 android:scaleType="fitXY"
                 android:background="@drawable/border"
                 android:src="@drawable/laugh"
-                android:layout_alignParentStart="true"/>
+                />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
             <ImageView
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:id="@+id/iv_image12"
                 android:layout_marginTop="2dp"
@@ -109,25 +118,22 @@
                 android:layout_marginBottom="2dp"
                 android:scaleType="fitXY"
                 android:background="@drawable/border"
-                android:layout_toEndOf="@+id/iv_image11"
                 android:src="@drawable/love"/>
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="130dp"
+                android:layout_width="match_parent"
+                android:layout_height="148dp"
                 android:id="@+id/iv_image13"
                 android:visibility="visible"
                 android:background="@drawable/border"
                 android:layout_marginRight="2dp"
-                android:layout_alignBottom="@+id/iv_image11"
                 android:scaleType="fitXY"
-                android:layout_toEndOf="@+id/iv_image11"
                 android:layout_below="@+id/iv_image12"
                 android:src="@drawable/love"/>
 
             <TextView
                 android:layout_width="200dp"
-                android:layout_height="130dp"
+                android:layout_height="140dp"
                 android:id="@+id/tv_nofimages"
                 android:gravity="center"
                 android:alpha="0.8"
@@ -137,40 +143,41 @@
                 android:shadowRadius="2"
                 android:layout_centerHorizontal="true"
                 android:text="7+"
-                android:layout_toEndOf="@+id/iv_image11"
                 android:layout_below="@+id/iv_image12"/>
 
-        </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rv_gridimages2"
+            android:weightSum="2"
             android:clickable="true"
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="160dp"
+                android:layout_width="0dp"
                 android:layout_height="280dp"
                 android:id="@+id/iv_image21"
                 android:layout_margin="2dp"
                 android:scaleType="fitXY"
+                android:layout_weight="1"
                 android:background="@drawable/border"
                 android:src="@drawable/laugh"
-                android:layout_alignParentStart="true"/>
+                />
+
             <ImageView
-                android:layout_width="200dp"
+                android:layout_width="0dp"
                 android:layout_height="280dp"
-                android:layout_alignBottom="@+id/iv_image21"
                 android:id="@+id/iv_image22"
-                android:layout_alignTop="@+id/iv_image21"
+                android:layout_weight="1"
                 android:layout_marginRight="2dp"
                 android:scaleType="fitXY"
                 android:background="@drawable/border"
-                android:layout_toEndOf="@+id/iv_image21"
                 android:src="@drawable/love"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </FrameLayout>
 

@@ -126,25 +126,26 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="Listofpagenames">
-        <item> "Mediaclubiitm/"</item>
-        <item> "IITPodDa/"</item>
-        <item>"fineartsclubiitmadras/"</item>
-        <item>"cfiiitm/"</item>
-        <item>"ReachIITM/"</item>
+        <item>"Mediaclubiitm/"</item>
         <item>"saarangiitm/"</item>
-        <item>"theoratoryclubiitm/"</item>
-        <item>"SLCIITMadras/"</item>
-        <item>"SportsIITM/"</item>
-        <item>"nss.iitm/"</item>
         <item>"Shaastra/"</item>
-        <item>"iitmtv/"</item>
-        <item>"iar.iitmadras/"</item>
-        <item>"mitr.iitm/"</item>
-        <item>"saathi.iitm/"</item>
+        <item>"ReachIITM/"</item>
         <item>"eml.iitm/"</item>
+        <item>"iitmtv/"</item>
+        <item> "IITPodDa/"</item>
+        <item>"cfiiitm/"</item>
+        <item>"SportsIITM/"</item>
+        <item>"iar.iitmadras/"</item>
         <item>"t5e.iitm/"</item>
+        <item>"fineartsclubiitmadras/"</item>
         <item>"152210554869211"</item>
         <item>"362692757076050"</item>
+        <item>"theoratoryclubiitm/"</item>
+        <item>"SLCIITMadras/"</item>
+        <item>"nss.iitm/"</item>
+        <item>"mitr.iitm/"</item>
+        <item>"saathi.iitm/"</item>
+
     </string-array>
 
     <string name="ID_Techsoc">"362692757076050"</string>
@@ -161,11 +162,11 @@
 
     <string-array name="indexOfYoutubeOrg">
         <item>"0|mediaclubiitm"</item>
-        <item>"4|ReachIITM"</item>
-        <item>"5|iitmsaarang"</item>
-        <item>"10|iitmshaastra"</item>
-        <item>"11|iitmtv"</item>
-        <item>15|emliitm"</item>
+        <item>"3|ReachIITM"</item>
+        <item>"1|iitmsaarang"</item>
+        <item>"2|iitmshaastra"</item>
+        <item>"5|iitmtv"</item>
+        <item>"4|emliitm"</item>
     </string-array>
 
 
