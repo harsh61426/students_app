@@ -48,7 +48,7 @@
     <string name="url_fetch_list">https://students.iitm.ac.in/studentsapp/hasportal/fetch.php?type1=</string>
     <string name="fifthettateurl">http://www.t5eiitm.org/wp-json/wp/v2/posts</string>
     <string name="url_eml">https://students.iitm.ac.in/studentsapp/eml/lecs.php</string>
-    <string name="url_home">https://students.iitm.ac.in/studentsapp/general/getnotifs.php</string>
+    <string name="url_home">https://students.iitm.ac.in/studentsapp/general/get_notifs.php</string>
     <string name="url_eml_upcoming">https://students.iitm.ac.in/studentsapp/eml/upcoming_lecs.php</string>
     <string name="url_schroiter_updates">https://students.iitm.ac.in/studentsapp/schroeter/get_updates.php</string>
     <string name="url_schroiter_scores">https://students.iitm.ac.in/studentsapp/schroeter/get_links.php</string>

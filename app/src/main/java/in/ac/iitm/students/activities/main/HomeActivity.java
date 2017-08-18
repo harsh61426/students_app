@@ -1,14 +1,11 @@
 package in.ac.iitm.students.activities.main;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,13 +19,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.JsonReader;
+import android.util.JsonToken;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,14 +37,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -56,6 +51,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EmptyStackException;
@@ -70,6 +71,7 @@ import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
+import in.ac.iitm.students.others.CustomDialog;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -85,7 +87,6 @@ public class HomeActivity extends AppCompatActivity
     String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
     HomeAdapter adapter;
     RecyclerView recyclerView;
-    HomeNotifObject notifObject;
     String SwipePrefsName = "Ids_of_swiped_notifs";
     SharedPreferences swipedprefs;
     private Context mContext;
@@ -96,8 +97,9 @@ public class HomeActivity extends AppCompatActivity
     private SwipeRefreshLayout swipeRefreshLayout;
     private DrawerLayout drawer;
     private ArrayList<String> subscribed = new ArrayList<>();
-    private ArrayList<HomeNotifObject> notifObjects = new ArrayList<>();
+    private ArrayList<HomeNotifObject> notifObjectList = new ArrayList<>();
 
+    /*
     public static void showAlert(Activity activity, String title, String message) {
 
         Drawable dialog_icon;
@@ -156,6 +158,7 @@ public class HomeActivity extends AppCompatActivity
             Toast.makeText(activity, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
         }
     }
+    */
 
     @Override
     protected void onResume() {
@@ -682,16 +685,10 @@ public class HomeActivity extends AppCompatActivity
     public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
         Context context;
-        String response;
-
-        private ImageLoader imageLoader;
 
         public HomeAdapter(String response, Context _context) {
 
-            this.response = response;
             context = _context;
-
-            imageLoader = MySingleton.getInstance(context).getImageLoader();
 
             SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             Map<String, ?> allEntries = prefs.getAll();
@@ -706,7 +703,11 @@ public class HomeActivity extends AppCompatActivity
             //editor.clear();
             //editor.apply();
 
-            setUpData();
+            try {
+                setUpData(response);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -717,109 +718,100 @@ public class HomeActivity extends AppCompatActivity
             return new ViewHolder(view);
         }
 
-        private void setUpData() {
+        private void readNotifArray(JsonReader reader) throws IOException {
 
-            try {
-
-                JSONArray jsonArray = new JSONArray(response);
-                JSONObject jsonObject;
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    jsonObject = jsonArray.getJSONObject(i);
-
-                    //String cat = jsonObject.getString("topic");
-                    notifObject = new HomeNotifObject(jsonObject.getString("topic"));
-
-                    if (subscribed.size() != 0) {
-                        if (subscribed.contains(notifObject.Topic)) {
-
-                            //notifObject.id = String.valueOf(jsonObject.getInt("id"));
-                            notifObject.title = jsonObject.getString("title");
-                            notifObject.detail = jsonObject.getString("description");
-                            notifObject.image_url = jsonObject.getString("url");
-                            notifObject.link = jsonObject.getString("link");
-                            notifObject.createdat = jsonObject.getString("created_at");
-                            notifObjects.add(notifObject);
-                            if (notifObject.title.equals(swipedprefs.getString(notifObject.title, ""))) {
-                                notifObjects.remove(notifObject);
-                            }
-
-                            /*titles.add(jsonObject.getString("title"));
-                            details.add(jsonObject.getString("description"));
-                            image_urls.add(jsonObject.getString("url"));
-                            cats.add(cat);
-                            links.add(jsonObject.getString("link"));
-                            createdat.add(jsonObject.getString("created_at"));*/
+            reader.beginArray();
+            while (reader.hasNext()) {
+                HomeNotifObject obj = readNotif(reader);
+                if (subscribed.size() != 0) {
+                    if (subscribed.contains(obj.Topic)) {
+                        notifObjectList.add(obj);
+                        if (obj.title.equals(swipedprefs.getString(obj.title, ""))) {
+                            notifObjectList.remove(obj);
                         }
-
-                    } else {
-
-                        notifObject.title = jsonObject.getString("title");
-                        notifObject.detail = jsonObject.getString("description");
-                        notifObject.image_url = jsonObject.getString("url");
-                        notifObject.link = jsonObject.getString("link");
-                        notifObject.createdat = jsonObject.getString("created_at");
-                        notifObjects.add(notifObject);
-
-                        /*links.add(jsonObject.getString("link"));
-                        titles.add(jsonObject.getString("title"));
-                        details.add(jsonObject.getString("description"));
-                        cats.add(cat);
-                        createdat.add(jsonObject.getString("created_at"));
-                        image_urls.add(jsonObject.getString("url"));*/
                     }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } else notifObjectList.add(obj);
 
             }
+            reader.endArray();
+        }
+
+        private HomeNotifObject readNotif(JsonReader reader) throws IOException {
+
+            HomeNotifObject notifObject = new HomeNotifObject();
+            reader.beginObject();
+            while (reader.hasNext()) {
+                String name = reader.nextName();
+                if (name.equals("topic")) {
+                    notifObject.Topic = name;
+                } else if (name.equals("title")) {
+                    notifObject.title = name;
+                } else if (name.equals("description")) {
+                    notifObject.detail = name;
+                } else if (name.equals("created_at")) {
+                    notifObject.createdat = name;
+                } else if (name.equals("link") && reader.peek() != JsonToken.NULL) {
+                    notifObject.link = name;
+                } else if (name.equals("location") && reader.peek() != JsonToken.NULL) {
+                    notifObject.location = name;
+                } else if (name.equals("image_urls") && reader.peek() != JsonToken.NULL) {
+                    //readImageUrlArray(reader);
+                } else if (name.equals("date") && reader.peek() != JsonToken.NULL) {
+                    notifObject.date = name;
+                } else if (name.equals("time") && reader.peek() != JsonToken.NULL) {
+                    notifObject.time = name;
+                } else {
+                    reader.skipValue();
+                }
+            }
+            reader.endObject();
+            return notifObject;
+        }
+
+        private void setUpData(String response) throws IOException {
+            Log.d("damn", response);
+
+            InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+            JsonReader reader = null;
+            try {
+                reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                reader.setLenient(true);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            try {
+                readNotifArray(reader);
+            } finally {
+
+                reader.close();
+
+            }
+
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            final String title = notifObjects.get(holder.getAdapterPosition()).title;
-            final String detail = notifObjects.get(holder.getAdapterPosition()).detail;
-            final String image_url = notifObjects.get(holder.getAdapterPosition()).image_url;
-            final String link = notifObjects.get(holder.getAdapterPosition()).link;
-            final String topic = notifObjects.get(holder.getAdapterPosition()).Topic;
+            final String title = notifObjectList.get(holder.getAdapterPosition()).title;
+            final String detail = notifObjectList.get(holder.getAdapterPosition()).detail;
+            final String link = notifObjectList.get(holder.getAdapterPosition()).link;
+            final String topic = notifObjectList.get(holder.getAdapterPosition()).Topic;
 
             Log.d("pani", title + " : " + link);
 
             holder.tvTitle.setText(title);
             holder.tvDetails.setText(detail);
-            holder.ivHomeFeed.setImageUrl(image_url, imageLoader);
-            holder.ivHomeFeed.setDefaultImageResId(R.mipmap.ic_launcher);
-            holder.ivHomeFeed.setErrorImageResId(R.mipmap.ic_launcher);
 
-            if (link.equals("nada")) {
-                holder.iv_link.setVisibility(View.INVISIBLE);
 
                 holder.rlHomeFeed.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        HomeActivity.showAlert(HomeActivity.this, title, detail);
+
+                        CustomDialog cdd = new CustomDialog(HomeActivity.this, notifObjectList.get(holder.getAdapterPosition()));
+                        cdd.show();
 
                     }
                 });
-            } else {
-
-                Log.d("pika", title + " : link image visible");
-                holder.iv_link.setVisibility(View.VISIBLE);
-
-                holder.rlHomeFeed.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-                        try {
-                            HomeActivity.showAlert(HomeActivity.this, title, detail, link);
-                        } catch (Exception e) {
-                            Log.e("tada", "home fragment", e);
-                        }
-
-                    }
-                });
-            }
-
 
         }
 
@@ -829,11 +821,11 @@ public class HomeActivity extends AppCompatActivity
 
             if (fromPosition < toPosition) {
                 for (int i = fromPosition; i < toPosition; i++) {
-                    Collections.swap(notifObjects, i, i + 1);
+                    Collections.swap(notifObjectList, i, i + 1);
                 }
             } else {
                 for (int i = fromPosition; i > toPosition; i--) {
-                    Collections.swap(notifObjects, i, i - 1);
+                    Collections.swap(notifObjectList, i, i - 1);
                 }
             }
             notifyItemMoved(fromPosition, toPosition);
@@ -844,7 +836,7 @@ public class HomeActivity extends AppCompatActivity
         @Override
         public void onItemDismiss(int position) {
 
-            notifObjects.remove(position);
+            notifObjectList.remove(position);
             notifyItemRemoved(position);
 
         }
@@ -862,16 +854,14 @@ public class HomeActivity extends AppCompatActivity
 
        @Override
         public int getItemCount() {
-            return notifObjects.size();
+           return notifObjectList.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView tvTitle, tvDetails;
             RelativeLayout rlHomeFeed;
-            NetworkImageView ivHomeFeed;
             CardView cvhome;
-            ImageView iv_link;
 
             ViewHolder(View itemView) {
                 super(itemView);
@@ -879,9 +869,7 @@ public class HomeActivity extends AppCompatActivity
                 tvTitle = (TextView) itemView.findViewById(R.id.text_title_home_feed);
                 tvDetails = (TextView) itemView.findViewById(R.id.tv_home_details);
                 rlHomeFeed = (RelativeLayout) itemView.findViewById(R.id.rl_home_feed);
-                ivHomeFeed = (NetworkImageView) itemView.findViewById(R.id.iv_home_feed_icon);
                 cvhome = (CardView) itemView.findViewById(R.id.cl_home_feed);
-                iv_link = (ImageView) itemView.findViewById(R.id.link_image_view);
 
             }
 
@@ -929,10 +917,9 @@ public class HomeActivity extends AppCompatActivity
 
             final SharedPreferences[] sharedprefs = {HomeActivity.this.getSharedPreferences(SwipePrefsName, MODE_PRIVATE)};
             final SharedPreferences.Editor editor = sharedprefs[0].edit();
-            editor.putString(notifObjects.get(adapterPosition).title, notifObjects.get(adapterPosition).title);
+            editor.putString(notifObjectList.get(adapterPosition).title, notifObjectList.get(adapterPosition).title);
             editor.apply();
-            HomeNotifObject notifobj = new HomeNotifObject("");
-            notifobj = notifObjects.remove(adapterPosition);
+            HomeNotifObject notifobj = notifObjectList.remove(adapterPosition);
 
             adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
 
@@ -944,7 +931,7 @@ public class HomeActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
 
-                            notifObjects.add(adapterPosition, finalNotifobj); //deleted element readded to ArrayList
+                            notifObjectList.add(adapterPosition, finalNotifobj); //deleted element readded to ArrayList
                             adapter.notifyItemInserted(adapterPosition);
                             sharedprefs[0] = HomeActivity.this.getSharedPreferences(SwipePrefsName, MODE_PRIVATE);
                             editor.remove(finalNotifobj1.title);
