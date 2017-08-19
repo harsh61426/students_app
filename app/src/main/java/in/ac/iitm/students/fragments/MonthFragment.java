@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.adapters.DayAdapter;
 import in.ac.iitm.students.objects.Calendar_Event;
 
