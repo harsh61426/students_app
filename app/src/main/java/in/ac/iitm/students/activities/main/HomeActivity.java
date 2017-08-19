@@ -723,8 +723,10 @@ public class HomeActivity extends AppCompatActivity
             reader.beginArray();
             while (reader.hasNext()) {
                 HomeNotifObject obj = readNotif(reader);
+                //Log.d("taad",obj.Topic);
                 if (subscribed.size() != 0) {
                     if (subscribed.contains(obj.Topic)) {
+
                         notifObjectList.add(obj);
                         if (obj.title.equals(swipedprefs.getString(obj.title, ""))) {
                             notifObjectList.remove(obj);
@@ -733,6 +735,7 @@ public class HomeActivity extends AppCompatActivity
                 } else notifObjectList.add(obj);
 
             }
+            //Log.d("taad",notifObjectList.toString());
             reader.endArray();
         }
 
@@ -743,23 +746,25 @@ public class HomeActivity extends AppCompatActivity
             while (reader.hasNext()) {
                 String name = reader.nextName();
                 if (name.equals("topic")) {
-                    notifObject.Topic = name;
+                    notifObject.Topic = reader.nextString();
+                    //Log.d("tagh",notifObject.Topic);
                 } else if (name.equals("title")) {
-                    notifObject.title = name;
+                    notifObject.title = reader.nextString();
                 } else if (name.equals("description")) {
-                    notifObject.detail = name;
+                    notifObject.detail = reader.nextString();
                 } else if (name.equals("created_at")) {
-                    notifObject.createdat = name;
+                    notifObject.createdat = reader.nextString();
                 } else if (name.equals("link") && reader.peek() != JsonToken.NULL) {
-                    notifObject.link = name;
+                    notifObject.link = reader.nextString();
                 } else if (name.equals("location") && reader.peek() != JsonToken.NULL) {
-                    notifObject.location = name;
+                    notifObject.location = reader.nextString();
                 } else if (name.equals("image_urls") && reader.peek() != JsonToken.NULL) {
                     //readImageUrlArray(reader);
+                    // todo add image functionality @rohithram
                 } else if (name.equals("date") && reader.peek() != JsonToken.NULL) {
-                    notifObject.date = name;
+                    notifObject.date = reader.nextString();
                 } else if (name.equals("time") && reader.peek() != JsonToken.NULL) {
-                    notifObject.time = name;
+                    notifObject.time = reader.nextString();
                 } else {
                     reader.skipValue();
                 }
@@ -769,7 +774,7 @@ public class HomeActivity extends AppCompatActivity
         }
 
         private void setUpData(String response) throws IOException {
-            Log.d("damn", response);
+            //Log.d("damn", response);
 
             InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
             JsonReader reader = null;

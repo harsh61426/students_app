@@ -165,7 +165,6 @@ public class CourseTimetableFragment extends Fragment {
         if(week>Utils.getprefInt("LastLogTT",getActivity()))
         {
             clearbunks();
-            ((TimetableActivity) getActivity()).returnadapter().notifyDataSetChanged();
             // Todo test
         }
         Utils.saveprefInt("LastLogTT",week,getActivity());
