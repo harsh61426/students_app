@@ -11,10 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.adapters.DayAdapter;
 import in.ac.iitm.students.objects.Calendar_Event;
 
@@ -25,7 +23,6 @@ import in.ac.iitm.students.objects.Calendar_Event;
 public class MonthFragment extends Fragment {
     public static String[][] day, date, desc, holiday;
 
-    // todo dont make them static, find a work-around
     public  DayAdapter adapter;
     public  RecyclerView rv;
     public  TextView monthName=null;
