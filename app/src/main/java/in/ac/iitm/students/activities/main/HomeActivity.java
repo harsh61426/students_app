@@ -72,6 +72,7 @@ import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.CustomDialog;
+import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -244,7 +245,7 @@ public class HomeActivity extends AppCompatActivity
                 // result of the request.
             }
         } else {
-            //           new InstiCalendar(HomeActivity.this).fetchCalData(0);
+                      new InstiCalendar(HomeActivity.this).fetchCalData(0);
         }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);

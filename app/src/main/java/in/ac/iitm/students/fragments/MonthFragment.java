@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.adapters.DayAdapter;
 import in.ac.iitm.students.objects.Calendar_Event;
 
@@ -21,13 +24,13 @@ import in.ac.iitm.students.objects.Calendar_Event;
  * A simple {@link Fragment} subclass.
  */
 public class MonthFragment extends Fragment {
-    public static String[][] day, date, desc, holiday;
 
+    // todo dont make them static, find a work-around
     public  DayAdapter adapter;
     public  RecyclerView rv;
     public  TextView monthName=null;
     int monthNo=0;
-
+    int currentMonth,currentDate;
     private ArrayList<Calendar_Event> month_events;
 
 
@@ -62,13 +65,19 @@ public class MonthFragment extends Fragment {
         setMonthName(monthNo);
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_month);
-        rv.setHasFixedSize(true);
+        //rv.setHasFixedSize(true);
         adapter = new DayAdapter(month_events, getActivity());
         rv.setAdapter(adapter);
 
-
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
+        currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+        currentDate = Calendar.getInstance().get(Calendar.DATE);
+        if(currentMonth>=6)
+            currentMonth-=6;
+        if(monthNo==currentMonth)
+            rv.smoothScrollToPosition(currentDate);
+
         // Inflate the layout for this fragment
         return rootView;
     }

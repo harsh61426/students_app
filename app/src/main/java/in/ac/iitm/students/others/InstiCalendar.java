@@ -2,6 +2,7 @@ package in.ac.iitm.students.others;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -145,16 +146,6 @@ public class InstiCalendar {
         event.setMonth(month);
         //eventArrayList.add(event);
 
-        /*
-        MonthFragment.date[month - 6][i] = String.valueOf(event.getDate());
-        MonthFragment.day[month - 6][i] = event.getDay();
-        MonthFragment.desc[month - 6][i] = event.getDetails();
-        if (event.isHoliday()) {
-            MonthFragment.holiday[month - 6][i] = "TRUE";
-        } else {
-            MonthFragment.holiday[month - 6][i] = "FALSE";
-        }
-        */
 
         if (mode == 0 && event.getDetails().length() > 0 && !exists(event, context)) {
             insertEvents(CalID, event, context);
@@ -177,6 +168,8 @@ public class InstiCalendar {
     }
 
     private static void sendJsonRequest(final Context context, final int mode) {
+
+
         String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
 
@@ -237,6 +230,7 @@ public class InstiCalendar {
         values.put(CalendarContract.Events.CALENDAR_ID, calId);
         values.put(CalendarContract.Events.EVENT_TIMEZONE, "India");
         values.put(CalendarContract.Events.DESCRIPTION, event.isHoliday() ? "Holiday" : "");
+        values.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());
 // reasonable defaults exist:
         values.put(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_DEFAULT);
         values.put(CalendarContract.Events.SELF_ATTENDEE_STATUS,
@@ -255,8 +249,7 @@ public class InstiCalendar {
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 
-            String[] proj =
-                    new String[]{CalendarContract.Events.TITLE};
+            String[] proj = new String[]{CalendarContract.Events.TITLE};
             Calendar cal = new GregorianCalendar(2017, event.getMonth(), event.getDate());
             cal.setTimeZone(TimeZone.getTimeZone("IST"));
             cal.set(Calendar.HOUR, 0);
@@ -326,6 +319,8 @@ public class InstiCalendar {
     }
 
     public void fetchCalData(int mode) {
+
+
         String acc = "students.iitm";
         String disp = "IITM Calendar";
         String inter = "IITM Calendar";
@@ -333,12 +328,52 @@ public class InstiCalendar {
         // mode 0 for updating the calendar repo from the server
         // mode 1 for getting the event arrayList for populating the calendar recyclerView
         if (mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
-            CalID = Utils.getprefLong("CalID", context);
+            //CalID = Utils.getprefLong("CalID", context);
+
+
+            String[] projection =
+                    new String[]{
+                            CalendarContract.Calendars._ID,
+                            CalendarContract.Calendars.NAME,
+                            CalendarContract.Calendars.ACCOUNT_NAME,
+                            CalendarContract.Calendars.ACCOUNT_TYPE};
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Cursor calCursor =
+                    context.getContentResolver().
+                            query(CalendarContract.Calendars.CONTENT_URI,
+                                    projection,
+                                    CalendarContract.Calendars.VISIBLE + " = 1",
+                                    null,
+                                    CalendarContract.Calendars._ID + " ASC");
+            if (calCursor.moveToFirst()) {
+                do {
+                    long id = calCursor.getLong(0);
+                    String displayName = calCursor.getString(1);
+                    if (displayName.equals("IITM Calendar")) {
+                        CalID = id;
+                        break;
+                    }
+                    CalID = -1;
+
+                } while (calCursor.moveToNext());
+            }
             if (CalID == -1) {
                 CalID = insertCalendar(acc, inter, disp, context);
                 Log.i("CalID", CalID + "");
-                Utils.saveprefLong("CalID", CalID, context);
+                //      Utils.saveprefLong("CalID", CalID, context);
             }
+            /************************************************************************************/
+
+
             Toast.makeText(context, "Updating Calendar", Toast.LENGTH_SHORT).show();
             deleteallevents();
             sendJsonRequest(context, mode);
@@ -381,9 +416,52 @@ public class InstiCalendar {
     }
 
     private void deleteallevents() {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+        /*if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        context.getContentResolver().delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events._ID + "= *", null);
+        context.getContentResolver().delete(CalendarContract.Events.CONTENT_URI, CalendarContract.Events._ID + "= *", null);*/
+        ContentResolver cr = context.getContentResolver();
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Cursor cursor = cr
+                .query(CalendarContract.Events.CONTENT_URI,
+                        new String[]{CalendarContract.Events._ID,CalendarContract.Calendars._ID,CalendarContract.Events.CUSTOM_APP_PACKAGE},
+                        null, null, null);
+        cursor.moveToFirst();
+
+        //String idsToDelete = "";
+        for (int i = 0; i < cursor.getCount(); i++) {
+            // it might be also better to check CALENDAR_ID here
+            if(CalID==Integer.parseInt(cursor.getString(1))){
+                Uri deleteUri = null;
+                long eventID = Integer.parseInt(cursor.getString(0));
+                deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
+                int rows = context.getContentResolver().delete(deleteUri, null, null);
+                //Log.i(DEBUG_TAG, "Rows deleted: " + rows);
+            }
+            cursor.moveToNext();
+        }
+
+        /*if (idsToDelete.endsWith(" OR ")) {
+            idsToDelete = idsToDelete.substring(0, idsToDelete.length()-4);
+        }
+
+        cr.delete(CalendarContract.Events.CONTENT_URI, idsToDelete, null);*/
+
     }
 }
