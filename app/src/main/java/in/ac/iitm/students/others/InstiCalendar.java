@@ -42,7 +42,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
 
 public class InstiCalendar {
     public ArrayList<ArrayList<Calendar_Event>> cal_events;
-    static long CalID;
+    static long CalID=-2;
     private Context context;
     private String cal_ver = "0";
 
@@ -205,6 +205,7 @@ public class InstiCalendar {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("VolleyError", error.toString());
+                Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(stringRequest);
@@ -213,7 +214,7 @@ public class InstiCalendar {
 
     private static void insertEvents(long calId, Calendar_Event event, Context context) {
 
-        Calendar cal = new GregorianCalendar(2017, event.getMonth() - 1, event.getDate());    //Jan is 0
+        Calendar cal = new GregorianCalendar(2017, event.getMonth() , event.getDate());    //Jan is 0
         cal.setTimeZone(TimeZone.getTimeZone("IST"));
         cal.set(Calendar.HOUR, 0);
         cal.set(Calendar.MINUTE, 0);
@@ -315,6 +316,7 @@ public class InstiCalendar {
                 .build();
         Uri result = context.getContentResolver().insert(calUri, cv);
         Log.i("Result", result.toString());
+        Toast.makeText(context,"IITM Calendar created",Toast.LENGTH_SHORT).show();
         return getCalendarId(acc, context);
     }
 
@@ -327,7 +329,7 @@ public class InstiCalendar {
 
         // mode 0 for updating the calendar repo from the server
         // mode 1 for getting the event arrayList for populating the calendar recyclerView
-        if (mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
+        if (mode == 0 ){//&& !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
             //CalID = Utils.getprefLong("CalID", context);
 
 
@@ -431,13 +433,12 @@ public class InstiCalendar {
         }
         Cursor cursor = cr
                 .query(CalendarContract.Events.CONTENT_URI,
-                        new String[]{CalendarContract.Events._ID,CalendarContract.Calendars._ID,CalendarContract.Events.CUSTOM_APP_PACKAGE},
+                        new String[]{CalendarContract.Events._ID,CalendarContract.Calendars._ID,CalendarContract.Events.CALENDAR_DISPLAY_NAME,CalendarContract.Events.CUSTOM_APP_PACKAGE},
                         null, null, null);
         cursor.moveToFirst();
-
         for (int i = 0; i < cursor.getCount(); i++) {
             // it might be also better to check CALENDAR_ID here
-            if(CalID==Integer.parseInt(cursor.getString(1))){
+            if(CalID==Integer.parseInt(cursor.getString(1)) || cursor.getString(2).equals("IITM Calendar")){
                 Uri deleteUri = null;
                 long eventID = Integer.parseInt(cursor.getString(0));
                 deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
