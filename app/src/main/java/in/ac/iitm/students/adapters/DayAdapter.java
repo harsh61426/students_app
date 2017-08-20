@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
@@ -109,6 +111,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
                 Intent intent = new Intent(Intent.ACTION_VIEW)
                         .setData(builder.build());
                 context.startActivity(intent);
+
             }
         });
     }
