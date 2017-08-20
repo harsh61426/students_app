@@ -329,7 +329,7 @@ public class InstiCalendar {
 
         // mode 0 for updating the calendar repo from the server
         // mode 1 for getting the event arrayList for populating the calendar recyclerView
-        if (mode == 0 ){//&& !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
+        if (mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
             //CalID = Utils.getprefLong("CalID", context);
 
 
