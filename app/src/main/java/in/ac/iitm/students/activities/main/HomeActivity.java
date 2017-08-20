@@ -741,6 +741,7 @@ public class HomeActivity extends AppCompatActivity
             reader.endArray();
         }
 
+
         private HomeNotifObject readNotif(JsonReader reader) throws IOException {
 
             HomeNotifObject notifObject = new HomeNotifObject();
@@ -803,7 +804,6 @@ public class HomeActivity extends AppCompatActivity
             final String link = notifObjectList.get(holder.getAdapterPosition()).link;
             final String topic = notifObjectList.get(holder.getAdapterPosition()).Topic;
             final String space = "";
-            Log.d("pani", title + " : " + link);
 
             holder.tvTitle.setText(title);
             holder.tvDetails.setText(detail);
