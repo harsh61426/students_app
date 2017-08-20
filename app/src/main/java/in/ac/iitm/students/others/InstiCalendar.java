@@ -42,7 +42,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
 
 public class InstiCalendar {
     public ArrayList<ArrayList<Calendar_Event>> cal_events;
-    static long CalID=-2;
+    static long CalID=-1;
     private Context context;
     private String cal_ver = "0";
 
@@ -327,47 +327,49 @@ public class InstiCalendar {
         String disp = "IITM Calendar";
         String inter = "IITM Calendar";
 
+        //CalID = Utils.getprefLong("CalID", context);
+
+
+        String[] projection =
+                new String[]{
+                        CalendarContract.Calendars._ID,
+                        CalendarContract.Calendars.NAME,
+                        CalendarContract.Calendars.ACCOUNT_NAME,
+                        CalendarContract.Calendars.ACCOUNT_TYPE};
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Cursor calCursor =
+                context.getContentResolver().
+                        query(CalendarContract.Calendars.CONTENT_URI,
+                                projection,
+                                CalendarContract.Calendars.VISIBLE + " = 1",
+                                null,
+                                CalendarContract.Calendars._ID + " ASC");
+        if (calCursor.moveToFirst()) {
+            do {
+                long id = calCursor.getLong(0);
+                String displayName = calCursor.getString(1);
+                if (displayName.equals("IITM Calendar")) {
+                    CalID = id;
+                    break;
+                }
+                CalID = -1;
+
+            } while (calCursor.moveToNext());
+        }
+
         // mode 0 for updating the calendar repo from the server
         // mode 1 for getting the event arrayList for populating the calendar recyclerView
-        if (mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
-            //CalID = Utils.getprefLong("CalID", context);
+        if ((mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) || CalID==-1) {
 
-
-            String[] projection =
-                    new String[]{
-                            CalendarContract.Calendars._ID,
-                            CalendarContract.Calendars.NAME,
-                            CalendarContract.Calendars.ACCOUNT_NAME,
-                            CalendarContract.Calendars.ACCOUNT_TYPE};
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            Cursor calCursor =
-                    context.getContentResolver().
-                            query(CalendarContract.Calendars.CONTENT_URI,
-                                    projection,
-                                    CalendarContract.Calendars.VISIBLE + " = 1",
-                                    null,
-                                    CalendarContract.Calendars._ID + " ASC");
-            if (calCursor.moveToFirst()) {
-                do {
-                    long id = calCursor.getLong(0);
-                    String displayName = calCursor.getString(1);
-                    if (displayName.equals("IITM Calendar")) {
-                        CalID = id;
-                        break;
-                    }
-                    CalID = -1;
-
-                } while (calCursor.moveToNext());
-            }
             if (CalID == -1) {
                 CalID = insertCalendar(acc, inter, disp, context);
                 Log.i("CalID", CalID + "");
@@ -381,6 +383,7 @@ public class InstiCalendar {
             sendJsonRequest(context, mode);
             Utils.saveprefString("Cal_Ver", getVersion(), context);
         } else {
+            mode=1;
             sendJsonRequest(context, mode);
         }
     }

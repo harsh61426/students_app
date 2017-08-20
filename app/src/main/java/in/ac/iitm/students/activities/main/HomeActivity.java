@@ -288,7 +288,7 @@ public class HomeActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    //               new InstiCalendar(HomeActivity.this).fetchCalData(0);
+                                  new InstiCalendar(HomeActivity.this).fetchCalData(0);
 
 
                 } else {
