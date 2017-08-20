@@ -227,9 +227,6 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }finally {
-
-
-
                                 adapter.notifyDataSetChanged();
                             }
                         }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,12 +15,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
-
-import static com.google.android.gms.R.color.cast_libraries_material_featurehighlight_outer_highlight_default_color;
 
 /**
  * Created by harshitha on 8/6/17.
@@ -89,11 +88,13 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
 
         if (month_events.get(position).isHoliday()){
-            holder.cardView.setBackgroundColor(Color.parseColor("#8e24aa"));//violet color
-            holder.tv_date.setTextColor(Color.parseColor("#2b2b2b"));
+            holder.cardView.setBackgroundColor(Color.parseColor("#607D8B"));
+            holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
+            holder.tv_day.setTextColor(Color.BLACK);
         }else{
             holder.cardView.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
             holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
+            holder.tv_day.setTextColor(Color.parseColor("#3F51B5"));
         }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +111,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
                 Intent intent = new Intent(Intent.ACTION_VIEW)
                         .setData(builder.build());
                 context.startActivity(intent);
+
             }
         });
     }

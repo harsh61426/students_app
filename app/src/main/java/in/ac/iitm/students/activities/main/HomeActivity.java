@@ -66,12 +66,13 @@ import java.util.Map;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
-import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
+import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.CustomDialog;
+import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -244,7 +245,7 @@ public class HomeActivity extends AppCompatActivity
                 // result of the request.
             }
         } else {
-            //           new InstiCalendar(HomeActivity.this).fetchCalData(0);
+                      new InstiCalendar(HomeActivity.this).fetchCalData(0);
         }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
@@ -287,7 +288,7 @@ public class HomeActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    //               new InstiCalendar(HomeActivity.this).fetchCalData(0);
+                                  new InstiCalendar(HomeActivity.this).fetchCalData(0);
 
 
                 } else {
@@ -620,7 +621,7 @@ public class HomeActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
-            intent = new Intent(context, ComplaintBoxActivity.class);
+            intent = new Intent(context, MessAndFacilitiesActivity.class);
             flag = true;
         } else if (id == R.id.nav_calendar) {
             intent = new Intent(context, CalendarActivity.class);
@@ -723,8 +724,10 @@ public class HomeActivity extends AppCompatActivity
             reader.beginArray();
             while (reader.hasNext()) {
                 HomeNotifObject obj = readNotif(reader);
+                //Log.d("taad",obj.Topic);
                 if (subscribed.size() != 0) {
                     if (subscribed.contains(obj.Topic)) {
+
                         notifObjectList.add(obj);
                         if (obj.title.equals(swipedprefs.getString(obj.title, ""))) {
                             notifObjectList.remove(obj);
@@ -733,6 +736,7 @@ public class HomeActivity extends AppCompatActivity
                 } else notifObjectList.add(obj);
 
             }
+            //Log.d("taad",notifObjectList.toString());
             reader.endArray();
         }
 
@@ -743,23 +747,25 @@ public class HomeActivity extends AppCompatActivity
             while (reader.hasNext()) {
                 String name = reader.nextName();
                 if (name.equals("topic")) {
-                    notifObject.Topic = name;
+                    notifObject.Topic = reader.nextString();
+                    //Log.d("tagh",notifObject.Topic);
                 } else if (name.equals("title")) {
-                    notifObject.title = name;
+                    notifObject.title = reader.nextString();
                 } else if (name.equals("description")) {
-                    notifObject.detail = name;
+                    notifObject.detail = reader.nextString();
                 } else if (name.equals("created_at")) {
-                    notifObject.createdat = name;
+                    notifObject.createdat = reader.nextString();
                 } else if (name.equals("link") && reader.peek() != JsonToken.NULL) {
-                    notifObject.link = name;
+                    notifObject.link = reader.nextString();
                 } else if (name.equals("location") && reader.peek() != JsonToken.NULL) {
-                    notifObject.location = name;
+                    notifObject.location = reader.nextString();
                 } else if (name.equals("image_urls") && reader.peek() != JsonToken.NULL) {
                     //readImageUrlArray(reader);
+                    // todo add image functionality @rohithram
                 } else if (name.equals("date") && reader.peek() != JsonToken.NULL) {
-                    notifObject.date = name;
+                    notifObject.date = reader.nextString();
                 } else if (name.equals("time") && reader.peek() != JsonToken.NULL) {
-                    notifObject.time = name;
+                    notifObject.time = reader.nextString();
                 } else {
                     reader.skipValue();
                 }
@@ -769,7 +775,7 @@ public class HomeActivity extends AppCompatActivity
         }
 
         private void setUpData(String response) throws IOException {
-            Log.d("damn", response);
+            //Log.d("damn", response);
 
             InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
             JsonReader reader = null;

@@ -24,7 +24,7 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.ImpContactsAdapter;
-import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
+import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
@@ -170,7 +170,7 @@ public class ImpContactsActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
-            intent = new Intent(context, ComplaintBoxActivity.class);
+            intent = new Intent(context, MessAndFacilitiesActivity.class);
             flag = true;
         } else if (id == R.id.nav_calendar) {
             intent = new Intent(context, CalendarActivity.class);

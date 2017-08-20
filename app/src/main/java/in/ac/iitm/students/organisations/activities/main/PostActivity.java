@@ -174,7 +174,6 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
 
         key = OrganizationActivity.key;
 
-        getdata();
 
         if(Pagename.equalsIgnoreCase("The Fifth Estate, IIT Madras")){
             isT5e = true;
@@ -187,6 +186,8 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         else if(Pagename.equalsIgnoreCase("LitSoc")){
             isLitsoc = true;
         }
+
+        getdata();
 
         callviewpager();
 
@@ -205,7 +206,13 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         }
         GraphGetRequest request = new GraphGetRequest();
         try {
-            request.dorequest(PostActivity.this,getString(R.string.Apptoken),url_main + pageid + "/feed?limit=50&access_token=" , null,postList,pd, reaction_url);
+            if(isLitsoc || isTechsoc){
+                request.dorequest(PostActivity.this,getString(R.string.Apptoken),url_main + pageid + "/feed?limit=50&access_token=" , null,postList,pd, reaction_url);
+            }
+            else{
+                request.dorequest(PostActivity.this,getString(R.string.Apptoken),url_main + pageid + "/posts?limit=50&access_token=" , null,postList,pd, reaction_url);
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

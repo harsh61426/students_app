@@ -121,7 +121,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MessAndFacilitiesActivity.this, ComplaintBoxActivity.class);
+        Intent intent = new Intent(MessAndFacilitiesActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 

@@ -44,7 +44,7 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
-import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
+import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.InstiCalendar;
@@ -61,7 +61,7 @@ public class CalendarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
-    public static int currentlyDisplayedMonth; // this variable shows the (value-6) (ex: july is 6 instead it shows 0)
+    public static int currentlyDisplayedMonth;
     //RecyclerView recyclerView;
     //RecyclerView.Adapter recyclerAdapter;
     //RecyclerView.LayoutManager layoutManager;
@@ -120,7 +120,8 @@ public class CalendarActivity extends AppCompatActivity
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
-        currentlyDisplayedMonth -= 6;
+        if(currentlyDisplayedMonth>=6)
+            currentlyDisplayedMonth -= 6;
         //monthForRecyclerView = currentMonth;
         // Find the view pager that will allow the user to swipe between fragments
 
@@ -325,7 +326,7 @@ public class CalendarActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
-            intent = new Intent(context, ComplaintBoxActivity.class);
+            intent = new Intent(context, MessAndFacilitiesActivity.class);
             flag = true;
         } else if (id == R.id.nav_calendar) {
             //intent = new Intent(context, CalendarActivity.class);
