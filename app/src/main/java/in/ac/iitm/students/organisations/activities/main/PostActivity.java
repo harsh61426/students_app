@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.main.HomeActivity;
 import in.ac.iitm.students.objects.News;
 import in.ac.iitm.students.organisations.adapters.OrgPagerAdapter;
 import in.ac.iitm.students.organisations.fragments.Fbfragment;
@@ -54,7 +57,7 @@ import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.Utils;
 
 
-public class PostActivity extends AppCompatActivity implements VideoFragment.OnFragmentInteractionListener{
+public class PostActivity extends AppCompatActivity implements VideoFragment.OnFragmentInteractionListener,SwipeRefreshLayout.OnRefreshListener{
 
     public static ArrayList<Posts> postList;
     public static Boolean isYoutube;
@@ -87,6 +90,8 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
     String reaction_url;
     public static String Pagedes;
     String url_main = "https://graph.facebook.com/v2.10/";
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
 
     @Override
@@ -99,6 +104,9 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabMode(TabLayout.GRAVITY_CENTER);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefreshhome1);
+        swipeRefreshLayout.setOnRefreshListener(PostActivity.this);
 
         appid = getString(R.string.facebook_app_id);
         reaction_url = getString(R.string.reaction_query);
@@ -399,6 +407,26 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
 
     public void normal(){
       //  layout_MainMenu.getForeground().setAlpha(0);
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        refreshList();
+
+    }
+    public void refreshList() {
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 3000);
+
     }
 }
 

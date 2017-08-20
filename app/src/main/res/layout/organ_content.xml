@@ -7,7 +7,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:id="@+id/cv_org_name"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="4dp"
@@ -31,7 +31,7 @@
                 android:layout_toRightOf="@+id/iv_org_logo"
                 android:id="@+id/tv_org_name"
                 android:text="TextView"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_margin="8dp"
                 android:textStyle="bold"
                 android:textColor="#000000"/>
@@ -44,7 +44,7 @@
                 android:scrollHorizontally="true"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="#607d8b"
                 android:layout_marginBottom="8dp"
                 android:layout_marginRight="8dp"

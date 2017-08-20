@@ -1,6 +1,7 @@
 package in.ac.iitm.students.activities.main;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -195,8 +197,7 @@ public class HomeActivity extends AppCompatActivity
 
         pbar = (ProgressBar) findViewById(R.id.pb_home);
 
-        snackbar = Snackbar
-                .make(drawer, R.string.error_connection, Snackbar.LENGTH_LONG);
+        snackbar = Snackbar.make(drawer, R.string.error_connection, Snackbar.LENGTH_LONG);
         getData();
 
 
@@ -747,7 +748,6 @@ public class HomeActivity extends AppCompatActivity
                 String name = reader.nextName();
                 if (name.equals("topic")) {
                     notifObject.Topic = reader.nextString();
-                    //Log.d("tagh",notifObject.Topic);
                 } else if (name.equals("title")) {
                     notifObject.title = reader.nextString();
                 } else if (name.equals("description")) {
@@ -801,25 +801,81 @@ public class HomeActivity extends AppCompatActivity
             final String detail = notifObjectList.get(holder.getAdapterPosition()).detail;
             final String link = notifObjectList.get(holder.getAdapterPosition()).link;
             final String topic = notifObjectList.get(holder.getAdapterPosition()).Topic;
-
+            final String space = "";
             Log.d("pani", title + " : " + link);
 
             holder.tvTitle.setText(title);
             holder.tvDetails.setText(detail);
+            holder.tvorg.setText(topic);
+            if(notifObjectList.get(holder.getAdapterPosition()).date.equalsIgnoreCase(space)){
+                holder.tv_date.setText(notifObjectList.get(holder.getAdapterPosition()).date);
+            }else{
+                holder.bt_date.setVisibility(View.INVISIBLE);
+                holder.tv_date.setVisibility(View.INVISIBLE);
+            }
 
+            if(notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
+                holder.tv_time.setText(notifObjectList.get(holder.getAdapterPosition()).time);
+            }else {
+                holder.bt_time.setVisibility(View.INVISIBLE);
+                holder.tv_time.setVisibility(View.INVISIBLE);
+            }
 
-                holder.rlHomeFeed.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+            if(notifObjectList.get(holder.getAdapterPosition()).location.equalsIgnoreCase(space)){
+            holder.tv_location.setText(notifObjectList.get(holder.getAdapterPosition()).location);
+            }
+            else{
+                holder.bt_loc.setVisibility(View.INVISIBLE);
+                holder.tv_location.setVisibility(View.INVISIBLE);
+            }
 
-                        CustomDialog cdd = new CustomDialog(HomeActivity.this, notifObjectList.get(holder.getAdapterPosition()));
-                        cdd.show();
-
+            holder.cvhome.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.tvDetails.getVisibility() == View.GONE) {
+                        // it's collapsed - expand it
+                        holder.tvDetails.setVisibility(View.VISIBLE);
+                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
+                    } else {
+                        // it's expanded - collapse it
+                        holder.tvDetails.setVisibility(View.GONE);
+                        holder.ibt_show.setImageResource(R.drawable.ic_expand_more_black_24dp);
                     }
-                });
+
+                    ObjectAnimator animation = ObjectAnimator.ofInt(holder.tvDetails, "maxLines",holder.tvDetails.getMaxLines());
+                    animation.setDuration(200).start();
+                }
+            });
+
+            holder.ibt_show.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.tvDetails.getVisibility() == View.GONE) {
+                        // it's collapsed - expand it
+                        holder.tvDetails.setVisibility(View.VISIBLE);
+                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
+                    } else {
+                        // it's expanded - collapse it
+                        holder.tvDetails.setVisibility(View.GONE);
+                        holder.ibt_show.setImageResource(R.drawable.ic_expand_more_black_24dp);
+                    }
+
+                    ObjectAnimator animation = ObjectAnimator.ofInt(holder.tvDetails, "maxLines",holder.tvDetails.getMaxLines());
+                    animation.setDuration(200).start();
+                }
+            });
+
+//                holder.rlHomeFeed.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+//                        CustomDialog cdd = new CustomDialog(HomeActivity.this, notifObjectList.get(holder.getAdapterPosition()));
+//                        cdd.show();
+//
+//                    }
+//                });
 
         }
-
 
         @Override
         public boolean onItemMove(int fromPosition, int toPosition) {
@@ -864,17 +920,27 @@ public class HomeActivity extends AppCompatActivity
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView tvTitle, tvDetails;
+            TextView tvTitle, tvDetails ,tvorg ,tv_time, tv_date, tv_location;
             RelativeLayout rlHomeFeed;
             CardView cvhome;
+            ImageButton ibt_show ,bt_loc,bt_date, bt_time;
+
 
             ViewHolder(View itemView) {
                 super(itemView);
 
-                tvTitle = (TextView) itemView.findViewById(R.id.text_title_home_feed);
-                tvDetails = (TextView) itemView.findViewById(R.id.tv_home_details);
+                tvorg = (TextView)itemView.findViewById(R.id.tv_org);
+                tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+                tvDetails = (TextView) itemView.findViewById(R.id.tvDetails);
+                tv_location = (TextView) itemView.findViewById(R.id.tv_loc);
+                tv_date = (TextView) itemView.findViewById(R.id.tv_date);
+                tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+                ibt_show = (ImageButton) itemView.findViewById(R.id.bt_show);
                 rlHomeFeed = (RelativeLayout) itemView.findViewById(R.id.rl_home_feed);
-                cvhome = (CardView) itemView.findViewById(R.id.cl_home_feed);
+                cvhome = (CardView) itemView.findViewById(R.id.cv_home_feed);
+                bt_loc = (ImageButton)itemView.findViewById(R.id.bt_loc);
+                bt_time = (ImageButton) itemView.findViewById(R.id.bt_time);
+                bt_date = (ImageButton)itemView.findViewById(R.id.bt_event);
 
             }
 

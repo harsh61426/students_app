@@ -26,10 +26,19 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefreshhome1"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/tab_layout"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tab_layout">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/swiperefreshhome1"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>
