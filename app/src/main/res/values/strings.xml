@@ -168,6 +168,7 @@
         <item>"5|iitmtv"</item>
         <item>"4|emliitm"</item>
     </string-array>
+    <string name="calendar_sync">Remove Calendar</string>
 
 
 </resources>

@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -69,6 +70,7 @@ public class CalendarActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ViewPager viewPager;
+    private MenuItem calendarSync;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -232,6 +234,10 @@ public class CalendarActivity extends AppCompatActivity
                 .centerCrop()
                 .into(imageView);
 
+
+
+
+
     }
 
     @Override
@@ -279,7 +285,20 @@ public class CalendarActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.calendar_menu, menu);
+
+        if(new InstiCalendar(this).getCalendarId(CalendarActivity.this)==-1){
+            Utils.saveprefInt("CalStat",0,this);
+        }else{
+            Utils.saveprefInt("CalStat",1,this);
+        }
+
+        MenuItem item=menu.getItem(0); // here itemIndex is int
+        if(Utils.getprefInt("CalStat",this)==0)
+            item.setTitle("Insert Calendar");
+        else
+            item.setTitle("Remove Calendar");
+
         return true;
     }
 
@@ -298,6 +317,24 @@ public class CalendarActivity extends AppCompatActivity
         } else if (id == R.id.action_log_out) {
             LogOutAlertClass lg = new LogOutAlertClass();
             lg.isSure(CalendarActivity.this);
+            return true;
+        } else if(id == R.id.calendar_sync){
+            if(Utils.getprefInt("CalStat",this)==1){
+                new InstiCalendar(CalendarActivity.this).deleteCalendarTest(CalendarActivity.this);
+                item.setTitle("Insert Calendar");
+            }else{
+                long CalID=new InstiCalendar(CalendarActivity.this).insertCalendar(this);
+
+                Log.i("CalID", CalID + "");
+                Utils.saveprefLong("CalID", CalID, this);
+                Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
+                new InstiCalendar(CalendarActivity.this).deleteallevents();
+                new InstiCalendar(CalendarActivity.this).sendJsonRequest(this, 0);
+                Utils.saveprefString("Cal_Ver", new InstiCalendar(CalendarActivity.this).getVersion(), this);
+
+
+                item.setTitle("Remove Calendar");
+            }
             return true;
         }
 

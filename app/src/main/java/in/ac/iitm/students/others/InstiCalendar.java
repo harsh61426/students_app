@@ -148,7 +148,7 @@ public class InstiCalendar {
 
 
         if (mode == 0 && event.getDetails().length() > 0 && !exists(event, context)) {
-            insertEvents(CalID, event, context);
+            insertEvents(event, context);
         }
         return event;
     }
@@ -167,7 +167,7 @@ public class InstiCalendar {
         return eventList;
     }
 
-    private static void sendJsonRequest(final Context context, final int mode) {
+    public static void sendJsonRequest(final Context context, final int mode) {
 
 
         String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
@@ -205,14 +205,14 @@ public class InstiCalendar {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("VolleyError", error.toString());
-                Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(stringRequest);
 
     }
 
-    private static void insertEvents(long calId, Calendar_Event event, Context context) {
+    private static void insertEvents(Calendar_Event event, Context context) {
 
         Calendar cal = new GregorianCalendar(2017, event.getMonth() , event.getDate());    //Jan is 0
         cal.setTimeZone(TimeZone.getTimeZone("IST"));
@@ -228,7 +228,7 @@ public class InstiCalendar {
         values.put(CalendarContract.Events.DTEND, start);
         values.put(CalendarContract.Events.TITLE, event.getDetails());
         values.put(CalendarContract.Events.EVENT_LOCATION, "Chennai");
-        values.put(CalendarContract.Events.CALENDAR_ID, calId);
+        values.put(CalendarContract.Events.CALENDAR_ID, CalID);
         values.put(CalendarContract.Events.EVENT_TIMEZONE, "India");
         values.put(CalendarContract.Events.DESCRIPTION, event.isHoliday() ? "Holiday" : "");
         values.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());
@@ -271,7 +271,9 @@ public class InstiCalendar {
         return false;
     }
 
-    private static long getCalendarId(String acc, Context context) {
+    public static long getCalendarId( Context context) {
+        /*String acc = "students.iitm";
+
         Cursor cur = null;
         ContentResolver cr = context.getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
@@ -292,10 +294,48 @@ public class InstiCalendar {
             }
             Log.i("CurCount", cur.getCount() + "");
         }
+        return -1;*/
+
+        String[] projection =
+                new String[]{
+                        CalendarContract.Calendars._ID,
+                        CalendarContract.Calendars.NAME,
+                        CalendarContract.Calendars.ACCOUNT_NAME,
+                        CalendarContract.Calendars.ACCOUNT_TYPE};
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+        }
+        Cursor calCursor =
+                context.getContentResolver().
+                        query(CalendarContract.Calendars.CONTENT_URI,
+                                projection,
+                                CalendarContract.Calendars.VISIBLE + " = 1",
+                                null,
+                                CalendarContract.Calendars._ID + " ASC");
+        if (calCursor.moveToFirst()) {
+            do {
+                long id = calCursor.getLong(0);
+                String displayName = calCursor.getString(1);
+                if (displayName.equals("IITM Calendar") && calCursor.getString(2).equals("students.iitm")) {
+                    return  id;
+                }
+
+            } while (calCursor.moveToNext());
+        }
         return -1;
+
     }
 
-    private static long insertCalendar(String acc, String inter, String disp, Context context) {
+    public long insertCalendar(Context context) {
+        String acc = "students.iitm";
+        String disp = "IITM Calendar";
+        String inter = "IITM Calendar";
 
         Uri calUri = CalendarContract.Calendars.CONTENT_URI;
         ContentValues cv = new ContentValues();
@@ -316,18 +356,12 @@ public class InstiCalendar {
                 .build();
         Uri result = context.getContentResolver().insert(calUri, cv);
         Log.i("Result", result.toString());
-        Toast.makeText(context,"IITM Calendar created",Toast.LENGTH_SHORT).show();
-        return getCalendarId(acc, context);
+        Toast.makeText(context,"IITM Calendar integrated",Toast.LENGTH_SHORT).show();
+        Utils.saveprefInt("CalStat",1,context);
+        return getCalendarId(context);
     }
 
     public void fetchCalData(int mode) {
-
-
-        String acc = "students.iitm";
-        String disp = "IITM Calendar";
-        String inter = "IITM Calendar";
-
-        //CalID = Utils.getprefLong("CalID", context);
 
 
         String[] projection =
@@ -357,7 +391,7 @@ public class InstiCalendar {
             do {
                 long id = calCursor.getLong(0);
                 String displayName = calCursor.getString(1);
-                if (displayName.equals("IITM Calendar")) {
+                if (displayName.equals("IITM Calendar") && calCursor.getString(2).equals("students.iitm")) {
                     CalID = id;
                     break;
                 }
@@ -368,12 +402,12 @@ public class InstiCalendar {
 
         // mode 0 for updating the calendar repo from the server
         // mode 1 for getting the event arrayList for populating the calendar recyclerView
-        if ((mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) || CalID==-1) {
+        if (mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
 
             if (CalID == -1) {
-                CalID = insertCalendar(acc, inter, disp, context);
+                CalID = insertCalendar(context);
                 Log.i("CalID", CalID + "");
-                //      Utils.saveprefLong("CalID", CalID, context);
+                Utils.saveprefLong("CalID", CalID, context);
             }
             /************************************************************************************/
 
@@ -388,7 +422,24 @@ public class InstiCalendar {
         }
     }
 
-    private String getVersion() {
+    public void deleteCalendarTest(Context context)
+    {
+        Uri.Builder builder = CalendarContract.Calendars.CONTENT_URI.buildUpon();
+        builder.appendPath(toString().valueOf(CalID))
+                .appendQueryParameter(android.provider.CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, "students.iitm")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
+
+        Uri uri = builder.build();
+
+        context.getContentResolver().delete(uri, null, null);
+        Utils.saveprefInt("CalStat",0,context);
+        Utils.saveprefString("Cal_Ver","deleted", context);
+        CalID=-1;
+        Toast.makeText(context, "IITM Calendar removed", Toast.LENGTH_SHORT).show();
+    }
+
+    public String getVersion() {
         String calversion_url = "https://students.iitm.ac.in/studentsapp/calendar/cal_ver.php"; //url of api file
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, calversion_url,
@@ -420,7 +471,7 @@ public class InstiCalendar {
         return cal_ver;
     }
 
-    private void deleteallevents() {
+    public void deleteallevents() {
 
 
         ContentResolver cr = context.getContentResolver();
@@ -441,7 +492,7 @@ public class InstiCalendar {
         cursor.moveToFirst();
         for (int i = 0; i < cursor.getCount(); i++) {
             // it might be also better to check CALENDAR_ID here
-            if(CalID==Integer.parseInt(cursor.getString(1)) || cursor.getString(2).equals("IITM Calendar")){
+            if(cursor.getString(2).equals("IITM Calendar")){
                 Uri deleteUri = null;
                 long eventID = Integer.parseInt(cursor.getString(0));
                 deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);

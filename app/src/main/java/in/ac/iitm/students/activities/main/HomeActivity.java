@@ -246,8 +246,10 @@ public class HomeActivity extends AppCompatActivity
                 // result of the request.
             }
         } else {
-                      new InstiCalendar(HomeActivity.this).fetchCalData(0);
+                if(Utils.getprefInt("CalStat",this)==1)
+                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
         }
+
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
@@ -289,8 +291,16 @@ public class HomeActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                                  new InstiCalendar(HomeActivity.this).fetchCalData(0);
+                    SharedPreferences settings = getSharedPreferences("Calendar_Inclusion", 0);
+                    boolean firstStart = settings.getBoolean("firstStart", true);
 
+                    if(firstStart) {
+                        //display your Message here
+                        new InstiCalendar(HomeActivity.this).fetchCalData(0);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putBoolean("firstStart", false);
+                        editor.commit();
+                    }
 
                 } else {
 
