@@ -1,70 +1,46 @@
 package in.ac.iitm.students.activities;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.adapters.StudentSearchAccomAdapter;
+import in.ac.iitm.students.others.StudentSearchAccomArray;
 
-/**
- * Created by admin on 27-10-2016.
- */
 public class StudentDetailsActivity extends AppCompatActivity {
 
+    RecyclerView recyclerView;
+    public StudentSearchAccomAdapter accomAdapter;
+
+    ImageButton profilePic;
+    TextView name,rollno,hostel,email,phoneno,linkedin,abtyourself;
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView name = (TextView) findViewById(R.id.student_name);
-        TextView rollno = (TextView) findViewById(R.id.student_roll_no);
-        TextView address = (TextView) findViewById(R.id.student_address);
-        TextView mail = (TextView) findViewById(R.id.student_email_id);
+        profilePic = (ImageButton) findViewById(R.id.profile_pic);
+        name = (TextView) findViewById(R.id.name_overview);
+        rollno = (TextView) findViewById(R.id.rollno_overview);
+        hostel = (TextView) findViewById(R.id.hostel_overview);
+        email = (TextView) findViewById(R.id.email_info);
+        phoneno = (TextView) findViewById(R.id.phone_info);
+        linkedin = (TextView) findViewById(R.id.linkedin_info);
+        abtyourself = (TextView) findViewById(R.id.aboutyourself);
 
-        Intent intent = getIntent();
-
-        String nameString = intent.getStringExtra("studName");
-        if (nameString.equals("null")) name.setText("Name unavailable");
-        else name.setText(nameString);
-
-        String roll = intent.getStringExtra("studRoll");
-        if (roll.equals("null")) rollno.setText("Roll number unavailable");
-        else rollno.setText(roll);
-
-        String hostel = intent.getStringExtra("hostel");
-        String room = intent.getStringExtra("roomNo");
-
-        if (hostel.equals("null")) address.setText("Address unavailable");
-        else {
-            if (room.equals("null")) address.setText(hostel);
-            else address.setText(hostel + ", " + room);
-        }
-
-        if (roll.equals("null")) mail.setText("Email ID unavailable");
-        else {
-            roll = roll.toLowerCase();
-            String sMail = roll + "@smail.iitm.ac.in";
-            mail.setText(sMail);
-        }
-
-        /*
-        Picasso.with(this)
-                .load(intent.getStringExtra("photo"))
-                .placeholder(R.drawable.ic_menu_camera)
-                .error(R.drawable.ic_menu_camera)
-                .fit()
-                .centerCrop()
-                .into(photo);
-                */
-
+        recyclerView = (RecyclerView) findViewById(R.id.accom_rv);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        accomAdapter = new StudentSearchAccomAdapter(StudentDetailsActivity.this, StudentSearchAccomArray.getAccomData());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(accomAdapter);
     }
+
 
     //Setting up back button
     @Override
@@ -77,4 +53,5 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
