@@ -55,6 +55,7 @@
     <string name="url_complaint_categories">https://students.iitm.ac.in/studentsapp/hasportal/get_complaint_categories.php</string>
 
     <string name="title_activity_student_search">Student Search</string>
+    <string name="title_activity_profile">Profile</string>
     <string name="title_activity_map">Institute Map</string>
     <string name="title_activity_imp_contacts">Important Contacts</string>
     <string name="title_activity_organisations">Organisations</string>

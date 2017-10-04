@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
+import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.TimetablePagerAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
@@ -199,6 +200,10 @@ public class TimetableActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_about) {
             intent = new Intent(context, AboutUsActivity.class);
+            flag = true;
+
+        } else if (id == R.id.nav_profile) {
+            intent = new Intent(context, ProfileActivity.class);
             flag = true;
 
         } else if (id == R.id.nav_log_out) {

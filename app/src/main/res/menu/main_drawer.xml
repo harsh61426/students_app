@@ -43,10 +43,16 @@
 
     <item android:title="Options">
         <menu>
+
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_perm_identity_black_24dp"
+                android:title="@string/title_activity_profile" />
             <item
                 android:id="@+id/nav_subscriptions"
                 android:icon="@drawable/ic_event_note_black_24dp"
                 android:title="@string/subscriptions" />
+
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_info_outline_black_24dp"
