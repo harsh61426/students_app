@@ -49,7 +49,7 @@ public class MyComplaintsActivity extends AppCompatActivity implements SwipeRefr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_complaints);
+        setContentView(R.layout.mess_and_facilities_activity_my_complaints);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);

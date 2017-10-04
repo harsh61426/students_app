@@ -140,11 +140,7 @@
             android:label="@string/title_activity_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.ComplaintActivity"
-            android:label="@string/title_activity_complaint"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".organisations.activities.NewsActivity"
             android:label="@string/title_activity_news"
@@ -192,15 +188,24 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
+        <activity
+            android:name=".activities.main.CalendarActivity"
+            android:label="Calendar"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        !--
+        Complaints Box Activities
+        -->
         <activity
             android:name="in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity"
             android:label="Complaint Box"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name=".activities.main.CalendarActivity"
-            android:label="Calendar"
+            android:name="in.ac.iitm.students.complaint_box.activities.ComplaintActivity"
+            android:label="@string/title_activity_complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -212,6 +217,27 @@
         <activity
             android:name="in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity"
             android:label="General Complaints"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.AddYourComment"
+            android:label="Add your comment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.Comments"
+            android:label="Comments"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.CustomComplaintActivity"
+            android:label="Custom Complaints"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.NewComplaintActivity"
+            android:label="New Complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 

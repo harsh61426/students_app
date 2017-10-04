@@ -1,11 +1,7 @@
 package in.ac.iitm.students.complaint_box.activities.main;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,30 +11,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
-import in.ac.iitm.students.activities.SubscriptionActivity;
-import in.ac.iitm.students.activities.main.CalendarActivity;
-import in.ac.iitm.students.activities.main.HomeActivity;
-import in.ac.iitm.students.activities.main.ImpContactsActivity;
-import in.ac.iitm.students.activities.main.MapActivity;
-import in.ac.iitm.students.activities.main.StudentSearchActivity;
-import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.MessOrFacilitiesListActivity;
 import in.ac.iitm.students.complaint_box.activities.MyComplaintsActivity;
-import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-public class MessAndFacilitiesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MessAndFacilitiesActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     private DrawerLayout drawer;
@@ -47,7 +33,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mess_and_facilities);
+        setContentView(R.layout.mess_and_facilities_activity_mess_and_facilities);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -55,7 +41,10 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
         actionBar.setElevation(0);
         actionBar.setTitle(R.string.title_activity_mess_and_facilities);
 
+        String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
+        String name = Utils.getprefString(UtilStrings.NAME, this);
 
+        /*
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout_mess_and_fac);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,8 +56,6 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
         navigationView.setNavigationItemSelectedListener(this);
 
         View header = navigationView.getHeaderView(0);
-        String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
-        String name = Utils.getprefString(UtilStrings.NAME, this);
 
         TextView username = (TextView) header.findViewById(R.id.tv_username);
         TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
@@ -84,6 +71,8 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
                 .fit()
                 .centerCrop()
                 .into(imageView);
+
+        */
 
         TextView header_name = (TextView) findViewById(R.id.header_name);
 
@@ -103,6 +92,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
             }
         });
 
+
     }
 
     public void onMessClick(View v) {
@@ -121,10 +111,10 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MessAndFacilitiesActivity.this, HomeActivity.class);
+        Intent intent = new Intent(MessAndFacilitiesActivity.this, ComplaintBoxActivity.class);
         startActivity(intent);
     }
-
+/*
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -201,6 +191,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
         );
         return true;
     }
+*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -217,9 +208,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (toggle.onOptionsItemSelected(item)) {
-            return true;
-        } else if (id == R.id.action_about) {
+        if (id == R.id.action_about) {
             Intent intent = new Intent(MessAndFacilitiesActivity.this, AboutUsActivity.class);
             startActivity(intent);
             return true;
@@ -227,8 +216,10 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
             LogOutAlertClass lg = new LogOutAlertClass();
             lg.isSure(MessAndFacilitiesActivity.this);
             return true;
+        } else if (id == R.id.home) {
+            onBackPressed();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
 
     }

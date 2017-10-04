@@ -113,6 +113,20 @@
         \nthe text for that slot will turn red in the bunk monitor.\n\n
     </string>
 
+    <!-- Hostel and General complaints -->
+
+    <string name="new_complaint">New Complaint</string>
+    <string name="custom_complaint">Custom Complaint</string>
+    <string name="complaint_title">Title</string>
+    <string name="tag">Tags</string>
+    <string name="complaint_description">Description</string>
+    <string name="complaint_proximity">Proximity</string>
+    <string name="templates">Templates</string>
+    <string name="room_number">Near which room?</string>
+    <string name="write_your_own">Write custom complaint</string>
+    <string name="save">Save</string>
+    <string name="next">Next</string>
+
 
     <string name="facebook_app_id">"1544898062227250"</string>
     <string name="Apptoken">"1544898062227250|IrQXoiRecw_KOc0Lw1aY3mIkB-g"</string>

@@ -22,6 +22,9 @@
     <color name="cyan">#00BCD4</color>
     <color name="amber">#FFC107</color>
     <color name="white">#FFFFFF</color>
+    <color name="circle_color">#000000</color>
+    <color name="resolved_colour">#F1F8E9</color>
+    <color name="unresolved_colour">#E8EAF6</color>
 
     <color name="Imageback">#eceff1</color>
 

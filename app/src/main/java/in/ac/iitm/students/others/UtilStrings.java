@@ -7,6 +7,9 @@ public class    UtilStrings {
     public static String NAME = "username";
     public static String ROLLNO = "rollno";
     public static String HOSTEl = "hostel";
+    public static String ROOM = "room";
+    public static String REVEAL_PLACE = "reveal_place";
+    public static String REVEAL_PHOTO = "reveal_photo";
     public static String LOGEDIN = "logedin";
     public static String homeData = "homeData";
 
