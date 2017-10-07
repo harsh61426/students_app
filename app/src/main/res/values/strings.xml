@@ -184,6 +184,7 @@
         <item>"4|emliitm"</item>
     </string-array>
     <string name="calendar_sync">Remove Calendar</string>
+    <string name="ProfileDisclaimer">The following Information will be made public.</string>
 
 
 </resources>

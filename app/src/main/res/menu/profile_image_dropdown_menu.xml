@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <!-- <item android:title="Upload Image from Gallery"
+
+        android:visible="true"
+        android:id="@+id/upload_image_item"/>
+
+    <item android:title="Capture Image"
+
+        android:visible="true"
+        android:id="@+id/capture_image_item"/>
+
+    <item
+        android:id="@+id/profile_default_image_item"
+
+        android:title="Set Image" />-->
+
+    <item android:title="Remove Image"
+
+        android:visible="true"
+        android:id="@+id/profile_remove_image_item"/>
+
+
+
+
+</menu>

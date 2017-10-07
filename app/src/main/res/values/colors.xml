@@ -30,4 +30,6 @@
 
 
     <color name="polyline_blue">#D442A5F5</color>
+    <color name="red_background">#ff616f</color>
+
 </resources><!--500,700,A200--><!--800,300--><!--100,900,600-->

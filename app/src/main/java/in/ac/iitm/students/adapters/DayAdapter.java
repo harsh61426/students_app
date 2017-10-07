@@ -3,6 +3,7 @@ package in.ac.iitm.students.adapters;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.CalendarContract;
@@ -15,15 +16,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
 
 /**
- * Created by harshitha on 8/6/17.
+ * Created by Sarath on 8/6/17.
  */
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
@@ -48,7 +47,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_day_card, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -96,18 +95,43 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
             holder.tv_day.setTextColor(Color.parseColor("#3F51B5"));
         }
+
+        Calendar beginTime=Calendar.getInstance();
+        Calendar endTime=beginTime;
+        beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1,0,0,0);
+        endTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1,23,59,59);
+
+        // A date-time specified in milliseconds since the epoch.
+        final long  begin= beginTime.getTimeInMillis();
+        /*long end = endTime.getTimeInMillis();
+
+        String[] proj =
+                new String[]{
+                        CalendarContract.Instances.EVENT_ID};
+        Cursor cursor =
+                CalendarContract.Instances.query(context.getContentResolver(), proj, begin, end);
+        int x =cursor.getCount();
+        while (cursor.moveToNext()) {
+            long eventId = cursor.getLong(0);
+            String[] cursorValues =
+                    new String[]{
+                            CalendarContract.Reminders.TITLE};
+            Cursor reminderCur = CalendarContract.Reminders.query(context.getContentResolver(),eventId,cursorValues);
+
+            while (reminderCur.moveToNext()){
+                holder.cardView.setBackgroundColor(Color.parseColor("#FF0000"));
+
+            }
+        }*/
+
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Calendar beginTime = Calendar.getInstance();
-                beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
-                // A date-time specified in milliseconds since the epoch.
-                long hr = beginTime.getTimeInMillis();
-
                 Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
                 builder.appendPath("time");
-                ContentUris.appendId(builder, hr);
+                ContentUris.appendId(builder, begin);
                 Intent intent = new Intent(Intent.ACTION_VIEW)
                         .setData(builder.build());
                 context.startActivity(intent);
