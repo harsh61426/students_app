@@ -43,7 +43,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
 
 public class InstiCalendar {
     public ArrayList<ArrayList<Calendar_Event>> cal_events;
-    static long CalID=-1;
+    public static long CalID=-1;
     private Context context;
     private String cal_ver = "0";
 
@@ -324,11 +324,13 @@ public class InstiCalendar {
                 long id = calCursor.getLong(0);
                 String displayName = calCursor.getString(1);
                 if (displayName.equals("IITM Calendar") && calCursor.getString(2).equals("students.iitm")) {
+                    InstiCalendar.CalID = id;
                     return  id;
                 }
 
             } while (calCursor.moveToNext());
         }
+        InstiCalendar.CalID=-1;
         return -1;
 
     }
@@ -423,20 +425,19 @@ public class InstiCalendar {
         }
     }
 
-    public void deleteCalendarTest(Context context)
-    {
+    public static void deleteCalendarTest(Context context,String CalID) {
         Uri.Builder builder = CalendarContract.Calendars.CONTENT_URI.buildUpon();
-        builder.appendPath(toString().valueOf(CalID))
-                .appendQueryParameter(android.provider.CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+        builder.appendPath(CalID)
+                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, "students.iitm")
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
 
         Uri uri = builder.build();
 
-        context.getContentResolver().delete(uri, null, null);
+        context.getContentResolver().delete(uri,null,null);
         Utils.saveprefInt("CalStat",0,context);
         Utils.saveprefString("Cal_Ver","deleted", context);
-        CalID=-1;
+        InstiCalendar.CalID=-1;
         Toast.makeText(context, "IITM Calendar removed", Toast.LENGTH_SHORT).show();
     }
 

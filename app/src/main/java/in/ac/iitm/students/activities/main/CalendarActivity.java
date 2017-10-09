@@ -55,6 +55,8 @@ import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
+import static in.ac.iitm.students.others.InstiCalendar.CalID;
+
 /**
  * Created by admin on 14-12-2016.
  */
@@ -288,7 +290,7 @@ public class CalendarActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.calendar_menu, menu);
 
-        if(new InstiCalendar(this).getCalendarId(CalendarActivity.this)==-1){
+        if(InstiCalendar.getCalendarId(CalendarActivity.this)==-1){
             Utils.saveprefInt("CalStat",0,this);
         }else{
             Utils.saveprefInt("CalStat",1,this);
@@ -320,17 +322,17 @@ public class CalendarActivity extends AppCompatActivity
             lg.isSure(CalendarActivity.this);
             return true;
         } else if(id == R.id.calendar_sync){
+            InstiCalendar instiCalendar = new InstiCalendar(this);
             if(Utils.getprefInt("CalStat",this)==1){
-                new InstiCalendar(CalendarActivity.this).deleteCalendarTest(CalendarActivity.this);
+                instiCalendar.deleteCalendarTest(this,toString().valueOf(InstiCalendar.getCalendarId(this)));
                 item.setTitle("Insert Calendar");
             }else{
-                long CalID=new InstiCalendar(CalendarActivity.this).insertCalendar(this);
+                InstiCalendar.CalID =new InstiCalendar(CalendarActivity.this).insertCalendar(this);
 
-                Log.i("CalID", CalID + "");
                 Utils.saveprefLong("CalID", CalID, this);
                 Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
-                new InstiCalendar(CalendarActivity.this).deleteallevents();
-                new InstiCalendar(CalendarActivity.this).sendJsonRequest(this, 0);
+                instiCalendar.deleteallevents();
+                instiCalendar.sendJsonRequest(this, 0);
                 Utils.saveprefString("Cal_Ver", new InstiCalendar(CalendarActivity.this).getVersion(), this);
 
 

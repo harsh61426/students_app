@@ -1,10 +1,12 @@
 package in.ac.iitm.students.adapters;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.icu.util.IndianCalendar;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.v7.widget.CardView;
@@ -13,13 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
+
+import static in.ac.iitm.students.R.id.visible;
 
 /**
  * Created by Sarath on 8/6/17.
@@ -97,33 +103,65 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         }
 
         Calendar beginTime=Calendar.getInstance();
-        Calendar endTime=beginTime;
-        beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1,0,0,0);
-        endTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1,23,59,59);
+        Calendar endTime=Calendar.getInstance();
+        beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
+        endTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+2);
+        beginTime.set(Calendar.HOUR,0);
+        beginTime.set(Calendar.MINUTE,0);
+        beginTime.set(Calendar.SECOND, 0);
+        beginTime.set(Calendar.MILLISECOND, 0);
+        endTime.set(Calendar.HOUR,0);
+        endTime.set(Calendar.MINUTE,0);
+        endTime.set(Calendar.SECOND, 0);
+        endTime.set(Calendar.MILLISECOND, 0);
 
+        beginTime.setTimeZone(TimeZone.getTimeZone("IST"));
+        endTime.setTimeZone(TimeZone.getTimeZone("IST"));
         // A date-time specified in milliseconds since the epoch.
         final long  begin= beginTime.getTimeInMillis();
-        /*long end = endTime.getTimeInMillis();
+        long end = endTime.getTimeInMillis();
 
-        String[] proj =
-                new String[]{
-                        CalendarContract.Instances.EVENT_ID};
-        Cursor cursor =
-                CalendarContract.Instances.query(context.getContentResolver(), proj, begin, end);
-        int x =cursor.getCount();
-        while (cursor.moveToNext()) {
-            long eventId = cursor.getLong(0);
-            String[] cursorValues =
-                    new String[]{
-                            CalendarContract.Reminders.TITLE};
-            Cursor reminderCur = CalendarContract.Reminders.query(context.getContentResolver(),eventId,cursorValues);
+        String[] INSTANCE_PROJECTION = new String[] {
+                CalendarContract.Instances.TITLE, // 0
+                CalendarContract.Instances.BEGIN //1
+        };
 
-            while (reminderCur.moveToNext()){
-                holder.cardView.setBackgroundColor(Color.parseColor("#FF0000"));
+        Cursor cur = null;
+        ContentResolver cr = context.getContentResolver();
 
+// Construct the query with the desired date range.
+        Uri.Builder builder = CalendarContract.Instances.CONTENT_URI.buildUpon();
+        ContentUris.appendId(builder, begin);
+        ContentUris.appendId(builder, end);
+
+// Submit the query
+        cur =  cr.query(builder.build(),
+                INSTANCE_PROJECTION,
+                null,
+                null,
+                null);
+
+
+        int i=0;
+        if(cur.getCount()==0){
+            holder.reminderCardView.setVisibility(View.GONE);
+        }
+        while (cur.moveToNext()) {
+            if(i==2) break;
+            if(i==0 && cur.getString(0).length()>0 && Long.parseLong(cur.getString(1))<=end){
+
+                String title = cur.getString(0);
+                holder.reminderCardView.setVisibility(View.VISIBLE);
+                holder.reminderText.setText(title);
+                i++;
+                break;
             }
-        }*/
+            if(i==1 && cur.getString(0).length()>0 && Long.parseLong(cur.getString(1))<=end){
+                holder.reminerDots.setVisibility(View.VISIBLE);
+                i++;
+            }
 
+        }
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,8 +184,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_day, tv_date, tv_desc;
-        CardView cardView,despCardView;
+        TextView tv_day, tv_date, tv_desc,reminderText,reminerDots;
+        CardView cardView,reminderCardView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -155,6 +193,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_desc = (TextView) itemView.findViewById(R.id.tv_description);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
+            reminderCardView = (CardView) itemView.findViewById(R.id.reminder_cardview);
+            reminderText = (TextView) itemView.findViewById(R.id.reminders_textview);
+            reminerDots = (TextView) itemView.findViewById(R.id.reminders_dots);
         }
     }
 }
