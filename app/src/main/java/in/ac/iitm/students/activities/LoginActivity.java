@@ -150,8 +150,8 @@ public class LoginActivity extends AppCompatActivity {
                             Utils.saveprefString(UtilStrings.NAME, DisplayName[0], getBaseContext());
                             Utils.saveprefString(UtilStrings.HOSTEl, Hostel[0], getBaseContext());
                             Utils.saveprefString(UtilStrings.ROOM, room[0], getBaseContext());
-                            Utils.saveprefString(UtilStrings.REVEAL_PHOTO, reveal_photo[0], getBaseContext());
-                            Utils.saveprefString(UtilStrings.REVEAL_PLACE, reveal_place[0], getBaseContext());
+                            Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt(reveal_photo[0]), getBaseContext());
+                            Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt(reveal_place[0]), getBaseContext());
                             Utils.saveprefString(UtilStrings.ROLLNO, username.getText().toString().toUpperCase(), getBaseContext());
                             Utils.saveprefBool(UtilStrings.LOGEDIN, true, context);
 

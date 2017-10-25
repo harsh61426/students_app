@@ -18,9 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +56,7 @@ import in.ac.iitm.students.adapters.ProfileAccomAdapter;
 import in.ac.iitm.students.fragments.ProfileAccomAddFragment;
 import in.ac.iitm.students.objects.ProfileAccomDetails;
 import in.ac.iitm.students.others.ProfileAccomDetailArray;
+import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
@@ -66,26 +68,24 @@ import static in.ac.iitm.students.fragments.ProfileAccomAddFragment.accomPos;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private final static int SELECTED_PICTURE_FOR_GALLERY = 1;
+    private final static int CAPTURED_PICTURE = 0;
+    public static android.app.FragmentManager fragmentManager;
+    public static ProfileAccomAdapter accomadapter;
+    public static String activity = "";
+    static String emailString = "", phonenoString = "", nickNameString = "", aboutThePersonString = "";
     // This is a reference to catch Profile picture imagebutton view.
     int reveal_place=1;
     int reveal_photo=1;
+    int reveal_roll = 1;
     CircleImageView profilePicImage;
-    private final static  int SELECTED_PICTURE_FOR_GALLERY=1;
-    private final static  int CAPTURED_PICTURE=0;
     String mCurrentPhotoPath;
     EditText email,phoneno,aboutThePerson;
-    static String emailString="",phonenoString="",nickNameString="",aboutThePersonString="";
-    CheckBox roomNoCheckbox;
-
-    public static android.app.FragmentManager  fragmentManager;
-
+    Switch roomNoSwitch, rollNoSwitch;
     RecyclerView accomRV;
-    public static ProfileAccomAdapter accomadapter;
 
     //private File imageFile;
-
-    public static String activity="";
-
+    private TextView tv_name, tv_roll, tv_hostel, tv_room;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,21 +100,53 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setTitle(R.string.title_activity_profile);
 
         activity = "ProfileActivity";
+        tv_name = (TextView) findViewById(R.id.profile_name);
+        tv_roll = (TextView) findViewById(R.id.profile_roll_no);
+        tv_hostel = (TextView) findViewById(R.id.profile_hostel);
+        tv_room = (TextView) findViewById(R.id.profile_room_no);
+
         email = (EditText) findViewById(R.id.profile_contactEmail);
         phoneno = (EditText) findViewById(R.id.profile_phoneno);
         aboutThePerson = (EditText) findViewById(R.id.profile_about_the_person);
-        roomNoCheckbox = (CheckBox) findViewById(R.id.profile_room_no_checkbox);
+        roomNoSwitch = (Switch) findViewById(R.id.profile_room_no_switch);
+        rollNoSwitch = (Switch) findViewById(R.id.profile_rollno_switch);
         profilePicImage = (CircleImageView) findViewById(R.id.profile_propic);
-        roomNoCheckbox.setChecked(true);
+        roomNoSwitch.setChecked(true);
+        rollNoSwitch.setChecked(true);
         fragmentManager = getFragmentManager();
+
+
+        String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
+        String name = Utils.getprefString(UtilStrings.NAME, this);
+        String hostel = Utils.getprefString(UtilStrings.HOSTEl, this);
+        String room = Utils.getprefString(UtilStrings.ROOM, this);
+
+        tv_name.setText(name);
+        tv_roll.setText(roll_no);
+        tv_hostel.setText(hostel);
+        tv_room.setText(room);
+
+        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
+        Picasso.with(this)
+                .load(urlPic)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.drawable.dummypropic)
+                .fit()
+                .centerCrop()
+                .into(profilePicImage);
 
         email.setText(Utils.getprefString("StudentEmail",this));
         phoneno.setText(Utils.getprefString("StudentPhoneNo",this));
         aboutThePerson.setText(Utils.getprefString("aboutYourself",this));
         if(Utils.getprefInt("reveal_place",this)==0){
-            roomNoCheckbox.setChecked(false);
+            roomNoSwitch.setChecked(false);
         }else{
-            roomNoCheckbox.setChecked(true);
+            roomNoSwitch.setChecked(true);
+        }
+        if (Utils.getprefInt("reveal_roll", this) == 0) {
+            rollNoSwitch.setChecked(false);
+        } else {
+            rollNoSwitch.setChecked(true);
         }
         if(Utils.getprefInt("reveal_photo",this)==0){
             reveal_photo=0;
@@ -122,6 +154,7 @@ public class ProfileActivity extends AppCompatActivity {
         }else{
             reveal_photo=1;
             // set profilepicImage to original photo.
+
         }
 
         profilePicImage.setOnClickListener(new View.OnClickListener() {
@@ -131,9 +164,9 @@ public class ProfileActivity extends AppCompatActivity {
                 popupMenu.getMenuInflater().inflate(R.menu.profile_image_dropdown_menu,popupMenu.getMenu());
                 MenuItem item = popupMenu.getMenu().getItem(0);
                 if(reveal_photo==1){
-                    item.setTitle("Remove Image");
+                    item.setTitle("Hide Image");
                 }else{
-                    item.setTitle("Enable Image");
+                    item.setTitle("Show Image");
                 }
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -142,14 +175,14 @@ public class ProfileActivity extends AppCompatActivity {
                         if(item.getItemId()==R.id.profile_remove_image_item){
                             item.setVisible(false);
                             if(reveal_photo==1){
-                                item.setTitle("Enable Image");
+                                item.setTitle("Show Image");
                             }else{
-                                item.setTitle("Remove Image");
+                                item.setTitle("Hide Image");
                             }
                             AlertDialog.Builder builder  = new AlertDialog.Builder(ProfileActivity.this);
 
                             if(reveal_photo==1) {
-                                builder.setMessage("Do you want to remove your Profile Pic?")
+                                builder.setMessage("Do you want to hide your Profile Pic?")
                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -160,7 +193,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         .setNegativeButton("Cancel", null);
 
                             }else{
-                                builder.setMessage("Do you want to enable your Profile Pic?")
+                                builder.setMessage("Do you want to show your Profile Pic?")
                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -291,7 +324,8 @@ public class ProfileActivity extends AppCompatActivity {
         aboutThePersonString = aboutThePerson.getText().toString();
         phonenoString = phoneno.getText().toString();
         emailString = email.getText().toString();
-        if(roomNoCheckbox.isChecked()) reveal_place = 1;
+        if (roomNoSwitch.isChecked()) reveal_place = 1;
+        if (rollNoSwitch.isChecked()) reveal_roll = 1;
     }
 
     @Override
@@ -301,11 +335,18 @@ public class ProfileActivity extends AppCompatActivity {
         phoneno.setText(phonenoString);
         aboutThePerson.setText(aboutThePersonString);
         if(reveal_place==0){
-            roomNoCheckbox.setChecked(false);
+            roomNoSwitch.setChecked(false);
             ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.GRAY);
         }else{
-            roomNoCheckbox.setChecked(true);
+            roomNoSwitch.setChecked(true);
             ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.BLACK);
+        }
+        if (reveal_roll == 0) {
+            rollNoSwitch.setChecked(false);
+            ((TextView) findViewById(R.id.profile_roll_no)).setTextColor(Color.GRAY);
+        } else {
+            rollNoSwitch.setChecked(true);
+            ((TextView) findViewById(R.id.profile_roll_no)).setTextColor(Color.BLACK);
         }
     }
 
@@ -358,6 +399,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Utils.saveprefString("StudentPhoneNo",phoneno.getText().toString(),this);
                 Utils.saveprefString("aboutYourself",aboutThePerson.getText().toString(),this);
                 Utils.saveprefInt("reveal_place",reveal_place,this);
+                Utils.saveprefInt("reveal_roll", reveal_roll, this);
                 Utils.saveprefInt("reveal_photo",reveal_photo,this);
 
                 //You can replace this when you have MySingleton class
@@ -449,9 +491,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
     private boolean isPhonenoValid(String s) {
 
-        if(s.length()==10 || s.length()==0)
-            return true;
-        return false;
+        return s.length() == 10 || s.length() == 0;
     }
 
     // This method is invoked when accom_plus_image is clicked.
@@ -512,15 +552,26 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onRoomNoChecked(View view){
-        if(roomNoCheckbox.isChecked()){
-            roomNoCheckbox.setChecked(true);
+        if (roomNoSwitch.isChecked()) {
+            roomNoSwitch.setChecked(true);
             ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.BLACK);
             reveal_place=1;
 
         }else{
-            roomNoCheckbox.setChecked(false);
+            roomNoSwitch.setChecked(false);
             ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.GRAY);
             reveal_place=0;
+        }
+
+        if (rollNoSwitch.isChecked()) {
+            rollNoSwitch.setChecked(true);
+            ((TextView) findViewById(R.id.profile_roll_no)).setTextColor(Color.BLACK);
+            reveal_roll = 1;
+
+        } else {
+            rollNoSwitch.setChecked(false);
+            ((TextView) findViewById(R.id.profile_roll_no)).setTextColor(Color.GRAY);
+            reveal_roll = 0;
         }
     }
 
