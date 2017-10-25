@@ -101,29 +101,20 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
             holder.tv_day.setTextColor(Color.parseColor("#3F51B5"));
         }
-
+        /****************************/
+        // this is for querying events calendar..
         Calendar beginTime=Calendar.getInstance();
-        Calendar endTime=Calendar.getInstance();
         beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
-        endTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+2);
-        beginTime.set(Calendar.HOUR,0);
-        beginTime.set(Calendar.MINUTE,0);
-        beginTime.set(Calendar.SECOND, 0);
         beginTime.set(Calendar.MILLISECOND, 0);
-        endTime.set(Calendar.HOUR,0);
-        endTime.set(Calendar.MINUTE,0);
-        endTime.set(Calendar.SECOND, 0);
-        endTime.set(Calendar.MILLISECOND, 0);
-
-        beginTime.setTimeZone(TimeZone.getTimeZone("IST"));
-        endTime.setTimeZone(TimeZone.getTimeZone("IST"));
+        beginTime.setTimeZone(TimeZone.getDefault());
         // A date-time specified in milliseconds since the epoch.
         final long  begin= beginTime.getTimeInMillis();
-        long end = endTime.getTimeInMillis();
+        long end = begin+86400000;
 
         String[] INSTANCE_PROJECTION = new String[] {
                 CalendarContract.Instances.TITLE, // 0
-                CalendarContract.Instances.BEGIN //1
+                CalendarContract.Instances.BEGIN, //1
+                CalendarContract.Instances.CALENDAR_DISPLAY_NAME //2
         };
 
         Cursor cur = null;
@@ -148,7 +139,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         }
         while (cur.moveToNext()) {
             if(i==2) break;
-            if(i==0 && cur.getString(0).length()>0 && Long.parseLong(cur.getString(1))<=end){
+            if(i==0 && cur.getString(0).length()>0 && !cur.getString(2).equalsIgnoreCase("IITM Calendar")){
 
                 String title = cur.getString(0);
                 holder.reminderCardView.setVisibility(View.VISIBLE);
@@ -156,12 +147,13 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
                 i++;
                 break;
             }
-            if(i==1 && cur.getString(0).length()>0 && Long.parseLong(cur.getString(1))<=end){
+            if(i==1 && cur.getString(0).length()>0 && !cur.getString(2).equalsIgnoreCase("IITM Calendar")){
                 holder.reminerDots.setVisibility(View.VISIBLE);
                 i++;
             }
 
         }
+        /********************************************/
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
