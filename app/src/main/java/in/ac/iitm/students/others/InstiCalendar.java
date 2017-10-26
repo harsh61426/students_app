@@ -35,6 +35,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import in.ac.iitm.students.activities.ProfileActivity;
+import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
 
 /**
@@ -43,7 +44,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
 
 public class InstiCalendar {
     public ArrayList<ArrayList<Calendar_Event>> cal_events;
-    public static long CalID=-1;
+    public static long CalID = -1;
     private Context context;
     private String cal_ver = "0";
 
@@ -118,6 +119,55 @@ public class InstiCalendar {
     private static Calendar_Event readDayObject(JsonReader reader, int month, int i, Context context, int mode) throws IOException {
 
         Calendar_Event event = new Calendar_Event();
+
+        /* check if there are any events for this particular day */
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(CalendarActivity.yearForRecyclerView, month, i + 1, 5, 30);
+        beginTime.set(Calendar.SECOND, 0);
+        beginTime.set(Calendar.MILLISECOND, 0);
+        long begin = beginTime.getTimeInMillis();
+        long end = begin + 86400000;
+
+        String[] PROJECTION = new String[]{
+                CalendarContract.Events.TITLE, // 0
+                CalendarContract.Events.CALENDAR_DISPLAY_NAME, //1
+                CalendarContract.Events.DTSTART, //2
+                CalendarContract.Events.DTEND //3
+        };
+
+        String selectionClause = CalendarContract.Events.DTSTART + ">= ? AND " + CalendarContract.Events.DTEND + "<= ? AND " + CalendarContract.Events.CALENDAR_DISPLAY_NAME + "!= ?";
+
+        String[] selectionArgs = new String[]{String.valueOf(begin),String.valueOf(end),"IITM Calendar"};
+        Cursor cur = null;
+        ContentResolver cr = context.getContentResolver();
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return null;
+        }
+        cur = cr.query(CalendarContract.Events.CONTENT_URI, PROJECTION, selectionClause, selectionArgs, null);
+
+        int j=0;
+        while (cur.moveToNext()) {
+            if(j==2) break;
+            if(j==0 && cur.getString(0).length()>0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")){
+                event.eventDisplay1 = cur.getString(0);
+                Log.i("InstiCalendar",begin+"-"+end+"  "+cur.getString(2)+"-"+cur.getString(3)+"--"+cur.getString(0));
+                j++;
+            }
+            if(i==1 && cur.getString(0).length()>0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")){
+                event.eventDisplay2 = cur.getString(0);
+                j++;
+            }
+
+        }
+
+        /*******************************************************************/
 
         reader.beginObject();
         while (reader.hasNext()) {

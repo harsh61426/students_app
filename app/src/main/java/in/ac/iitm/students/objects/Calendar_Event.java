@@ -14,6 +14,9 @@ public class Calendar_Event {
     private String details;
     private boolean holiday;
     private boolean remind;
+    public boolean eventStored = false; // this turns to true when we check for events for that day
+    public String eventDisplay1="",eventDisplay2="";
+
 
     public boolean isHoliday() {
         return holiday;
