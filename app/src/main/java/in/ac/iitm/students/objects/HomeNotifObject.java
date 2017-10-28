@@ -18,5 +18,6 @@ public class HomeNotifObject {
     public String link;
     public String title;
     public String createdat;
+    public Boolean isfav = false;
 
 }
