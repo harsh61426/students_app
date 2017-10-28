@@ -85,6 +85,7 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
         this.layout = view;
         this.multipopup = multipopup;
         this.layout1 = layout1;
+
     }
 
 
@@ -114,6 +115,8 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
                 .crossFade(500)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.iv_org);
+
+
 
         /*holder.fblike.setOnClickListener(new View.OnClickListener() {
             @Override
