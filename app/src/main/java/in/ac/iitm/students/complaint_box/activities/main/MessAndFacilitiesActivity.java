@@ -1,7 +1,11 @@
 package in.ac.iitm.students.complaint_box.activities.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,20 +15,30 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
+import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.activities.main.CalendarActivity;
+import in.ac.iitm.students.activities.main.HomeActivity;
+import in.ac.iitm.students.activities.main.ImpContactsActivity;
+import in.ac.iitm.students.activities.main.MapActivity;
+import in.ac.iitm.students.activities.main.StudentSearchActivity;
+import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.MessOrFacilitiesListActivity;
 import in.ac.iitm.students.complaint_box.activities.MyComplaintsActivity;
+import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-public class MessAndFacilitiesActivity extends AppCompatActivity {
+public class MessAndFacilitiesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
     private DrawerLayout drawer;
@@ -44,7 +58,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity {
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
 
-        /*
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout_mess_and_fac);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -63,7 +77,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity {
         username.setText(name);
         rollNumber.setText(roll_no);
         ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
-        String urlPic = "https://photos.iitm.ac.in//byroll.php?roll=" + roll_no;
+        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
                 .placeholder(R.mipmap.ic_launcher)
@@ -72,7 +86,6 @@ public class MessAndFacilitiesActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(imageView);
 
-        */
 
         TextView header_name = (TextView) findViewById(R.id.header_name);
 
@@ -111,10 +124,10 @@ public class MessAndFacilitiesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MessAndFacilitiesActivity.this, ComplaintBoxActivity.class);
+        Intent intent = new Intent(MessAndFacilitiesActivity.this, HomeActivity.class);
         startActivity(intent);
     }
-/*
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -191,7 +204,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity {
         );
         return true;
     }
-*/
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

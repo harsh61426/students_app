@@ -2,7 +2,6 @@ package in.ac.iitm.students.activities.main;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +29,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.Html;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
@@ -80,12 +78,11 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
-import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
+import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
-import in.ac.iitm.students.organisations.activities.main.PostActivity;
 import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
@@ -100,6 +97,10 @@ public class HomeActivity extends AppCompatActivity
 
     static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
     private static int optionalUpdateDialogCount = 0;
+    public PopupWindow multipopup;
+    public CardView containerLayout;
+    public RelativeLayout containerLayout2;
+    public View layout1;
     String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
     HomeAdapter adapter;
     RecyclerView recyclerView;
@@ -116,10 +117,6 @@ public class HomeActivity extends AppCompatActivity
     private ArrayList<String> subscribed = new ArrayList<>();
     private ArrayList<String> favorite = new ArrayList<>();
     private ArrayList<HomeNotifObject> notifObjectList = new ArrayList<>();
-    public PopupWindow multipopup;
-    public CardView  containerLayout;
-    public RelativeLayout containerLayout2;
-    public View layout1;
 
     /*
     public static void showAlert(Activity activity, String title, String message) {
@@ -656,7 +653,7 @@ public class HomeActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
-            intent = new Intent(context, ComplaintBoxActivity.class);
+            intent = new Intent(context, MessAndFacilitiesActivity.class);
             flag = true;
         } else if (id == R.id.nav_calendar) {
             intent = new Intent(context, CalendarActivity.class);
@@ -724,10 +721,10 @@ public class HomeActivity extends AppCompatActivity
 
     public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
+        final HomeActivity obj = new HomeActivity();
         Context context;
         PopupWindow multipopup;
         View layout1;
-        final HomeActivity obj = new HomeActivity();
 
 
         public HomeAdapter(String response, Context _context) {
@@ -1363,7 +1360,7 @@ public class HomeActivity extends AppCompatActivity
                 bt_loc = (ImageButton)itemView.findViewById(R.id.bt_loc);
                 bt_time = (ImageButton) itemView.findViewById(R.id.bt_time);
                 bt_date = (ImageButton)itemView.findViewById(R.id.bt_event);
-                v_bottom = (View)itemView.findViewById(R.id.v_bottom);
+                v_bottom = itemView.findViewById(R.id.v_bottom);
 
             }
 
