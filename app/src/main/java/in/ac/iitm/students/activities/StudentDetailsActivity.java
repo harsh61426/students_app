@@ -1,14 +1,12 @@
 package in.ac.iitm.students.activities;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -31,11 +29,10 @@ import in.ac.iitm.students.others.StudentSearchAccomArray;
 
 public class StudentDetailsActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
     public StudentSearchAccomAdapter accomAdapter;
-
+    RecyclerView recyclerView;
     CircleImageView profilePic;
-    TextView name,rollno,hostel,email,phoneno,linkedin,abtyourself;
+    TextView name, rollno, hostel, email, phoneno, abtyourself;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +45,6 @@ public class StudentDetailsActivity extends AppCompatActivity {
         hostel = (TextView) findViewById(R.id.hostel_overview);
         email = (TextView) findViewById(R.id.email_info);
         phoneno = (TextView) findViewById(R.id.phone_info);
-        linkedin = (TextView) findViewById(R.id.linkedin_info);
         abtyourself = (TextView) findViewById(R.id.aboutyourself);
 
         recyclerView = (RecyclerView) findViewById(R.id.accom_rv);

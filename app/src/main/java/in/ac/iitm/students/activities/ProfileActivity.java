@@ -129,7 +129,7 @@ public class ProfileActivity extends AppCompatActivity {
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.dummypropic)
                 .error(R.drawable.dummypropic)
                 .fit()
                 .centerCrop()
