@@ -315,16 +315,16 @@ public class HomeActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    SharedPreferences settings = getSharedPreferences("Calendar_Inclusion", 0);
-                    boolean firstStart = settings.getBoolean("firstStart", true);
+                    //SharedPreferences settings = getSharedPreferences("Calendar_Inclusion", 0);
+                    //boolean firstStart = settings.getBoolean("firstStart", true);
 
-                    if(firstStart) {
+                    //if(firstStart) {
                         //display your Message here
                         new InstiCalendar(HomeActivity.this).fetchCalData(0);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean("firstStart", false);
-                        editor.commit();
-                    }
+                       //SharedPreferences.Editor editor = settings.edit();
+                       // editor.putBoolean("firstStart", false);
+                       // editor.commit();
+                    //}
 
                 } else {
 

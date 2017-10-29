@@ -457,11 +457,11 @@ public class InstiCalendar {
         // mode 1 for getting the event arrayList for populating the calendar recyclerView
         if (mode == 0 && !getVersion().equalsIgnoreCase(Utils.getprefString("Cal_Ver", context))) {
 
-            if (CalID == -1) {
+            /*if (CalID == -1) {
                 CalID = insertCalendar(context);
                 Log.i("CalID", CalID + "");
                 Utils.saveprefLong("CalID", CalID, context);
-            }
+            }*/
             /************************************************************************************/
 
 

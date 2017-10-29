@@ -330,7 +330,7 @@ public class CalendarActivity extends AppCompatActivity
                 InstiCalendar.CalID =new InstiCalendar(CalendarActivity.this).insertCalendar(this);
 
                 Utils.saveprefLong("CalID", CalID, this);
-                Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
                 instiCalendar.deleteallevents();
                 InstiCalendar.sendJsonRequest(this, 0);
                 Utils.saveprefString("Cal_Ver", new InstiCalendar(CalendarActivity.this).getVersion(), this);
