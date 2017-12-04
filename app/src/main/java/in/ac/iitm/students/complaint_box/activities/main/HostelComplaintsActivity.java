@@ -144,7 +144,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     @Override
     public void onClick(View v) {
 
-        Intent intent = new Intent(this, NewComplaintActivity.class);
+        Intent intent = new Intent(HostelComplaintsActivity.this, NewComplaintActivity.class);
         startActivity(intent);
     }
 

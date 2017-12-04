@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,6 +93,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
         Button bn_comment = (Button) holder.view.findViewById(R.id.bn_comment);
         ImageView iv_profile = (ImageView) holder.view.findViewById(R.id.imgProfilePicture);
         LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_comment);
+        final ImageButton bn_more_rooms = (ImageButton)holder.view.findViewById(R.id.more_rooms);
 
 
         final Complaint complaint = mDataset.get(position);
@@ -119,6 +123,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
             if (latest) bn_upvote.setClickable(false);
             if (latest) bn_downvote.setClickable(false);
             bn_comment.setClickable(false);
+
         } else {
             linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.unresolved_colour));
 
@@ -246,6 +251,21 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
             }
         });
 
+        bn_more_rooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(context, bn_more_rooms);
+                //inflating menu from xml resource
+                String[] roomNumber = complaint.getMoreRooms().split(",");
+                for (String s:roomNumber) {
+                    popup.inflate(Integer.parseInt(s));
+                }
+
+               // popup.inflate(complaint.getMore_rooms().intValue());
+                popup.show();
+            }
+        });
 
     }
 

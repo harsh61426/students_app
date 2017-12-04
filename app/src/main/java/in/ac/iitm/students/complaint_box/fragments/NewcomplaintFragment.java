@@ -38,14 +38,7 @@ import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NewcomplaintFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link NewcomplaintFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class NewcomplaintFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -257,6 +250,7 @@ public class NewcomplaintFragment extends Fragment {
                         String hostel_name = sharedPref.getString("hostel", "narmada");
                         String room = sharedPref.getString("roomno", "1004");
                         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                        String moreRooms = room+ ",";
 
                         params.put("HOSTEL", hostel_name);
                         //TODO get name from prefs
@@ -275,6 +269,7 @@ public class NewcomplaintFragment extends Fragment {
                         params.put("TAGS", title);
                         params.put("DATETIME", date);
                         params.put("COMMENTS", "0");
+                        params.put("MORE_ROOMS",moreRooms );
                         return params;
                     }
                 };

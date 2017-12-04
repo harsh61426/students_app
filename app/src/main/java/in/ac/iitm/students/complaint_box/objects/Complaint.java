@@ -1,6 +1,7 @@
 package in.ac.iitm.students.complaint_box.objects;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by harisanker on 22/6/17.
@@ -21,6 +22,7 @@ public class Complaint implements Serializable {
     private String uid;
     private int comments;
     private String hostel;
+    private String moreRooms;
 
     public static Complaint getErrorComplaintObject() {
         Complaint complaint = new Complaint();
@@ -144,4 +146,8 @@ public class Complaint implements Serializable {
     private void setHostel(String hostel) {
         this.hostel = hostel;
     }
+
+    public String getMoreRooms() { return moreRooms;}
+
+    public void setMoreRooms(String moreRooms){this.moreRooms = moreRooms;}
 }
