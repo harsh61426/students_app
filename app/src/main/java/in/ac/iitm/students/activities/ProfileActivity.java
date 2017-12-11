@@ -9,9 +9,7 @@ import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -38,7 +36,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,8 +51,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.adapters.ProfileAccomAdapter;
 import in.ac.iitm.students.fragments.ProfileAccomAddFragment;
-import in.ac.iitm.students.objects.ProfileAccomDetails;
-import in.ac.iitm.students.others.ProfileAccomDetailArray;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
@@ -82,7 +77,6 @@ public class ProfileActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     EditText email,phoneno,aboutThePerson;
     Switch roomNoSwitch, rollNoSwitch;
-    RecyclerView accomRV;
 
     //private File imageFile;
     private TextView tv_name, tv_roll, tv_hostel, tv_room;
@@ -256,13 +250,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-
-
-        accomRV=(RecyclerView) findViewById(R.id.profile_accom_rv);
-        accomadapter=new ProfileAccomAdapter(this, ProfileAccomDetailArray.getAccomData());
-        LinearLayoutManager layoutmanger=new LinearLayoutManager(this);
-        accomRV.setLayoutManager(layoutmanger);
-        accomRV.setAdapter(accomadapter);
 
         email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -577,25 +564,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     //This is the method to get JsonObject from user input
     public JSONObject getPostParams(){
-        int size = accomRV.getAdapter().getItemCount();
-        JSONArray accomplishmentsArray = new JSONArray();
-        for(int i = 0; i < size; i++){
-            JSONObject accomplishmentsObj = new JSONObject();
-            ProfileAccomDetails currDetails = ((ProfileAccomAdapter)accomRV.getAdapter()).getItem(i);
-            try {
-                accomplishmentsObj.put("title",currDetails.accomOrgan );
-                accomplishmentsObj.put("desc", currDetails.accomPos);
-                accomplishmentsObj.put("from", currDetails.accomFromyear);
-                accomplishmentsObj.put("to", currDetails.accomToyear);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            accomplishmentsArray.put(accomplishmentsObj);
-        }
         JSONObject jsonPost = new JSONObject();
         try {
-            jsonPost.put("Accomplishments", accomplishmentsArray);
+            jsonPost.put("roll", tv_roll.getText().toString());
             jsonPost.put("email",emailString );
             jsonPost.put("Phone", phonenoString);
             jsonPost.put("about", aboutThePersonString);
