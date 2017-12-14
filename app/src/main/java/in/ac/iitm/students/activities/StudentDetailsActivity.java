@@ -1,9 +1,13 @@
 package in.ac.iitm.students.activities;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
@@ -31,7 +35,37 @@ public class StudentDetailsActivity extends AppCompatActivity {
         rollno.setText(getIntent().getStringExtra("studRoll"));
         room.setText(getIntent().getStringExtra("roomNo"));
         hostel.setText(getIntent().getStringExtra("hostel"));
+        Log.v("CheckMate", getIntent().getStringExtra("email"));
+        if(getIntent().getStringExtra("email").equalsIgnoreCase("null")){
+            email.setText("Not available");
+        }else{
+            email.setText(getIntent().getStringExtra("email"));
+        }
 
+        if(getIntent().getStringExtra("phone").equalsIgnoreCase("null")){
+            phoneno.setText("Not available");
+        }else{
+            phoneno.setText(getIntent().getStringExtra("phone"));
+        }
+
+        if(getIntent().getStringExtra("about").equalsIgnoreCase("null")){
+            abtyourself.setText("Not available");
+        }else{
+            abtyourself.setText(getIntent().getStringExtra("about"));
+        }
+
+        int check = getIntent().getIntExtra("reveal_photo", 1);
+
+        if(check == 1) {
+            Uri.Builder builder = new Uri.Builder();
+
+            builder.scheme("https")
+                    .authority("photos.iitm.ac.in")
+                    .appendPath("byroll.php")
+                    .appendQueryParameter("roll", rollno.getText().toString());
+            String url = builder.build().toString();
+            Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.dummypropic).error(R.drawable.dummypropic).fit().centerCrop().into(profilePic);
+        }
 
     }
 
@@ -47,56 +81,5 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    void sendJsonRequest() {
-//
-//
-//        String urlForData = "";
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForData, new Response.Listener<String>() {
-//
-//            @Override
-//            public void onResponse(String response) {
-//                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-//
-//                JsonReader reader = null;
-//                try {
-//                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-//                    reader.setLenient(true);
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-//                try {
-//                    try {
-//                        reader.beginObject();
-//                        String Name = reader.nextName();
-//                        int reveal_photo = reader.nextInt();
-//                        int reveal_place = reader.nextInt();
-//                        String email = reader.nextString();
-//                        String Phone = reader.nextString();
-//                        String about = reader.nextString();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } finally {
-//                    try {
-//                        reader.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }
-//
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.e("VolleyError", error.toString());
-//                //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        MySingleton.getInstance(this).addToRequestQueue(stringRequest);
-//
-//    }
-
 
 }

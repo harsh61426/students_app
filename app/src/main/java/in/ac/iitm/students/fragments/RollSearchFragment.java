@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,7 +103,6 @@ public class RollSearchFragment extends Fragment {
 
 
         String url = builder.build().toString();
-        Log.d("searchUrl", url);
 
 
         StringRequest stud_detail_via_roll_req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -117,7 +115,13 @@ public class RollSearchFragment extends Fragment {
                     String studName = "Name appears here",
                             studRoll = "Roll number appears here",
                             hostel = "Hostel",
-                            roomNo = "room number";
+                            roomNo = "room number",
+                            email = "Email here",
+                            phone = "Phone no. here",
+                            about = "About student";
+
+                    int reveal_photo = 0;
+
                     pDialog.dismiss();
                     JSONArray baseArray = new JSONArray(response);
                     for (int i = 0; i < baseArray.length(); i++) {
@@ -126,6 +130,10 @@ public class RollSearchFragment extends Fragment {
                         studRoll = baseObject.getString("username");
                         hostel = baseObject.getString("hostel");
                         roomNo = baseObject.getString("room");
+                        email = baseObject.getString("email");
+                        phone = baseObject.getString("phone_no");
+                        reveal_photo = baseObject.getInt("reveal_photo");
+                        about = baseObject.getString("about");
                     }
 
                     Intent intent = new Intent(context, StudentDetailsActivity.class);
@@ -133,6 +141,10 @@ public class RollSearchFragment extends Fragment {
                     intent.putExtra("studRoll", studRoll);
                     intent.putExtra("hostel", hostel);
                     intent.putExtra("roomNo", roomNo);
+                    intent.putExtra("email", email);
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("reveal_photo",reveal_photo);
+                    intent.putExtra("about", about);
                     startActivity(intent);
 
 
@@ -171,7 +183,7 @@ public class RollSearchFragment extends Fragment {
                 return params;
             }
         };
-        
+
         MySingleton.getInstance(context).addToRequestQueue(stud_detail_via_roll_req);
     }
 
