@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,8 @@ public class LatestThreadFragment extends Fragment implements SwipeRefreshLayout
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/getAllComplaints.php";
+    //private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/getAllComplaints.php";
+    private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/getAllComplaints.php";
 
     public LatestThreadFragment() {
         // Required empty public constructor
@@ -73,6 +75,7 @@ public class LatestThreadFragment extends Fragment implements SwipeRefreshLayout
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                //Log.d("latest tag", response);
                 JSONComplaintParser jsonComplaintParser = new JSONComplaintParser(response, getActivity());
                 ArrayList<Complaint> complaintArray = null;
                 try {

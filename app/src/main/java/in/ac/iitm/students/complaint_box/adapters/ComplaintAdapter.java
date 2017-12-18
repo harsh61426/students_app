@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +54,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     private TextView tv_downvote;
     private Button bn_upvote;
     private Button bn_downvote;
+    private Button bn_resolve;
 
 
     public ComplaintAdapter(ArrayList<Complaint> myDataset, Activity a, Context c, Boolean latest) {
@@ -65,11 +70,13 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     public ComplaintAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                           int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.hostel_complaints_latest_complaint_card, parent, false);
+        View v;
         if (latest) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.hostel_complaints_latest_complaint_card, parent, false);
+        }else {
+            v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.hostel_complaints_my_complaint_card, parent, false);
         }
 
         ViewHolder vh = new ViewHolder(v);
@@ -94,6 +101,8 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
         ImageView iv_profile = (ImageView) holder.view.findViewById(R.id.imgProfilePicture);
         LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_comment);
         final ImageButton bn_more_rooms = (ImageButton)holder.view.findViewById(R.id.more_rooms);
+        if(!latest) bn_resolve = (Button)holder.view.findViewById(R.id.bn_resolve);
+
 
 
         final Complaint complaint = mDataset.get(position);
@@ -120,6 +129,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
 
         if (complaint.isResolved()) {
             linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.resolved_colour));
+
             if (latest) bn_upvote.setClickable(false);
             if (latest) bn_downvote.setClickable(false);
             bn_comment.setClickable(false);
@@ -131,7 +141,8 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
 
                 @Override
                 public void onClick(View view) {
-                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
+                    //String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
+                    String url = "http://localhost/hostel_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -188,7 +199,8 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
 
                 @Override
                 public void onClick(View view) {
-                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
+                    //String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
+                    String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -256,14 +268,69 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
             public void onClick(View view) {
                 //creating a popup menu
                 PopupMenu popup = new PopupMenu(context, bn_more_rooms);
-                //inflating menu from xml resource
-                String[] roomNumber = complaint.getMoreRooms().split(",");
-                for (String s:roomNumber) {
-                    popup.inflate(Integer.parseInt(s));
-                }
 
-               // popup.inflate(complaint.getMore_rooms().intValue());
+                MenuInflater inflater = popup.getMenuInflater();
+
+
+                String[] roomNumber = complaint.getMoreRooms().split(",");
+
+                for (String s:roomNumber) {
+                    //adding items to menu
+                    popup.getMenu().add(Menu.NONE,Menu.NONE,Menu.NONE,s);
+
+                }
+                //inflating popup menu from xml resource
+                inflater.inflate(R.menu.more_rooms_popup, popup.getMenu());
                 popup.show();
+            }
+        });
+
+        if(!latest) bn_resolve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //if custom complaint
+                String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/resolve.php";
+                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsObject = new JSONObject(response);
+                            if (jsObject.has("error")) {
+                                Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                            } else if (jsObject.has("status")) {
+                                String status = jsObject.getString("status");
+                                if (status == "1") {
+                                    notifyItemChanged(position);
+                                } else {
+                                    Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+                    //to POST params
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
+                        //get hostel from prefs
+                        //put some dummy for now
+                        params.put("HOSTEL", "narmada");
+                        params.put("UUID", mUUID);
+                        return params;
+                    }
+
+                };
+                MySingleton.getInstance(activity).addToRequestQueue(request);
+
             }
         });
 

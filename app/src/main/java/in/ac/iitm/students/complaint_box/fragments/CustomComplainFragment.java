@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -101,7 +102,8 @@ public class CustomComplainFragment extends Fragment {
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
 
-        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
+        //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
+        final String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/addComplaint.php";
         final String hostel_url = "https://students.iitm.ac.in/studentsapp/studentlist/get_hostel.php";
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, getActivity());
         final String name = Utils.getprefString(UtilStrings.NAME, getActivity());
@@ -146,55 +148,67 @@ public class CustomComplainFragment extends Fragment {
                 Log.e("WFVEVEESFCS", imageUrl);
 
                 final String finalImageUrl = imageUrl;
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsObject = new JSONObject(response);
-                            String status = jsObject.getString("status");
-                            if (status.equals("1")) {
-                                getActivity().finish();
-                            } else if (status.equals("0")) {
-                                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+
+                if(title != "" && description !="") {
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                Log.i("tagconvertstr", "["+response+"]");
+                                JSONObject jsObject = new JSONObject(response);
+                                String status = jsObject.getString("status");
+                                if (status.equals("1")) {
+                                    getActivity().finish();
+                                } else if (status.equals("0")) {
+                                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
-                        String hostel_name = sharedPref.getString("hostel", "narmada");
-                        String room = sharedPref.getString("roomno", "1004");
-                        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            String hostel_name = sharedPref.getString("hostel", "narmada");
+                            String room = sharedPref.getString("roomno", "1004");
+                            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                            String moreRooms = room + ",";
 
-                        params.put("HOSTEL", hostel_name);
-                        //TODO get name from prefs
-                        params.put("NAME", "Omkar Patil");
-                        //TODO get rollno from prefs
-                        params.put("ROLL_NO", "me15b123");
-                        params.put("ROOM_NO", room);
-                        params.put("TITLE", title);
-                        params.put("PROXIMITY", "");
-                        params.put("DESCRIPTION", description);
-                        params.put("UPVOTES", "0");
-                        params.put("DOWNVOTES", "0");
-                        params.put("RESOLVED", "0");
-                        params.put("UUID", mUUID);
-                        params.put("TAGS", tags);
-                        params.put("DATETIME", date);
-                        params.put("COMMENTS", "0");
-                        params.put("IMAGEURL", finalImageUrl);
-                        return params;
-                    }
-                };
-                MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+                            params.put("HOSTEL", hostel_name);
+                            //TODO get name from prefs
+                            params.put("NAME", "Omkar Patil");
+                            //TODO get rollno from prefs
+                            params.put("ROLL_NO", "me15b123");
+                            params.put("ROOM_NO", room);
+                            params.put("TITLE", title);
+                            params.put("PROXIMITY", "");
+                            params.put("DESCRIPTION", description);
+                            params.put("UPVOTES", "0");
+                            params.put("DOWNVOTES", "0");
+                            params.put("RESOLVED", "0");
+                            params.put("UUID", mUUID);
+                            params.put("TAGS", tags);
+                            params.put("DATETIME", date);
+                            params.put("COMMENTS", "0");
+                            params.put("IMAGEURL", finalImageUrl);
+                            params.put("MORE_ROOMS", moreRooms);
+                            return params;
+                        }
+                    };
+                    MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+                } else {
+                    Log.d("test","type appropraite title and description");
+                    Toast.makeText(getContext(), "type appropraite title and description", Toast.LENGTH_SHORT).show();
+                }
+                //Intent intent = new Intent(getContext(), HostelComplaintsActivity.class);
+                //startActivity(intent);
             }
         });
 

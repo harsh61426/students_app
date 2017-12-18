@@ -39,7 +39,8 @@ public class AddYourComment extends AppCompatActivity {
 
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
-        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/newComment.php";
+        //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/newComment.php";
+        final String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/newComment.php";
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         final String NAME = Utils.getprefString(UtilStrings.NAME, this);
 

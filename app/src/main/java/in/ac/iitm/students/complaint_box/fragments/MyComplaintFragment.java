@@ -41,7 +41,8 @@ public class MyComplaintFragment extends Fragment implements SwipeRefreshLayout.
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/myComplaints.php";
+    //private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/myComplaints.php";
+    private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/myComplaints.php";
 
     public MyComplaintFragment() {
         // Required empty public constructor
@@ -75,7 +76,7 @@ public class MyComplaintFragment extends Fragment implements SwipeRefreshLayout.
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
-                Log.d("tag", response);
+               // Log.d("tag", response);
                 JSONComplaintParser jsonComplaintParser = new JSONComplaintParser(response, getActivity());
 
                 ArrayList<Complaint> complaintArray = null;

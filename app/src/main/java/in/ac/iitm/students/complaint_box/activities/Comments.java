@@ -37,7 +37,8 @@ public class Comments extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/searchComment.php";
+   // private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/searchComment.php";
+    private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/searchComment.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

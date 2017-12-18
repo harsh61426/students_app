@@ -44,7 +44,8 @@ public class CustomComplaintActivity extends AppCompatActivity {
         final SharedPreferences sharedPref = CustomComplaintActivity.this.getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
 
-        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
+        //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
+        final String url = "https://rockstarharshitha.000webhostapp.com/addComplaint.php";
         final String hostel_url = "https://students.iitm.ac.in/studentsapp/studentlist/get_hostel.php";
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         final String name = Utils.getprefString(UtilStrings.NAME, this);

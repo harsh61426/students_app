@@ -3,6 +3,7 @@ package in.ac.iitm.students.complaint_box.others;
 import android.app.Activity;
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class JSONComplaintParser {
             e.printStackTrace();
         }
         try {
+            //Log.d("Read complaints array", reader+"");
             return readComplaintsArray(reader);
         } finally {
 
@@ -51,8 +53,9 @@ public class JSONComplaintParser {
 
     public ArrayList<Complaint> readComplaintsArray(JsonReader reader) throws IOException {
         ArrayList<Complaint> complaints = new ArrayList<>();
-
+        //Log.e("message",reader+"");
         reader.beginArray();
+
         while (reader.hasNext()) {
             complaints.add(readComplaint(reader));
         }
@@ -96,9 +99,13 @@ public class JSONComplaintParser {
                 complaint.setTag(reader.nextString());
             } else if (name.equals("comments")) {
                 complaint.setComments(Integer.parseInt(reader.nextString()));
-            } else if (name.equals("error")) {
+            } else if (name.equals("moreRooms")) {
+                complaint.setMoreRooms(reader.nextString());
+            }else if (name.equals("error")) {
+                //Log.e("error message",""+reader);
                 reader.nextString();
                 reader.endObject();
+
                 return Complaint.getErrorComplaintObject();
             } else {
                 reader.skipValue();
