@@ -219,7 +219,7 @@
             android:name="in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity"
             android:label="Hostel Complaints"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.noAnimation" />
         <activity
             android:name="in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity"
             android:label="General Complaints"
