@@ -280,11 +280,10 @@
             <View
                 android:id="@+id/v_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:layout_below="@+id/tvDetails"
                 android:layout_marginBottom="12dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/colorPrimaryDark" />
+                android:layout_marginTop="4dp" />
 
             <ImageView
                 android:id="@+id/bt_fav"

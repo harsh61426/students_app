@@ -65,6 +65,9 @@
     <string name="title_activity_t5e_long">The Fifth Estate</string>
     <string name="title_activity_mess_and_facilities">Mess and Facilities</string>
     <string name="title_activity_complaint_box">Complaint Box</string>
+    <string name="title_activity_complaint_hostel">Hostel Complaints</string>
+    <string name="title_activity_complaint_mess_fac">Mess and Facilities Complaints</string>
+    <string name="title_activity_complaint_general">General Complaints</string>
     <string name="title_activity_student_details">Student Info</string>
     <string name="title_activity_home">Notifications</string>
     <string name="title_activity_thread">Complaints</string>

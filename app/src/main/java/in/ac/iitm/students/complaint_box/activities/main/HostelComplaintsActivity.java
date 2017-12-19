@@ -32,6 +32,7 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
+import in.ac.iitm.students.activities.main.HomeActivity;
 import in.ac.iitm.students.complaint_box.activities.NewComplaintActivity;
 import in.ac.iitm.students.complaint_box.fragments.LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.MyComplaintFragment;
@@ -116,7 +117,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(HostelComplaintsActivity.this, ComplaintBoxActivity.class);
+        Intent intent = new Intent(HostelComplaintsActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
