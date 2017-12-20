@@ -17,14 +17,14 @@
     <string name="even_year2">Jan-May 2017</string>
     <string name="odd_year2">Jul-Nov 2017</string>
     <string name="about_us">This app is developed by Institute Mobops Team 2017–18. All rights are reserved</string>
-    <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this complaint.</string>
+    <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this hComplaint.</string>
 
     <string name="error_connection">Couldn\'t connect to the server.</string>
     <string name="error_parsing">Error getting data, try again later…</string>
     <string name="error_no_result">No results found.</string>
     <string name="error_sending">Error sending data, try again later…</string>
     <string name="error_enter_more_characters">Enter three or more characters to get results.</string>
-    <string name="error_no_complaints">No complaints registered.</string>
+    <string name="error_no_complaints">No hComplaints registered.</string>
 
 
     <integer name="close_nav_drawer_delay">150</integer>
@@ -33,10 +33,13 @@
     <integer name="nav_index_search">2</integer>
     <integer name="nav_index_maps">3</integer>
     <integer name="nav_index_organisations">1</integer>
-    <integer name="nav_index_complaint_box">4</integer>
-    <integer name="nav_index_timetable">6</integer>
-    <integer name="nav_index_contacts">7</integer>
-    <integer name="nav_index_calendar">5</integer>
+    <integer name="nav_index_complaint_box">7</integer>
+    <integer name="nav_index_complaint_mess">8</integer>
+    <integer name="nav_index_complaint_hostel">9</integer>
+    <integer name="nav_index_complaint_general">10</integer>
+    <integer name="nav_index_timetable">5</integer>
+    <integer name="nav_index_contacts">6</integer>
+    <integer name="nav_index_calendar">4</integer>
 
     <string name="LoginURl">https://students.iitm.ac.in/studentsapp/login/index.php</string>
     <string name="url_register_fcm">https://students.iitm.ac.in/studentsapp/general/token_register.php</string>
@@ -117,7 +120,7 @@
         \nthe text for that slot will turn red in the bunk monitor.\n\n
     </string>
 
-    <!-- Hostel and General complaints -->
+    <!-- Hostel and GenehComplaintsints -->
 
     <string name="new_complaint">New Complaint</string>
     <string name="custom_complaint">Custom Complaint</string>
@@ -127,7 +130,7 @@
     <string name="complaint_proximity">Proximity</string>
     <string name="templates">Templates</string>
     <string name="room_number">Near which room?</string>
-    <string name="write_your_own">Write custom complaint</string>
+    <string name="write_your_own">Write custom hComplaint</string>
     <string name="save">Save</string>
     <string name="next">Next</string>
 

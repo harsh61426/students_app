@@ -120,6 +120,7 @@ public class HomeActivity extends AppCompatActivity
     private ArrayList<String> favorite = new ArrayList<>();
     private ArrayList<HomeNotifObject> notifObjectList = new ArrayList<>();
     private Menu menu;
+    private NavigationView navigationView;
 
     /*
     public static void showAlert(Activity activity, String title, String message) {
@@ -285,7 +286,7 @@ public class HomeActivity extends AppCompatActivity
         //Log.d("tada", firebaseToken.toString());
         sendRegistrationToServer(firebaseToken, name, roll_no);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_home)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
@@ -677,6 +678,7 @@ public class HomeActivity extends AppCompatActivity
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_home)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

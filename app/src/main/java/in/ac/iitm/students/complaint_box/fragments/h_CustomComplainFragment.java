@@ -35,14 +35,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CustomComplainFragment extends Fragment {
+public class h_CustomComplainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,7 +54,7 @@ public class CustomComplainFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CustomComplainFragment() {
+    public h_CustomComplainFragment() {
         // Required empty public constructor
     }
 
@@ -65,11 +64,11 @@ public class CustomComplainFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CustomComplainFragment.
+     * @return A new instance of fragment h_CustomComplainFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CustomComplainFragment newInstance(String param1, String param2) {
-        CustomComplainFragment fragment = new CustomComplainFragment();
+    public static h_CustomComplainFragment newInstance(String param1, String param2) {
+        h_CustomComplainFragment fragment = new h_CustomComplainFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

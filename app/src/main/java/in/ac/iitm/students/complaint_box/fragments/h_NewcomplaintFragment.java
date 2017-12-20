@@ -38,8 +38,7 @@ import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 
-
-public class NewcomplaintFragment extends Fragment {
+public class h_NewcomplaintFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -50,7 +49,7 @@ public class NewcomplaintFragment extends Fragment {
     private String mParam2;
 
 
-    public NewcomplaintFragment() {
+    public h_NewcomplaintFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +59,11 @@ public class NewcomplaintFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NewcomplaintFragment.
+     * @return A new instance of fragment h_NewcomplaintFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewcomplaintFragment newInstance(String param1, String param2) {
-        NewcomplaintFragment fragment = new NewcomplaintFragment();
+    public static h_NewcomplaintFragment newInstance(String param1, String param2) {
+        h_NewcomplaintFragment fragment = new h_NewcomplaintFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

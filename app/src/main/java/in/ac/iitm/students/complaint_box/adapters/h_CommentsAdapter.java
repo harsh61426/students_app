@@ -9,42 +9,42 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.objects.CommentObj;
+import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
 
 
 /**
  * Created by harshitha on 11/7/17.
  */
 
-public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
-    private ArrayList<CommentObj> mDataset;
+public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.ViewHolder> {
+    private ArrayList<h_CommentObj> mDataset;
 
-    public CommentsAdapter(ArrayList<CommentObj> dataset) {
+    public h_CommentsAdapter(ArrayList<h_CommentObj> dataset) {
         mDataset = dataset;
     }
 
     @Override
-    public CommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public h_CommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.hostel_complaints_comment_item, parent, false);
 
-        CommentsAdapter.ViewHolder vh = new CommentsAdapter.ViewHolder(v);
+        h_CommentsAdapter.ViewHolder vh = new h_CommentsAdapter.ViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(CommentsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(h_CommentsAdapter.ViewHolder holder, int position) {
         TextView name = (TextView) holder.view.findViewById(R.id.ci_name);
         TextView roomNo = (TextView) holder.view.findViewById(R.id.ci_roomNo);
         TextView date = (TextView) holder.view.findViewById(R.id.ci_date);
         TextView comStr = (TextView) holder.view.findViewById(R.id.ci_comStr);
 
-        final CommentObj commentObj = mDataset.get(position);
+        final h_CommentObj hCommentObj = mDataset.get(position);
 
-        name.setText(commentObj.getName());
-        roomNo.setText("Room No: " + commentObj.getRoomNo());
-        date.setText(commentObj.getDate());
-        comStr.setText(commentObj.getCommentStr());
+        name.setText(hCommentObj.getName());
+        roomNo.setText("Room No: " + hCommentObj.getRoomNo());
+        date.setText(hCommentObj.getDate());
+        comStr.setText(hCommentObj.getCommentStr());
 
     }
 

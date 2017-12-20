@@ -46,6 +46,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private Menu menu;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_box)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
@@ -174,6 +175,8 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_mess)).setChecked(true);
+            navigationView.setNavigationItemSelectedListener(this);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

@@ -11,25 +11,25 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import in.ac.iitm.students.complaint_box.objects.CommentObj;
+import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
 
 /**
  * Created by harshitha on 11/7/17.
  */
 
-public class CmntDataParser {
+public class h_CmntDataParser {
 
     Context context;
     private InputStream stream;
-    private ArrayList<CommentObj> commentArray;
+    private ArrayList<h_CommentObj> commentArray;
 
-    public CmntDataParser(String string, Context c) {
+    public h_CmntDataParser(String string, Context c) {
         stream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
         commentArray = new ArrayList<>();
         context = c;
     }
 
-    public ArrayList<CommentObj> pleaseParseMyData() throws IOException {
+    public ArrayList<h_CommentObj> pleaseParseMyData() throws IOException {
 
         JsonReader reader = null;
         try {
@@ -49,8 +49,8 @@ public class CmntDataParser {
 
     }
 
-    public ArrayList<CommentObj> readCommentsArray(JsonReader reader) throws IOException {
-        ArrayList<CommentObj> comments = new ArrayList<>();
+    public ArrayList<h_CommentObj> readCommentsArray(JsonReader reader) throws IOException {
+        ArrayList<h_CommentObj> comments = new ArrayList<>();
 
         reader.beginArray();
         while (reader.hasNext()) {
@@ -61,35 +61,35 @@ public class CmntDataParser {
 
     }
 
-    public CommentObj readComment(JsonReader reader) throws IOException {
+    public h_CommentObj readComment(JsonReader reader) throws IOException {
 
-        CommentObj commentObj = new CommentObj();
+        h_CommentObj hCommentObj = new h_CommentObj();
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
             if (name.equals("name")) {
-                commentObj.setName(reader.nextString());
+                hCommentObj.setName(reader.nextString());
             } else if (name.equals("rollno")) {
-                commentObj.setRollNo(reader.nextString());
+                hCommentObj.setRollNo(reader.nextString());
             } else if (name.equals("roomno")) {
-                commentObj.setRoomNo(reader.nextString());
+                hCommentObj.setRoomNo(reader.nextString());
             } else if (name.equals("comment")) {
-                commentObj.setCommentStr(reader.nextString());
+                hCommentObj.setCommentStr(reader.nextString());
             } else if (name.equals("datetime")) {
-                commentObj.setDate(reader.nextString());
+                hCommentObj.setDate(reader.nextString());
             } else if (name.equals("error")) {
                 reader.nextString();
             } else if (name.equals("status")) {
                 reader.nextString();
                 reader.endObject();
-                return CommentObj.getErrorCommentObject();
+                return h_CommentObj.getErrorCommentObject();
 
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return commentObj;
+        return hCommentObj;
     }
 
 }

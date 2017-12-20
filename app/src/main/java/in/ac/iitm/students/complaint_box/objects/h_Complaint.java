@@ -1,13 +1,12 @@
 package in.ac.iitm.students.complaint_box.objects;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by harisanker on 22/6/17.
  */
 
-public class Complaint implements Serializable {
+public class h_Complaint implements Serializable {
     private String name;
     private String rollNo;
     private String roomNo;
@@ -24,19 +23,19 @@ public class Complaint implements Serializable {
     private String hostel;
     private String moreRooms;
 
-    public static Complaint getErrorComplaintObject() {
-        Complaint complaint = new Complaint();
-        complaint.setName("Institute MobOps");
-        complaint.setUpvotes(42);
-        complaint.setDownvotes(0);
-        complaint.setComments(0);
-        complaint.setDate("00-00-0000");
-        complaint.setResolved(true);
-        complaint.setHostel("IIT Madras");
-        complaint.setTag("#instimobops");
-        complaint.setTitle("Error getting complaints!");
-        complaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
-        return complaint;
+    public static h_Complaint getErrorComplaintObject() {
+        h_Complaint hComplaint = new h_Complaint();
+        hComplaint.setName("Institute MobOps");
+        hComplaint.setUpvotes(42);
+        hComplaint.setDownvotes(0);
+        hComplaint.setComments(0);
+        hComplaint.setDate("00-00-0000");
+        hComplaint.setResolved(true);
+        hComplaint.setHostel("IIT Madras");
+        hComplaint.setTag("#instimobops");
+        hComplaint.setTitle("Error getting complaints!");
+        hComplaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
+        return hComplaint;
     }
 
     public String getName() {

@@ -3,7 +3,6 @@ package in.ac.iitm.students.complaint_box.others;
 import android.app.Activity;
 import android.util.JsonReader;
 import android.util.JsonToken;
-import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,25 +12,25 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import in.ac.iitm.students.complaint_box.objects.Complaint;
+import in.ac.iitm.students.complaint_box.objects.h_Complaint;
 
 /**
  * Created by DELL on 7/7/2017.
  */
 
-public class JSONComplaintParser {
+public class h_JSONComplaintParser {
 
     Activity activity;
     private InputStream stream;
-    private ArrayList<Complaint> complaintArray;
+    private ArrayList<h_Complaint> hComplaintArray;
 
-    public JSONComplaintParser(String string, Activity activity) {
+    public h_JSONComplaintParser(String string, Activity activity) {
         stream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
-        complaintArray = new ArrayList<>();
+        hComplaintArray = new ArrayList<>();
         this.activity = activity;
     }
 
-    public ArrayList<Complaint> pleasePleaseParseMyData() throws IOException {
+    public ArrayList<h_Complaint> pleasePleaseParseMyData() throws IOException {
 
         JsonReader reader = null;
         try {
@@ -51,68 +50,68 @@ public class JSONComplaintParser {
 
     }
 
-    public ArrayList<Complaint> readComplaintsArray(JsonReader reader) throws IOException {
-        ArrayList<Complaint> complaints = new ArrayList<>();
+    public ArrayList<h_Complaint> readComplaintsArray(JsonReader reader) throws IOException {
+        ArrayList<h_Complaint> hComplaints = new ArrayList<>();
         //Log.e("message",reader+"");
         reader.beginArray();
 
         while (reader.hasNext()) {
-            complaints.add(readComplaint(reader));
+            hComplaints.add(readComplaint(reader));
         }
         reader.endArray();
-        return complaints;
+        return hComplaints;
 
     }
 
 
-    public Complaint readComplaint(JsonReader reader) throws IOException {
+    public h_Complaint readComplaint(JsonReader reader) throws IOException {
 
-        Complaint complaint = new Complaint();
+        h_Complaint hComplaint = new h_Complaint();
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
             if (name.equals("name")) {
-                complaint.setName(reader.nextString());
+                hComplaint.setName(reader.nextString());
             } else if (name.equals("rollno")) {
-                complaint.setRollNo(reader.nextString());
+                hComplaint.setRollNo(reader.nextString());
             } else if (name.equals("roomno")) {
-                complaint.setRoomNo(reader.nextString());
+                hComplaint.setRoomNo(reader.nextString());
             } else if (name.equals("title")) {
-                complaint.setTitle(reader.nextString());
+                hComplaint.setTitle(reader.nextString());
             } else if (name.equals("proximity")) {
-                complaint.setProximity(reader.nextString());
+                hComplaint.setProximity(reader.nextString());
             } else if (name.equals("description")) {
-                complaint.setDescription(reader.nextString());
+                hComplaint.setDescription(reader.nextString());
             } else if (name.equals("upvotes")) {
-                complaint.setUpvotes(Integer.parseInt(reader.nextString()));
+                hComplaint.setUpvotes(Integer.parseInt(reader.nextString()));
             } else if (name.equals("downvotes")) {
-                complaint.setDownvotes(Integer.parseInt(reader.nextString()));
+                hComplaint.setDownvotes(Integer.parseInt(reader.nextString()));
             } else if (name.equals("resolved")) {
                 Boolean resolved = false;
                 if (reader.nextString().equals("1")) resolved = true;
-                complaint.setResolved(resolved);
+                hComplaint.setResolved(resolved);
             } else if (name.equals("uuid")) {
-                complaint.setUid(reader.nextString());
+                hComplaint.setUid(reader.nextString());
             } else if (name.equals("datetime")) {
-                complaint.setDate(reader.nextString());
+                hComplaint.setDate(reader.nextString());
             } else if (name.equals("tags") && reader.peek() != JsonToken.NULL) {
-                complaint.setTag(reader.nextString());
+                hComplaint.setTag(reader.nextString());
             } else if (name.equals("comments")) {
-                complaint.setComments(Integer.parseInt(reader.nextString()));
+                hComplaint.setComments(Integer.parseInt(reader.nextString()));
             } else if (name.equals("moreRooms")) {
-                complaint.setMoreRooms(reader.nextString());
+                hComplaint.setMoreRooms(reader.nextString());
             }else if (name.equals("error")) {
                 //Log.e("error message",""+reader);
                 reader.nextString();
                 reader.endObject();
 
-                return Complaint.getErrorComplaintObject();
+                return h_Complaint.getErrorComplaintObject();
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return complaint;
+        return hComplaint;
     }
 
 }

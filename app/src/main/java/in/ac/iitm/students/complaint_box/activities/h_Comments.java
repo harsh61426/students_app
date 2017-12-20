@@ -25,15 +25,15 @@ import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.adapters.CommentsAdapter;
-import in.ac.iitm.students.complaint_box.objects.CommentObj;
-import in.ac.iitm.students.complaint_box.objects.Complaint;
-import in.ac.iitm.students.complaint_box.others.CmntDataParser;
+import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
+import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
+import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.others.h_CmntDataParser;
 import in.ac.iitm.students.others.MySingleton;
 
-public class Comments extends AppCompatActivity {
+public class h_Comments extends AppCompatActivity {
 
-    List<CommentObj> commentList = new ArrayList<>();
+    List<h_CommentObj> commentList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -47,7 +47,7 @@ public class Comments extends AppCompatActivity {
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
         Intent i = getIntent();
-        final Complaint complaint = (Complaint) i.getSerializableExtra("cardData");
+        final h_Complaint hComplaint = (h_Complaint) i.getSerializableExtra("cardData");
 
         TextView name = (TextView) findViewById(R.id.comment_tv_name);
         TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);
@@ -59,15 +59,15 @@ public class Comments extends AppCompatActivity {
         TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
         FloatingActionButton fab_comment = (FloatingActionButton) findViewById(R.id.comment_fab);
 
-        name.setText(complaint.getName());
+        name.setText(hComplaint.getName());
         hostel.setText(sharedPref.getString("hostel", "narmada"));
-        resolved.setText(complaint.isResolved() ? "Resolved" : "Unresolved");
-        title.setText(complaint.getTitle());
-        description.setText(complaint.getDescription());
-        upvote.setText("" + complaint.getUpvotes());
-        downvote.setText("" + complaint.getDownvotes());
-        comment.setText("" + complaint.getComments());
-        final String mUUID = complaint.getUid();
+        resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
+        title.setText(hComplaint.getTitle());
+        description.setText(hComplaint.getDescription());
+        upvote.setText("" + hComplaint.getUpvotes());
+        downvote.setText("" + hComplaint.getDownvotes());
+        comment.setText("" + hComplaint.getComments());
+        final String mUUID = hComplaint.getUid();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_comments);
         mRecyclerView.setHasFixedSize(true);
@@ -77,18 +77,18 @@ public class Comments extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                CmntDataParser cmntDataParser = new CmntDataParser(response, getApplicationContext());
-                ArrayList<CommentObj> commentArray = null;
+                h_CmntDataParser hCmntDataParser = new h_CmntDataParser(response, getApplicationContext());
+                ArrayList<h_CommentObj> commentArray = null;
                 try {
-                    commentArray = cmntDataParser.pleaseParseMyData();
+                    commentArray = hCmntDataParser.pleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(Comments.this, "IOException", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(h_Comments.this, "IOException", Toast.LENGTH_SHORT).show();
                 }
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
 
-                mAdapter = new CommentsAdapter(commentArray);
+                mAdapter = new h_CommentsAdapter(commentArray);
                 mRecyclerView.setAdapter(mAdapter);
             }
 
@@ -100,7 +100,7 @@ public class Comments extends AppCompatActivity {
                 // error.networkResponse.data
 
                 //put error msg
-                Toast.makeText(Comments.this, "not able to load comments", Toast.LENGTH_SHORT).show();
+                Toast.makeText(h_Comments.this, "not able to load comments", Toast.LENGTH_SHORT).show();
             }
         }) {
             //to POST params
@@ -118,12 +118,12 @@ public class Comments extends AppCompatActivity {
         //volley singleton - ensures single request queue in an app
         MySingleton.getInstance(this).addToRequestQueue(request);
 
-        if (!complaint.isResolved()) {
+        if (!hComplaint.isResolved()) {
             fab_comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(Comments.this, AddYourComment.class);
-                    intent.putExtra("cardData", complaint);
+                    Intent intent = new Intent(h_Comments.this, h_AddYourComment.class);
+                    intent.putExtra("cardData", hComplaint);
                     startActivity(intent);
                 }
             });

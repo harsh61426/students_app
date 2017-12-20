@@ -79,6 +79,7 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
     String url_2 = "?fields=picture.type(large),name,";
     private DrawerLayout drawer;
     private Menu menu;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle onRetainNonConfigurationChanges) {
@@ -99,7 +100,7 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_organisations)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
@@ -371,6 +372,7 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_organisations)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

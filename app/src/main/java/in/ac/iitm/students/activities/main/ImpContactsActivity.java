@@ -40,6 +40,7 @@ public class ImpContactsActivity extends AppCompatActivity
     Toolbar toolbar;
     private DrawerLayout drawer;
     private Menu menu;
+    private NavigationView navigationView;
 
 
 
@@ -63,7 +64,7 @@ public class ImpContactsActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_contacts)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
@@ -198,6 +199,7 @@ public class ImpContactsActivity extends AppCompatActivity
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_contacts)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

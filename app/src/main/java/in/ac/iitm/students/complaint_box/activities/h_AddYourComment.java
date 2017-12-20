@@ -25,12 +25,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.objects.Complaint;
+import in.ac.iitm.students.complaint_box.objects.h_Complaint;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-public class AddYourComment extends AppCompatActivity {
+public class h_AddYourComment extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class AddYourComment extends AppCompatActivity {
         final String NAME = Utils.getprefString(UtilStrings.NAME, this);
 
         Intent i = getIntent();
-        final Complaint complaint = (Complaint) i.getSerializableExtra("cardData");
+        final h_Complaint hComplaint = (h_Complaint) i.getSerializableExtra("cardData");
 
         TextView name = (TextView) findViewById(R.id.comment_tv_name);
         TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);
@@ -58,40 +58,40 @@ public class AddYourComment extends AppCompatActivity {
         final EditText CmntDesc = (EditText) findViewById(R.id.editText);
         Button save = (Button) findViewById(R.id.bn_save);
 
-        name.setText(complaint.getName());
+        name.setText(hComplaint.getName());
         //todo change narmad
         hostel.setText(sharedPref.getString("hostel", "narmada"));
-        resolved.setText(complaint.isResolved() ? "Resolved" : "Unresolved");
-        title.setText(complaint.getTitle());
-        description.setText(complaint.getDescription());
-        upvote.setText("" + complaint.getUpvotes());
-        downvote.setText("" + complaint.getDownvotes());
-        comment.setText("" + complaint.getComments());
+        resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
+        title.setText(hComplaint.getTitle());
+        description.setText(hComplaint.getDescription());
+        upvote.setText("" + hComplaint.getUpvotes());
+        downvote.setText("" + hComplaint.getDownvotes());
+        comment.setText("" + hComplaint.getComments());
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String cmntDescStr = CmntDesc.getText().toString();
                 //write code here to send the comment description to the database, increase the number of comments in database by 1
-                final String mUUID = complaint.getUid();
+                final String mUUID = hComplaint.getUid();
 
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(AddYourComment.this, "sending comment...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(h_AddYourComment.this, "sending comment...", Toast.LENGTH_SHORT).show();
                         try {
                             JSONObject jsObject = new JSONObject(response);
 
                             if (jsObject.has("error")) {
-                                Toast.makeText(AddYourComment.this, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(h_AddYourComment.this, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
                             } else if (jsObject.has("status")) {
                                 String status = jsObject.getString("status");
                                 if (status == "1") {
-                                    Intent intent = new Intent(AddYourComment.this, Comments.class);
+                                    Intent intent = new Intent(h_AddYourComment.this, h_Comments.class);
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(AddYourComment.this, "Error", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(h_AddYourComment.this, "Error", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         } catch (JSONException e) {
@@ -102,7 +102,7 @@ public class AddYourComment extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddYourComment.this, error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(h_AddYourComment.this, error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 }) {
@@ -123,7 +123,7 @@ public class AddYourComment extends AppCompatActivity {
                         return params;
                     }
                 };
-                MySingleton.getInstance(AddYourComment.this).addToRequestQueue(stringRequest);
+                MySingleton.getInstance(h_AddYourComment.this).addToRequestQueue(stringRequest);
             }
         });
     }

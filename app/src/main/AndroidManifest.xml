@@ -227,22 +227,22 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.AddYourComment"
+            android:name="in.ac.iitm.students.complaint_box.activities.h_AddYourComment"
             android:label="Add your comment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.Comments"
+            android:name="in.ac.iitm.students.complaint_box.activities.h_Comments"
             android:label="Comments"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.CustomComplaintActivity"
+            android:name="in.ac.iitm.students.complaint_box.activities.h_CustomComplaintActivity"
             android:label="Custom Complaints"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.NewComplaintActivity"
+            android:name="in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity"
             android:label="New Complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

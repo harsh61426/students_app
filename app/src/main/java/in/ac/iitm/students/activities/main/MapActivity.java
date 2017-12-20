@@ -125,6 +125,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ArrayList<MarkerOptions> searchResultMarkerOptionsArray = new ArrayList<>();
     private DrawerLayout drawer;
     private Menu menu;
+    private NavigationView navigationView;
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -152,7 +153,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
@@ -1022,6 +1023,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

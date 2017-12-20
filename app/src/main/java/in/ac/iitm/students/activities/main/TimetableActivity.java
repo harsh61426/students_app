@@ -49,6 +49,7 @@ public class TimetableActivity extends AppCompatActivity
     private TimetablePagerAdapter timetablePagerAdapter;
     private Toolbar toolbar;
     private Menu menu;
+    private NavigationView navigationView;
     private DrawerLayout drawer;
 
     @Override
@@ -74,7 +75,7 @@ public class TimetableActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_timetable)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
@@ -208,6 +209,7 @@ public class TimetableActivity extends AppCompatActivity
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_timetable)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

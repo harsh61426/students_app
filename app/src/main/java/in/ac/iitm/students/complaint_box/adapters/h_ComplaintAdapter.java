@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,22 +27,21 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.activities.Comments;
-import in.ac.iitm.students.complaint_box.objects.Complaint;
+import in.ac.iitm.students.complaint_box.activities.h_Comments;
+import in.ac.iitm.students.complaint_box.objects.h_Complaint;
 import in.ac.iitm.students.others.MySingleton;
 
 /**
  * Created by harisanker on 22/6/17.
  */
 
-public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.ViewHolder> {
-    private ArrayList<Complaint> mDataset;
+public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.ViewHolder> {
+    private ArrayList<h_Complaint> mDataset;
     private int mstatus;
     private Activity activity;
     private Context context;
@@ -57,7 +54,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     private Button bn_resolve;
 
 
-    public ComplaintAdapter(ArrayList<Complaint> myDataset, Activity a, Context c, Boolean latest) {
+    public h_ComplaintAdapter(ArrayList<h_Complaint> myDataset, Activity a, Context c, Boolean latest) {
         mDataset = myDataset;
         activity = a;
         context = c;
@@ -67,8 +64,8 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     }
 
     @Override
-    public ComplaintAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                          int viewType) {
+    public h_ComplaintAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                            int viewType) {
 
         View v;
         if (latest) {
@@ -104,30 +101,29 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
         if(!latest) bn_resolve = (Button)holder.view.findViewById(R.id.bn_resolve);
 
 
+        final h_Complaint hComplaint = mDataset.get(position);
 
-        final Complaint complaint = mDataset.get(position);
-
-        tv_name.setText(complaint.getName());
+        tv_name.setText(hComplaint.getName());
         //TODO change narmada to IITM
         tv_hostel.setText(sharedPref.getString("hostel", "Narmada"));
-        tv_resolved.setText(complaint.isResolved() ? "Resolved" : "Unresolved");
-        tv_title.setText(complaint.getTitle());
-        tv_description.setText(complaint.getDescription());
-        if (latest) tv_upvote.setText("" + complaint.getUpvotes());
-        if (latest) tv_downvote.setText("" + complaint.getDownvotes());
-        tv_comment.setText("" + complaint.getComments());
-        if (complaint.getTag().equals("")) tv_tags.setVisibility(View.INVISIBLE);
-        else tv_tags.setText(complaint.getTag());
+        tv_resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
+        tv_title.setText(hComplaint.getTitle());
+        tv_description.setText(hComplaint.getDescription());
+        if (latest) tv_upvote.setText("" + hComplaint.getUpvotes());
+        if (latest) tv_downvote.setText("" + hComplaint.getDownvotes());
+        tv_comment.setText("" + hComplaint.getComments());
+        if (hComplaint.getTag().equals("")) tv_tags.setVisibility(View.INVISIBLE);
+        else tv_tags.setText(hComplaint.getTag());
 
         //todo use glide and get profile picture
-        if (complaint.getName().equals("Institute MobOps")) {
+        if (hComplaint.getName().equals("Institute MobOps")) {
             iv_profile.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher));
-            tv_hostel.setText(complaint.getHostel());
+            tv_hostel.setText(hComplaint.getHostel());
         }
 
-        final String mUUID = complaint.getUid();
+        final String mUUID = hComplaint.getUid();
 
-        if (complaint.isResolved()) {
+        if (hComplaint.isResolved()) {
             linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.resolved_colour));
 
             if (latest) bn_upvote.setClickable(false);
@@ -190,8 +186,8 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
                 }
 
                 private void increaseUpvotes() {
-                    int upvote_no = complaint.getUpvotes();
-                    complaint.setUpvotes(upvote_no + 1);
+                    int upvote_no = hComplaint.getUpvotes();
+                    hComplaint.setUpvotes(upvote_no + 1);
                 }
             });
 
@@ -247,8 +243,8 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
                 }
 
                 private void increaseDownvotes() {
-                    int downvote_no = complaint.getDownvotes();
-                    complaint.setDownvotes(downvote_no + 1);
+                    int downvote_no = hComplaint.getDownvotes();
+                    hComplaint.setDownvotes(downvote_no + 1);
                 }
             });
         }
@@ -257,8 +253,8 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, Comments.class);
-                intent.putExtra("cardData", complaint);
+                Intent intent = new Intent(context, h_Comments.class);
+                intent.putExtra("cardData", hComplaint);
                 activity.startActivity(intent);
             }
         });
@@ -272,7 +268,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
                 MenuInflater inflater = popup.getMenuInflater();
 
 
-                String[] roomNumber = complaint.getMoreRooms().split(",");
+                String[] roomNumber = hComplaint.getMoreRooms().split(",");
 
                 for (String s:roomNumber) {
                     //adding items to menu
@@ -288,7 +284,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
         if(!latest) bn_resolve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if custom complaint
+                //if custom hComplaint
                 String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/resolve.php";
                 StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override

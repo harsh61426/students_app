@@ -75,7 +75,7 @@ public class MessageChatActivity extends AppCompatActivity {
             complaint.setVisibility(View.GONE);
         } else {
             textLayout.setVisibility(View.GONE);
-            complaint.setText("Complaint is resolved by - " + solvedBy);
+            complaint.setText("h_Complaint is resolved by - " + solvedBy);
         }
         setThreadId(thread_id);
         fetchMessages(thread_id);

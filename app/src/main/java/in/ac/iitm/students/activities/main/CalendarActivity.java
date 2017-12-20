@@ -74,8 +74,8 @@ public class CalendarActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ViewPager viewPager;
-    private MenuItem calendarSync;
     private Menu menu;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -215,7 +215,7 @@ public class CalendarActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_calendar)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
@@ -389,6 +389,7 @@ public class CalendarActivity extends AppCompatActivity
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_calendar)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

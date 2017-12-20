@@ -88,7 +88,7 @@ public class MyComplaintsActivity extends AppCompatActivity implements SwipeRefr
                             tvNoComplaints.setText(R.string.error_no_complaints);
                         try {
                             arr = new JSONArray(response.toString());
-                            String subject, user, date, time, body, thread_id, messName, compCategory = "Complaint category appears here", informed = "Informed";
+                            String subject, user, date, time, body, thread_id, messName, compCategory = "h_Complaint category appears here", informed = "Informed";
                             String solved, solved_by;
 //                            Log.d("complaints", response);
                             for (int i = 0; i < arr.length(); i++) {

@@ -96,7 +96,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp" />
 
-            <!--android:prompt="Select complaint"-->
+            <!--android:prompt="SelhComplaintaint"-->
 
             <CheckBox
                 android:id="@+id/checkBoxComplaint"

@@ -18,15 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.fragments.CustomComplainFragment;
-import in.ac.iitm.students.complaint_box.fragments.NewcomplaintFragment;
+import in.ac.iitm.students.complaint_box.fragments.h_CustomComplainFragment;
+import in.ac.iitm.students.complaint_box.fragments.h_NewcomplaintFragment;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 /**
  * Created by dell on 21-06-2017.
  */
-public class NewComplaintActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
+public class h_NewComplaintActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
     private ArrayList<String> imageUrls;
     private Toolbar toolbar;
@@ -46,7 +46,7 @@ public class NewComplaintActivity extends AppCompatActivity implements ViewPager
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        final SharedPreferences sharedPref = NewComplaintActivity.this.getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = h_NewComplaintActivity.this.getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
 
         //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
@@ -64,15 +64,15 @@ public class NewComplaintActivity extends AppCompatActivity implements ViewPager
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
-        fab.setOnClickListener(NewComplaintActivity.this);
+        fab.setOnClickListener(h_NewComplaintActivity.this);
 
 
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        NewComplaintActivity.ViewPagerAdapter adapter = new NewComplaintActivity.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new NewcomplaintFragment(), "New Complaint");
-        adapter.addFragment(new CustomComplainFragment(), "Custom Complaint");
+        h_NewComplaintActivity.ViewPagerAdapter adapter = new h_NewComplaintActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new h_NewcomplaintFragment(), "New Complaint");
+        adapter.addFragment(new h_CustomComplainFragment(), "Custom Complaint");
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
     }

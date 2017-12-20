@@ -4,7 +4,7 @@ package in.ac.iitm.students.complaint_box.objects;
  * Created by harshitha on 11/7/17.
  */
 
-public class CommentObj {
+public class h_CommentObj {
     private String name;
     private String roomNo;
     private String date;
@@ -12,12 +12,12 @@ public class CommentObj {
     private String rollNo;
     private String error;
 
-    public static CommentObj getErrorCommentObject() {
-        CommentObj commentObj = new CommentObj();
-        commentObj.setName("Institute MobOps");
-        commentObj.setRoomNo("IIT Madras");
-        commentObj.setCommentStr("No comments :|");
-        return commentObj;
+    public static h_CommentObj getErrorCommentObject() {
+        h_CommentObj hCommentObj = new h_CommentObj();
+        hCommentObj.setName("Institute MobOps");
+        hCommentObj.setRoomNo("IIT Madras");
+        hCommentObj.setCommentStr("No comments :|");
+        return hCommentObj;
     }
 
     public String getName() {

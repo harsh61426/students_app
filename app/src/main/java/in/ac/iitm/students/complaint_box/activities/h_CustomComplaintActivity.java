@@ -34,14 +34,14 @@ import in.ac.iitm.students.others.Utils;
 /**
  * Created by dell on 21-06-2017.
  */
-public class CustomComplaintActivity extends AppCompatActivity {
+public class h_CustomComplaintActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hostel_complaints_activity_custom_complaint);
 
-        final SharedPreferences sharedPref = CustomComplaintActivity.this.getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = h_CustomComplaintActivity.this.getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
 
         //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
@@ -74,7 +74,7 @@ public class CustomComplaintActivity extends AppCompatActivity {
                         error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        MySingleton.getInstance(CustomComplaintActivity.this).addToRequestQueue(jsonObjectRequest);
+        MySingleton.getInstance(h_CustomComplaintActivity.this).addToRequestQueue(jsonObjectRequest);
 
 
         Button saveCustomCmplnt = (Button) findViewById(R.id.button_save);
@@ -99,10 +99,10 @@ public class CustomComplaintActivity extends AppCompatActivity {
                             String status = jsObject.getString("status");
                             if (status.equals("1")) {
                                 // finish();
-                                Intent intent = new Intent(CustomComplaintActivity.this, HostelComplaintsActivity.class);
+                                Intent intent = new Intent(h_CustomComplaintActivity.this, HostelComplaintsActivity.class);
                                 startActivity(intent);
                             } else if (status.equals("0")) {
-                                Toast.makeText(CustomComplaintActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(h_CustomComplaintActivity.this, "Error", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -142,7 +142,7 @@ public class CustomComplaintActivity extends AppCompatActivity {
                         return params;
                     }
                 };
-                MySingleton.getInstance(CustomComplaintActivity.this).addToRequestQueue(stringRequest);
+                MySingleton.getInstance(h_CustomComplaintActivity.this).addToRequestQueue(stringRequest);
             }
         });
 

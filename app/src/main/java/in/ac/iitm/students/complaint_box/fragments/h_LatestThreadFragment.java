@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,24 +25,24 @@ import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.adapters.ComplaintAdapter;
-import in.ac.iitm.students.complaint_box.objects.Complaint;
-import in.ac.iitm.students.complaint_box.others.JSONComplaintParser;
+import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
+import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 
 
-public class LatestThreadFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private final String VALUE_HOSTEL = "narmada";
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
-    List<Complaint> complaintList = new ArrayList<>();
+    List<h_Complaint> hComplaintList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     //private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/getAllComplaints.php";
     private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/getAllComplaints.php";
 
-    public LatestThreadFragment() {
+    public h_LatestThreadFragment() {
         // Required empty public constructor
     }
 
@@ -76,17 +75,17 @@ public class LatestThreadFragment extends Fragment implements SwipeRefreshLayout
             @Override
             public void onResponse(String response) {
                 //Log.d("latest tag", response);
-                JSONComplaintParser jsonComplaintParser = new JSONComplaintParser(response, getActivity());
-                ArrayList<Complaint> complaintArray = null;
+                h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
+                ArrayList<h_Complaint> hComplaintArray = null;
                 try {
-                    complaintArray = jsonComplaintParser.pleasePleaseParseMyData();
+                    hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
                 }
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new ComplaintAdapter(complaintArray, getActivity(), getContext(), true);
+                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true);
                 mRecyclerView.setAdapter(mAdapter);
                 // mAdapter.notifyDataSetChanged();
 
