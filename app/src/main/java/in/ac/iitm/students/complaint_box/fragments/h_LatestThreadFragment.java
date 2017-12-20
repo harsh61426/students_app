@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,7 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Log.d("latest tag", response);
+                Log.d("latest tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
                 ArrayList<h_Complaint> hComplaintArray = null;
                 try {

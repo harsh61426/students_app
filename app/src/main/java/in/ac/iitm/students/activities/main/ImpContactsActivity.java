@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,10 +28,11 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
-import in.ac.iitm.students.adapters.ImpContactsAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
+import in.ac.iitm.students.fragments.ExecutiveWingFragment;
+import in.ac.iitm.students.fragments.ImpContactsFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.UtilStrings;
@@ -41,7 +45,8 @@ public class ImpContactsActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private Menu menu;
     private NavigationView navigationView;
-
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
 
 
     @Override
@@ -50,13 +55,6 @@ public class ImpContactsActivity extends AppCompatActivity
         setContentView(R.layout.activity_imp_contacts);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lv_contacts);
-        assert recyclerView != null;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ImpContactsAdapter(ImpContactsActivity.this));
-
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,6 +86,17 @@ public class ImpContactsActivity extends AppCompatActivity
                 .fit()
                 .centerCrop()
                 .into(imageView);
+
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
     }
 
     @Override
@@ -99,6 +108,13 @@ public class ImpContactsActivity extends AppCompatActivity
             Intent intent = new Intent(ImpContactsActivity.this, HomeActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 
 //    private String getDetails() {
@@ -128,13 +144,6 @@ public class ImpContactsActivity extends AppCompatActivity
 //        });
 //        queue.add(jsonObjReq);
 //    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -271,5 +280,42 @@ public class ImpContactsActivity extends AppCompatActivity
         }
         return true;
 
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            if (position == 0) {
+                return new ImpContactsFragment();
+            } else return new ExecutiveWingFragment();
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Important Contacts";
+                case 1:
+                    return "Executive Wing";
+            }
+            return null;
+        }
     }
 }
