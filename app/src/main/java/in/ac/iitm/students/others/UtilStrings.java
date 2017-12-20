@@ -15,6 +15,7 @@ public class    UtilStrings {
     public static String COURSE_SLOT = "slot";
     public static String COURSE_ID = "crsid";
     public static String COURSE_DAYS = "crsdays";
+    public static String COURSE_FLAG = "crsflag";
     public static String BUNKS_TOTAL = "bunktot";
     public static String BUNKS_DONE = "bunkdone";
     public static String ROWCOLS_NUM = "rcnum";

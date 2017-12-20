@@ -22,11 +22,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.adapters.GradTimetablePagerAdapter;
+import in.ac.iitm.students.adapters.FreshieTimetablePagerAdapter;
 import in.ac.iitm.students.adapters.TimetablePagerAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
@@ -43,6 +46,8 @@ public class TimetableActivity extends AppCompatActivity
 
     private ViewPager viewPager;
     private TimetablePagerAdapter timetablePagerAdapter;
+    private GradTimetablePagerAdapter GradtimetablePagerAdapter;
+    private FreshieTimetablePagerAdapter FreshietimetablePagerAdapter;
     private Toolbar toolbar;
     private DrawerLayout drawer;
 
@@ -53,15 +58,28 @@ public class TimetableActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(Utils.isFreshie(this))
+        /*if(Utils.isFreshie(this))
         {
             Toast.makeText(this,"This feature is currently under development",Toast.LENGTH_SHORT).show();
             finish();
-        }
+        }*/
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        timetablePagerAdapter = new TimetablePagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(timetablePagerAdapter);
+
+        if(Utils.isGrad(this)){
+            GradtimetablePagerAdapter = new GradTimetablePagerAdapter(getSupportFragmentManager());
+            viewPager.setAdapter(GradtimetablePagerAdapter);
+        }
+        else if(!Utils.isFreshie(this)){//change
+            timetablePagerAdapter = new TimetablePagerAdapter(getSupportFragmentManager());
+            viewPager.setAdapter(timetablePagerAdapter);
+        }
+        else{
+            FreshietimetablePagerAdapter = new FreshieTimetablePagerAdapter(getSupportFragmentManager());
+            viewPager.setAdapter(FreshietimetablePagerAdapter);
+
+        }
+
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -101,6 +119,14 @@ public class TimetableActivity extends AppCompatActivity
 
     public TimetablePagerAdapter returnadapter() {
         return timetablePagerAdapter;
+    }
+
+    public GradTimetablePagerAdapter gradreturnadapter() {
+        return GradtimetablePagerAdapter;
+    }
+
+    public FreshieTimetablePagerAdapter freshiereturnadapter() {
+        return FreshietimetablePagerAdapter;
     }
 
     public boolean isOnline() {
@@ -153,7 +179,12 @@ public class TimetableActivity extends AppCompatActivity
         }
         else if(id==R.id.action_editcour) {
             Utils.saveprefInt("TT_Screen",0,this);
-            timetablePagerAdapter.notifyDataSetChanged();
+            if(Utils.isGrad(this))
+                GradtimetablePagerAdapter.notifyDataSetChanged();
+            else if(Utils.isFreshie(this))
+                FreshietimetablePagerAdapter.notifyDataSetChanged();
+            else
+                timetablePagerAdapter.notifyDataSetChanged();
             return true;
         }
 

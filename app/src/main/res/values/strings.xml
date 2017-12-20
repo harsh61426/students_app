@@ -102,15 +102,22 @@
     <string name="bus_route">Show Bus Route</string>
 
     <string name="instrucions">Guide for using the timetable:\n\n
-        Enter the course details in the first screen. Tick the days on which the class will be held.
-        If you want to remove or edit a course, click on the entry and you will be shown a dialog which lets you edit the details.
+        Enter the course details in the first screen. Tick the days/timings on which the class will be held.\n
+        FN stands for forenoon and AN stands for afternoon.\n
+        If you want to remove or edit a slot, \n
+        either double click on the corresponding slot in the timetable and continue in a new dialog which lets you edit the details,\n
+        or click on Edit Courses from the menu at the top right corner and click on whichever slot you want to edit.
         \n\n
+
         Guide for using the bunk monitor:\n\n
-        If you click on a slot in the timetable, it will turn red.This indicates a bunk.
+        If you long-press on a slot in the timetable, it will turn red. This indicates a bunk.
         Clicking on it again will revert its colour and disable the bunk.
-        The bunks in the timetable reset at the end of each week. However, the count is preserved in the Bunk Monitor.
-        Note that when you exceed the maximum number of allowed bunks,
-        \nthe text for that slot will turn red in the bunk monitor.\n\n
+        The bunks in the timetable reset at the end of each week. However, the count is preserved in the Bunk Monitor.\n
+        Note that a slot will turn red in the bunk monitor when you should start being careful about bunking more of that course.
+
+        You can edit the number of bunks manually in the bunk monitor by clicking on the corresponding slot inside the bunk monitor tab\n\n
+
+        On running into any issues, remove all courses from the Edit Courses menu and add them back again.
     </string>
 
 
