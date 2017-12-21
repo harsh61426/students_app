@@ -37,7 +37,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private Context context;
     public static ArrayList<Course> courses;
     Dialog dialog;
-
+    //int prime[][]={{2, 3, 5, 7, 11, 13, 17, 19},{23, 29, 31, 37, 41, 43, 47, 53},{59, 61, 67, 71, 73, 79, 83, 89},{97, 101, 103, 107, 109, 113, 127, 131},{137, 139, 149, 151, 157, 163, 167, 173}};
+    int prime[][]={{2, 3, 5, 7, 11, 13, 17, 19,23},{29, 31, 37, 41, 43, 47, 53,59,61},{ 67, 71, 73, 79, 83, 89,97,101,103},{ 107, 109, 113, 127, 131,137,139,149,151},{ 157, 163, 167,173,179,181,191,193,197}};
     public CourseAdapter(Context context, ArrayList<Course> courses)
     {
         this.context = context;
@@ -55,6 +56,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         TextView c3;
         TextView c4;
 
+
+
         ViewHolder(View view)
         {
             super(view);
@@ -69,6 +72,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             slot = (TextView) view.findViewById(R.id.slot);
             courseid = (TextView) view.findViewById(R.id.course_id);
         }
+
 
     }
 
@@ -87,43 +91,205 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 dialog.show();
             }
         });
+
         holder.c1.setText(gettext(courses.get(position).getSlot(),1));
         holder.c2.setText(gettext(courses.get(position).getSlot(),2));
         holder.c3.setText(gettext(courses.get(position).getSlot(),3));
         holder.c4.setText(gettext(courses.get(position).getSlot(),4));
-        if(courses.get(position).getDays()%2!=0&&courses.get(position).getDays()!=1)
-        {
-            holder.c1.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
-            holder.c1.setVisibility(View.VISIBLE);
+
+        switch(courses.get(position).getSlot()){
+            case 'A':
+                if(courses.get(position).getDays()%prime[0][0]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+
+                if(courses.get(position).getDays()%prime[1][5]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[3][3]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[4][2]==0)
+                    holder.c4.setVisibility(View.VISIBLE);
+                else
+                    holder.c4.setVisibility(View.INVISIBLE);
+                break;
+            case 'B':
+                if(courses.get(position).getDays()%prime[0][1]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[1][0]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[2][5]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[4][3]==0)
+                    holder.c4.setVisibility(View.VISIBLE);
+                else
+                    holder.c4.setVisibility(View.INVISIBLE);
+                break;
+            case 'C':
+                if(courses.get(position).getDays()%prime[0][2]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[1][1]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[2][0]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[4][5]==0)
+                    holder.c4.setVisibility(View.VISIBLE);
+                else
+                    holder.c4.setVisibility(View.INVISIBLE);
+                break;
+            case 'D':
+                if(courses.get(position).getDays()%prime[0][3]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[1][2]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[2][1]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[3][5]==0)
+                    holder.c4.setVisibility(View.VISIBLE);
+                else
+                    holder.c4.setVisibility(View.INVISIBLE);
+                break;
+            case 'E':
+                if(courses.get(position).getDays()%prime[1][3]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[2][2]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[3][0]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[4][8]==0)
+                    holder.c4.setVisibility(View.VISIBLE);
+                else
+                    holder.c4.setVisibility(View.INVISIBLE);
+                break;
+            case 'F':
+                if(courses.get(position).getDays()%prime[1][8]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[2][3]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[3][1]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[4][0]==0)
+                    holder.c4.setVisibility(View.VISIBLE);
+                else
+                    holder.c4.setVisibility(View.INVISIBLE);
+                break;
+            case 'G':
+                if(courses.get(position).getDays()%prime[0][5]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[2][8]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[3][2]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[4][1]==0)
+                    holder.c4.setVisibility(View.VISIBLE);
+                else
+                    holder.c4.setVisibility(View.INVISIBLE);
+                break;
+            case 'H':
+                if(courses.get(position).getDays()%prime[0][6]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[1][7]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[1][8]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+
+                break;
+            case 'J':
+                if(courses.get(position).getDays()%prime[0][8]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[2][6]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[3][7]==0)
+                    holder.c3.setVisibility(View.VISIBLE);
+                else
+                    holder.c3.setVisibility(View.INVISIBLE);
+
+                break;
+            case 'K':
+                if(courses.get(position).getDays()%prime[2][7]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[4][6]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                break;
+            case 'L':
+                if(courses.get(position).getDays()%prime[3][6]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[4][7]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                break;
+            case 'M':
+                if(courses.get(position).getDays()%prime[0][7]==0)
+                    holder.c1.setVisibility(View.VISIBLE);
+                else
+                    holder.c1.setVisibility(View.INVISIBLE);
+                if(courses.get(position).getDays()%prime[1][6]==0)
+                    holder.c2.setVisibility(View.VISIBLE);
+                else
+                    holder.c2.setVisibility(View.INVISIBLE);
+                break;
+            default:
+                break;
         }
 
-        if(!gettext(courses.get(position).getSlot(),2).isEmpty()&&courses.get(position).getDays()%3==0)
-        {
-            holder.c2.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            holder.c2.setVisibility(View.INVISIBLE);
-        }
-        if(!gettext(courses.get(position).getSlot(),3).isEmpty()&&courses.get(position).getDays()%5==0)
-        {
-            holder.c3.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            holder.c3.setVisibility(View.INVISIBLE);
-        }
-        if(!gettext(courses.get(position).getSlot(),4).isEmpty()&&courses.get(position).getDays()%7==0)
-        {
-            holder.c4.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            holder.c4.setVisibility(View.INVISIBLE);
-        }
+
         holder.slot.setText("Slot: "+courses.get(position).getSlot());
         holder.courseid.setText("Course ID: "+courses.get(position).getCourse_id());
     }
@@ -152,10 +318,143 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         final CheckBox c2 = (CheckBox) dialog.findViewById(R.id.day2);
         final CheckBox c3 = (CheckBox) dialog.findViewById(R.id.day3);
         final CheckBox c4 = (CheckBox) dialog.findViewById(R.id.day4);
+        /*Need to correct below code
         c1.setChecked(course.getDays()==1||course.getDays()%2==0);
         c2.setChecked(course.getDays()%3==0);
         c3.setChecked(course.getDays()%5==0);
         c4.setChecked(course.getDays()%7==0);
+        till here*/
+        switch(course.getSlot()){
+            case 'A':
+                if(course.getDays()%prime[0][0]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[1][5]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[3][3]==0)
+                    c3.setChecked(true);
+                if(course.getDays()%prime[4][2]==0)
+                    c4.setChecked(true);
+                break;
+            case 'B':
+                if(course.getDays()%prime[0][1]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[1][0]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[2][5]==0)
+                    c3.setChecked(true);
+                if(course.getDays()%prime[4][3]==0)
+                    c4.setChecked(true);
+                break;
+            case 'C':
+                if(course.getDays()%prime[0][2]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[1][1]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[2][0]==0)
+                    c3.setChecked(true);
+                if(course.getDays()%prime[4][5]==0)
+                    c4.setChecked(true);
+                break;
+            case 'D':
+                if(course.getDays()%prime[0][3]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[1][2]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[2][1]==0)
+                    c3.setChecked(true);
+                if(course.getDays()%prime[3][5]==0)
+                    c4.setChecked(true);
+                break;
+            case 'E':
+                if(course.getDays()%prime[1][3]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[2][2]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[3][0]==0)
+                    c3.setChecked(true);
+                if(course.getDays()%prime[4][8]==0)
+                    c4.setChecked(true);
+                break;
+            case 'F':
+                if(course.getDays()%prime[1][8]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[2][3]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[3][1]==0)
+                    c3.setChecked(true);
+                if(course.getDays()%prime[4][0]==0)
+                    c4.setChecked(true);
+                break;
+            case 'G':
+                if(course.getDays()%prime[0][5]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[2][8]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[3][2]==0)
+                    c3.setChecked(true);
+                if(course.getDays()%prime[4][1]==0)
+                    c4.setChecked(true);
+                break;
+            case 'H':
+                if(course.getDays()%prime[0][6]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[1][7]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[1][8]==0)
+                    c3.setChecked(true);
+
+                break;
+            case 'J':
+                if(course.getDays()%prime[0][8]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[2][6]==0)
+                    c2.setChecked(true);
+                if(course.getDays()%prime[3][7]==0)
+                    c3.setChecked(true);
+
+                break;
+            case 'K':
+                if(course.getDays()%prime[2][7]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[4][6]==0)
+                    c2.setChecked(true);
+                break;
+            case 'L':
+                if(course.getDays()%prime[3][6]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[4][7]==0)
+                    c2.setChecked(true);
+                break;
+            case 'M':
+                if(course.getDays()%prime[0][7]==0)
+                    c1.setChecked(true);
+                if(course.getDays()%prime[1][6]==0)
+                    c2.setChecked(true);
+                break;
+            default:
+                break;
+        }
+        /*for(int i=0;i<5;i++){
+            for(int j=0;j<8;j++) {
+                if(!c1.isChecked()&&course.getDays()%prime[i][j]==0) {
+                    c1.setChecked(true);
+                    continue;
+                }
+                if(!c2.isChecked()&&course.getDays()%prime[i][j]==0) {
+                    c2.setChecked(true);
+                    continue;
+                }
+                if(!c3.isChecked()&&course.getDays()%prime[i][j]==0) {
+                    c3.setChecked(true);
+                    continue;
+                }
+                if(!c4.isChecked()&&course.getDays()%prime[i][j]==0) {
+                    c4.setChecked(true);
+                    continue;
+                }
+            }
+        }*/
+
         Button remove = (Button) dialog.findViewById(R.id.remove);
         remove.setVisibility(View.VISIBLE);
         remove.setOnClickListener(new View.OnClickListener() {
@@ -578,16 +877,100 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
             }
         });
+        //correct below part
         c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    course.setDays(course.getDays()*2);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[0][0]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[1][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[0][5]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[0][6]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[0][8]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()*prime[2][7]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()*prime[3][6]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()*prime[0][7]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
                 }
                 else
                 {
-                    course.setDays(course.getDays()/2);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[0][0]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[1][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[0][5]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[0][6]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[0][8]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()/prime[2][7]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()/prime[3][6]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()/prime[0][7]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
                 }
             }
         });
@@ -596,11 +979,93 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    course.setDays(course.getDays()*3);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[1][5]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[2][8]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[1][7]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[2][6]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()*prime[4][6]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()*prime[4][7]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()*prime[1][6]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()*3);
                 }
                 else
                 {
-                    course.setDays(course.getDays()/3);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[1][5]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[2][8]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[1][7]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[2][6]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()/prime[4][6]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()/prime[4][7]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()/prime[1][6]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/3);
                 }
             }
         });
@@ -609,11 +1074,87 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    course.setDays(course.getDays()*5);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[2][5]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[3][0]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[3][2]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[1][8]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[3][7]);
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*5);
                 }
                 else
                 {
-                    course.setDays(course.getDays()/5);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[2][5]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[3][0]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[3][2]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[1][8]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[3][7]);
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/5);
                 }
             }
         });
@@ -622,11 +1163,79 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    course.setDays(course.getDays()*7);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[4][2]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()*prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[4][5]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[3][5]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[4][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[4][0]);
+                            break;
+                        case 'G':
+                            break;
+                        case 'H':
+                            break;
+                        case 'J':
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*7);
                 }
                 else
                 {
-                    course.setDays(course.getDays()/7);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[4][2]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[4][5]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[3][5]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[4][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[4][0]);
+                            break;
+                        case 'G':
+                            break;
+                        case 'H':
+                            break;
+                        case 'J':
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/7);
                 }
             }
         });
@@ -853,6 +1462,27 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             default: {
                 return "";
             }
+        }
+    }
+    private String getday(int pos){
+        switch(pos){
+            case 0:
+                return "M";
+
+            case 1:
+                return "T";
+
+            case 2:
+                return "W";
+
+            case 3:
+                return "Th";
+
+            case 4:
+                return "F";
+
+            default:
+                return "";
         }
     }
 

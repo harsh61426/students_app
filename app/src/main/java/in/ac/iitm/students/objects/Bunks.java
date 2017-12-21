@@ -35,4 +35,6 @@ public class Bunks extends Course {
     public void setRowCols(ArrayList<RowCol> rowCols) {
         this.rowCols = rowCols;
     }
+
+
 }

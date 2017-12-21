@@ -8,7 +8,12 @@ public class Course {
     private char slot;
     private String course_id;
     private int days;
-
+    //
+    private int flag;
+    //-1=FN
+    //0=Nil
+    //1=AN
+    //private int flag2[]={0,0,0,0,0};
 
     public char getSlot() {
         return slot;
@@ -33,4 +38,13 @@ public class Course {
     public void setSlot(char slot) {
         this.slot = slot;
     }
+
+    public int getFlag1(){
+        return flag;
+    }
+
+    public void setFlag1(int j){
+        this.flag=j;
+    }
+
 }

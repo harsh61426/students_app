@@ -17,14 +17,14 @@
     <string name="even_year2">Jan-May 2017</string>
     <string name="odd_year2">Jul-Nov 2017</string>
     <string name="about_us">This app is developed by Institute Mobops Team 2017–18. All rights are reserved</string>
-    <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this hComplaint.</string>
+    <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this Complaint.</string>
 
     <string name="error_connection">Couldn\'t connect to the server.</string>
     <string name="error_parsing">Error getting data, try again later…</string>
     <string name="error_no_result">No results found.</string>
     <string name="error_sending">Error sending data, try again later…</string>
     <string name="error_enter_more_characters">Enter three or more characters to get results.</string>
-    <string name="error_no_complaints">No hComplaints registered.</string>
+    <string name="error_no_complaints">No Complaints registered.</string>
 
 
     <integer name="close_nav_drawer_delay">150</integer>
@@ -109,18 +109,25 @@
     <string name="bus_route">Show Bus Route</string>
 
     <string name="instrucions">Guide for using the timetable:\n\n
-        Enter the course details in the first screen. Tick the days on which the class will be held.
-        If you want to remove or edit a course, click on the entry and you will be shown a dialog which lets you edit the details.
+        Enter the course details in the first screen. Tick the days/timings on which the class will be held.\n
+        FN stands for forenoon and AN stands for afternoon.\n
+        If you want to remove or edit a slot, \n
+        either double click on the corresponding slot in the timetable and continue in a new dialog which lets you edit the details,\n
+        or click on Edit Courses from the menu at the top right corner and click on whichever slot you want to edit.
         \n\n
+
         Guide for using the bunk monitor:\n\n
-        If you click on a slot in the timetable, it will turn red.This indicates a bunk.
+        If you long-press on a slot in the timetable, it will turn red. This indicates a bunk.
         Clicking on it again will revert its colour and disable the bunk.
-        The bunks in the timetable reset at the end of each week. However, the count is preserved in the Bunk Monitor.
-        Note that when you exceed the maximum number of allowed bunks,
-        \nthe text for that slot will turn red in the bunk monitor.\n\n
+        The bunks in the timetable reset at the end of each week. However, the count is preserved in the Bunk Monitor.\n
+        Note that a slot will turn red in the bunk monitor when you should start being careful about bunking more of that course.
+
+        You can edit the number of bunks manually in the bunk monitor by clicking on the corresponding slot inside the bunk monitor tab\n\n
+
+        On running into any issues, remove all courses from the Edit Courses menu and add them back again.
     </string>
 
-    <!-- Hostel and GenehComplaintsints -->
+    <!-- Hostel and GeneComplaintsints -->
 
     <string name="new_complaint">New Complaint</string>
     <string name="custom_complaint">Custom Complaint</string>
@@ -130,7 +137,7 @@
     <string name="complaint_proximity">Proximity</string>
     <string name="templates">Templates</string>
     <string name="room_number">Near which room?</string>
-    <string name="write_your_own">Write custom hComplaint</string>
+    <string name="write_your_own">Write custom Complaint</string>
     <string name="save">Save</string>
     <string name="next">Next</string>
 
@@ -191,6 +198,91 @@
     </string-array>
     <string name="calendar_sync">Remove Calendar</string>
     <string name="ProfileDisclaimer">The following Information will be made public.</string>
+
+
+    <!-- Executive wing details-->
+
+    <string name="type_acaf">Secretary Academic Affairs</string>
+    <string name="acaf_name">Y V R  Sashi Sekar</string>
+    <string name="acaf_email">sec_acaf@smail.iitm.ac.in</string>
+    <string name="acaf_phone">9940233728</string>
+    <string name="acaf_roll">CE13B062</string>
+
+    <string name="type_resaf">Secretary Research Affairs</string>
+    <string name="resaf_name">Ashok Kumar  S</string>
+    <string name="resaf_email">sec_resaf@smail.iitm.ac.in</string>
+    <string name="resaf_phone">9444711865</string>
+    <string name="resaf_roll">OE15D021</string>
+
+
+    <string name="type_sgs">Student\'s General Secretary</string>
+    <string name="sgs_name">Sai Kiran G L</string>
+    <string name="sgs_email">gen_sec@smail.iitm.ac.in</string>
+    <string name="sgs_phone">9940488665</string>
+    <string name="sgs_roll">EP14B022</string>
+
+
+    <string name="type_cocas">Secretary Co-Curricular Affairs</string>
+    <string name="cocas_name">Ramprashanth  M</string>
+    <string name="cocas_email">	sec_cocur@smail.iitm.ac.in</string>
+    <string name="cocas_phone">8754443260</string>
+    <string name="cocas_roll">ME13B115</string>
+
+    <string name="type_has">Secretary Hostel Affairs</string>
+    <string name="has_name">Ashwanth Monia S</string>
+    <string name="has_email">sec_hosaf@smail.iitm.ac.in</string>
+    <string name="has_phone">8056105066</string>
+    <string name="has_roll">CH14B012</string>
+
+
+    <string name="type_culsec_lit">Secretary Cultural Affairs, Literary</string>
+    <string name="culsec_lit_name">Srikanth Rama Krishna Musti</string>
+    <string name="culsec_lit_email">sec_lit@smail.iitm.ac.in</string>
+    <string name="culsec_lit_phone">9790464090</string>
+    <string name="culsec_lit_roll">MM14B034</string>
+
+    <string name="type_culsec_arts">Secretary Cultrual Affairs, Arts</string>
+    <string name="culsec_arts_name">Srikrishna Ravavarapu</string>
+    <string name="culsec_arts_email">sec_arts@smail.iitm.ac.in</string>
+    <string name="culsec_arts_phone">9500158866</string>
+    <string name="culsec_arts_roll">ME14B153</string>
+
+
+    <string name="type_iar">Secretary International &amp; Alumni relations</string>
+    <string name="iar_name">Vineesha Badabhagni</string>
+    <string name="iar_email">sec_iar@smail.iitm.ac.in</string>
+    <string name="iar_phone">9790288138</string>
+    <string name="iar_roll">EE14B016</string>
+
+
+    <string name="type_speaker">Speaker Student Affairs Council</string>
+    <string name="speaker_name">Nikhil Bharadwaj</string>
+    <string name="speaker_email">speaker@smail.iitm.ac.in</string>
+    <string name="speaker_phone">9912412266</string>
+    <string name="speaker_roll">ME14B136</string>
+
+
+    <string name="type_sports">Secretary Sports</string>
+    <string name="sports_name">Dhyaneshwaran  C</string>
+    <string name="sports_email">sec_sprts@smail.iitm.acc.in</string>
+    <string name="sports_phone">9600624220</string>
+    <string name="sports_roll">CE13B064</string>
+
+
+    <string name="type_mitr">MiTR Head</string>
+    <string name="mitr_name">Akhila B S</string>
+    <string name="mitr_email">hs14h005@smail.iitm.ac.in</string>
+    <string name="mitr_phone">9176480056</string>
+    <string name="mitr_roll">HS14H005</string>
+
+    <string name="type_cfi">Student‘s Head,CFI</string>
+    <string name="cfi_name">Gaurav Lodha</string>
+    <string name="cfi_email">ce14b106@smail.iitm.ac.in</string>
+    <string name="cfi_phone">9444397340</string>
+    <string name="cfi_roll">CE14B106</string>
+
+    <string name="tag_phone">phone</string>
+    <string name="tag_mail">mail</string>
 
 
 </resources>

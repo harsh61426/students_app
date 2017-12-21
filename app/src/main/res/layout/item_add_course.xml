@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="X"
+            android:visibility="gone"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -62,6 +63,7 @@
             android:layout_weight="1"
             android:text="X"
             android:textAlignment="center"
+            android:visibility="gone"
             android:textSize="18sp" />
 
         <TextView
@@ -70,8 +72,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="X"
+            android:visibility="gone"
             android:textAlignment="center"
             android:textSize="18sp" />
+
 
         <TextView
             android:id="@+id/day4"
@@ -79,7 +83,38 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="X"
+            android:visibility="gone"
             android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/day5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:text="X"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/day6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="X"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/day7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="X"
+            android:textAlignment="center"
+            android:visibility="gone"
             android:textSize="18sp" />
 
     </LinearLayout>
