@@ -24,21 +24,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
@@ -55,13 +45,11 @@ import in.ac.iitm.students.complaint_box.fragments.h_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.h_MyComplaintFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
-import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 public class HostelComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    final String hostel_url = "https://students.iitm.ac.in/studentsapp/studentlist/get_hostel.php";
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -120,42 +108,6 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
 
-
-        // TODO shift this code to loginActivity
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, hostel_url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                String hostel, room_no, code;
-
-                try {
-                    JSONObject jsObject = new JSONObject(response);
-
-                    hostel = jsObject.getString("hostel");
-                    room_no = jsObject.getString("roomno");
-                    code = jsObject.getString("code");
-                    editor.putString("hostel", hostel);
-                    editor.putString("roomno", room_no);
-                    editor.putString("code", code);
-                    editor.apply();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("rollno", "ME15B123");
-                return params;
-            }
-        };
-        MySingleton.getInstance(this).addToRequestQueue(stringRequest);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
