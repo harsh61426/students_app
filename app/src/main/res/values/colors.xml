@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorAccent">#FFAB00</color>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#37474F</color>
+    <color name="colorAccent">#795548</color>
     <color name="colorLightGreen">#C5E1A5</color>
 
     <color name="lightRed">#F95858</color>
@@ -22,9 +22,25 @@
     <color name="cyan">#00BCD4</color>
     <color name="amber">#FFC107</color>
     <color name="white">#FFFFFF</color>
+    <color name="circle_color">#000000</color>
+    <color name="resolved_colour">#F1F8E9</color>
+    <color name="unresolved_colour">#E8EAF6</color>
 
     <color name="Imageback">#eceff1</color>
 
 
     <color name="polyline_blue">#D442A5F5</color>
+    <color name="red_background">#ff616f</color>
+
+    <color name="shade1">#E3F2FD</color>
+    <color name="shade2">#BBDEFB</color>
+    <color name="ew_card_color">#607D8B</color>
+    <color name="shade4">#64B5F6</color>
+    <color name="shade5">#42A5F5</color>
+    <color name="shade6">#2196F3</color>
+    <color name="shade7">#1E88E5</color>
+    <color name="shade8">#1976D2</color>
+    <color name="shade9">#1565C0</color>
+    <color name="shade10">#0D47A1</color>
+
 </resources><!--500,700,A200--><!--800,300--><!--100,900,600-->

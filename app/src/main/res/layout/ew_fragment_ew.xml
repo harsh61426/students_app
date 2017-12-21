@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbarStyle="outsideOverlay">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/ew_sgs" />
+
+        <include layout="@layout/ew_acaf_resaf" />
+
+        <include layout="@layout/ew_cocas_has" />
+
+        <include layout="@layout/ew_iar_speaker" />
+
+        <include layout="@layout/ew_lit_arts" />
+
+        <include layout="@layout/ew_sports" />
+
+        <include layout="@layout/ew_mitr_cfi" />
+
+    </LinearLayout>
+</ScrollView>

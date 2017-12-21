@@ -1,9 +1,12 @@
 package in.ac.iitm.students.adapters;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.icu.util.IndianCalendar;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.v7.widget.CardView;
@@ -12,18 +15,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
 
+import static in.ac.iitm.students.R.id.visible;
+
 /**
- * Created by harshitha on 8/6/17.
+ * Created by Sarath on 8/6/17.
  */
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
@@ -48,7 +53,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_day_card, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -96,18 +101,32 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
             holder.tv_day.setTextColor(Color.parseColor("#3F51B5"));
         }
+
+        if(month_events.get(position).eventDisplay1==""){
+            holder.reminderCardView.setVisibility(View.GONE);
+        }
+        if(month_events.get(position).eventDisplay1!=""){
+            holder.reminderCardView.setVisibility(View.VISIBLE);
+            holder.reminderText.setText(month_events.get(position).eventDisplay1);
+        }
+        if(month_events.get(position).eventDisplay2!=""){
+            holder.reminerDots.setVisibility(View.VISIBLE);
+        }
+
+        Calendar beginTime=Calendar.getInstance();
+        beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
+        beginTime.set(Calendar.MILLISECOND, 0);
+        beginTime.setTimeZone(TimeZone.getDefault());
+        // A date-time specified in milliseconds since the epoch.
+        final long  begin= beginTime.getTimeInMillis();
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Calendar beginTime = Calendar.getInstance();
-                beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
-                // A date-time specified in milliseconds since the epoch.
-                long hr = beginTime.getTimeInMillis();
-
                 Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
                 builder.appendPath("time");
-                ContentUris.appendId(builder, hr);
+                ContentUris.appendId(builder, begin);
                 Intent intent = new Intent(Intent.ACTION_VIEW)
                         .setData(builder.build());
                 context.startActivity(intent);
@@ -122,8 +141,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_day, tv_date, tv_desc;
-        CardView cardView,despCardView;
+        TextView tv_day, tv_date, tv_desc,reminderText,reminerDots;
+        CardView cardView,reminderCardView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -131,6 +150,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_desc = (TextView) itemView.findViewById(R.id.tv_description);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
+            reminderCardView = (CardView) itemView.findViewById(R.id.reminder_cardview);
+            reminderText = (TextView) itemView.findViewById(R.id.reminders_textview);
+            reminerDots = (TextView) itemView.findViewById(R.id.reminders_dots);
         }
     }
 }

@@ -22,9 +22,15 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -33,10 +39,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.StudentDetailsActivity;
 import in.ac.iitm.students.others.MySingleton;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class NameSearchFragment extends Fragment {
@@ -70,7 +80,7 @@ public class NameSearchFragment extends Fragment {
         etSearch = (EditText) view.findViewById(R.id.et_search_name);
         searchMessage = (TextView) view.findViewById(R.id.tv_search_result_msg);
         lvSuggestion = (ListView) view.findViewById(R.id.lv_suggestion);
-        adapter = new ArrayAdapter<String>(context,
+        adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_1,
                 listSuggestion);
         lvSuggestion.setAdapter(adapter);
@@ -107,8 +117,9 @@ public class NameSearchFragment extends Fragment {
                     final Editable selection = etSearch.getText();
 
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
-
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
+                    }
                     showSuggestion(selection.toString());
                     return true;
                 }
@@ -204,10 +215,13 @@ public class NameSearchFragment extends Fragment {
         MySingleton.getInstance(context).addToRequestQueue(jsonObjReq);
     }
 
-    private void goToDetails(String query) {
+    private void goToDetails(String passed_name) {
 
+        final String stud_name = passed_name;
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
+        }
 
         final ProgressDialog pDialog = new ProgressDialog(context);
         pDialog.setMessage("Getting data...");
@@ -217,39 +231,45 @@ public class NameSearchFragment extends Fragment {
 
         Uri.Builder builder = new Uri.Builder();
 
-        builder.scheme("https")//https://students.iitm.ac.in/studentsapp/map/get_location.php?
-                .authority("students.iitm.ac.in")
-                .appendPath("studentsapp")
-                .appendPath("studentlist")
-                .appendPath("getresultbyname.php")
-                .appendQueryParameter("name", query);
+        builder.scheme("http")//https://students.iitm.ac.in/studentsapp/map/get_location.php?
+                .authority("192.168.1.7")
+                .appendPath("Android")
+                .appendPath("includes")
+                .appendPath("search_by_name.php");
+
 
         String url = builder.build().toString();
 
         // Request a string response from the provided URL.
-        StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
-                url, new Response.Listener<String>() {
-
+        StringRequest stud_detail_via_name_req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
+
                 try {
 
-                    JSONArray jsonArray = new JSONArray(response);
-                    JSONObject jsonObject;
                     String studName = "Name appears here",
                             studRoll = "Roll number appears here",
                             hostel = "Hostel",
                             roomNo = "room number",
-                            photo = "https://photos.iitm.ac.in//byroll.php?roll=wrongSyntax";
+                            email = "Email here",
+                            phone = "Phone no. here",
+                            about = "About student";
 
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        jsonObject = jsonArray.getJSONObject(i);
-                        studName = jsonObject.getString("fullname");
-                        studRoll = jsonObject.getString("username");
-                        hostel = jsonObject.getString("hostel");
-                        roomNo = jsonObject.getString("roomno");
-                        photo = jsonObject.getString("url");
+                    int reveal_photo = 0;
+
+                    pDialog.dismiss();
+                    JSONArray baseArray = new JSONArray(response);
+                    for (int i = 0; i < baseArray.length(); i++) {
+                        JSONObject baseObject = baseArray.getJSONObject(i);
+                        studName = baseObject.getString("fullname");
+                        studRoll = baseObject.getString("username");
+                        hostel = baseObject.getString("hostel");
+                        roomNo = baseObject.getString("room");
+                        email = baseObject.getString("email");
+                        phone = baseObject.getString("phone_no");
+                        reveal_photo = baseObject.getInt("reveal_photo");
+                        about = baseObject.getString("about");
                     }
 
                     Intent intent = new Intent(context, StudentDetailsActivity.class);
@@ -257,31 +277,49 @@ public class NameSearchFragment extends Fragment {
                     intent.putExtra("studRoll", studRoll);
                     intent.putExtra("hostel", hostel);
                     intent.putExtra("roomNo", roomNo);
-                    intent.putExtra("photo", photo);
-                    pDialog.dismiss();
+                    intent.putExtra("email", email);
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("reveal_photo", reveal_photo);
+                    intent.putExtra("about", about);
                     startActivity(intent);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    pDialog.dismiss();
-                    Snackbar snackbar = Snackbar
-                            .make(frameLayout, getString(R.string.error_parsing), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-
+                    Toast.makeText(getApplicationContext(),
+                            "Error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
                 }
+
 
             }
         }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
                 pDialog.dismiss();
-                Snackbar snackbar = Snackbar
-                        .make(frameLayout, getString(R.string.error_connection), Snackbar.LENGTH_LONG);
-                snackbar.show();
+                String message = null;
+                if (error instanceof NetworkError) {
+                    message = "Cannot connect to Internet. Please check your connection!!";
+                } else if (error instanceof ServerError) {
+                    message = "Server down. Please try again after some time!!";
+                } else if (error instanceof AuthFailureError) {
+                    message = "Authentication error!!";
+                } else if (error instanceof ParseError) {
+                    message = "Parsing error! Please try again after some time!!";
+                } else if (error instanceof TimeoutError) {
+                    message = "Connection TimeOut! Please check your internet connection.";
+                }
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             }
-        });
-        MySingleton.getInstance(context).addToRequestQueue(jsonObjReq);
+        }) {
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", stud_name);
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(context).addToRequestQueue(stud_detail_via_name_req);
     }
 }

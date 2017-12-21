@@ -52,7 +52,7 @@ public class MessageChatActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message_chat);
+        setContentView(R.layout.mess_and_facilities_activity_message_chat);
 
         Intent i = getIntent();
         final String thread_id = i.getStringExtra("thread_id");
@@ -75,7 +75,7 @@ public class MessageChatActivity extends AppCompatActivity {
             complaint.setVisibility(View.GONE);
         } else {
             textLayout.setVisibility(View.GONE);
-            complaint.setText("Complaint is resolved by - " + solvedBy);
+            complaint.setText("h_Complaint is resolved by - " + solvedBy);
         }
         setThreadId(thread_id);
         fetchMessages(thread_id);
@@ -180,7 +180,7 @@ public class MessageChatActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
 //                        Toast.makeText(MessageChatActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                        content_adapter = new ChatAdapter(MessageChatActivity.this, R.layout.activity_message_chat);
+                        content_adapter = new ChatAdapter(MessageChatActivity.this, R.layout.mess_and_facilities_activity_message_chat);
                         listView = (ListView) findViewById(R.id.list_message);
                         //  listView.setOnItemClickListener(new ListAction());
                         listView.setAdapter(content_adapter);

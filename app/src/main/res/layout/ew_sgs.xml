@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:layout_marginTop="16dp"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            style="@style/cardview"
+            app:cardElevation="@dimen/card_elevation">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/sgs"
+                    style="@style/department_type"
+                    android:background="@color/ew_card_color"
+                    android:text="@string/type_sgs" />
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/sgs_image"
+                    style="@style/circle_imageview"
+                    android:layout_below="@+id/sgs"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/sgs"
+                    android:layout_toEndOf="@+id/sgs_image"
+                    android:layout_toRightOf="@+id/sgs_image"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/sgs_name"
+                        style="@style/profile_name"
+                        android:text="@string/sgs_name" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sgs_name"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/mail_sgs"
+                            style="@style/image_button"
+                            android:layout_marginEnd="@dimen/image_button_margin"
+                            android:layout_marginRight="@dimen/image_button_margin"
+                            android:src="@drawable/ic_email_black_24dp" />
+
+                        <ImageButton
+                            android:id="@+id/phone_sgs"
+                            style="@style/image_button"
+                            android:src="@drawable/ic_phone_black_24dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</RelativeLayout>

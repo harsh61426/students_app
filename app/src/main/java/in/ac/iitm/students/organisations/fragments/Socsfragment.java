@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,17 +28,9 @@ import in.ac.iitm.students.objects.News;
 import in.ac.iitm.students.organisations.activities.main.PostActivity;
 import in.ac.iitm.students.organisations.adapters.NewsAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Socsfragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Socsfragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 
 
-public class Socsfragment extends Fragment {
+public class Socsfragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public PostActivity pactivity;
     //public ArrayList<News> List;
@@ -99,4 +93,21 @@ public class Socsfragment extends Fragment {
 
     }
 
+    @Override
+    public void onRefresh() {
+
+    }
+    public void refreshList() {
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = getIntent();
+//                finish();
+//                startActivity(intent);
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        }, 3000);
+
+    }
 }

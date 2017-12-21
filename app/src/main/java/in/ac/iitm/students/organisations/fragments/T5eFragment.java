@@ -2,8 +2,10 @@ package in.ac.iitm.students.organisations.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +24,7 @@ import in.ac.iitm.students.organisations.adapters.NewsAdapter;
  * Created by rohithram on 19/7/17.
  */
 
-public class T5eFragment extends Fragment{
+public class T5eFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     public static TextView error_message;
     public PostActivity pactivity;
@@ -77,4 +79,22 @@ public class T5eFragment extends Fragment{
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onRefresh() {
+
+    }
+    public void refreshList() {
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = getIntent();
+//                finish();
+//                startActivity(intent);
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        }, 3000);
+
+    }
 }
+

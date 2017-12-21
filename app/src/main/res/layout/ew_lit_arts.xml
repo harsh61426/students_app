@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            style="@style/cardview"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            app:cardElevation="@dimen/card_elevation">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/culsec_lit"
+                    style="@style/department_type"
+                    android:background="@color/ew_card_color"
+                    android:text="@string/type_culsec_lit" />
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/culsec_lit_image"
+                    style="@style/circle_imageview"
+                    android:layout_below="@+id/culsec_lit"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/culsec_lit"
+                    android:layout_toEndOf="@+id/culsec_lit_image"
+                    android:layout_toRightOf="@+id/culsec_lit_image"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/culsec_lit_name"
+                        style="@style/profile_name"
+                        android:text="@string/culsec_lit_name" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/culsec_lit_name"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/mail_culsec_lit"
+                            style="@style/image_button"
+                            android:layout_marginEnd="@dimen/image_button_margin"
+                            android:layout_marginRight="@dimen/image_button_margin"
+                            android:src="@drawable/ic_email_black_24dp" />
+
+                        <ImageButton
+                            android:id="@+id/phone_culsec_lit"
+                            style="@style/image_button"
+                            android:src="@drawable/ic_phone_black_24dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            style="@style/cardview"
+            app:cardElevation="@dimen/card_elevation">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/culsec_arts"
+                    style="@style/department_type"
+                    android:background="@color/ew_card_color"
+                    android:text="@string/type_culsec_arts" />
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/culsec_arts_image"
+                    style="@style/circle_imageview"
+                    android:layout_below="@+id/culsec_arts"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/culsec_arts"
+                    android:layout_toEndOf="@+id/culsec_arts_image"
+                    android:layout_toRightOf="@+id/culsec_arts_image"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/culsec_arts_name"
+                        style="@style/profile_name"
+                        android:text="@string/culsec_arts_name" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/culsec_arts_name"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/mail_culsec_arts"
+                            style="@style/image_button"
+                            android:layout_marginEnd="@dimen/image_button_margin"
+                            android:layout_marginRight="@dimen/image_button_margin"
+                            android:src="@drawable/ic_email_black_24dp" />
+
+                        <ImageButton
+                            android:id="@+id/phone_culsec_arts"
+                            style="@style/image_button"
+                            android:src="@drawable/ic_phone_black_24dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</RelativeLayout>

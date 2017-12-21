@@ -42,8 +42,11 @@ import java.util.Calendar;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
+import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
+import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
+import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
@@ -52,6 +55,8 @@ import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
+
+import static in.ac.iitm.students.others.InstiCalendar.CalID;
 
 /**
  * Created by admin on 14-12-2016.
@@ -69,6 +74,8 @@ public class CalendarActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ViewPager viewPager;
+    private Menu menu;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -208,7 +215,8 @@ public class CalendarActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_calendar)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -223,7 +231,7 @@ public class CalendarActivity extends AppCompatActivity
         username.setText(name);
         rollNumber.setText(roll_no);
         ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
-        String urlPic = "https://photos.iitm.ac.in//byroll.php?roll=" + roll_no;
+        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
                 .placeholder(R.mipmap.ic_launcher)
@@ -231,6 +239,10 @@ public class CalendarActivity extends AppCompatActivity
                 .fit()
                 .centerCrop()
                 .into(imageView);
+
+
+
+
 
     }
 
@@ -279,7 +291,20 @@ public class CalendarActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.calendar_menu, menu);
+
+        if(InstiCalendar.getCalendarId(CalendarActivity.this)==-1){
+            Utils.saveprefInt("CalStat",0,this);
+        }else{
+            Utils.saveprefInt("CalStat",1,this);
+        }
+
+        MenuItem item=menu.getItem(0); // here itemIndex is int
+        if(Utils.getprefInt("CalStat",this)==0)
+            item.setTitle("Insert Calendar");
+        else
+            item.setTitle("Remove Calendar");
+
         return true;
     }
 
@@ -299,6 +324,24 @@ public class CalendarActivity extends AppCompatActivity
             LogOutAlertClass lg = new LogOutAlertClass();
             lg.isSure(CalendarActivity.this);
             return true;
+        } else if(id == R.id.calendar_sync){
+            InstiCalendar instiCalendar = new InstiCalendar(this);
+            if(Utils.getprefInt("CalStat",this)==1){
+                InstiCalendar.deleteCalendarTest(this, toString().valueOf(InstiCalendar.getCalendarId(this)));
+                item.setTitle("Insert Calendar");
+            }else{
+                InstiCalendar.CalID =new InstiCalendar(CalendarActivity.this).insertCalendar(this);
+
+                Utils.saveprefLong("CalID", CalID, this);
+                //Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
+                instiCalendar.deleteallevents();
+                InstiCalendar.sendJsonRequest(this, 0);
+                Utils.saveprefString("Cal_Ver", new InstiCalendar(CalendarActivity.this).getVersion(), this);
+
+
+                item.setTitle("Remove Calendar");
+            }
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -308,6 +351,12 @@ public class CalendarActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
+        Boolean checkMenuItem = true;
+        MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
+        MenuItem item2 = menu.findItem(R.id.nav_complaint_hostel);
+        MenuItem item3 = menu.findItem(R.id.nav_complaint_general);
+
         int id = item.getItemId();
         Intent intent = new Intent();
         boolean flag = false;
@@ -316,6 +365,7 @@ public class CalendarActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             intent = new Intent(context, HomeActivity.class);
             flag = true;
+
         } else if (id == R.id.nav_organisations) {
             intent = new Intent(context, OrganizationActivity.class);
             flag = true;
@@ -326,6 +376,29 @@ public class CalendarActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
+            if (!item1.isVisible()) {
+                item1.setVisible(true);
+                item2.setVisible(true);
+                item3.setVisible(true);
+                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_24dp));
+                checkMenuItem = false;
+            } else {
+                item1.setVisible(false);
+                item2.setVisible(false);
+                item3.setVisible(false);
+                checkMenuItem = false;
+                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
+            }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_calendar)).setChecked(true);
+
+
+        } else if (id == R.id.nav_complaint_hostel) {
+            intent = new Intent(context, HostelComplaintsActivity.class);
+            flag = true;
+        } else if (id == R.id.nav_complaint_general) {
+            intent = new Intent(context, GeneralComplaintsActivity.class);
+            flag = true;
+        } else if (id == R.id.nav_complaint_mess) {
             intent = new Intent(context, MessAndFacilitiesActivity.class);
             flag = true;
         } else if (id == R.id.nav_calendar) {
@@ -340,9 +413,11 @@ public class CalendarActivity extends AppCompatActivity
         } else if (id == R.id.nav_subscriptions) {
             intent = new Intent(context, SubscriptionActivity.class);
             flag = true;
-
         } else if (id == R.id.nav_about) {
             intent = new Intent(context, AboutUsActivity.class);
+            flag = true;
+        } else if (id == R.id.nav_profile) {
+            intent = new Intent(context, ProfileActivity.class);
             flag = true;
 
         } else if (id == R.id.nav_log_out) {
@@ -361,23 +436,30 @@ public class CalendarActivity extends AppCompatActivity
             return true;
         }
 
-        drawer.closeDrawer(GravityCompat.START);
+        if (checkMenuItem) {
+            item1.setVisible(false);
+            item2.setVisible(false);
+            item3.setVisible(false);
 
-        //Wait till the nav drawer is closed and then start new activity (for smooth animations)
-        Handler mHandler = new Handler();
-        final boolean finalFlag = flag;
-        final Intent finalIntent = intent;
-        mHandler.postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        if (finalFlag) {
-                            context.startActivity(finalIntent);
+            drawer.closeDrawer(GravityCompat.START);
+
+            //Wait till the nav drawer is closed and then start new activity (for smooth animations)
+            Handler mHandler = new Handler();
+            final boolean finalFlag = flag;
+            final Intent finalIntent = intent;
+            mHandler.postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            if (finalFlag) {
+                                context.startActivity(finalIntent);
+                            }
                         }
                     }
-                }
-                , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
-        );
+                    , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
+            );
+        }
         return true;
+
     }
 }

@@ -37,7 +37,7 @@ public class MessOrFacilitiesListActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mess_or_facilities_list);
+        setContentView(R.layout.mess_and_facilities_activity_mess_or_facilities_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar4);
         setSupportActionBar(toolbar);
@@ -68,7 +68,7 @@ public class MessOrFacilitiesListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        content_adapter = new AdapterClass(MessOrFacilitiesListActivity.this, R.layout.activity_mess_or_facilities_list);
+                        content_adapter = new AdapterClass(MessOrFacilitiesListActivity.this, R.layout.mess_and_facilities_activity_mess_or_facilities_list);
                         listView = (ListView) findViewById(R.id.listView);
                         //  listView.setOnItemClickListener(new ListAction());
                         listView.setAdapter(content_adapter);
