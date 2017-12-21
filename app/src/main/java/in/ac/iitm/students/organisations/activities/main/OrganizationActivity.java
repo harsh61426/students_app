@@ -346,12 +346,12 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
         final Context context = OrganizationActivity.this;
 
         if (id == R.id.nav_home) {
-            //intent = new Intent(context, HomeActivity.class);
-            //flag = true;
+            intent = new Intent(context, HomeActivity.class);
+            flag = true;
 
         } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, OrganizationActivity.class);
-            flag = true;
+            //intent = new Intent(context, OrganizationActivity.class);
+            //flag = true;
         } else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;

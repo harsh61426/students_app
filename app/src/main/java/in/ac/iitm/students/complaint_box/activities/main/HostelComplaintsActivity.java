@@ -50,7 +50,6 @@ import in.ac.iitm.students.others.Utils;
 
 public class HostelComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    final String hostel_url = "https://students.iitm.ac.in/studentsapp/studentlist/get_hostel.php";
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;

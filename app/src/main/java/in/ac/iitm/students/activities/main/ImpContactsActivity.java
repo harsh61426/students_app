@@ -311,7 +311,7 @@ public class ImpContactsActivity extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Important Contacts";
+                    return "Administrative";
                 case 1:
                     return "Executive Wing";
             }

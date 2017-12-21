@@ -274,7 +274,7 @@ public class ExecutiveWingFragment extends Fragment implements View.OnClickListe
 
         if (v.getTag(R.string.tag_mail) != null) {
             String[] email = {v.getTag(R.string.tag_mail).toString()};
-            shareToGMail(email, "Mechanica");
+            shareToGMail(email);
 
         } else if (v.getTag(R.string.tag_phone) != null) {
             Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -285,10 +285,9 @@ public class ExecutiveWingFragment extends Fragment implements View.OnClickListe
 
     }
 
-    public void shareToGMail(String[] email, String subject) {
+    public void shareToGMail(String[] email) {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         emailIntent.setType("text/plain");
         final PackageManager pm = context.getPackageManager();
         final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
