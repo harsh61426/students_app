@@ -140,11 +140,7 @@
             android:label="@string/title_activity_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.ComplaintActivity"
-            android:label="@string/title_activity_complaint"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".organisations.activities.NewsActivity"
             android:label="@string/title_activity_news"
@@ -160,7 +156,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-
+        <activity android:name=".activities.ProfileActivity"
+            android:label="Profile"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".others.MyFirebaseMessagingService">
             <intent-filter>
@@ -194,11 +193,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity"
-            android:label="Complaint Box"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".activities.main.CalendarActivity"
@@ -206,18 +200,50 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        !--
+        Complaints Box Activities
+        -->
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity"
+            android:label="Complaint Box"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
-
-
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.ComplaintActivity"
+            android:label="@string/title_activity_complaint"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity"
             android:label="Hostel Complaints"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.noAnimation" />
         <activity
             android:name="in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity"
             android:label="General Complaints"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.h_AddYourComment"
+            android:label="Add your comment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.h_Comments"
+            android:label="Comments"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.h_CustomComplaintActivity"
+            android:label="Custom Complaints"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity"
+            android:label="New Complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 

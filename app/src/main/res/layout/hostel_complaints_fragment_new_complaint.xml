@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frag_newcomplaint"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/textView_new_complaint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/new_complaint"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView_complaint_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_new_complaint"
+            android:layout_marginTop="51dp"
+            android:text="@string/complaint_title" />
+
+        <Spinner
+            android:id="@+id/spinner_complaint_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_complaint_title"
+            android:prompt="@string/templates" />
+
+        <TextView
+            android:id="@+id/textView_complaint_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/spinner_complaint_title"
+            android:layout_marginTop="46dp"
+            android:text="@string/complaint_description" />
+
+        <Spinner
+            android:id="@+id/spinner_complaint_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_complaint_description"
+            android:prompt="@string/templates" />
+
+        <TextView
+            android:id="@+id/textView_complaint_proximity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/spinner_complaint_description"
+            android:layout_marginTop="48dp"
+            android:text="@string/complaint_proximity" />
+
+        <EditText
+            android:id="@+id/editText_room_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView_complaint_proximity"
+            android:ems="10"
+            android:inputType="number"
+            android:prompt="@string/room_number" />
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/editText_room_number"
+            android:layout_marginTop="24dp"
+            android:text="@string/save" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>

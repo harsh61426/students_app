@@ -17,14 +17,14 @@
     <string name="even_year2">Jan-May 2017</string>
     <string name="odd_year2">Jul-Nov 2017</string>
     <string name="about_us">This app is developed by Institute Mobops Team 2017–18. All rights are reserved</string>
-    <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this complaint.</string>
+    <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this hComplaint.</string>
 
     <string name="error_connection">Couldn\'t connect to the server.</string>
     <string name="error_parsing">Error getting data, try again later…</string>
     <string name="error_no_result">No results found.</string>
     <string name="error_sending">Error sending data, try again later…</string>
     <string name="error_enter_more_characters">Enter three or more characters to get results.</string>
-    <string name="error_no_complaints">No complaints registered.</string>
+    <string name="error_no_complaints">No hComplaints registered.</string>
 
 
     <integer name="close_nav_drawer_delay">150</integer>
@@ -33,10 +33,13 @@
     <integer name="nav_index_search">2</integer>
     <integer name="nav_index_maps">3</integer>
     <integer name="nav_index_organisations">1</integer>
-    <integer name="nav_index_complaint_box">4</integer>
-    <integer name="nav_index_timetable">6</integer>
-    <integer name="nav_index_contacts">7</integer>
-    <integer name="nav_index_calendar">5</integer>
+    <integer name="nav_index_complaint_box">7</integer>
+    <integer name="nav_index_complaint_mess">8</integer>
+    <integer name="nav_index_complaint_hostel">9</integer>
+    <integer name="nav_index_complaint_general">10</integer>
+    <integer name="nav_index_timetable">5</integer>
+    <integer name="nav_index_contacts">6</integer>
+    <integer name="nav_index_calendar">4</integer>
 
     <string name="LoginURl">https://students.iitm.ac.in/studentsapp/login/index.php</string>
     <string name="url_register_fcm">https://students.iitm.ac.in/studentsapp/general/token_register.php</string>
@@ -55,6 +58,7 @@
     <string name="url_complaint_categories">https://students.iitm.ac.in/studentsapp/hasportal/get_complaint_categories.php</string>
 
     <string name="title_activity_student_search">Student Search</string>
+    <string name="title_activity_profile">Profile</string>
     <string name="title_activity_map">Institute Map</string>
     <string name="title_activity_imp_contacts">Important Contacts</string>
     <string name="title_activity_organisations">Organisations</string>
@@ -64,6 +68,9 @@
     <string name="title_activity_t5e_long">The Fifth Estate</string>
     <string name="title_activity_mess_and_facilities">Mess and Facilities</string>
     <string name="title_activity_complaint_box">Complaint Box</string>
+    <string name="title_activity_complaint_hostel">Hostel Complaints</string>
+    <string name="title_activity_complaint_mess_fac">Mess and Facilities Complaints</string>
+    <string name="title_activity_complaint_general">General Complaints</string>
     <string name="title_activity_student_details">Student Info</string>
     <string name="title_activity_home">Notifications</string>
     <string name="title_activity_thread">Complaints</string>
@@ -120,6 +127,20 @@
         On running into any issues, remove all courses from the Edit Courses menu and add them back again.
     </string>
 
+    <!-- Hostel and GenehComplaintsints -->
+
+    <string name="new_complaint">New Complaint</string>
+    <string name="custom_complaint">Custom Complaint</string>
+    <string name="complaint_title">Title</string>
+    <string name="tag">Tags</string>
+    <string name="complaint_description">Description</string>
+    <string name="complaint_proximity">Proximity</string>
+    <string name="templates">Templates</string>
+    <string name="room_number">Near which room?</string>
+    <string name="write_your_own">Write custom hComplaint</string>
+    <string name="save">Save</string>
+    <string name="next">Next</string>
+
 
     <string name="facebook_app_id">"1544898062227250"</string>
     <string name="Apptoken">"1544898062227250|IrQXoiRecw_KOc0Lw1aY3mIkB-g"</string>
@@ -147,7 +168,7 @@
         <item>"fineartsclubiitmadras/"</item>
         <item>"152210554869211"</item>
         <item>"362692757076050"</item>
-        <item>"theoratoryclubiitm/"</item>
+        <item>"ECELLIITM/"</item>
         <item>"SLCIITMadras/"</item>
         <item>"nss.iitm/"</item>
         <item>"mitr.iitm/"</item>
@@ -175,6 +196,8 @@
         <item>"5|iitmtv"</item>
         <item>"4|emliitm"</item>
     </string-array>
+    <string name="calendar_sync">Remove Calendar</string>
+    <string name="ProfileDisclaimer">The following Information will be made public.</string>
 
 
 </resources>

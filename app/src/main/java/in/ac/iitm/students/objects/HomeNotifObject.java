@@ -11,12 +11,13 @@ public class HomeNotifObject {
     public String detail;
     public String id;
     public ArrayList<String> image_urls;
-    public String location;
-    public String time;
-    public String date;
+    public String location = "Narmada";
+    public String time = "12 am";
+    public String date = "9/24/2017";
     public String Topic;
     public String link;
     public String title;
     public String createdat;
+    public Boolean isfav = false;
 
 }

@@ -107,6 +107,9 @@ public class LoginActivity extends AppCompatActivity {
         final String[] message = new String[1];
         final String[] DisplayName = new String[1];
         final String[] Hostel = new String[1];
+        final String[] room = new String[1];
+        final String[] reveal_place = new String[1];
+        final String[] reveal_photo = new String[1];
         final int[] success = new int[1];
         final JSONObject[] responseJson = new JSONObject[1];
 
@@ -132,6 +135,9 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 jsonResultObjuct = responseJson[0].getJSONArray("result").getJSONObject(0);
                                 DisplayName[0] = jsonResultObjuct.getString("fullname");
+                                room[0] = jsonResultObjuct.getString("room");
+                                reveal_place[0] = jsonResultObjuct.getString("reveal_place");
+                                reveal_photo[0] = jsonResultObjuct.getString("reveal_photo");
                                 Hostel[0] = jsonResultObjuct.getString("hostel");
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -143,6 +149,9 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(downloadIntent);
                             Utils.saveprefString(UtilStrings.NAME, DisplayName[0], getBaseContext());
                             Utils.saveprefString(UtilStrings.HOSTEl, Hostel[0], getBaseContext());
+                            Utils.saveprefString(UtilStrings.ROOM, room[0], getBaseContext());
+                            Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt(reveal_photo[0]), getBaseContext());
+                            Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt(reveal_place[0]), getBaseContext());
                             Utils.saveprefString(UtilStrings.ROLLNO, username.getText().toString().toUpperCase(), getBaseContext());
                             Utils.saveprefBool(UtilStrings.LOGEDIN, true, context);
 

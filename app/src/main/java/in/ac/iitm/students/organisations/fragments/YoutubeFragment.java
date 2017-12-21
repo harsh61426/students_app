@@ -3,8 +3,10 @@ package in.ac.iitm.students.organisations.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +24,7 @@ import in.ac.iitm.students.organisations.object_items.VideoItem;
  * Created by rohithram on 13/7/17.
  */
 
-public class YoutubeFragment extends Fragment {
+public class YoutubeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     static VideoAdapter vadapter;
     ArrayList<VideoItem> response1;
@@ -70,5 +72,23 @@ public class YoutubeFragment extends Fragment {
         vadapter = new VideoAdapter(response1,getContext());
         recyclerView.setAdapter(vadapter);
         vadapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+    public void refreshList() {
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = getIntent();
+//                finish();
+//                startActivity(intent);
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        }, 3000);
+
     }
 }
