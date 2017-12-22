@@ -236,21 +236,20 @@ public class CourseTimetableFragment extends Fragment {
                 tvs[i][j].setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
+                        if(slots[x][y]!='X') {
 
-                        if(bunk[x][y])
-                        {
-                            v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
-                            bunk[x][y] = false;
-                            Utils.saveprefBool("state"+9*x+y,false,getActivity());
-                            updatebunks(x,y,false);
-                        }
-                        else
-                        {
+                            if (bunk[x][y]) {
+                                v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
+                                bunk[x][y] = false;
+                                Utils.saveprefBool("state" + 9 * x + y, false, getActivity());
+                                updatebunks(x, y, false);
+                            } else {
 
-                            v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
-                            bunk[x][y] = true;
-                            Utils.saveprefBool("state"+9*x+y,true,getActivity());
-                            updatebunks(x,y,true);
+                                v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.lightRed));
+                                bunk[x][y] = true;
+                                Utils.saveprefBool("state" + 9 * x + y, true, getActivity());
+                                updatebunks(x, y, true);
+                            }
                         }
                         return true;
 
@@ -642,7 +641,7 @@ public class CourseTimetableFragment extends Fragment {
             Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,c.getCourse_id(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,Character.toString(c.getSlot()),getActivity());
-            Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,getbunks(c.getDays()),getActivity());
+            Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,c.getSlot()>='P'&&c.getSlot()<='T'?2:getbunks(c.getDays()),getActivity());
             //Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,0,getActivity());
             i++;
         }
@@ -1214,6 +1213,11 @@ public class CourseTimetableFragment extends Fragment {
                     courseid.setError("Please enter the Course ID");
                     return;
                 }
+                if(clash(courseid.getText().toString(),slot.getText().toString()))
+                {
+                    courseid.setError(slot.getText().toString()+" slot already has a different course. If you want to change the course of this slot, use Edit Courses from top right corner menu.");
+                    return;
+                }
                 if(courseid.getText().toString().length()!=6){
                     courseid.setError("Please enter a valid Course ID");
                     return;
@@ -1300,6 +1304,7 @@ public class CourseTimetableFragment extends Fragment {
                 }
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
+                Utils.saveprefBool("state" + 9 * x + y, false, getActivity());
                 getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
@@ -1341,6 +1346,24 @@ public class CourseTimetableFragment extends Fragment {
             flag = flag||((c.getSlot()=='R')&&(slot=='J'||slot=='K'));
             flag = flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
             flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));
+        }
+        return flag;
+    }
+    boolean clash (String id,String slot)
+    {
+        if(Utils.isFreshie(getActivity()))
+        {
+            return false;
+        }
+        boolean flag = false;
+        for(Course c:courses)
+        {
+            flag = flag||(!c.getCourse_id().equals(id)&&Character.toString(c.getSlot()).equals(slot));
+            /*flag = flag||((c.getSlot()=='P')&&(slot=='H'||slot=='M'));
+            flag = flag||((c.getSlot()=='Q')&&(slot=='M'||slot=='H'));
+            flag = flag||((c.getSlot()=='R')&&(slot=='J'||slot=='K'));
+            flag = flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
+            flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));*/
         }
         return flag;
     }

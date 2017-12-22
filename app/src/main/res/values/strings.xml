@@ -111,9 +111,10 @@
     <string name="instrucions">Guide for using the timetable:\n\n
         Enter the course details in the first screen. Tick the days/timings on which the class will be held.\n
         FN stands for forenoon and AN stands for afternoon.\n
-        If you want to remove or edit a slot, \n
-        either double click on the corresponding slot in the timetable and continue in a new dialog which lets you edit the details,\n
-        or click on Edit Courses from the menu at the top right corner and click on whichever slot you want to edit.
+        If you want to remove or edit details of a course, \n
+        click on Edit Courses from the menu at the top right corner and click on whichever slot you want to edit.\n
+        For rearranging the slots of a particular course,\n
+        double click on the corresponding slot in the timetable and continue in a new dialog which lets you edit.
         \n\n
 
         Guide for using the bunk monitor:\n\n

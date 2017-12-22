@@ -141,7 +141,7 @@ public class BunkMonitorFragment extends Fragment {
             course.setBunk_tot(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,getActivity()));
             course.setBunk_done(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,getActivity()));
             course.setFlag1(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_FLAG,getActivity()));
-            bunks.add(course);
+            if(course.getBunk_tot()>0)bunks.add(course);
         }
     }
 
