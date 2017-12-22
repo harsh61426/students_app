@@ -151,6 +151,7 @@
         <activity
             android:name=".activities.main.TimetableActivity"
             android:label="@string/title_activity_timetable"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.AboutUsActivity"
@@ -207,11 +208,7 @@
         !--
         Complaints Box Activities
         -->
-        <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity"
-            android:label="Complaint Box"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name="in.ac.iitm.students.complaint_box.activities.ComplaintActivity"
             android:label="@string/title_activity_complaint"
