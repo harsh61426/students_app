@@ -33,6 +33,7 @@ public class h_Complaint implements Serializable {
         hComplaint.setComments(0);
         hComplaint.setDate("00-00-0000");
         hComplaint.setResolved(true);
+        hComplaint.setCustom(true);
         hComplaint.setHostel("IIT Madras");
         hComplaint.setTag("#instimobops");
         hComplaint.setTitle("Error getting complaints!");
