@@ -53,6 +53,7 @@ public class h_JSONComplaintParser {
     public ArrayList<h_Complaint> readComplaintsArray(JsonReader reader) throws IOException {
         ArrayList<h_Complaint> hComplaints = new ArrayList<>();
         //Log.e("message",reader+"");
+        //while ( reader.peek() == JsonToken.STRING) reader.nextString();
         reader.beginArray();
 
         while (reader.hasNext()) {
@@ -98,9 +99,14 @@ public class h_JSONComplaintParser {
                 hComplaint.setTag(reader.nextString());
             } else if (name.equals("comments")) {
                 hComplaint.setComments(Integer.parseInt(reader.nextString()));
-            } else if (name.equals("moreRooms")) {
+            } else if (name.equals("more_rooms") && reader.peek() != JsonToken.NULL) {
                 hComplaint.setMoreRooms(reader.nextString());
-            }else if (name.equals("error")) {
+            } else if (name.equals("image_url") && reader.peek() != JsonToken.NULL) {
+                hComplaint.setImageUrl(reader.nextString());
+            } else if (name.equals("custom")) {
+                if (reader.nextString().equals("1")) hComplaint.setCustom(true);
+                else hComplaint.setCustom(false);
+            } else if (name.equals("error")) {
                 //Log.e("error message",""+reader);
                 reader.nextString();
                 reader.endObject();

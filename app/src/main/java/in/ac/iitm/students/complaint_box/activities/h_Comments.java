@@ -43,7 +43,7 @@ public class h_Comments extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hostel_complaints_activity_comments);
+        setContentView(R.layout.h_activity_comments);
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
         Intent i = getIntent();

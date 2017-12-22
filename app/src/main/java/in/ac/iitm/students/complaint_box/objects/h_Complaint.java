@@ -22,6 +22,8 @@ public class h_Complaint implements Serializable {
     private int comments;
     private String hostel;
     private String moreRooms;
+    private String imageUrl;
+    private Boolean custom;
 
     public static h_Complaint getErrorComplaintObject() {
         h_Complaint hComplaint = new h_Complaint();
@@ -36,6 +38,22 @@ public class h_Complaint implements Serializable {
         hComplaint.setTitle("Error getting complaints!");
         hComplaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
         return hComplaint;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Boolean getCustom() {
+        return custom;
+    }
+
+    public void setCustom(Boolean custom) {
+        this.custom = custom;
     }
 
     public String getName() {

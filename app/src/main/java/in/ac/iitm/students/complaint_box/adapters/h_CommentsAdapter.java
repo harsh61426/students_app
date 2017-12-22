@@ -26,7 +26,7 @@ public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.Vi
     @Override
     public h_CommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.hostel_complaints_comment_item, parent, false);
+                .inflate(R.layout.h_comment_item, parent, false);
 
         h_CommentsAdapter.ViewHolder vh = new h_CommentsAdapter.ViewHolder(v);
         return vh;
