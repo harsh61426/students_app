@@ -49,6 +49,7 @@ public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.Vi
     {
         LinearLayout container;
         TextView slot;
+        TextView days;
         TextView courseid;
         //Checkboxes: D1 = 2, D2 = 3, D3 = 5, D4 = 7
         TextView c1;
@@ -63,6 +64,7 @@ public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.Vi
             super(view);
             container = (LinearLayout) view.findViewById(R.id.container);
             c1 = (TextView) view.findViewById(R.id.day1);
+            days=(TextView) view.findViewById(R.id.textView3);
             c2 = (TextView) view.findViewById(R.id.day2);
             c2.setVisibility(View.INVISIBLE);
             c3 = (TextView) view.findViewById(R.id.day3);
@@ -289,6 +291,8 @@ public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.Vi
                 break;
         }
 
+        if((holder.c1.getVisibility()==View.INVISIBLE||holder.c1.getVisibility()==View.GONE)&&(holder.c2.getVisibility()==View.INVISIBLE||holder.c2.getVisibility()==View.GONE)&&(holder.c3.getVisibility()==View.INVISIBLE||holder.c3.getVisibility()==View.GONE)&&(holder.c4.getVisibility()==View.INVISIBLE||holder.c4.getVisibility()==View.GONE))
+            holder.days.setText("");
 
         holder.slot.setText("Slot: "+courses.get(position).getSlot());
         holder.courseid.setText("Course ID: "+courses.get(position).getCourse_id());

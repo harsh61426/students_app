@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -289,16 +290,27 @@ public class GradCourseTimetableFragment extends Fragment {
                         }
                         if(flag[x][y]){
 
-                            initdialog_edit(tvs[x][y].getText().toString().charAt(0),tvs[x][y].getText().toString().substring(2),x,y);
-                            dialog.show();
+                            if(slots[x][y]>='P'&&slots[x][y]<='T'){
+                                Snackbar snackbar = Snackbar
+                                        .make(view, "Please edit this slot from Edit Courses menu on top right corner", Snackbar.LENGTH_LONG);
 
-                            flag[x][y]=false;
+                                snackbar.show();
+                                flag[x][y] = false;
+                                tvs[x][y].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                tvs[x][y].setAlpha(1.0f);
+                            }
+                            else {
+                                initdialog_edit(tvs[x][y].getText().toString().charAt(0), tvs[x][y].getText().toString().substring(2), x, y);
+                                dialog.show();
 
-                            tvs[x][y].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                            tvs[x][y].setAlpha(1.0f);
-                            if(tvs[x][y].getText().charAt(0)=='X')
-                                tvs[x][y].setAlpha(0.0f);
-                            //^ for making the empty views transparent
+                                flag[x][y] = false;
+
+                                tvs[x][y].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                tvs[x][y].setAlpha(1.0f);
+                                if (tvs[x][y].getText().charAt(0) == 'X')
+                                    tvs[x][y].setAlpha(0.0f);
+                                //^ for making the empty views transparent
+                            }
 
 
                         }
@@ -1213,7 +1225,7 @@ public class GradCourseTimetableFragment extends Fragment {
                     courseid.setError("Please enter the Course ID");
                     return;
                 }
-                if(clash(courseid.getText().toString(),slot.getText().toString()))
+                if(clash(courseid.getText().toString().substring(0,2).toUpperCase()+courseid.getText().toString().substring(2),slot.getText().toString()))
                 {
                     courseid.setError(slot.getText().toString()+" slot already has a different course. If you want to change the course of this slot, use Edit Courses from top right corner menu.");
                     return;
