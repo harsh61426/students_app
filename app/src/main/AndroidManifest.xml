@@ -4,16 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
-
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -45,18 +41,14 @@
             android:resource="@color/colorPrimaryDark" />
         <!-- [END fcm_default_icon] -->
 
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider1544898062227250"
             android:exported="true" />
-
-
 
         <activity
             android:name=".activities.SplashActivity"
@@ -67,27 +59,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
 
-
                 <action android:name="in.ac.iitm.students.activities.main.SplashActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".organisations.activities.main.PostActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme1">
-        </activity>
-
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".organisations.activities.main.OrganizationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SubscriptionActivity"
             android:label="@string/title_activity_subscriptions"
@@ -118,7 +102,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.noAnimation" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity"
+            android:name=".complaint_box.activities.main.MessAndFacilitiesActivity"
             android:label="@string/title_activity_mess_and_facilities"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.noAnimation" />
@@ -128,21 +112,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.MyComplaintsActivity"
+            android:name=".complaint_box.activities.MyComplaintsActivity"
             android:label="@string/title_activity_thread"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.MessageChatActivity"
+            android:name=".complaint_box.activities.MessageChatActivity"
             android:label="@string/title_activity_message_chat"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.MessOrFacilitiesListActivity"
+            android:name=".complaint_box.activities.MessOrFacilitiesListActivity"
             android:label="@string/title_activity_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".organisations.activities.NewsActivity"
             android:label="@string/title_activity_news"
@@ -151,20 +134,18 @@
         <activity
             android:name=".activities.main.TimetableActivity"
             android:label="@string/title_activity_timetable"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.AboutUsActivity"
             android:label="@string/title_activity_about_us"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
-        <activity android:name=".activities.ProfileActivity"
+        <activity
+            android:name=".activities.ProfileActivity"
             android:label="Profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
 
         <service android:name=".others.MyFirebaseMessagingService">
             <intent-filter>
@@ -198,60 +179,52 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
         <activity
             android:name=".activities.main.CalendarActivity"
             android:label="Calendar"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         !--
         Complaints Box Activities
         -->
-
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.ComplaintActivity"
+            android:name=".complaint_box.activities.ComplaintActivity"
             android:label="@string/title_activity_complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
-
-
-
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity"
+            android:name=".complaint_box.activities.main.HostelComplaintsActivity"
             android:label="Hostel Complaints"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.noAnimation" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity"
+            android:name=".complaint_box.activities.main.GeneralComplaintsActivity"
             android:label="General Complaints"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.h_AddYourComment"
+            android:name=".complaint_box.activities.h_AddYourComment"
             android:label="Add your comment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.h_Comments"
+            android:name=".complaint_box.activities.h_Comments"
             android:label="Comments"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.h_CustomComplaintActivity"
+            android:name=".complaint_box.activities.h_CustomComplaintActivity"
             android:label="Custom Complaints"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity"
+            android:name=".complaint_box.activities.h_NewComplaintActivity"
             android:label="New Complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
+        <activity android:name=".complaint_box.activities.g_CustomComplaintActivity" />
+        <activity android:name=".complaint_box.activities.g_Comments" />
+        <activity android:name=".complaint_box.activities.g_AddYourComment"></activity>
     </application>
 
 </manifest>
