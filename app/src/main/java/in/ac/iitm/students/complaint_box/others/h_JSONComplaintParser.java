@@ -3,6 +3,7 @@ package in.ac.iitm.students.complaint_box.others;
 import android.app.Activity;
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class h_JSONComplaintParser {
             e.printStackTrace();
         }
         try {
-            //Log.d("Read complaints array", reader+"");
+            Log.d("Read complaints array", reader+"");
             return readComplaintsArray(reader);
         } finally {
 
@@ -52,7 +53,7 @@ public class h_JSONComplaintParser {
 
     public ArrayList<h_Complaint> readComplaintsArray(JsonReader reader) throws IOException {
         ArrayList<h_Complaint> hComplaints = new ArrayList<>();
-        //Log.e("message",reader+"");
+        Log.e("message",reader+"");
         reader.beginArray();
 
         while (reader.hasNext()) {
