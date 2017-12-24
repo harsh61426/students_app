@@ -3,7 +3,6 @@ package in.ac.iitm.students.activities;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -35,7 +34,6 @@ public class StudentDetailsActivity extends AppCompatActivity {
         rollno.setText(getIntent().getStringExtra("studRoll"));
         room.setText(getIntent().getStringExtra("roomNo"));
         hostel.setText(getIntent().getStringExtra("hostel"));
-        Log.v("CheckMate", getIntent().getStringExtra("email"));
         if(getIntent().getStringExtra("email").equalsIgnoreCase("null")){
             email.setText("Not available");
         }else{

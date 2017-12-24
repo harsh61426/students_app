@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="You have not registered any complaints."
+                android:text="You have not registered any hComplaints."
                 android:textColor="@android:color/darker_gray"
                 android:textSize="20sp"
                 android:visibility="gone" />

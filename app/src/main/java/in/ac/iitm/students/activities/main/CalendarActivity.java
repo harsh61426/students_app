@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -46,7 +45,8 @@ import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.adapters.MonthFmAdapter;
-import in.ac.iitm.students.complaint_box.activities.main.ComplaintBoxActivity;
+import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
+import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
@@ -74,7 +74,8 @@ public class CalendarActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ViewPager viewPager;
-    private MenuItem calendarSync;
+    private Menu menu;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -214,7 +215,8 @@ public class CalendarActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_calendar)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -349,6 +351,12 @@ public class CalendarActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
+        Boolean checkMenuItem = true;
+        MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
+        MenuItem item2 = menu.findItem(R.id.nav_complaint_hostel);
+        MenuItem item3 = menu.findItem(R.id.nav_complaint_general);
+
         int id = item.getItemId();
         Intent intent = new Intent();
         boolean flag = false;
@@ -357,6 +365,7 @@ public class CalendarActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             intent = new Intent(context, HomeActivity.class);
             flag = true;
+
         } else if (id == R.id.nav_organisations) {
             intent = new Intent(context, OrganizationActivity.class);
             flag = true;
@@ -367,7 +376,30 @@ public class CalendarActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
-            intent = new Intent(context, ComplaintBoxActivity.class);
+            if (!item1.isVisible()) {
+                item1.setVisible(true);
+                item2.setVisible(true);
+                item3.setVisible(true);
+                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_24dp));
+                checkMenuItem = false;
+            } else {
+                item1.setVisible(false);
+                item2.setVisible(false);
+                item3.setVisible(false);
+                checkMenuItem = false;
+                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
+            }
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_calendar)).setChecked(true);
+
+
+        } else if (id == R.id.nav_complaint_hostel) {
+            intent = new Intent(context, HostelComplaintsActivity.class);
+            flag = true;
+        } else if (id == R.id.nav_complaint_general) {
+            intent = new Intent(context, GeneralComplaintsActivity.class);
+            flag = true;
+        } else if (id == R.id.nav_complaint_mess) {
+            intent = new Intent(context, MessAndFacilitiesActivity.class);
             flag = true;
         } else if (id == R.id.nav_calendar) {
             //intent = new Intent(context, CalendarActivity.class);
@@ -381,11 +413,9 @@ public class CalendarActivity extends AppCompatActivity
         } else if (id == R.id.nav_subscriptions) {
             intent = new Intent(context, SubscriptionActivity.class);
             flag = true;
-
         } else if (id == R.id.nav_about) {
             intent = new Intent(context, AboutUsActivity.class);
             flag = true;
-
         } else if (id == R.id.nav_profile) {
             intent = new Intent(context, ProfileActivity.class);
             flag = true;
@@ -406,23 +436,30 @@ public class CalendarActivity extends AppCompatActivity
             return true;
         }
 
-        drawer.closeDrawer(GravityCompat.START);
+        if (checkMenuItem) {
+            item1.setVisible(false);
+            item2.setVisible(false);
+            item3.setVisible(false);
 
-        //Wait till the nav drawer is closed and then start new activity (for smooth animations)
-        Handler mHandler = new Handler();
-        final boolean finalFlag = flag;
-        final Intent finalIntent = intent;
-        mHandler.postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        if (finalFlag) {
-                            context.startActivity(finalIntent);
+            drawer.closeDrawer(GravityCompat.START);
+
+            //Wait till the nav drawer is closed and then start new activity (for smooth animations)
+            Handler mHandler = new Handler();
+            final boolean finalFlag = flag;
+            final Intent finalIntent = intent;
+            mHandler.postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            if (finalFlag) {
+                                context.startActivity(finalIntent);
+                            }
                         }
                     }
-                }
-                , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
-        );
+                    , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
+            );
+        }
         return true;
+
     }
 }

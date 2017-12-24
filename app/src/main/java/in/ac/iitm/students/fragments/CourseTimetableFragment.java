@@ -1,13 +1,20 @@
 package in.ac.iitm.students.fragments;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +22,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
@@ -24,6 +33,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.main.EditCourseDialogActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.adapters.CourseAdapter;
 import in.ac.iitm.students.objects.Bunks;
@@ -37,25 +47,30 @@ public class CourseTimetableFragment extends Fragment {
     CourseAdapter courseAdapter;
     ArrayList<Course> courses;
     Dialog dialog;
+    boolean check[]={false, false,false,false};
+    //int prime[][]={{2, 3, 5, 7, 11, 13, 17, 19},{23, 29, 31, 37, 41, 43, 47, 53},{59, 61, 67, 71, 73, 79, 83, 89},{97, 101, 103, 107, 109, 113, 127, 131},{137, 139, 149, 151, 157, 163, 167, 173}};
+    int prime[][]={{2, 3, 5, 7, 11, 13, 17, 19,23},{29, 31, 37, 41, 43, 47, 53,59,61},{ 67, 71, 73, 79, 83, 89,97,101,103},{ 107, 109, 113, 127, 131,137,139,149,151},{ 157, 163, 167,173,179,181,191,193,197}};
     // ids representing each cell in the grid in timetable.
     // The initial character is for the day and the integer is for the slot sequence
-    int ids[][] = {{R.id.m1,R.id.m2,R.id.m3,R.id.m4,R.id.m5,R.id.m6,R.id.m7,R.id.m8},
-            {R.id.t1,R.id.t2,R.id.t3,R.id.t4,R.id.t5,R.id.t6,R.id.t7,R.id.t8},
-            {R.id.w1,R.id.w2,R.id.w3,R.id.w4,R.id.w5,R.id.w6,R.id.w7,R.id.w8},
-            {R.id.h1,R.id.h2,R.id.h3,R.id.h4,R.id.h5,R.id.h6,R.id.h7,R.id.h8},
-            {R.id.f1,R.id.f2,R.id.f3,R.id.f4,R.id.f5,R.id.f6,R.id.f7,R.id.f8}};
+    int ids[][] = {{R.id.m1,R.id.m2,R.id.m3,R.id.m4,R.id.m5,R.id.m6,R.id.m7,R.id.m8,R.id.m9},
+            {R.id.t1,R.id.t2,R.id.t3,R.id.t4,R.id.t5,R.id.t6,R.id.t7,R.id.t8,R.id.t9},
+            {R.id.w1,R.id.w2,R.id.w3,R.id.w4,R.id.w5,R.id.w6,R.id.w7,R.id.w8,R.id.w9},
+            {R.id.h1,R.id.h2,R.id.h3,R.id.h4,R.id.h5,R.id.h6,R.id.h7,R.id.h8,R.id.h9},
+            {R.id.f1,R.id.f2,R.id.f3,R.id.f4,R.id.f5,R.id.f6,R.id.f7,R.id.f8,R.id.f9}};
     int texids[] = {R.id.mex,R.id.tex,R.id.wex,R.id.hex,R.id.fex};
     // The timetable is basically a grid of textViews
-    TextView tvs[][] = new TextView[5][8];
-    // grid for corresponding slots
-    char slots[][] = new char[5][8];
+    TextView tvs[][] = new TextView[5][9];
+
+        // grid for corresponding slots
+    char slots[][] = new char[5][9];
     // grid for corresponding bunks
-    boolean bunk[][] = new boolean[5][8];
+    boolean bunk[][] = new boolean[5][9];
     HashMap<Character,String> coursemap;
     ArrayList<Bunks> bunks;
     View view;
     // viewFlipper to flip between the timetable and the edit courses page
     ViewFlipper flipper;
+    boolean flag[][]=new boolean[5][9];
 
     public CourseTimetableFragment() {
         // Required empty public constructor
@@ -68,6 +83,27 @@ public class CourseTimetableFragment extends Fragment {
 
 
         view = inflater.inflate(R.layout.fragment_course_timetable, container, false);
+
+        // declaring the leftmost column, ie the coulumn with timings
+        /*TextView tV=(TextView)view.findViewById(R.id.time1);
+        tV.setText("08:00-\n08:50");
+        tV=(TextView)view.findViewById(R.id.time2);
+        tV.setText("09:00-\n09:50");
+        tV=(TextView)view.findViewById(R.id.time3);
+        tV.setText("10:00-\n10:50");
+        tV=(TextView)view.findViewById(R.id.time4);
+        tV.setText("11:00-\n11:50");
+        tV=(TextView)view.findViewById(R.id.time5);
+        tV.setText("12:00-\n12:50");
+        tV=(TextView)view.findViewById(R.id.time6);
+        tV.setText("13:00-\n13:50");
+        tV=(TextView)view.findViewById(R.id.time7);
+        tV.setText("14:00-\n15:15");
+        tV=(TextView)view.findViewById(R.id.time8);
+        tV.setText("15:25-\n16:40");
+        tV=(TextView)view.findViewById(R.id.time9);
+        tV.setText("16:50-\n17:30");
+        */
         // declaring the top row, ie the row with day names
         for(int i = 0;i<5;i++)
         {
@@ -131,18 +167,23 @@ public class CourseTimetableFragment extends Fragment {
         // setting background color for the cells in the grid according to whether it is bunked or not.
         for(int i=0;i<5;i++)
         {
-            for(int j=0;j<8;j++)
+            for(int j=0;j<9;j++)
             {
                 slots[i][j] = 'X';
-                bunk[i][j] = Utils.getprefBool("state"+8*i+j,getActivity());
+                bunk[i][j] = Utils.getprefBool("state"+9*i+j,getActivity());
                 tvs[i][j] = (TextView)view.findViewById(ids[i][j]);
                 if(bunk[i][j])
                 {
+                    //tvs[i][j].setBackgroundResource(R.drawable.back);
                     tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+
+                    //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
                 else
                 {
                     tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    //tvs[i][j].setBackgroundResource(R.drawable.back);
+                    //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
             }
         }
@@ -155,6 +196,7 @@ public class CourseTimetableFragment extends Fragment {
         getcoursemap();
         for (Bunks c : bunks) {
             mapslots(c.getSlot(), c.getDays());
+            //.d("map","Each time this comes, a slot is mapped");
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -172,7 +214,7 @@ public class CourseTimetableFragment extends Fragment {
 
         for(int i=0;i<5;i++)
         {
-            for(int j=0;j<8;j++)
+            for(int j=0;j<9;j++)
             {
                 final int x = i;
                 final int y = j;
@@ -183,36 +225,103 @@ public class CourseTimetableFragment extends Fragment {
                 {
                     // there are 3 colors in the timetable- red indicating bunked,
                     // white indicating the presence of a slot in that hour and transparent implying free hour.
-                    tvs[i][j].setVisibility(View.INVISIBLE);
+                    //tvs[i][j].setVisibility(View.INVISIBLE);
+                    //tvs[i][j].setBackgroundResource(R.drawable.back);
+                    tvs[i][j].setAlpha(0.0f);
+
+
                 }
+                //tvs[i][j].setLongClickable(true);
 
                 // setting listeners for the textViews (in the grid)
+                tvs[i][j].setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if(slots[x][y]!='X') {
+
+                            if (bunk[x][y]) {
+                                v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
+                                bunk[x][y] = false;
+                                Utils.saveprefBool("state" + 9 * x + y, false, getActivity());
+                                updatebunks(x, y, false);
+                            } else {
+
+                                v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.lightRed));
+                                bunk[x][y] = true;
+                                Utils.saveprefBool("state" + 9 * x + y, true, getActivity());
+                                updatebunks(x, y, true);
+                            }
+                        }
+                        return true;
+
+                    }
+
+                });
+
+
                 tvs[i][j].setOnClickListener(new View.OnClickListener() {
+
+
                     @Override
                     public void onClick(View v) {
-                        if(bunk[x][y])
-                        {
-                            v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
-                            bunk[x][y] = false;
-                            Utils.saveprefBool("state"+8*x+y,false,getActivity());
-                            updatebunks(x,y,false);
+
+                        //fix this for lab slots
+
+                        TextView edit = (TextView) (v);
+                        for (int m = 0; m < 5; m++) {
+                            for (int n = 0; n < 9; n++) {
+                                if (flag[m][n])
+                                    if (m != x || n != y) {
+                                        flag[m][n] = false;
+                                        tvs[m][n].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                        tvs[m][n].setAlpha(1.0f);
+                                        if(tvs[m][n].getText().charAt(0)=='X')
+                                            tvs[m][n].setAlpha(0.0f);
+                                    }
+                            }
                         }
-                        else
-                        {
-                            v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
-                            bunk[x][y] = true;
-                            Utils.saveprefBool("state"+8*x+y,true,getActivity());
-                            updatebunks(x,y,true);
+
+                        if(!flag[x][y]) {
+                            edit.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.pencil, 0);
+                            v.setAlpha(0.5f);
+                            flag[x][y] = true;
+
+                            return;
+                        }
+                        if(flag[x][y]){
+                            if(slots[x][y]>='P'&&slots[x][y]<='T'){
+                                Snackbar snackbar = Snackbar
+                                        .make(view, "Please edit this slot from Edit Courses menu on top right corner", Snackbar.LENGTH_LONG);
+
+                                snackbar.show();
+                                flag[x][y] = false;
+                                tvs[x][y].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                tvs[x][y].setAlpha(1.0f);
+                            }
+                            else {
+
+                                initdialog_edit(tvs[x][y].getText().toString().charAt(0), tvs[x][y].getText().toString().substring(2), x, y);
+                                dialog.show();
+
+                                flag[x][y] = false;
+
+                                tvs[x][y].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                tvs[x][y].setAlpha(1.0f);
+                                if (tvs[x][y].getText().charAt(0) == 'X')
+                                    tvs[x][y].setAlpha(0.0f);
+                                //^ for making the empty views transparent
+                            }
+
+
                         }
                     }
                 });
             }
         }
-
         return view;
     }
 
-
+    //pref
     private void getcourses()
     {
         int number = Utils.getprefInt(UtilStrings.COURSES_COUNT,getActivity());
@@ -227,13 +336,13 @@ public class CourseTimetableFragment extends Fragment {
         }
     }
 
-    private void clearbunks()   // clear bunks at end of each week
+    private void clearbunks()   //clear bunks at end of each week
     {
         for(int x=0;x<5;x++)
         {
-            for(int y=0;y<8;y++)
+            for(int y=0;y<9;y++)
             {
-                Utils.saveprefBool("state"+8*x+y,false,getActivity());
+                Utils.saveprefBool("state"+9*x+y,false,getActivity());
             }
         }
     }
@@ -252,6 +361,7 @@ public class CourseTimetableFragment extends Fragment {
         Bunks b = bunks.get(pos);
         int bunks_d = add?(b.getBunk_done()+1):(b.getBunk_done()-1);
         b.setBunk_done(bunks_d>=0?bunks_d:0);
+
         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos+UtilStrings.BUNKS_DONE,(bunks_d>=0?bunks_d:0),getActivity());
         bunks.set(pos,b);
         ((TimetableActivity) getActivity()).returnadapter().notifyDataSetChanged();
@@ -265,9 +375,10 @@ public class CourseTimetableFragment extends Fragment {
         }
     }
 
-
+    //use this for an example of getting preferences
     private void getbunks()
     {
+
         int number = Utils.getprefInt(UtilStrings.COURSES_COUNT,getActivity());
         for(int i=0;i<number;i++)
         {
@@ -288,153 +399,243 @@ public class CourseTimetableFragment extends Fragment {
         switch(c)
         {
             case 'A': {
-                slots[0][0] = (days%2 == 0) ? 'A' : 'X';
+
+
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'A';
+                        if(slots[i][j]=='A'&&days%prime[i][j]!=0)
+                            slots[i][j]='X';
+
+                    }
+                /*slots[0][0] = (days%2 == 0) ? 'A' : 'X';
                 slots[1][4] = (days%3 == 0) ? 'A' : 'X';
                 slots[3][3] = (days%5 == 0) ? 'A' : 'X';
-                slots[4][2] = (days%7 == 0) ? 'A' : 'X';
+                slots[4][2] = (days%7 == 0) ? 'A' : 'X';*/
                 break;
             }
             case 'B': {
-                slots[0][1] = (days%2 == 0) ? 'B' : 'X';
+
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'B';
+                        if (slots[i][j] == 'B' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[0][1] = (days%2 == 0) ? 'B' : 'X';
                 slots[1][0] = (days%3 == 0) ? 'B' : 'X';
                 slots[2][4] = (days%5 == 0) ? 'B' : 'X';
-                slots[4][3] = (days%7 == 0) ? 'B' : 'X';
+                slots[4][3] = (days%7 == 0) ? 'B' : 'X';*/
                 break;
             }
             case 'C': {
-                slots[0][2] = (days%2 == 0) ? 'C' : 'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'C';
+                        if (slots[i][j] == 'C' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+
+                /*slots[0][2] = (days%2 == 0) ? 'C' : 'X';
                 slots[1][1] = (days%3 == 0) ? 'C' : 'X';
                 slots[2][0] = (days%5 == 0) ? 'C' : 'X';
-                slots[4][4] = (days%7 == 0) ? 'C' : 'X';
+                slots[4][4] = (days%7 == 0) ? 'C' : 'X';*/
                 break;
             }
             case 'D': {
-                slots[0][3] = (days%2 == 0) ? 'D' : 'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'D';
+                        if (slots[i][j] == 'D' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[0][3] = (days%2 == 0) ? 'D' : 'X';
                 slots[1][2] = (days%3 == 0) ? 'D' : 'X';
                 slots[2][1] = (days%5 == 0) ? 'D' : 'X';
-                slots[3][4] = (days%7 == 0) ? 'D' : 'X';
+                slots[3][4] = (days%7 == 0) ? 'D' : 'X';*/
                 break;
             }
             case 'E': {
-                slots[1][3] = (days%2 == 0) ? 'E' : 'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'E';
+                        if (slots[i][j] == 'E' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+
+                /*slots[1][3] = (days%2 == 0) ? 'E' : 'X';
                 slots[2][2] = (days%3 == 0) ? 'E' : 'X';
                 slots[3][0] = (days%5 == 0) ? 'E' : 'X';
-                slots[4][7] = (days%7 == 0) ? 'E' : 'X';
+                slots[4][7] = (days%7 == 0) ? 'E' : 'X';*/
                 break;
             }
             case 'F': {
-                slots[1][7] = (days%2 == 0) ? 'F' : 'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'F';
+                        if (slots[i][j] == 'F' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[1][7] = (days%2 == 0) ? 'F' : 'X';
                 slots[2][3] = (days%3 == 0) ? 'F' : 'X';
                 slots[3][1] = (days%5 == 0) ? 'F' : 'X';
-                slots[4][0] = (days%7 == 0) ? 'F' : 'X';
+                slots[4][0] = (days%7 == 0) ? 'F' : 'X';*/
                 break;
             }
             case 'G': {
-                slots[0][4] = (days%2 == 0) ? 'G' : 'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'G';
+                        if (slots[i][j] == 'G' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[0][4] = (days%2 == 0) ? 'G' : 'X';
                 slots[2][7] = (days%3 == 0) ? 'G' : 'X';
                 slots[3][2] = (days%5 == 0) ? 'G' : 'X';
-                slots[4][1] = (days%7 == 0) ? 'G' : 'X';
+                slots[4][1] = (days%7 == 0) ? 'G' : 'X';*/
                 break;
             }
             case 'H': {
-                slots[0][5] = (days%2==0)?'H':'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'H';
+                        if (slots[i][j] == 'H' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[0][5] = (days%2==0)?'H':'X';
                 slots[1][6] = (days%3==0)?'H':'X';
-                slots[3][7] = (days%5==0)?'H':'X';
+                slots[3][7] = (days%5==0)?'H':'X';*/
                 break;
             }
             case 'J': {
-                slots[0][7] = (days%2==0)?'J':'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'J';
+                        if (slots[i][j] == 'J' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[0][7] = (days%2==0)?'J':'X';
                 slots[2][5] = (days%3==0)?'J':'X';
-                slots[3][6] = (days%5==0)?'J':'X';
+                slots[3][6] = (days%5==0)?'J':'X';*/
                 break;
             }
             case 'K': {
-                slots[2][6] = (days%2==0)?'K':'X';
-                slots[4][5] = (days%3==0)?'K':'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'K';
+                        if (slots[i][j] == 'A' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[2][6] = (days%2==0)?'K':'X';
+                slots[4][5] = (days%3==0)?'K':'X';*/
                 break;
             }
             case 'L': {
-                slots[3][5] = (days%2==0)?'L':'X';
-                slots[4][6] = (days%3==0)?'L':'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'L';
+                        if (slots[i][j] == 'L' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[3][5] = (days%2==0)?'L':'X';
+                slots[4][6] = (days%3==0)?'L':'X';*/
                 break;
             }
             case 'M': {
-                slots[0][6] = (days%2==0)?'M':'X';
-                slots[1][5] = (days%3==0)?'M':'X';
+                for(int i=0;i<5;i++)
+                    for(int j=0;j<9;j++) {
+                        if (days % prime[i][j] == 0)
+                            slots[i][j] = 'M';
+                        if (slots[i][j] == 'A' && days % prime[i][j] != 0)
+                            slots[i][j] = 'X';
+                    }
+                /*slots[0][6] = (days%2==0)?'M':'X';
+                slots[1][5] = (days%3==0)?'M':'X';*/
                 break;
             }
             case 'P': {
-                slots[0][5] = 'P';
-                ids[0][5] = R.id.mex;
-                tvs[0][5] = (TextView)view.findViewById(ids[0][5]);
-                tvs[0][5].setVisibility(View.VISIBLE);
-                if(bunk[0][5])
+                slots[0][6] = 'P';
+                ids[0][6] = R.id.mex;
+                tvs[0][6] = (TextView)view.findViewById(ids[0][6]);//ids[0][6 or 5?]
+                tvs[0][6].setVisibility(View.VISIBLE);
+                if(bunk[0][6])
                 {
-                    tvs[0][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+                    tvs[0][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
                 }
                 else
                 {
-                    tvs[0][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    tvs[0][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
                 }
                 break;
             }
             case 'Q': {
-                slots[1][5] = 'Q';
-                ids[1][5] = R.id.tex;
-                tvs[1][5] = (TextView)view.findViewById(ids[1][5]);
-                tvs[1][5].setVisibility(View.VISIBLE);
-                if(bunk[1][5])
+                slots[1][6] = 'Q';
+                ids[1][6] = R.id.tex;
+                tvs[1][6] = (TextView)view.findViewById(ids[1][6]);
+                tvs[1][6].setVisibility(View.VISIBLE);
+                if(bunk[1][6])
                 {
-                    tvs[1][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+                    tvs[1][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
                 }
                 else
                 {
-                    tvs[1][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    tvs[1][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
                 }
                 break;
             }
             case 'R': {
-                slots[2][5] = 'R';
-                ids[2][5] = R.id.wex;
-                tvs[2][5] = (TextView)view.findViewById(ids[2][5]);
-                tvs[2][5].setVisibility(View.VISIBLE);
-                if(bunk[2][5])
+                slots[2][6] = 'R';
+                ids[2][6] = R.id.wex;
+                tvs[2][6] = (TextView)view.findViewById(ids[2][6]);
+                tvs[2][6].setVisibility(View.VISIBLE);
+                if(bunk[2][6])
                 {
-                    tvs[2][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+                    tvs[2][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
                 }
                 else
                 {
-                    tvs[2][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    tvs[2][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
                 }
                 break;
             }
             case 'S': {
-                slots[3][5] = 'S';
-                ids[3][5] = R.id.hex;
-                tvs[3][5] = (TextView)view.findViewById(ids[3][5]);
-                tvs[3][5].setVisibility(View.VISIBLE);
-                if(bunk[3][5])
+                slots[3][6] = 'S';
+                ids[3][6] = R.id.hex;
+                tvs[3][6] = (TextView)view.findViewById(ids[3][6]);
+                tvs[3][6].setVisibility(View.VISIBLE);
+                if(bunk[3][6])
                 {
-                    tvs[3][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+                    tvs[3][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
                 }
                 else
                 {
-                    tvs[3][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    tvs[3][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
                 }
                 break;
             }
             case 'T': {
-                slots[4][5] = 'T';
-                ids[4][5] = R.id.fex;
-                tvs[4][5] = (TextView)view.findViewById(ids[4][5]);
-                tvs[4][5].setVisibility(View.VISIBLE);
-                if(bunk[4][5])
+                slots[4][6] = 'T';
+                ids[4][6] = R.id.fex;
+                tvs[4][6] = (TextView)view.findViewById(ids[4][6]);
+                tvs[4][6].setVisibility(View.VISIBLE);
+                if(bunk[4][6])
                 {
-                    tvs[4][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+                    tvs[4][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
                 }
                 else
                 {
-                    tvs[4][5].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    tvs[4][6].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
                 }
                 break;
             }
@@ -452,20 +653,27 @@ public class CourseTimetableFragment extends Fragment {
             Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,c.getCourse_id(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,Character.toString(c.getSlot()),getActivity());
-            Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,getbunks(c.getDays()),getActivity());
-            Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,0,getActivity());
+            Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,c.getSlot()>='P'&&c.getSlot()<='T'?2:getbunks(c.getDays()),getActivity());
+            //Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,0,getActivity());
             i++;
         }
     }
 
+    //fix this
     private int getbunks(int number)
     {
         int bunks = 0;
-        bunks+=((number%2==0)?1:0);
+        for(int i=0;i<5;i++)
+            for(int j=0;j<9;j++)
+                if(number%prime[i][j]==0)
+                    bunks++;
+        /*bunks+=((number%2==0)?1:0);
         bunks+=((number%3==0)?1:0);
         bunks+=((number%5==0)?1:0);
         bunks+=((number%7==0)?1:0);
-        return 2*(bunks>0?bunks:1);
+
+        return 2*(bunks>0?bunks:1);*/
+        return 2*bunks;
     }
 
     private void removeallcourses()
@@ -640,6 +848,8 @@ public class CourseTimetableFragment extends Fragment {
                             c4.setVisibility(View.INVISIBLE);
                             break;
                         }
+
+
                         case 'P': {
                             days.setVisibility(View.INVISIBLE);
                             c1.setVisibility(View.INVISIBLE);
@@ -702,11 +912,13 @@ public class CourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    course.setDays(course.getDays()*2);
+                    check[0]=true;
+                    //course.setDays(course.getDays()*2);
                 }
                 else
                 {
-                    course.setDays(course.getDays()/2);
+                    check[0]=false;
+                    //course.setDays(course.getDays()/2);
                 }
             }
         });
@@ -715,11 +927,13 @@ public class CourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    course.setDays(course.getDays()*3);
+                    check[1]=true;
+                    //course.setDays(course.getDays()*3);
                 }
                 else
                 {
-                    course.setDays(course.getDays()/3);
+                    check[1]=false;
+                    //course.setDays(course.getDays()/3);
                 }
             }
         });
@@ -728,11 +942,13 @@ public class CourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    course.setDays(course.getDays()*5);
+                    check[2]=true;
+                    //course.setDays(course.getDays()*5);
                 }
                 else
                 {
-                    course.setDays(course.getDays()/5);
+                    check[2]=false;
+                    //course.setDays(course.getDays()/5);
                 }
             }
         });
@@ -741,11 +957,13 @@ public class CourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    course.setDays(course.getDays()*7);
+                    check[3]=true;
+                    //course.setDays(course.getDays()*7);
                 }
                 else
                 {
-                    course.setDays(course.getDays()/7);
+                    check[3]=false;
+                    //course.setDays(course.getDays()/7);
                 }
             }
         });
@@ -783,6 +1001,187 @@ public class CourseTimetableFragment extends Fragment {
                         slot.setError("There is a slot clash");
                         flag = false;
                     }
+                    for(int i=0;i<check.length;i++){
+                        if(check[i]) {
+                            switch(slt){
+                                case 'A':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[0][0]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[1][5]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[3][3]);
+                                            break;
+                                        case 3:
+                                            course.setDays(course.getDays()*prime[4][2]);
+                                            break;
+                                    }
+                                    break;
+                                case 'B':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[0][1]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[1][0]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[2][5]);
+                                            break;
+                                        case 3:
+                                            course.setDays(course.getDays()*prime[4][3]);
+                                            break;
+                                    }
+                                    break;
+                                case 'C':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[0][2]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[1][1]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[2][0]);
+                                            break;
+                                        case 3:
+                                            course.setDays(course.getDays()*prime[4][5]);
+                                            break;
+                                    }
+                                    break;
+                                case 'D':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[0][3]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[1][2]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[2][1]);
+                                            break;
+                                        case 3:
+                                            course.setDays(course.getDays()*prime[3][5]);
+                                            break;
+                                    }
+                                    break;
+                                case 'E':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[1][3]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[2][2]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[3][0]);
+                                            break;
+                                        case 3:
+                                            course.setDays(course.getDays()*prime[4][8]);
+                                            break;
+                                    }
+                                    break;
+                                case 'F':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[1][8]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[2][3]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[3][1]);
+                                            break;
+                                        case 3:
+                                            course.setDays(course.getDays()*prime[4][0]);
+                                            break;
+                                    }
+                                    break;
+                                case 'G':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[0][5]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[2][8]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[3][2]);
+                                            break;
+                                        case 3:
+                                            course.setDays(course.getDays()*prime[4][1]);
+                                            break;
+                                    }
+                                    break;
+                                case 'H':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[0][6]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[1][7]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[3][8]);
+                                            break;
+
+                                    }
+                                    break;
+                                case 'J':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[0][8]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[2][6]);
+                                            break;
+                                        case 2:
+                                            course.setDays(course.getDays()*prime[3][7]);
+                                            break;
+
+                                    }
+                                    break;
+                                case 'K':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[2][7]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[4][6]);
+                                            break;
+
+                                    }
+                                    break;
+                                case 'L':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[3][6]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[4][7]);
+                                            break;
+
+                                    }
+                                    break;
+                                case 'M':
+                                    switch(i){
+                                        case 0:
+                                            course.setDays(course.getDays()*prime[0][7]);
+                                            break;
+                                        case 1:
+                                            course.setDays(course.getDays()*prime[1][6]);
+                                            break;
+
+                                    }
+                                    break;
+
+                            }
+
+                        }
+                    }
                     if (flag) {
                         course.setCourse_id(coursed);
                         course.setSlot(Character.toUpperCase(slt));
@@ -790,7 +1189,156 @@ public class CourseTimetableFragment extends Fragment {
                         courseAdapter.notifyDataSetChanged();
                         dialog.dismiss();
                     }
+
+
                 }
+            }
+        });
+    }
+    private void initdialog_edit(final char ch,final String course_id,final int x,final int y)
+    {
+        dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.dialog_add_course);
+        final EditText slot = (EditText) dialog.findViewById(R.id.slot);
+        slot.setText(Character.toString(ch));
+        final EditText courseid = (EditText) dialog.findViewById(R.id.course_id);
+        courseid.setText(course_id);
+        final LinearLayout days = (LinearLayout) dialog.findViewById(R.id.days);
+        Button add = (Button) dialog.findViewById(R.id.add);
+        Button remove = (Button) dialog.findViewById(R.id.remove);
+        remove.setVisibility(View.VISIBLE);
+        add.setText("UPDATE");
+        final int number = Utils.getprefInt(UtilStrings.COURSES_COUNT,getActivity());
+
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(slot.getText().toString().isEmpty())
+                {
+                    slot.setError("Please enter the slot");
+                    return;
+                }
+                if(courseid.getText().toString().isEmpty())
+                {
+                    courseid.setError("Please enter the Course ID");
+                    return;
+                }
+                if(clash(courseid.getText().toString().substring(0,2).toUpperCase()+courseid.getText().toString().substring(2),slot.getText().toString()))
+                {
+                    courseid.setError(slot.getText().toString()+" slot already has a different course. If you want to change the course of this slot, use Edit Courses from top right corner menu.");
+                    return;
+                }
+                if(courseid.getText().toString().length()!=6){
+                    courseid.setError("Please enter a valid Course ID");
+                    return;
+
+                }
+                else{
+                    char b=Character.toUpperCase(slot.getText().charAt(0));
+                    String s=courseid.getText().toString();
+                    s=s.substring(0,2).toUpperCase()+s.substring(2);
+                    boolean flag=false;
+                    int pos_final=-1;
+                    int pos_init=-1;
+                    for(int i=0;i<number;i++){
+                        if((Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity())).equals(s)) {
+
+                            flag = true;
+                            pos_final = i;
+                            break;
+                        }
+                    }
+                    for(int i=0;i<number;i++){
+                        if((Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity())).charAt(0)==(ch)) {
+                            pos_init = i;
+                            break;
+                        }
+                    }
+                    if(flag){
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()) * prime[x][y], getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,getActivity())+2,getActivity());
+
+                    }
+                    else{
+                        Utils.saveprefInt(UtilStrings.COURSES_COUNT,number+1,getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM+number+UtilStrings.BUNKS_TOTAL,2,getActivity());
+                        //edit below
+                        Utils.saveprefString(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_ID,s,getActivity());
+                        Utils.saveprefString(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_SLOT,Character.toString(b),getActivity());
+
+
+
+                    }
+                }
+                courseAdapter.notifyDataSetChanged();
+
+                getbunks();
+                getcoursemap();
+                for (Bunks c : bunks) {
+                    mapslots(c.getSlot(), c.getDays());
+                    //.d("map","Each time this comes, a slot is mapped");
+                }
+                for(int i=0;i<5;i++) {
+                    for (int j = 0; j < 9; j++) {
+                                               // initializing the textViews
+                        tvs[i][j].setText(Character.toString(slots[i][j]) + '\n' + coursemap.get(slots[i][j]));
+                        // The cells in the grid to which slots are not assigned are 'X' by default
+                        if (slots[i][j] == 'X') {
+                            // there are 3 colors in the timetable- red indicating bunked,
+                            // white indicating the presence of a slot in that hour and transparent implying free hour.
+                            tvs[i][j].setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+                //recreate();
+                ((TimetableActivity) getActivity()).returnadapter().notifyDataSetChanged();
+
+                dialog.dismiss();
+
+            }
+        });
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos_init=-1;
+                for(int i=0;i<number;i++){
+                    if((Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity())).charAt(0)==(ch)) {
+                        pos_init = i;
+                        break;
+                    }
+                }
+                Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
+                Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
+                Utils.saveprefBool("state" + 9 * x + y, false, getActivity());
+                getbunks();
+                getcoursemap();
+                for (Bunks c : bunks) {
+                    mapslots(c.getSlot(), c.getDays());
+                    //.d("map","Each time this comes, a slot is mapped");
+                }
+                for(int i=0;i<5;i++) {
+                    for (int j = 0; j < 9; j++) {
+                        // initializing the textViews
+                        tvs[i][j].setText(Character.toString(slots[i][j]) + '\n' + coursemap.get(slots[i][j]));
+                        // The cells in the grid to which slots are not assigned are 'X' by default
+                        if (slots[i][j] == 'X') {
+                            // there are 3 colors in the timetable- red indicating bunked,
+                            // white indicating the presence of a slot in that hour and transparent implying free hour.
+                            tvs[i][j].setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+                dialog.dismiss();
+                courseAdapter.notifyDataSetChanged();
+                ((TimetableActivity) getActivity()).returnadapter().notifyDataSetChanged();
+
             }
         });
     }
@@ -810,6 +1358,24 @@ public class CourseTimetableFragment extends Fragment {
             flag = flag||((c.getSlot()=='R')&&(slot=='J'||slot=='K'));
             flag = flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
             flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));
+        }
+        return flag;
+    }
+    boolean clash (String id,String slot)
+    {
+        if(Utils.isFreshie(getActivity()))
+        {
+            return false;
+        }
+        boolean flag = false;
+        for(Course c:courses)
+        {
+            flag = flag||(!c.getCourse_id().equals(id)&&Character.toString(c.getSlot()).equals(slot));
+            /*flag = flag||((c.getSlot()=='P')&&(slot=='H'||slot=='M'));
+            flag = flag||((c.getSlot()=='Q')&&(slot=='M'||slot=='H'));
+            flag = flag||((c.getSlot()=='R')&&(slot=='J'||slot=='K'));
+            flag = flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
+            flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));*/
         }
         return flag;
     }

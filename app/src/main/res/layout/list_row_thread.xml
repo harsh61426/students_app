@@ -85,7 +85,7 @@
             android:layout_alignParentTop="true"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="Title of complaint appears here. If too long, it gets ellipsized."
+            android:text="Title of hComplaint appears here. If too long, it gets ellipsized."
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
