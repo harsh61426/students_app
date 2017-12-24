@@ -26,7 +26,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="8dp">
 
             <ImageButton
@@ -63,28 +63,13 @@
                 android:layout_below="@+id/v_top"
                 android:textColor="#000000"
                 android:layout_centerHorizontal="true"
-                android:text="TextView " />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvDetails"
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:visibility="visible"
-                android:maxLines="3"
-                android:ellipsize="end"
-                android:layout_below="@+id/tvTitle"
-                android:text="Hello students"
-                android:textSize="20dp"
-                android:textColor="#757575"/>
+                android:text="Title of the event" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/bt_event"
-                android:layout_below="@+id/tvDetails"
+                android:layout_below="@+id/tvTitle"
                 android:layout_margin="4dp"
                 android:visibility="gone"
                 android:background="@drawable/ic_event_note_black_24dp"
@@ -96,8 +81,10 @@
                 android:layout_height="wrap_content"
                 android:text="Wed 14 Jun,2017"
                 android:layout_toRightOf="@+id/bt_event"
+                android:layout_toEndOf="@+id/bt_event"
                 android:layout_alignTop="@+id/bt_event"
                 android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:visibility="gone"
                 android:textSize="16dp"/>
 
@@ -120,7 +107,7 @@
                 android:layout_alignTop="@+id/bt_time"
                 android:visibility="gone"
                 android:layout_marginRight="10dp"
-                android:textSize="16dp"/>
+                android:textSize="16sp"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -154,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foregroundGravity="center"
-                android:layout_below="@+id/tvDetails"
+                android:layout_below="@+id/bt_loc"
                 android:id="@+id/fl_images"
                 android:clickable="true"
                 >
@@ -163,24 +150,12 @@
                     android:layout_width="match_parent"
                     android:id="@+id/iv_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
+                    android:scaleType="fitCenter"
                     android:background="@drawable/image_border"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:longClickable="true"
                     android:layout_margin="2dp"/>
-
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:id="@+id/iv_videocover"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:scaleType="fitXY"-->
-                    <!--android:alpha="0.75"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:adjustViewBounds="true"-->
-                    <!--android:clickable="true"-->
-                    <!--android:layout_margin="8dp"/>-->
-
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -196,7 +171,7 @@
                         android:layout_height="280dp"
                         android:id="@+id/iv_image11"
                         android:layout_margin="2dp"
-                        android:scaleType="fitXY"
+                        android:scaleType="fitCenter"
                         android:background="@drawable/border"
                         android:src="@drawable/laugh"
                         />
@@ -213,7 +188,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_marginRight="2dp"
                             android:layout_marginBottom="2dp"
-                            android:scaleType="fitXY"
+                            android:scaleType="fitCenter"
                             android:background="@drawable/border"
                             android:src="@drawable/love"/>
 
@@ -224,7 +199,7 @@
                             android:visibility="visible"
                             android:background="@drawable/border"
                             android:layout_marginRight="2dp"
-                            android:scaleType="fitXY"
+                            android:scaleType="fitCenter"
                             android:layout_below="@+id/iv_image12"
                             android:src="@drawable/love"/>
 
@@ -258,7 +233,7 @@
                         android:layout_height="280dp"
                         android:id="@+id/iv_image21"
                         android:layout_margin="2dp"
-                        android:scaleType="fitXY"
+                        android:scaleType="fitCenter"
                         android:layout_weight="1"
                         android:background="@drawable/border"
                         android:src="@drawable/laugh"
@@ -270,7 +245,7 @@
                         android:id="@+id/iv_image22"
                         android:layout_weight="1"
                         android:layout_marginRight="2dp"
-                        android:scaleType="fitXY"
+                        android:scaleType="fitCenter"
                         android:background="@drawable/border"
                         android:src="@drawable/love"/>
 
@@ -278,7 +253,80 @@
 
             </FrameLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvDetails"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"
+                android:layout_below="@+id/fl_images"
+                android:text="Hello students"
+                android:textSize="20sp"
+                android:textColor="#757575"/>
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ibt_link"
+                android:visibility="gone"
+                android:layout_margin="4dp"
+                android:layout_below="@+id/tvDetails"
+                android:src="@drawable/ic_link_black_24dp"
+                android:background="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_link"
+                android:textColor="@color/com_facebook_blue"
+                android:textSize="16sp"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                android:maxLines="1"
+                android:ellipsize="marquee"
+                android:layout_toEndOf="@+id/ibt_link"
+                android:layout_alignTop="@+id/ibt_link"
+                android:text="link click"/>
+
+            <Button
+                android:minWidth="88dp"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:focusableInTouchMode="true"
+                android:shadowRadius="2"
+                android:shadowColor="@color/red_background"
+                android:layout_below="@id/ibt_link"
+                android:id="@+id/bt_not_going"
+                android:padding="8dp"
+                android:elevation="2dp"
+                android:text="NOT GOING"
+                android:layout_marginTop="8dp"
+                android:textSize="13dp"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:background="@color/red_background"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:minWidth="88dp"
+                android:layout_height="36dp"
+                android:focusableInTouchMode="true"
+                android:shadowRadius="2"
+                android:shadowColor="@color/com_facebook_button_background_color"
+                android:layout_below="@id/ibt_link"
+                android:layout_toEndOf="@+id/bt_not_going"
+                android:id="@+id/bt_going"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:elevation="2dp"
+                android:textSize="13dp"
+                android:text="GOING"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:background="@color/polyline_blue"/>
 
             <View
                 android:layout_width="match_parent"
@@ -286,7 +334,7 @@
                 android:layout_height="2dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="12dp"
-                android:layout_below="@+id/tvDetails"/>
+                android:layout_below="@+id/bt_going"/>
 
             <ImageView
                 android:layout_width="24dp"
