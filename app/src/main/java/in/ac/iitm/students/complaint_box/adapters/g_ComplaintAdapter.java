@@ -70,10 +70,10 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         View v;
         if (latest) {
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.hostel_complaints_latest_complaint_card, parent, false);
+                    .inflate(R.layout.h_latest_complaint_card, parent, false);
         }else {
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.hostel_complaints_my_complaint_card, parent, false);
+                    .inflate(R.layout.h_my_complaint_card, parent, false);
         }
 
         g_ComplaintAdapter.ViewHolder vh = new g_ComplaintAdapter.ViewHolder(v);
