@@ -245,9 +245,11 @@ public class h_NewcomplaintFragment extends Fragment {
                         public void onErrorResponse(VolleyError error) {
 
                         }
-                    }) {
+                    })
+                    {
                         @Override
                         protected Map<String, String> getParams() {
+                            //setType
                             Map<String, String> params = new HashMap<>();
                             String hostel_name = sharedPref.getString("hostel", "narmada");
                             String room = sharedPref.getString("roomno", "1004");
@@ -272,6 +274,9 @@ public class h_NewcomplaintFragment extends Fragment {
                             params.put("DATETIME", date);
                             params.put("COMMENTS", "0");
                             params.put("MORE_ROOMS", moreRooms);
+                            //
+                            params.put("TYPE","false");
+                            //
                             return params;
                         }
                     };

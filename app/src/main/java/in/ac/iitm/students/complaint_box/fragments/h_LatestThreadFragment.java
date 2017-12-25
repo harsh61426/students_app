@@ -24,10 +24,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.objects.h_Description;
+import in.ac.iitm.students.complaint_box.objects.h_DescriptionwithFreq;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 
@@ -36,7 +39,11 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     private final String VALUE_HOSTEL = "narmada";
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
-    List<h_Complaint> hComplaintList = new ArrayList<>();
+    ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
+    HashMap<String,ArrayList<h_Description>> hComplaintTitleHash = new HashMap<>();
+    //ArrayList<h_Description> hComplaintDescription = new ArrayList<>();
+    ArrayList<String> hComplaintTitle=new ArrayList<>();
+    ArrayList<ArrayList<h_DescriptionwithFreq>> hComplaintDescription=new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -77,16 +84,74 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
             public void onResponse(String response) {
                 Log.d("latest tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
-                ArrayList<h_Complaint> hComplaintArray = null;
+                //ArrayList<h_Complaint> hComplaintArray=null;
                 try {
-                    hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
+                    hComplaintList = hJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
                 }
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true);
+                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true);
+                int j=hComplaintList.size()-1;
+                //bringing false to top
+                for(int i=0;i<j;i++){
+                    if(hComplaintList.get(i).isType()){
+                        while(!hComplaintList.get(j).isType())
+                            j--;
+                        Collections.swap(hComplaintList,i,j);
+                        j--;
+                    }
+                }
+
+                for(int i=0;i<hComplaintList.size();i++){
+                    h_Description hd=new h_Description(hComplaintList.get(i).getDescription(),hComplaintList.get(i).getProximity());
+
+
+                    if(!hComplaintTitleHash.containsKey(hComplaintList.get(i).getTitle())){
+                        ArrayList<h_Description> ahd=new ArrayList<>();
+                        ahd.add(hd);
+                        hComplaintTitleHash.put(hComplaintList.get(i).getTitle(),ahd);
+                    }
+                    else{
+                        hComplaintTitleHash.get(hComplaintList.get(i).getTitle()).add(hd);
+                    }
+                }
+
+                hComplaintTitle = new ArrayList<String>(hComplaintTitleHash.keySet());
+
+                for(String i:hComplaintTitle){
+
+                    ArrayList<h_DescriptionwithFreq> hComplaintDescriptionwithFreq=new ArrayList<>();
+                    for(int k=0;k<hComplaintTitleHash.get(i).size();k++){
+
+                        int freq=1;
+                        for(int m=k+1;m<hComplaintTitleHash.get(i).size();m++){
+                            if(hComplaintTitleHash.get(i).get(k).getDescription().equals(hComplaintTitleHash.get(i).get(m).getDescription())){
+                                if(hComplaintTitleHash.get(i).get(k).getProximity().equals(hComplaintTitleHash.get(i).get(m).getProximity())){
+                                    freq++;
+                                    hComplaintTitleHash.get(i).remove(m);
+                                    m--;
+                                }
+                            }
+                        }
+                        h_DescriptionwithFreq hdf=new h_DescriptionwithFreq(hComplaintTitleHash.get(i).get(k).getDescription(),hComplaintTitleHash.get(i).get(k).getProximity(),freq);
+                        hComplaintDescriptionwithFreq.add(hdf);
+                    }
+                    hComplaintDescription.add(hComplaintDescriptionwithFreq);
+                }
+
+
+
+
+
+
+
+
+
+
+
                 mRecyclerView.setAdapter(mAdapter);
                 // mAdapter.notifyDataSetChanged();
 

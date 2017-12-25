@@ -22,6 +22,7 @@ public class h_Complaint implements Serializable {
     private int comments;
     private String hostel;
     private String moreRooms;
+    private boolean type;
 
     public static h_Complaint getErrorComplaintObject() {
         h_Complaint hComplaint = new h_Complaint();
@@ -149,4 +150,8 @@ public class h_Complaint implements Serializable {
     public String getMoreRooms() { return moreRooms;}
 
     public void setMoreRooms(String moreRooms){this.moreRooms = moreRooms;}
+
+    public boolean isType() {
+        return type;
+    }
 }
