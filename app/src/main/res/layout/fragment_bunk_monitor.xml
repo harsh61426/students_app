@@ -5,13 +5,18 @@
     android:layout_height="match_parent"
     tools:context="in.ac.iitm.students.fragments.BunkMonitorFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/instructions"/>
+
     <GridView
         android:id="@+id/bunk_list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="371dp"
         android:layout_gravity="center"
         android:layout_margin="4dp"
-        android:layout_weight="1"
+
         android:horizontalSpacing="8dp"
         android:verticalSpacing="8dp"
         android:visibility="visible" />

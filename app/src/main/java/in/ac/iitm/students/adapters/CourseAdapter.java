@@ -28,9 +28,6 @@ import in.ac.iitm.students.objects.Course;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-/**
- * Created by SAM10795 on 14-06-2017.
- */
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
@@ -50,6 +47,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         LinearLayout container;
         TextView slot;
         TextView courseid;
+        TextView days;
         //Checkboxes: D1 = 2, D2 = 3, D3 = 5, D4 = 7
         TextView c1;
         TextView c2;
@@ -62,6 +60,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         {
             super(view);
             container = (LinearLayout) view.findViewById(R.id.container);
+            days=(TextView) view.findViewById(R.id.textView3);
             c1 = (TextView) view.findViewById(R.id.day1);
             c2 = (TextView) view.findViewById(R.id.day2);
             c2.setVisibility(View.INVISIBLE);
@@ -289,6 +288,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 break;
         }
 
+        if((holder.c1.getVisibility()==View.INVISIBLE||holder.c1.getVisibility()==View.GONE)&&(holder.c2.getVisibility()==View.INVISIBLE||holder.c2.getVisibility()==View.GONE)&&(holder.c3.getVisibility()==View.INVISIBLE||holder.c3.getVisibility()==View.GONE)&&(holder.c4.getVisibility()==View.INVISIBLE||holder.c4.getVisibility()==View.GONE))
+            holder.days.setText("");
 
         holder.slot.setText("Slot: "+courses.get(position).getSlot());
         holder.courseid.setText("Course ID: "+courses.get(position).getCourse_id());

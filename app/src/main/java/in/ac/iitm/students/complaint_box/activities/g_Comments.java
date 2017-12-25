@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +39,7 @@ public class g_Comments extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     // private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/searchComment.php";
-    private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/searchComment.php";
+    private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/searchComments.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class g_Comments extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.e("Comment response",response);
 
                 h_CmntDataParser hCmntDataParser = new h_CmntDataParser(response, getApplicationContext());
                 ArrayList<h_CommentObj> commentArray = null;

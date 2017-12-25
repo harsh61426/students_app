@@ -90,7 +90,7 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                 }
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true);
+                mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext());
                 mRecyclerView.setAdapter(mAdapter);
                 // mAdapter.notifyDataSetChanged();
 
