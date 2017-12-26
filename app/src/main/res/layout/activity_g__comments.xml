@@ -217,29 +217,56 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_comments"
+    <LinearLayout
+        android:id="@+id/new_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignEnd="@+id/comment_card"
         android:layout_alignLeft="@+id/comment_card"
         android:layout_alignRight="@+id/comment_card"
         android:layout_alignStart="@+id/comment_card"
-        android:layout_below="@+id/comment_card">
+        android:layout_below="@+id/comment_card"
+        android:orientation="vertical"
+        android:layout_marginBottom="5dp">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_comments"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignEnd="@+id/comment_card"
+            android:layout_alignLeft="@+id/comment_card"
+            android:layout_alignRight="@+id/comment_card"
+            android:layout_alignStart="@+id/comment_card"
+            android:layout_below="@+id/comment_card"
+            android:layout_weight="3">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/comment_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/comment_card"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/comment_card"
-        android:layout_marginBottom="10dp"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </android.support.v7.widget.RecyclerView>
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@+id/bn_save"
+            android:layout_alignEnd="@+id/rv_comments"
+            android:layout_alignStart="@+id/rv_comments"
+            android:layout_weight="1"
+            android:background="@drawable/tv_border"
+            android:gravity="start"
+            android:hint="Enter your comment here.."
+            android:inputType="text|textMultiLine"
+            android:padding="10dp" />
+
+
+        <Button
+            android:id="@+id/bn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/new_ll"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@+id/new_ll"
+            android:text="SAVE" />
+    </LinearLayout>
 
 </RelativeLayout>
 

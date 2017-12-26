@@ -79,7 +79,7 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Log.d("latest tag", response);
+                Log.e("latest tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
                 ArrayList<h_Complaint> hComplaintArray = null;
                 try {
@@ -90,7 +90,7 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                 }
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true);
+                mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext());
                 mRecyclerView.setAdapter(mAdapter);
                 // mAdapter.notifyDataSetChanged();
 

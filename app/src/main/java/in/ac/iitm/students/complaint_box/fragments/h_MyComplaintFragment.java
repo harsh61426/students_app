@@ -3,6 +3,8 @@ package in.ac.iitm.students.complaint_box.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -57,7 +58,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.hostel_complaints_fragment_my_complaint, container, false);
+        View view = inflater.inflate(R.layout.h_fragment_my_complaint, container, false);
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_my_complaint);
         swipeLayout.setOnRefreshListener(this);
 
@@ -75,7 +76,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
-               // Log.d("tag", response);
+                //Log.d("tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
 
                 ArrayList<h_Complaint> hComplaintArray = null;
@@ -83,10 +84,20 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                     hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar
+                            .make(getActivity().findViewById(R.id.main_content), "Error fetching the complaints", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                    hComplaintArray = new ArrayList<>();
+                    hComplaintArray.add(h_Complaint.getErrorComplaintObject());
+
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mRecyclerView.setAdapter(mAdapter);
                 }
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false);
+                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
 
@@ -94,8 +105,18 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "No internet connectivity", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "No internet connectivity", Toast.LENGTH_SHORT).show();
 
+                Snackbar snackbar = Snackbar
+                        .make(getActivity().findViewById(R.id.main_content), "No Internet Connection", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+                ArrayList<h_Complaint> hComplaintArray = new ArrayList<>();
+                hComplaintArray.add(h_Complaint.getErrorComplaintObject());
+
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mRecyclerView.setAdapter(mAdapter);
             }
         }) {
             @Override

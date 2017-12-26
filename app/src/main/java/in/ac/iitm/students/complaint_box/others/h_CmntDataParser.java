@@ -2,6 +2,7 @@ package in.ac.iitm.students.complaint_box.others;
 
 import android.content.Context;
 import android.util.JsonReader;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -67,6 +68,7 @@ public class h_CmntDataParser {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
+            Log.e("name",name);
             if (name.equals("name")) {
                 hCommentObj.setName(reader.nextString());
             } else if (name.equals("rollno")) {
@@ -77,10 +79,11 @@ public class h_CmntDataParser {
                 hCommentObj.setCommentStr(reader.nextString());
             } else if (name.equals("datetime")) {
                 hCommentObj.setDate(reader.nextString());
-            } else if (name.equals("error")) {
-                reader.nextString();
             } else if (name.equals("status")) {
                 reader.nextString();
+            } else if (name.equals("error")) {
+                reader.nextString();
+                //Log.e("reader",reader+"");
                 reader.endObject();
                 return h_CommentObj.getErrorCommentObject();
 
