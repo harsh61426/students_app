@@ -1,9 +1,12 @@
 package in.ac.iitm.students.activities.main;
 
 import android.Manifest;
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -63,13 +66,10 @@ import static in.ac.iitm.students.others.InstiCalendar.CalID;
  */
 
 public class CalendarActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
     public static int currentlyDisplayedMonth;
-    //RecyclerView recyclerView;
-    //RecyclerView.Adapter recyclerAdapter;
-    //RecyclerView.LayoutManager layoutManager;
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -84,46 +84,44 @@ public class CalendarActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        //Checking the permission for writing calendar
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_CALENDAR)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_CALENDAR)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                Snackbar snackbar = Snackbar
-                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
-                snackbar.show();
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_CALENDAR},
-                        HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_CALENDAR},
-                        HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
-        else{
-            new InstiCalendar(CalendarActivity.this).fetchCalData(1);
-        }
-
-
+//
+//        //Checking the permission for writing calendar
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.WRITE_CALENDAR)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.WRITE_CALENDAR)) {
+//
+//                // Show an explanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//
+//                Snackbar snackbar = Snackbar
+//                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
+//                snackbar.show();
+//
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.WRITE_CALENDAR},
+//                        HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+//
+//            } else {
+//
+//                // No explanation needed, we can request the permission.
+//
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.WRITE_CALENDAR},
+//                        HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//        }
+//        else{
+////            getLoaderManager().initLoader(0, null,this);
+//        }
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
@@ -240,42 +238,38 @@ public class CalendarActivity extends AppCompatActivity
                 .centerCrop()
                 .into(imageView);
 
-
-
-
-
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                    new InstiCalendar(CalendarActivity.this).fetchCalData(1);
-
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Intent intent = new Intent(CalendarActivity.this,HomeActivity.class);
-                    startActivity(intent);
-                }
-                return;
-
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-        return;
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           String permissions[], int[] grantResults) {
+//        switch (requestCode) {
+//            case HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                    // permission was granted, yay! Do the
+//                    // contacts-related task you need to do.
+//                    new InstiCalendar(CalendarActivity.this).fetchCalData(1);
+//
+//
+//                } else {
+//
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                    Intent intent = new Intent(CalendarActivity.this,HomeActivity.class);
+//                    startActivity(intent);
+//                }
+//                return;
+//
+//            }
+//
+//            // other 'case' lines to check for other
+//            // permissions this app might request
+//        }
+//        return;
+//    }
 
 
     @Override
@@ -293,17 +287,17 @@ public class CalendarActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.calendar_menu, menu);
 
-        if(InstiCalendar.getCalendarId(CalendarActivity.this)==-1){
-            Utils.saveprefInt("CalStat",0,this);
-        }else{
+//        if(InstiCalendar.getCalendarId(CalendarActivity.this)==-1){
+//            Utils.saveprefInt("CalStat",0,this);
+//        }else{
             Utils.saveprefInt("CalStat",1,this);
-        }
-
-        MenuItem item=menu.getItem(0); // here itemIndex is int
-        if(Utils.getprefInt("CalStat",this)==0)
-            item.setTitle("Insert Calendar");
-        else
-            item.setTitle("Remove Calendar");
+//        }
+//
+//        MenuItem item=menu.getItem(0); // here itemIndex is int
+//        if(Utils.getprefInt("CalStat",this)==0)
+//            item.setTitle("Insert Calendar");
+//        else
+//            item.setTitle("Remove Calendar");
 
         return true;
     }
@@ -324,25 +318,25 @@ public class CalendarActivity extends AppCompatActivity
             LogOutAlertClass lg = new LogOutAlertClass();
             lg.isSure(CalendarActivity.this);
             return true;
-        } else if(id == R.id.calendar_sync){
-            InstiCalendar instiCalendar = new InstiCalendar(this);
-            if(Utils.getprefInt("CalStat",this)==1){
-                InstiCalendar.deleteCalendarTest(this, toString().valueOf(InstiCalendar.getCalendarId(this)));
-                item.setTitle("Insert Calendar");
-            }else{
-                InstiCalendar.CalID =new InstiCalendar(CalendarActivity.this).insertCalendar(this);
-
-                Utils.saveprefLong("CalID", CalID, this);
-                //Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
-                instiCalendar.deleteallevents();
-                InstiCalendar.sendJsonRequest(this, 0);
-                Utils.saveprefString("Cal_Ver", new InstiCalendar(CalendarActivity.this).getVersion(), this);
-
-
-                item.setTitle("Remove Calendar");
-            }
-            return true;
         }
+//        else if(id == R.id.calendar_sync){
+//            InstiCalendar instiCalendar = new InstiCalendar(this);
+//            if(Utils.getprefInt("CalStat",this)==1){
+//                InstiCalendar.deleteCalendarTest(this, toString().valueOf(InstiCalendar.getCalendarId(this)));
+//                item.setTitle("Insert Calendar");
+//            }else{
+////                InstiCalendar.CalID =new InstiCalendar(CalendarActivity.this).insertCalendar(this);
+//
+//                Utils.saveprefLong("CalID", CalID, this);
+//                //Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
+//                instiCalendar.deleteallevents();
+//                InstiCalendar.sendJsonRequest(this, 0);
+//                Utils.saveprefString("Cal_Ver", new InstiCalendar(CalendarActivity.this).getVersion(), this);
+//
+//                item.setTitle("Remove Calendar");
+//            }
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -462,4 +456,6 @@ public class CalendarActivity extends AppCompatActivity
         return true;
 
     }
+
+
 }

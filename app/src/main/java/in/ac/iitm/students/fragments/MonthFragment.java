@@ -1,8 +1,11 @@
 package in.ac.iitm.students.fragments;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +24,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MonthFragment extends Fragment {
+public class MonthFragment extends Fragment{
 
     // todo dont make them static, find a work-around
     public  DayAdapter adapter;
@@ -52,7 +55,6 @@ public class MonthFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,12 +65,13 @@ public class MonthFragment extends Fragment {
         setMonthName(monthNo);
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_month);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        rv.setLayoutManager(llm);
         //rv.setHasFixedSize(true);
         adapter = new DayAdapter(month_events, getActivity());
         rv.setAdapter(adapter);
+//        getLoaderManager().initLoader(0, null, this);
 
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
         currentMonth = Calendar.getInstance().get(Calendar.MONTH);
         currentDate = Calendar.getInstance().get(Calendar.DATE);
         if(currentMonth>=6)
@@ -90,4 +93,5 @@ public class MonthFragment extends Fragment {
         this.month_events = month_events;
         monthNo = i;
     }
+
 }
