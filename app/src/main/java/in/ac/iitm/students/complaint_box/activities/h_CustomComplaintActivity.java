@@ -39,7 +39,7 @@ public class h_CustomComplaintActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hostel_complaints_activity_custom_complaint);
+        setContentView(R.layout.h_activity_custom_complaint);
 
         final SharedPreferences sharedPref = h_CustomComplaintActivity.this.getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
