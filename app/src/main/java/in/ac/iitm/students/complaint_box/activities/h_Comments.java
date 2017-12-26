@@ -90,7 +90,7 @@ public class h_Comments extends AppCompatActivity {
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
 
-                mAdapter = new h_CommentsAdapter(commentArray);
+                mAdapter = new h_CommentsAdapter(commentArray,getApplicationContext());
                 mRecyclerView.setAdapter(mAdapter);
             }
 

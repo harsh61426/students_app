@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,18 +21,26 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
+import in.ac.iitm.students.complaint_box.fragments.g_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
 import in.ac.iitm.students.complaint_box.objects.h_Complaint;
 import in.ac.iitm.students.complaint_box.others.h_CmntDataParser;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 public class g_Comments extends AppCompatActivity {
 
@@ -47,6 +57,11 @@ public class g_Comments extends AppCompatActivity {
         setContentView(R.layout.activity_g__comments);
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
+        //final String add_url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/newComment.php";
+        final String add_url = "https://rockstarharshitha.000webhostapp.com/general_complaints/newComment.php";
+        final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
+        final String NAME = Utils.getprefString(UtilStrings.NAME, this);
+
         Intent i = getIntent();
         final h_Complaint hComplaint = (h_Complaint) i.getSerializableExtra("cardData");
 
@@ -58,7 +73,8 @@ public class g_Comments extends AppCompatActivity {
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
         final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
         TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
-        FloatingActionButton fab_comment = (FloatingActionButton) findViewById(R.id.comment_fab);
+        final EditText CmntDesc = (EditText) findViewById(R.id.editText);
+        Button save = (Button) findViewById(R.id.bn_save);
 
         name.setText(hComplaint.getName());
         hostel.setText(sharedPref.getString("hostel", "narmada"));
@@ -90,7 +106,7 @@ public class g_Comments extends AppCompatActivity {
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
 
-                mAdapter = new h_CommentsAdapter(commentArray);
+                mAdapter = new h_CommentsAdapter(commentArray,getApplicationContext());
                 mRecyclerView.setAdapter(mAdapter);
             }
 
@@ -120,19 +136,6 @@ public class g_Comments extends AppCompatActivity {
         //volley singleton - ensures single request queue in an app
         MySingleton.getInstance(this).addToRequestQueue(request);
 
-        if (!hComplaint.isResolved()) {
-            fab_comment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(g_Comments.this, g_AddYourComment.class);
-                    intent.putExtra("cardData", hComplaint);
-                    startActivity(intent);
-                }
-            });
-        } else {
-            fab_comment.setVisibility(View.GONE);
-        }
-
 
         //lite
         int MY_SOCKET_TIMEOUT_MS = 5000;
@@ -140,6 +143,65 @@ public class g_Comments extends AppCompatActivity {
                 MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String cmntDescStr = CmntDesc.getText().toString();
+                //write code here to send the comment description to the database, increase the number of comments in database by 1
+                final String mUUID = hComplaint.getUid();
+
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, add_url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(g_Comments.this, "sending comment...", Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject jsObject = new JSONObject(response);
+
+                            if (jsObject.has("error")) {
+                                Toast.makeText(g_Comments.this, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                            } else if (jsObject.has("status")) {
+                                String status = jsObject.getString("status");
+                                if (status == "1") {
+                                    Intent intent = new Intent(g_Comments.this,g_LatestThreadFragment.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(g_Comments.this, "Error", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(g_Comments.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+                        String hostel_name = sharedPref.getString("hostel", "narmada");
+                        String room = sharedPref.getString("roomno", "1004");
+                        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+                        params.put("HOSTEL", hostel_name);
+                        params.put("NAME", "Omkar Patil");
+                        params.put("ROLL_NO", "me15b123");
+                        params.put("ROOM_NO", room);
+                        params.put("COMMENT", cmntDescStr);
+                        params.put("UUID", mUUID);
+                        params.put("DATE_TIME", date);
+                        return params;
+                    }
+                };
+                MySingleton.getInstance(g_Comments.this).addToRequestQueue(stringRequest);
+            }
+        });
 
 
     }
