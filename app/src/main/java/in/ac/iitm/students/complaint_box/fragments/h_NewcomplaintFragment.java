@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +86,7 @@ public class h_NewcomplaintFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.hostel_complaints_fragment_new_complaint, container, false);
+        View view = inflater.inflate(R.layout.h_fragment_new_complaint, container, false);
 
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
@@ -223,19 +225,32 @@ public class h_NewcomplaintFragment extends Fragment {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            Log.d("panc", "response: " + response);
                             try {
                                 JSONObject jsObject = new JSONObject(response);
                                 String status = jsObject.getString("status");
                                 if (status.equals("1")) {
-                                    //finish();
+                                    Log.d("panc", "succ");
                                     Intent intent = new Intent(getContext(), HostelComplaintsActivity.class);
                                     startActivity(intent);
 
+                                    Snackbar snackbar = Snackbar
+                                            .make(getActivity().findViewById(R.id.cl_new_comp), "Complaint registered successfully", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+
                                 } else if (status.equals("0")) {
-                                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                                    Log.d("panc", "fali");
+                                    Snackbar snackbar = Snackbar
+                                            .make(getActivity().findViewById(R.id.cl_new_comp), "Error registering Complaint", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+
+                                Snackbar snackbar = Snackbar
+                                        .make(getActivity().findViewById(R.id.cl_new_comp), "Error registering Complaint", Snackbar.LENGTH_LONG);
+                                snackbar.show();
                             }
 
 
@@ -244,12 +259,13 @@ public class h_NewcomplaintFragment extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+                            Snackbar snackbar = Snackbar
+                                    .make(getActivity().findViewById(R.id.cl_new_comp), "Error registering Complaint", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
-                    })
-                    {
+                    }) {
                         @Override
                         protected Map<String, String> getParams() {
-                            //setType
                             Map<String, String> params = new HashMap<>();
                             String hostel_name = sharedPref.getString("hostel", "narmada");
                             String room = sharedPref.getString("roomno", "1004");
@@ -274,9 +290,7 @@ public class h_NewcomplaintFragment extends Fragment {
                             params.put("DATETIME", date);
                             params.put("COMMENTS", "0");
                             params.put("MORE_ROOMS", moreRooms);
-                            //
-                            params.put("TYPE","false");
-                            //
+                            params.put("CUSTOM", "0");
                             return params;
                         }
                     };

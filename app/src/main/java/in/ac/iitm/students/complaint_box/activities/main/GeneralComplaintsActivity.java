@@ -124,7 +124,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
     private void setupViewPager(ViewPager viewPager) {
         GeneralComplaintsActivity.ViewPagerAdapter adapter = new GeneralComplaintsActivity.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new g_LatestThreadFragment(), "Latest thread");
+        adapter.addFragment(new g_LatestThreadFragment(), "Trending");
         adapter.addFragment(new g_MyComplaintFragment(), "My complaints");
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);

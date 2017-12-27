@@ -22,6 +22,8 @@ public class h_Complaint implements Serializable {
     private int comments;
     private String hostel;
     private String moreRooms;
+    private String imageUrl;
+    private Boolean custom;
     private boolean type;
 
     public static h_Complaint getErrorComplaintObject() {
@@ -32,11 +34,28 @@ public class h_Complaint implements Serializable {
         hComplaint.setComments(0);
         hComplaint.setDate("00-00-0000");
         hComplaint.setResolved(true);
+        hComplaint.setCustom(true);
         hComplaint.setHostel("IIT Madras");
         hComplaint.setTag("#instimobops");
         hComplaint.setTitle("Error getting complaints!");
         hComplaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
         return hComplaint;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Boolean getCustom() {
+        return custom;
+    }
+
+    public void setCustom(Boolean custom) {
+        this.custom = custom;
     }
 
     public String getName() {

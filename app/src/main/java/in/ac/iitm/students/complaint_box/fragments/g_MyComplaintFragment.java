@@ -80,7 +80,7 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
-                 Log.d("tag", response);
+                 Log.e("tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
 
                 ArrayList<h_Complaint> hComplaintArray = null;
@@ -91,7 +91,7 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                     Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
                 }
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false);
+                mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext());
                 mRecyclerView.setAdapter(mAdapter);
 
 

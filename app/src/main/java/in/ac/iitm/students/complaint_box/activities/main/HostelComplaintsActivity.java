@@ -62,7 +62,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hostel_complaints_activity_hostel_complaints);
+        setContentView(R.layout.h_activity_hostel_complaints);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -331,6 +331,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
+
         }
 
         @Override

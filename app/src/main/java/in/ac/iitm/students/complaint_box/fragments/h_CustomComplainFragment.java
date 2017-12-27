@@ -89,7 +89,7 @@ public class h_CustomComplainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.hostel_complaints_fragment_custom_complaint, container, false);
+        View view = inflater.inflate(R.layout.h_fragment_custom_complaint, container, false);
 
 
         Button saveCustomCmplnt = (Button) view.findViewById(R.id.button_save);
@@ -219,7 +219,7 @@ public class h_CustomComplainFragment extends Fragment {
 
                 final AlertDialog addImage = new AlertDialog.Builder(getActivity()).create();
                 LayoutInflater factory = LayoutInflater.from(getActivity());
-                final View view = factory.inflate(R.layout.hostel_complaints_alert_addimage, null);
+                final View view = factory.inflate(R.layout.h_alert_addimage, null);
                 FloatingActionButton ibt_camera = (FloatingActionButton) view.findViewById(R.id.ibt_camera);
                 FloatingActionButton ibt_gallery = (FloatingActionButton) view.findViewById(R.id.ibt_gallery);
 

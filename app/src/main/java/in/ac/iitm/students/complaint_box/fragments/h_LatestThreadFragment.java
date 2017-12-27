@@ -3,6 +3,8 @@ package in.ac.iitm.students.complaint_box.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,7 +66,7 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.hostel_complaints_fragment_latest_thread, container, false);
+        View view = inflater.inflate(R.layout.h_fragment_latest_thread, container, false);
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_latest_thread);
         swipeLayout.setOnRefreshListener(this);
 
@@ -82,15 +84,20 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("latest tag", response);
+                Log.d("lanag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
                 //ArrayList<h_Complaint> hComplaintArray=null;
                 try {
                     hComplaintList = hJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
-                }
+                    Snackbar snackbar = Snackbar
+                            .make(getActivity().findViewById(R.id.main_content), "Error fetching the complaints", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
+
+                    hComplaintArray = new ArrayList<>();
+                    hComplaintArray.add(h_Complaint.getErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true);
@@ -160,7 +167,17 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "No internet connectivity", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "No internet connectivity", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(getActivity().findViewById(R.id.main_content), "No Internet Connection", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+                ArrayList<h_Complaint> hComplaintArray = new ArrayList<>();
+                hComplaintArray.add(h_Complaint.getErrorComplaintObject());
+
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mRecyclerView.setAdapter(mAdapter);
 
             }
         }) {

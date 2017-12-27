@@ -3,7 +3,6 @@ package in.ac.iitm.students.complaint_box.activities;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -26,18 +24,17 @@ import in.ac.iitm.students.others.Utils;
 /**
  * Created by dell on 21-06-2017.
  */
-public class h_NewComplaintActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
+public class h_NewComplaintActivity extends AppCompatActivity {
 
     private ArrayList<String> imageUrls;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private FloatingActionButton fab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hostel_complaints_activity_new_complaint);
+        setContentView(R.layout.h_activity_new_complaint);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -62,11 +59,6 @@ public class h_NewComplaintActivity extends AppCompatActivity implements ViewPag
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
-        fab.setOnClickListener(h_NewComplaintActivity.this);
-
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -74,33 +66,6 @@ public class h_NewComplaintActivity extends AppCompatActivity implements ViewPag
         adapter.addFragment(new h_NewcomplaintFragment(), "New Complaint");
         adapter.addFragment(new h_CustomComplainFragment(), "Custom Complaint");
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(this);
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (position == 0)
-            fab.show();
-        else
-            fab.hide();
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        if (position == 0)
-            fab.show();
-        else
-            fab.hide();
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
