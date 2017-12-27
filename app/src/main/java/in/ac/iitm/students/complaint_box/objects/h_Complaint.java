@@ -65,6 +65,8 @@ public class h_Complaint implements Serializable {
         this.name = name;
     }
 
+    public String getRollNo(){return rollNo;}
+
     public void setRollNo(String rollNo) {
         this.rollNo = rollNo;
     }

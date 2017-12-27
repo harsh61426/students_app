@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,6 +94,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         Button bn_comment = (Button) holder.view.findViewById(R.id.bn_comment);
         ImageView iv_profile = (ImageView) holder.view.findViewById(R.id.imgProfilePicture);
         LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_comment);
+        RelativeLayout relativeLayout=(RelativeLayout)holder.view.findViewById(R.id.rl_name);
 
 
         final h_Complaint hComplaint = mDataset.get(position);
@@ -117,6 +119,22 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         }
 
         final String mUUID = hComplaint.getUid();
+
+        if(hComplaint.getRollNo()== context.getString(R.string.acaf_roll) ||
+                hComplaint.getRollNo()==context.getString(R.string.resaf_roll)||
+                hComplaint.getRollNo()== context.getString(R.string.sgs_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.cocas_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.has_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.culsec_lit_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.culsec_arts_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.iar_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.speaker_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.sports_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.mitr_roll) ||
+                hComplaint.getRollNo()== context.getString(R.string.cfi_roll) ) {
+
+            relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.red_background));
+        }
 
         if (hComplaint.isResolved()) {
             linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.resolved_colour));
