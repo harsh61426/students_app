@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,11 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,11 +35,14 @@ import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.h_Complaint;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
@@ -44,6 +54,7 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
     //private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/getAllComplaints.php";
     private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/getAllComplaints.php";
 
@@ -54,8 +65,8 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,9 +80,28 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         getAllComplaints();
+
+        if (getArguments() != null) {
+            String searchResponse = getArguments().getString("tagSearch");
+            Log.e("searchResponse",searchResponse);
+            h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(searchResponse, getActivity());
+            ArrayList<h_Complaint> hComplaintArray = null;
+            try {
+                hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
+                Log.e("ComplaintArray",hComplaintArray.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
+            }
+
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext());
+            mRecyclerView.setAdapter(mAdapter);
+
+        }
+
         return view;
     }
-
 
     public void getAllComplaints() {
 
@@ -146,4 +176,6 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
             }
         }, 3000);
     }
+
+
 }
