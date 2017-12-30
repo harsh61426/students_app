@@ -45,7 +45,7 @@ import in.ac.iitm.students.others.MySingleton;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
-public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class g_LatestThreadFragment extends Fragment implements Updateable,SwipeRefreshLayout.OnRefreshListener{
 
     private final String VALUE_HOSTEL = "narmada";
     private final String KEY_HOSTEL = "HOSTEL";
@@ -81,14 +81,21 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         mLayoutManager = new LinearLayoutManager(getContext());
         getAllComplaints();
 
-        if (getArguments() != null) {
-            String searchResponse = getArguments().getString("tagSearch");
-            Log.e("searchResponse",searchResponse);
+        return view;
+    }
+
+    @Override
+    public void update(String string) {
+        String searchResponse =string;
+        //if (getArguments() != null) {
+        if(searchResponse!=null){
+            //String searchResponse = getArguments().getString("tagSearch");
+            Log.d("searchResponse",searchResponse);
             h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(searchResponse, getActivity());
             ArrayList<h_Complaint> hComplaintArray = null;
             try {
                 hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
-                Log.e("ComplaintArray",hComplaintArray.toString());
+                //Log.e("ComplaintArray",hComplaintArray.toString());
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
@@ -99,8 +106,6 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
             mRecyclerView.setAdapter(mAdapter);
 
         }
-
-        return view;
     }
 
     public void getAllComplaints() {
