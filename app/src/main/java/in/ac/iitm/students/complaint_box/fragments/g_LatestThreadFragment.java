@@ -83,7 +83,8 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
                 ArrayList<h_Complaint> hComplaintArray = null;
                 try {
-                    hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
+                    //fix
+                    hJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();

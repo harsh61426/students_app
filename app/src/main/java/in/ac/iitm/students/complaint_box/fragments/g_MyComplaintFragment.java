@@ -85,7 +85,8 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
 
                 ArrayList<h_Complaint> hComplaintArray = null;
                 try {
-                    hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
+                    //fix
+                    hJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();

@@ -198,13 +198,14 @@ public class h_CustomComplainFragment extends Fragment {
                             params.put("COMMENTS", "0");
                             params.put("IMAGEURL", finalImageUrl);
                             params.put("MORE_ROOMS", moreRooms);
+                            params.put("CUSTOM", "1");
                             return params;
                         }
                     };
                     MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
                 } else {
                     Log.d("test","type appropraite title and description");
-                    Toast.makeText(getContext(), "type appropraite title and description", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "type appropriate title and description", Toast.LENGTH_SHORT).show();
                 }
                 //Intent intent = new Intent(getContext(), HostelComplaintsActivity.class);
                 //startActivity(intent);
