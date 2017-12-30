@@ -146,17 +146,16 @@ public class NameSearchFragment extends Fragment {
 
         Uri.Builder builder = new Uri.Builder();
 
-        builder.scheme("https")//https://students.iitm.ac.in/studentsapp/map/get_location.php?
+        builder.scheme("https")//https://students.iitm.ac.in/studentsapp/studentlist/search_by_name.php
                 .authority("students.iitm.ac.in")
                 .appendPath("studentsapp")
                 .appendPath("studentlist")
-                .appendPath("getresultbyname.php")
-                .appendQueryParameter("name", query);
+                .appendPath("search_by_name.php");
 
         String url = builder.build().toString();
 //        Log.d("URL", url);
         // Request a string response from the provided URL.
-        StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
+        StringRequest jsonObjReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
 
             @Override
@@ -209,7 +208,14 @@ public class NameSearchFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 progressSearch.setVisibility(View.GONE);
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", etSearch.getText().toString());
+                return params;
+            }
+        };
 
         jsonObjReq.setTag("tag");
         MySingleton.getInstance(context).addToRequestQueue(jsonObjReq);

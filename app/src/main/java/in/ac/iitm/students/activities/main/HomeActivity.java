@@ -1,6 +1,5 @@
 package in.ac.iitm.students.activities.main;
 
-import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -88,7 +86,6 @@ import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
-import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -280,6 +277,14 @@ public class HomeActivity extends AppCompatActivity
 ////                if(Utils.getprefInt("CalStat",this)==1)
 ////                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
 ////        }
+
+        Utils.saveprefString(UtilStrings.NAME, "Omkar Patil", getBaseContext());
+        Utils.saveprefString(UtilStrings.HOSTEl, "narmada", getBaseContext());
+        Utils.saveprefString(UtilStrings.ROOM, "1004", getBaseContext());
+        Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt("1"), getBaseContext());
+        Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt("1"), getBaseContext());
+        Utils.saveprefString(UtilStrings.ROLLNO, "ME15B123", getBaseContext());
+        Utils.saveprefBool(UtilStrings.LOGEDIN, true, this);
 
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
