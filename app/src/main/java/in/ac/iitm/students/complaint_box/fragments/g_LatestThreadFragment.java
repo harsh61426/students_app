@@ -110,7 +110,8 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
                 ArrayList<Complaint> hComplaintArray = null;
                 try {
-                    hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
+                    //fix
+                    hJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Snackbar snackbar = Snackbar
