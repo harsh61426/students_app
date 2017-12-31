@@ -25,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +38,8 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.h_Comments;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 /**
  * Created by harisanker on 22/6/17.
@@ -99,8 +102,16 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
         final ImageButton bn_more_rooms = (ImageButton)holder.view.findViewById(R.id.more_rooms);
         if(!latest) bn_resolve = (Button)holder.view.findViewById(R.id.bn_resolve);
 
-
         hComplaint = mDataset.get(position);
+        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + hComplaint.getRollNo().toUpperCase() + ".JPG";
+        Picasso.with(context)
+                .load(urlPic)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .fit()
+                .centerCrop()
+                .into(iv_profile);
+
 
         tv_name.setText(hComplaint.getName());
         tv_hostel.setText(hComplaint.getHostel());
@@ -111,7 +122,6 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
         tv_downvote.setText("" + hComplaint.getDownvotes());
         tv_comment.setText("" + hComplaint.getComments());
 
-        //todo use glide and get profile picture
 
         final String mUUID = hComplaint.getUid();
 
@@ -310,7 +320,8 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
             @Override
             public void onClick(View v) {
                 //if custom hComplaint
-                String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/resolve.php";
+                String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/resolve.php";
+                //String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/resolve.php";
                 StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -366,7 +377,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                         Map<String, String> params = new HashMap<String, String>();
                         //get hostel from prefs
                         //put some dummy for now
-                        params.put("HOSTEL", "narmada");
+                        params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
                         params.put("UUID", mUUID);
                         return params;
                     }

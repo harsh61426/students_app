@@ -38,8 +38,8 @@ public class h_CustomComplaintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.h_activity_custom_complaint);
 
-        //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
-        final String url = "https://rockstarharshitha.000webhostapp.com/addComplaint.php";
+        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
+        //final String url = "https://rockstarharshitha.000webhostapp.com/addComplaint.php";
         final String hostel_url = "https://students.iitm.ac.in/studentsapp/studentlist/get_hostel.php";
 
         Button saveCustomCmplnt = (Button) findViewById(R.id.button_save);

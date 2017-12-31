@@ -22,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +35,8 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.g_Comments;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 /**
  * Created by lenovo on 23/12/17.
@@ -92,8 +95,15 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_comment);
         RelativeLayout relativeLayout=(RelativeLayout)holder.view.findViewById(R.id.rl_name);
 
-
         final Complaint gComplaint = mDataset.get(position);
+        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + gComplaint.getRollNo().toUpperCase() + ".JPG";
+        Picasso.with(context)
+                .load(urlPic)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .fit()
+                .centerCrop()
+                .into(iv_profile);
 
         tv_name.setText(gComplaint.getName());
         tv_hostel.setText(gComplaint.getHostel());
@@ -145,7 +155,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -205,10 +215,10 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                             Map<String, String> params = new HashMap<String, String>();
                             //get hostel from prefs
                             //put some dummy for now
-                            params.put("HOSTEL", "narmada");
+                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
                             params.put("UUID", mUUID);
-                            params.put("VOTE", "1");
-                            params.put("ROLL_NO", "ae11d001");
+                            params.put("VOTE", "0");
+                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, context));
                             return params;
                         }
                     };
@@ -225,7 +235,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -266,10 +276,10 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                             Map<String, String> params = new HashMap<String, String>();
                             //get hostel from prefs
                             //put some dummy for now
-                            params.put("HOSTEL", "narmada");
+                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
                             params.put("UUID", mUUID);
                             params.put("VOTE", "0");
-                            params.put("ROLL_NO", "ae11d001");
+                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, context));
                             return params;
                         }
 

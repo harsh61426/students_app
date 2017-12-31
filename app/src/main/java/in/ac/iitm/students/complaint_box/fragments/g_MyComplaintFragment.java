@@ -30,7 +30,7 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
-import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
+import in.ac.iitm.students.complaint_box.others.g_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -46,7 +46,7 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/myComplaints.php";
+    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/myComplaints.php";
 
     public g_MyComplaintFragment() {
         // Required empty public constructor
@@ -81,12 +81,12 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
             public void onResponse(String response) {
                 //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                  Log.e("tag", response);
-                h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
+                g_JSONComplaintParser gJsonComplaintParser = new g_JSONComplaintParser(response, getActivity());
 
                 ArrayList<Complaint> hComplaintArray = null;
                 try {
                     //fix
-                    hJsonComplaintParser.pleasePleaseParseMyData();
+                    hComplaintArray = gJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();

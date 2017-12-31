@@ -30,6 +30,7 @@ import java.util.Map;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
+import in.ac.iitm.students.complaint_box.others.g_JSONComplaintParser;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -46,7 +47,7 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
     private RecyclerView.LayoutManager mLayoutManager;
     private String hostel_name;
 
-    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/getAllComplaints.php";
+    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/getAllComplaints.php";
 
     public g_LatestThreadFragment() {
         // Required empty public constructor
@@ -115,11 +116,12 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
             @Override
             public void onResponse(String response) {
                 Log.e("latest tag", response);
-                h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
-                ArrayList<Complaint> hComplaintArray = null;
+                g_JSONComplaintParser gJsonComplaintParser = new g_JSONComplaintParser(response, getActivity());
+                ArrayList<Complaint> gComplaintArray = null;
                 try {
                     //fix
-                    hJsonComplaintParser.pleasePleaseParseMyData();
+                    gComplaintArray = gJsonComplaintParser.pleasePleaseParseMyData();
+                    Log.d("bleek", "yaasss");
                 } catch (IOException e) {
                     e.printStackTrace();
                     Snackbar snackbar = Snackbar
@@ -127,16 +129,16 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     snackbar.show();
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
 
-                    hComplaintArray = new ArrayList<>();
-                    hComplaintArray.add(Complaint.getErrorComplaintObject());
+                    gComplaintArray = new ArrayList<>();
+                    gComplaintArray.add(Complaint.getErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new h_ComplaintAdapter(gComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(gComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
                 // mAdapter.notifyDataSetChanged();
 

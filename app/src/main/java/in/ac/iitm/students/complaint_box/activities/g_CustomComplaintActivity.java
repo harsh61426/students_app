@@ -36,7 +36,7 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g__custom_complaint);
 
-        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/addComplaint.php";
+        final String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/addComplaint.php";
         //final String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/addComplaint.php";
     final String hostel_url = "https://students.iitm.ac.in/studentsapp/studentlist/get_hostel.php";
 
