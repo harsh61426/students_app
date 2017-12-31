@@ -86,7 +86,15 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
             h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(searchResponse, getActivity());
             ArrayList<Complaint> hComplaintArray = null;
             try {
-                hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
+                hJsonComplaintParser.pleasePleaseParseMyData();
+                hComplaintList=hJsonComplaintParser.gethComplaintArray();
+                /*add
+                hwm=hJsonComplaintParser.getH_wm();
+                hwd=hJsonComplaintParser.getH_wd();
+                hw=hJsonComplaintParser.getH_w();
+                hpr=hJsonComplaintParser.getH_pr();
+                hpw=hJsonComplaintParser.getH_pw();
+                */
                 //Log.e("ComplaintArray",hComplaintArray.toString());
             } catch (IOException e) {
                 e.printStackTrace();
