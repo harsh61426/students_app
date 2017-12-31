@@ -51,7 +51,7 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     String hostel_name = sharedPref.getString("hostel", "Narmada");
     private final String VALUE_HOSTEL = hostel_name;
     SwipeRefreshLayout swipeLayout;
-    List<Complaint> hComplaintList = new ArrayList<>();
+    ArrayList<Complaint> hComplaintList = new ArrayList<>();
     //ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
     h_WashingMachine hwm=new h_WashingMachine();
     h_WaterDispenser hwd=new h_WaterDispenser();
@@ -91,7 +91,7 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         mRecyclerView = (RecyclerView) view.findViewById(R.id.latest_thread_recycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
-        Button bn_comments1=(Button)view.findViewById(bn_comment1);
+        Button bn_comments1=(Button)view.findViewById(R.id.bn_comment1);
         Button bn_comments2=(Button)view.findViewById(R.id.bn_comment2);
         Button bn_comments3=(Button)view.findViewById(R.id.bn_comment3);
         Button bn_comments4=(Button)view.findViewById(R.id.bn_comment4);
@@ -170,10 +170,10 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
 
                     //hComplaintArray = new ArrayList<>();
-                    hComplaintArray.add(Complaint.getErrorComplaintObject());
+                    hComplaintList.add(Complaint.getErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
 

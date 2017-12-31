@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+//import in.ac.iitm.students.complaint_box.objects.h_Complaint;
 import in.ac.iitm.students.complaint_box.objects.h_PinRoom;
 import in.ac.iitm.students.complaint_box.objects.h_PinWing;
 import in.ac.iitm.students.complaint_box.objects.h_WashingMachine;
@@ -359,7 +359,7 @@ public class h_JSONComplaintParser {
         return h_pw;
     }
 
-    public ArrayList<h_Complaint> gethComplaintArray() {
+    public ArrayList<Complaint> gethComplaintArray() {
         return hComplaintArray;
     }
 
