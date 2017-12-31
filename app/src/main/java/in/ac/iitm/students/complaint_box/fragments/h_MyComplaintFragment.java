@@ -39,7 +39,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
 
-    List<Complaint> hComplaintList = new ArrayList<>();
+    ArrayList<Complaint> hComplaintList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -92,7 +92,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                     snackbar.show();
 
                     //hComplaintArray = new ArrayList<>();
-                    hComplaintArray.add(Complaint.getErrorComplaintObject());
+                    hComplaintList.add(Complaint.getErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mAdapter = new h_ComplaintAdapter(hComplaintList,getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));

@@ -49,11 +49,11 @@ public class Complaint implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    /*public boolean getCustom() {
+    public boolean getCustom() {
         return custom;
     }
 
-    public void setCustom(Boolean custom) {
+    /*public void setCustom(Boolean custom) {
         this.custom = custom;
     }*/
 
