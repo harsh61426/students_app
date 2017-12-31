@@ -80,9 +80,10 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                 //Log.d("tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
 
-                ArrayList<Complaint> hComplaintArray = null;
+                //ArrayList<Complaint> hComplaintArray = null;
                 try {
-                    hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
+                    hJsonComplaintParser.pleasePleaseParseMyData();
+                    hComplaintList=hJsonComplaintParser.gethComplaintArray();
                 } catch (IOException e) {
                     e.printStackTrace();
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
@@ -90,15 +91,15 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                             .make(getActivity().findViewById(R.id.main_content), "Error fetching the complaints", Snackbar.LENGTH_LONG);
                     snackbar.show();
 
-                    hComplaintArray = new ArrayList<>();
+                    //hComplaintArray = new ArrayList<>();
                     hComplaintArray.add(Complaint.getErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new h_ComplaintAdapter(hComplaintList,getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(hComplaintList,getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
 
@@ -116,7 +117,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                 hComplaintArray.add(Complaint.getErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
             }
         }) {

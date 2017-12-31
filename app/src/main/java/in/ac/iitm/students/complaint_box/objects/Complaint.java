@@ -23,7 +23,7 @@ public class Complaint implements Serializable {
     private String hostel;
     private String moreRooms;
     private String imageUrl;
-    private Boolean custom;
+    private boolean custom;
 
     public static Complaint getErrorComplaintObject() {
         Complaint hComplaint = new Complaint();
@@ -33,7 +33,7 @@ public class Complaint implements Serializable {
         hComplaint.setComments(0);
         hComplaint.setDate("00-00-0000");
         hComplaint.setResolved(true);
-        hComplaint.setCustom(true);
+        //hComplaint.setCustom(true);
         hComplaint.setHostel("IIT Madras");
         hComplaint.setTag("#instimobops");
         hComplaint.setTitle("Error getting complaints!");
@@ -49,13 +49,13 @@ public class Complaint implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public Boolean getCustom() {
+    /*public boolean getCustom() {
         return custom;
     }
 
     public void setCustom(Boolean custom) {
         this.custom = custom;
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -170,4 +170,16 @@ public class Complaint implements Serializable {
     public String getMoreRooms() { return moreRooms;}
 
     public void setMoreRooms(String moreRooms){this.moreRooms = moreRooms;}
+
+    /*public boolean isCustom() {
+        return custom;
+    }*/
+
+    public void setCustom(boolean custom) {
+        this.custom = custom;
+    }
+
+    public boolean isCustom() {
+        return custom;
+    }
 }

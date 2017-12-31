@@ -1,17 +1,1057 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_latest_thread"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/latest_thread_recycler"
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_margin="30dp">
+
+
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/WashingMachine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+
+
+                card_view:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:gravity="center"
+                        android:text="Washing Machine"
+                        android:textColor="@color/colorPrimaryText"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/title1"/>
+
+                    <TextView
+                        android:id="@+id/t1description1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@id/title1"
+                        android:text="Power supply not proper" />
+
+
+                    <TextView
+                        android:id="@+id/t1f1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/title1" />
+
+                    <TextView
+                        android:id="@+id/t1p1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title1"
+                        android:layout_toStartOf="@id/t1f1" />
+
+
+                    <TextView
+                        android:id="@+id/t1description2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description1"
+                        android:text="Check water error" />
+
+
+
+                    <TextView
+                        android:id="@+id/t1f2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description1" />
+
+                    <TextView
+                        android:id="@+id/t1p2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description1"
+                        android:layout_toStartOf="@id/t1f2" />
+
+                    <TextView
+                        android:id="@+id/t1description3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description2"
+                        android:text="Water outlet problem" />
+
+
+
+                    <TextView
+                        android:id="@+id/t1f3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description2" />
+
+                    <TextView
+                        android:id="@+id/t1p3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description2"
+                        android:layout_toStartOf="@id/t1f3" />
+
+                    <TextView
+                        android:id="@+id/t1description4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description3"
+                        android:text="Dryer not functional" />
+
+                    <TextView
+                        android:id="@+id/t1f4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description3" />
+
+                    <TextView
+                        android:id="@+id/t1p4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description3"
+                        android:layout_toStartOf="@id/t1f3" />
+
+
+                    <TextView
+                        android:id="@+id/t1description5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description4"
+                        android:text="Not even starting wash cycle" />
+
+
+                    <TextView
+                        android:id="@+id/t1f5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description4" />
+
+                    <TextView
+                        android:id="@+id/t1p5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description4"
+                        android:layout_toStartOf="@id/t1f5" />
+
+
+                    <TextView
+                        android:id="@+id/t1description6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description5"
+                        android:text="Others" />
+
+
+                    <TextView
+                        android:id="@+id/t1f6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description5" />
+
+                    <TextView
+                        android:id="@+id/t1p6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t1description5"
+                        android:layout_toStartOf="@id/t1f6" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/t1description6"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_comment1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="Comments"
+                        android:layout_below="@id/t1description6" />
+
+                    <Button
+                        android:id="@+id/bn_comment1"
+                        android:layout_width="24dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toStartOf="@id/tv_comment1"
+                        android:layout_below="@id/t1description6"
+                        android:background="@drawable/ic_comment_black_24dp" />
+
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/WaterDispenser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_margin="15dp"
+                card_view:cardCornerRadius="4dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/title2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Water Dispenser"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryText"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/title2"/>
+
+                    <TextView
+                        android:id="@+id/t2d1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title2"
+                        android:text="Power supply not proper" />
+
+
+                    <TextView
+                        android:id="@+id/t2f1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/title2"/>
+
+                    <TextView
+                        android:id="@+id/t2p1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t2f1"
+                        android:layout_below="@id/title2"/>
+
+
+                    <TextView
+                        android:id="@+id/t2d2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Heating or cooling not working"
+                        android:layout_below="@id/t2d1"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t2f2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t2d1"/>
+
+                    <TextView
+                        android:id="@+id/t2p2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t2f2"
+                        android:layout_below="@id/t2d1"/>
+
+
+                    <TextView
+                        android:id="@+id/t2d3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Monkey drank from the dispenser"
+                        android:layout_below="@id/t2d2"/>
+
+
+                    <TextView
+                        android:id="@+id/t2f3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t2d2"
+                        android:layout_alignParentEnd="true"/>
+
+                    <TextView
+                        android:id="@+id/t2p3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t2d2"
+                        android:layout_toStartOf="@id/t2f3"/>
+
+
+                    <TextView
+                        android:id="@+id/t2d4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Algae is growing"
+                        android:layout_below="@id/t2d3"/>
+
+
+                    <TextView
+                        android:id="@+id/t2f4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t2d3"
+                        android:layout_alignParentRight="true"/>
+
+                    <TextView
+                        android:id="@+id/t2p4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t2d3"
+                        android:layout_toStartOf="@id/t2f4"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t2d5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Others"
+                        android:layout_below="@id/t2d4"/>
+
+
+                    <TextView
+                        android:id="@+id/t2f5"
+                        android:layout_below="@id/t2d4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"/>
+
+                    <TextView
+                        android:id="@+id/t2p5"
+                        android:layout_width="wrap_content"
+                        android:layout_below="@id/t2d4"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t2f5"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/t2d5"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_comment2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="Comments"
+                        android:layout_below="@id/t2d5" />
+
+                    <Button
+                        android:id="@+id/bn_comment2"
+                        android:layout_width="24dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toStartOf="@id/tv_comment2"
+                        android:layout_below="@id/t2d5"
+                        android:background="@drawable/ic_comment_black_24dp" />
+
+
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/Washroom"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="4dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp">
+                    <TextView
+                        android:id="@+id/title3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Washroom"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryText"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/title3"/>
+
+                    <TextView
+                        android:id="@+id/t3d1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title3"
+                        android:text="Power supply not proper"/>
+
+
+                    <TextView
+                        android:id="@+id/t3f1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title3"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3p1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title3"
+                        android:layout_toStartOf="@id/t3f1"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t3d2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d1"
+                        android:text="Taps not properly working"/>
+
+
+                    <TextView
+                        android:id="@+id/t3f2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d1"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3p2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d1"
+                        android:layout_toStartOf="@id/t3f2"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3d3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Showers not properly working"
+                        android:layout_below="@id/t3d2"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3f3"
+                        android:layout_below="@id/t3d2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3p3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d2"
+                        android:layout_toStartOf="@id/t3f3"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t3d4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d3"
+                        android:text="Towel Hangers not present"/>
+
+                    <TextView
+                        android:id="@+id/t3f4"
+                        android:layout_below="@id/t3d3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3p4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t3f4"
+                        android:layout_below="@id/t3d3"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3d5"
+                        android:layout_below="@id/t3d4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Washroom doors not closing properly"/>
+
+                    <TextView
+                        android:id="@+id/t3f5"
+                        android:layout_below="@id/t3d4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3p5"
+                        android:layout_below="@id/t3d4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t3f5"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t3d6"
+                        android:layout_below="@id/t3d5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Flush tanks not working"/>
+
+                    <TextView
+                        android:id="@+id/t3f6"
+                        android:layout_below="@id/t3d5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t3p6"
+                        android:layout_below="@id/t3d5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t3f6"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t3d7"
+                        android:layout_below="@id/t3d6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pipes leaking"/>
+
+                    <TextView
+                        android:id="@+id/t3f7"
+                        android:layout_below="@id/t3d6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        />
+                    <TextView
+                        android:id="@+id/t3p7"
+                        android:layout_below="@id/t3d6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t3f7"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t3d8"
+                        android:layout_below="@id/t3d7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Others"/>
+                    <TextView
+                        android:id="@+id/t3f8"
+                        android:layout_below="@id/t3d7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        />
+                    <TextView
+                        android:id="@+id/t3p8"
+                        android:layout_below="@id/t3d7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t3f8"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/t3d8"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_comment3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Comments"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t3d8" />
+                    <Button
+                        android:id="@+id/bn_comment3"
+                        android:layout_width="24dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toStartOf="@id/tv_comment3"
+                        android:layout_below="@id/t3d8"
+                        android:background="@drawable/ic_comment_black_24dp" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/PinRoom"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="4dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:padding="15dp">
+                    <TextView
+                        android:id="@+id/title4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Problems in your room"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryText"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/title4"/>
+                    <TextView
+                        android:id="@+id/t4d1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Electrical work"
+                        android:layout_below="@id/title4"/>
+
+                    <TextView
+                        android:id="@+id/t4f1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title4"
+                        android:layout_alignParentEnd="true"
+                        />
+                    <TextView
+                        android:id="@+id/t4p1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title4"
+                        android:layout_toStartOf="@id/t4f1"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t4d2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Civil work"
+                        android:layout_below="@id/t4d1"/>
+
+                    <TextView
+                        android:id="@+id/t4f2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t4d1"
+                        android:layout_alignParentEnd="true"
+                        />
+                    <TextView
+                        android:id="@+id/t4p2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t4d1"
+                        android:layout_toStartOf="@id/t4f2"
+                        />
+
+                    <TextView
+                        android:id="@+id/t4d3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Furniture broken"
+                        android:layout_below="@id/t4d2"/>
+
+                    <TextView
+                        android:id="@+id/t4f3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t4d2"
+                        android:layout_alignParentEnd="true"
+                        />
+                    <TextView
+                        android:id="@+id/t4p3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t4d2"
+                        android:layout_toStartOf="@id/t4f3"
+                        />
+
+                    <TextView
+                        android:id="@+id/t4d4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t4d3"
+                        android:text="Internet problem (LAN port repair)"/>
+
+                    <TextView
+                        android:id="@+id/t4f4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t4d3"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t4p4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t4d3"
+                        android:layout_toStartOf="@id/t4f4"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t4d5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Others"
+                        android:layout_below="@id/t4d4"/>
+                    <TextView
+                        android:id="@+id/t4f5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t4d4"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t4p5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/t4f5"
+                        android:layout_below="@id/t4d4"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/t4d5"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_comment4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Comments"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t4d5" />
+                    <Button
+                        android:id="@+id/bn_comment4"
+                        android:layout_width="24dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toStartOf="@id/tv_comment4"
+                        android:layout_below="@id/t4d5"
+                        android:background="@drawable/ic_comment_black_24dp" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/PinWing"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="4dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp">
+                    <TextView
+                        android:id="@+id/title5"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Problems in your wing"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryText"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/title5"/>
+
+                    <TextView
+                        android:id="@+id/t5d1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Electrical work"
+                        android:layout_below="@id/title5"/>
+
+                    <TextView
+                        android:id="@+id/t5f1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title5"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/t5p1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title5"
+                        android:layout_toStartOf="@id/t5f1"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t5d2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Civil work"
+                        android:layout_below="@id/t5d1"/>
+
+                    <TextView
+                        android:id="@+id/t5f2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t5d1"
+                        android:layout_alignParentEnd="true"
+                        />
+                    <TextView
+                        android:id="@+id/t5p2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t5d1"
+                        android:layout_toStartOf="@id/t5f2"
+                        />
+
+                    <TextView
+                        android:id="@+id/t5d3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Furniture broken"
+                        android:layout_below="@id/t5d2"/>
+
+                    <TextView
+                        android:id="@+id/t5f3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t5d2"
+                        android:layout_alignParentEnd="true"
+                        />
+                    <TextView
+                        android:id="@+id/t5p3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t5d2"
+                        android:layout_toStartOf="@id/t5f3"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/t5d4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Internet problem"
+                        android:layout_below="@id/t5d3"/>
+
+                    <TextView
+                        android:id="@+id/t5f4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d3"
+                        android:layout_alignParentEnd="true"/>
+
+                    <TextView
+                        android:id="@+id/t5p4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/t5d3"
+                        android:layout_toStartOf="@id/t5f4"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/t5d5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Wing not cleaned regularly"
+                        android:layout_below="@id/t5d4"/>
+                    <TextView
+                        android:id="@+id/t5f5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d4"
+                        android:layout_alignParentEnd="true"/>
+                    <TextView
+                        android:id="@+id/t5p5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d4"
+                        android:layout_toStartOf="@id/t5f5"/>
+
+                    <TextView
+                        android:id="@+id/t5d6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Does not have a dustbin"
+                        android:layout_below="@id/t5d5"/>
+                    <TextView
+                        android:id="@+id/t5f6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d5"
+                        android:layout_alignParentEnd="true"/>
+
+                    <TextView
+                        android:id="@+id/t5p6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d5"
+                        android:layout_toStartOf="@id/t5f6"/>
+
+                    <TextView
+                        android:id="@+id/t5d7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cloth wires not proper"
+                        android:layout_below="@id/t5d6"/>
+                    <TextView
+                        android:id="@+id/t5f7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d6"
+                        android:layout_alignParentEnd="true"/>
+
+                    <TextView
+                        android:id="@+id/t5p7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d6"
+                        android:layout_toStartOf="@id/t5f7"/>
+
+                    <TextView
+                        android:id="@+id/t5d8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Others"
+                        android:layout_below="@id/t5d7"/>
+                    <TextView
+                        android:id="@+id/t5f8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d7"
+                        android:layout_alignParentEnd="true"/>
+
+                    <TextView
+                        android:id="@+id/t5p8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/t5d7"
+                        android:layout_toStartOf="@id/t5f8"/>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_below="@id/t5d8"/>
+                    <TextView
+                        android:id="@+id/tv_comment5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Comments"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d8" />
+
+
+
+                    <Button
+                        android:id="@+id/bn_comment5"
+                        android:layout_width="24dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toStartOf="@id/tv_comment5"
+                        android:layout_below="@id/t5d8"
+                        android:background="@drawable/ic_comment_black_24dp" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/latest_thread_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                />
+
+        </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
 
     </android.support.v4.widget.SwipeRefreshLayout>
-</FrameLayout>
+</RelativeLayout>
