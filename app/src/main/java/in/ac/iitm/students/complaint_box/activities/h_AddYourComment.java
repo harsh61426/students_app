@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -45,7 +45,7 @@ public class h_AddYourComment extends AppCompatActivity {
         final String NAME = Utils.getprefString(UtilStrings.NAME, this);
 
         Intent i = getIntent();
-        final h_Complaint hComplaint = (h_Complaint) i.getSerializableExtra("cardData");
+        final Complaint hComplaint = (Complaint) i.getSerializableExtra("cardData");
 
         TextView name = (TextView) findViewById(R.id.comment_tv_name);
         TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);

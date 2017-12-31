@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by harisanker on 22/6/17.
  */
 
-public class h_Complaint implements Serializable {
+public class Complaint implements Serializable {
     private String name;
     private String rollNo;
     private String roomNo;
@@ -23,17 +23,17 @@ public class h_Complaint implements Serializable {
     private String hostel;
     private String moreRooms;
     private String imageUrl;
-    private Boolean custom;
+    private boolean custom;
 
-    public static h_Complaint getErrorComplaintObject() {
-        h_Complaint hComplaint = new h_Complaint();
+    public static Complaint getErrorComplaintObject() {
+        Complaint hComplaint = new Complaint();
         hComplaint.setName("Institute MobOps");
         hComplaint.setUpvotes(42);
         hComplaint.setDownvotes(0);
         hComplaint.setComments(0);
         hComplaint.setDate("00-00-0000");
         hComplaint.setResolved(true);
-        hComplaint.setCustom(true);
+        //hComplaint.setCustom(true);
         hComplaint.setHostel("IIT Madras");
         hComplaint.setTag("#instimobops");
         hComplaint.setTitle("Error getting complaints!");
@@ -49,13 +49,13 @@ public class h_Complaint implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public Boolean getCustom() {
+    /*public boolean getCustom() {
         return custom;
     }
 
     public void setCustom(Boolean custom) {
         this.custom = custom;
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -170,4 +170,16 @@ public class h_Complaint implements Serializable {
     public String getMoreRooms() { return moreRooms;}
 
     public void setMoreRooms(String moreRooms){this.moreRooms = moreRooms;}
+
+    /*public boolean isCustom() {
+        return custom;
+    }*/
+
+    public void setCustom(boolean custom) {
+        this.custom = custom;
+    }
+
+    public boolean isCustom() {
+        return custom;
+    }
 }

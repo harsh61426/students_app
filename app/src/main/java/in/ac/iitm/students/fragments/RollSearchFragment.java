@@ -96,13 +96,13 @@ public class RollSearchFragment extends Fragment {
         Uri.Builder builder = new Uri.Builder();
 
         builder.scheme("http")//https://students.iitm.ac.in/studentsapp/map/get_location.php?
-                .authority("192.168.1.7")
+                .authority("students.iitm.ac.in")
                 .appendPath("Android")
                 .appendPath("includes")
                 .appendPath("search_by_roll.php");
 
 
-        String url = builder.build().toString();
+        String url = "https://students.iitm.ac.in/studentsapp/studentlist/search_by_roll.php";
 
 
         StringRequest stud_detail_via_roll_req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -135,6 +135,8 @@ public class RollSearchFragment extends Fragment {
                         reveal_photo = baseObject.getInt("reveal_photo");
                         about = baseObject.getString("about");
                     }
+
+                    // TODO : @Aebel remove intent and add fragment below the search widget dynamically
 
                     Intent intent = new Intent(context, StudentDetailsActivity.class);
                     intent.putExtra("studName", studName);

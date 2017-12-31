@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
+import in.ac.iitm.students.complaint_box.objects.CommentObj;
 
 /**
  * Created by harshitha on 11/7/17.
@@ -22,7 +22,7 @@ public class h_CmntDataParser {
 
     Context context;
     private InputStream stream;
-    private ArrayList<h_CommentObj> commentArray;
+    private ArrayList<CommentObj> commentArray;
 
     public h_CmntDataParser(String string, Context c) {
         stream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
@@ -30,7 +30,7 @@ public class h_CmntDataParser {
         context = c;
     }
 
-    public ArrayList<h_CommentObj> pleaseParseMyData() throws IOException {
+    public ArrayList<CommentObj> pleaseParseMyData() throws IOException {
 
         JsonReader reader = null;
         try {
@@ -50,8 +50,8 @@ public class h_CmntDataParser {
 
     }
 
-    public ArrayList<h_CommentObj> readCommentsArray(JsonReader reader) throws IOException {
-        ArrayList<h_CommentObj> comments = new ArrayList<>();
+    public ArrayList<CommentObj> readCommentsArray(JsonReader reader) throws IOException {
+        ArrayList<CommentObj> comments = new ArrayList<>();
 
         reader.beginArray();
         while (reader.hasNext()) {
@@ -62,9 +62,9 @@ public class h_CmntDataParser {
 
     }
 
-    public h_CommentObj readComment(JsonReader reader) throws IOException {
+    public CommentObj readComment(JsonReader reader) throws IOException {
 
-        h_CommentObj hCommentObj = new h_CommentObj();
+        CommentObj hCommentObj = new CommentObj();
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
@@ -85,7 +85,7 @@ public class h_CmntDataParser {
                 reader.nextString();
                 //Log.e("reader",reader+"");
                 reader.endObject();
-                return h_CommentObj.getErrorCommentObject();
+                return CommentObj.getErrorCommentObject();
 
             } else {
                 reader.skipValue();

@@ -235,7 +235,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
-            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_mess)).setChecked(true);
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_hostel)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {
@@ -286,7 +286,6 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             item1.setVisible(false);
             item2.setVisible(false);
             item3.setVisible(false);
-            menu.getItem(R.id.nav_complaint_box).setIcon(R.drawable.ic_forum_black_24dp);
 
             drawer.closeDrawer(GravityCompat.START);
 
