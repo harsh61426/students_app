@@ -76,7 +76,7 @@ public class g_Comments extends AppCompatActivity {
         Button save = (Button) findViewById(R.id.bn_save);
 
         name.setText(hComplaint.getName());
-        hostel.setText(sharedPref.getString("hostel", "narmada"));
+        hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
         resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         title.setText(hComplaint.getTitle());
         description.setText(hComplaint.getDescription());
@@ -184,8 +184,8 @@ public class g_Comments extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<>();
-                        String hostel_name = sharedPref.getString("hostel", "narmada");
-                        String room = sharedPref.getString("roomno", "1004");
+                        String hostel_name = Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this);
+                        String room = Utils.getprefString(UtilStrings.ROOM, g_Comments.this);
                         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
                         params.put("HOSTEL", hostel_name);

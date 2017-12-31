@@ -1,7 +1,5 @@
 package in.ac.iitm.students.complaint_box.activities;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -41,10 +39,6 @@ public class h_NewComplaintActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        final SharedPreferences sharedPref = h_NewComplaintActivity.this.getPreferences(Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
 
         //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
         final String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/addComplaint.php";

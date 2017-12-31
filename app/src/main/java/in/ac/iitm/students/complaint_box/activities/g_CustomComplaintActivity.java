@@ -1,10 +1,8 @@
 package in.ac.iitm.students.complaint_box.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +12,6 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
@@ -28,7 +25,6 @@ import java.util.UUID;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
-import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -40,40 +36,9 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g__custom_complaint);
 
-    final SharedPreferences sharedPref = g_CustomComplaintActivity.this.getPreferences(Context.MODE_PRIVATE);
-    final SharedPreferences.Editor editor = sharedPref.edit();
-
-    //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/addComplaint.php";
-    final String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/addComplaint.php";
+        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/addComplaint.php";
+        //final String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/addComplaint.php";
     final String hostel_url = "https://students.iitm.ac.in/studentsapp/studentlist/get_hostel.php";
-    final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
-    final String name = Utils.getprefString(UtilStrings.NAME, this);
-
-    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, hostel_url, null, new Response.Listener<JSONObject>() {
-        @Override
-        public void onResponse(JSONObject response) {
-            String hostel, room_no, code;
-
-            try {
-                hostel = response.getString("hostel");
-                room_no = response.getString("roomno");
-                code = response.getString("code");
-                editor.putString("hostel", hostel);
-                editor.putString("roomno", room_no);
-                editor.putString("code", code);
-                editor.commit();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            Toast.makeText(getApplicationContext(),
-                    error.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    });
-        MySingleton.getInstance(g_CustomComplaintActivity.this).addToRequestQueue(jsonObjectRequest);
 
 
     Button saveCustomCmplnt = (Button) findViewById(R.id.button_save);
@@ -121,8 +86,8 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
-                    String hostel_name = sharedPref.getString("hostel", "narmada");
-                    String room = sharedPref.getString("roomno", "1004");
+                    String hostel_name = Utils.getprefString(UtilStrings.HOSTEl, g_CustomComplaintActivity.this);
+                    String room = Utils.getprefString(UtilStrings.ROOM, g_CustomComplaintActivity.this);
                     String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                     String moreRooms = room + ",";
 

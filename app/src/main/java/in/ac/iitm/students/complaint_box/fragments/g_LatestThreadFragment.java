@@ -1,8 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -34,19 +32,19 @@ import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 
 public class g_LatestThreadFragment extends Fragment implements Updateable,SwipeRefreshLayout.OnRefreshListener{
 
     private final String KEY_HOSTEL = "HOSTEL";
-    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-    String hostel_name = sharedPref.getString("hostel", "Narmada");
-    private final String VALUE_HOSTEL = hostel_name;
     SwipeRefreshLayout swipeLayout;
     List<Complaint> hComplaintList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String hostel_name;
 
     private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/getAllComplaints.php";
 
@@ -65,6 +63,8 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_g__latest_thread, container, false);
+
+        hostel_name = Utils.getprefString(UtilStrings.HOSTEl, getActivity());
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_latest_thread);
         swipeLayout.setOnRefreshListener(this);
 
@@ -162,7 +162,7 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put(KEY_HOSTEL, VALUE_HOSTEL);
+                params.put(KEY_HOSTEL, hostel_name);
                 return params;
             }
 

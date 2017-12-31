@@ -1,8 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -34,6 +32,8 @@ import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 
 public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -127,9 +127,8 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                String hostel_name = sharedPref.getString("hostel", "Narmada");
-                String rollno = sharedPref.getString("rollno", "me15b123");
+                String hostel_name = Utils.getprefString(UtilStrings.HOSTEl, getActivity());
+                String rollno = Utils.getprefString(UtilStrings.ROLLNO, getActivity());
 
                 params.put(KEY_HOSTEL, hostel_name);
                 params.put("ROLL_NO", rollno);
