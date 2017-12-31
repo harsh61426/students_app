@@ -36,7 +36,7 @@ import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 
 
-public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class g_LatestThreadFragment extends Fragment implements Updateable,SwipeRefreshLayout.OnRefreshListener{
 
     private final String KEY_HOSTEL = "HOSTEL";
     SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -73,14 +73,21 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         mLayoutManager = new LinearLayoutManager(getContext());
         getAllComplaints();
 
-        if (getArguments() != null) {
-            String searchResponse = getArguments().getString("tagSearch");
-            Log.e("searchResponse",searchResponse);
+        return view;
+    }
+
+    @Override
+    public void update(String string) {
+        String searchResponse =string;
+        //if (getArguments() != null) {
+        if(searchResponse!=null){
+            //String searchResponse = getArguments().getString("tagSearch");
+            Log.d("searchResponse",searchResponse);
             h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(searchResponse, getActivity());
             ArrayList<Complaint> hComplaintArray = null;
             try {
                 hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
-                Log.e("ComplaintArray",hComplaintArray.toString());
+                //Log.e("ComplaintArray",hComplaintArray.toString());
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
@@ -91,8 +98,6 @@ public class g_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
             mRecyclerView.setAdapter(mAdapter);
 
         }
-
-        return view;
     }
 
     public void getAllComplaints() {

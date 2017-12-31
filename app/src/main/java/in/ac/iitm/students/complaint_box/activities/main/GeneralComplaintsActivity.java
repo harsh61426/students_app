@@ -57,6 +57,9 @@ import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.g_CustomComplaintActivity;
+import in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity;
+import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
+import in.ac.iitm.students.complaint_box.fragments.Updateable;
 import in.ac.iitm.students.complaint_box.fragments.g_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.g_MyComplaintFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
@@ -67,8 +70,6 @@ import in.ac.iitm.students.others.Utils;
 
 public class GeneralComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
 
-    MaterialSearchView searchView;
-    String[] suggestions;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -77,6 +78,11 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Menu menu;
+    GeneralComplaintsActivity.ViewPagerAdapter adapter;
+
+    MaterialSearchView searchView;
+    String[] suggestions;
+    public String mGeneralString;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -161,7 +167,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
             @Override
             public boolean onQueryTextChange(String s) {
-                //SearchQuery(s);
+                SearchQuery(s);
                 return false;
             }
         });
@@ -178,8 +184,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             }
         });
 
-        searchView.setSuggestions(suggestions);
-        searchView.setEllipsize(true);
+
     }
 
     private void SearchQuery(String s){
@@ -204,20 +209,35 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
             @Override
             public void onResponse(String response) {
-                Log.e("complaintSearch",response);
+                Log.d("complaintSearch",response);
 
                 try {
                     JSONObject jsonObject=new JSONObject(response);
 
                     if (jsonObject.has("error")) {
-                        Toast.makeText(GeneralComplaintsActivity.this, jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                         Log.d("data error",jsonObject.getString("error"));
                     } else if (jsonObject.has("status")) {
                         String status = jsonObject.getString("status");
 
                         if (status == "1") {
-                            JSONArray jsonArray =jsonObject.getJSONArray("tags");
+                            JSONArray jsonArray =jsonObject.getJSONArray("searchResult");
 
-                            if(jsonArray!=null) {
+                            //g_LatestThreadFragment fragment = new g_LatestThreadFragment();
+                            adapter.update(jsonArray.toString());
+
+                            JSONArray array =jsonObject.getJSONArray("suggestions");
+                            suggestions = new String[array.length()];
+                            for (int i=0;i <array.length(); i++) {
+                                JSONObject tag = array.getJSONObject(i);
+                                suggestions[i] = tag.getString("tags");
+                                Log.d("suggestions", suggestions[i]);
+                            }
+                            searchView.setSuggestions(suggestions);
+                            searchView.showSuggestions();
+                            searchView.setEllipsize(true);
+
+
+                            /*if(jsonArray!=null) {
                                 Log.e("array",jsonArray.toString());
                                 Bundle bundle = new Bundle();
                                 bundle.putString("tagSearch", jsonArray.toString());
@@ -281,7 +301,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        GeneralComplaintsActivity.ViewPagerAdapter adapter = new GeneralComplaintsActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new GeneralComplaintsActivity.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new g_LatestThreadFragment(), "Trending");
         adapter.addFragment(new g_MyComplaintFragment(), "My complaints");
         viewPager.setAdapter(adapter);
@@ -332,8 +352,8 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         // Inflate the menu; this adds items to the action bar if it is present.
        // getMenuInflater().inflate(R.menu.main_menu, menu);
        getMenuInflater().inflate(R.menu.search_item,menu);
-       MenuItem item=menu.findItem(R.id.action_search);
-       searchView.setMenuItem(item);
+       //MenuItem item=menu.findItem(R.id.action_search);
+       //searchView.setMenuItem(item);
         //SearchView searchView=(SearchView) MenuItemCompat.getActionView(item);
 
         /*searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -374,7 +394,10 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             onBackPressed();
             return true;
         }else if(id==R.id.action_search){
+            searchView.showSearch(true);
+            searchView.setVisibility(View.VISIBLE);
             return true;
+
         }
         return super.onOptionsItemSelected(item);
 
@@ -512,6 +535,21 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         @Override
         public int getCount() {
             return mFragmentList.size();
+        }
+
+        public void update(String string) {
+            mGeneralString = string;
+            //updated
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            if (object instanceof Updateable) {
+                //sent to FirstFragment and SecondFragment
+                ((Updateable) object).update(mGeneralString);
+            }
+            return super.getItemPosition(object);
         }
 
         public void addFragment(Fragment fragment, String title) {
