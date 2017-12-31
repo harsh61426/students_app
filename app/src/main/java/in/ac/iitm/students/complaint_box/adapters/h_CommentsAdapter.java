@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
+import in.ac.iitm.students.complaint_box.objects.CommentObj;
 
 
 /**
@@ -20,10 +20,10 @@ import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
  */
 
 public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.ViewHolder> {
-    private ArrayList<h_CommentObj> mDataset;
+    private ArrayList<CommentObj> mDataset;
     private Context context;
 
-    public h_CommentsAdapter(ArrayList<h_CommentObj> dataset,Context c) {
+    public h_CommentsAdapter(ArrayList<CommentObj> dataset, Context c) {
         mDataset = dataset;
         context = c;
     }
@@ -45,7 +45,7 @@ public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.Vi
         TextView comStr = (TextView) holder.view.findViewById(R.id.ci_comStr);
         LinearLayout linearLayout=(LinearLayout)holder.view.findViewById(R.id.comment_item);
 
-        final h_CommentObj hCommentObj = mDataset.get(position);
+        final CommentObj hCommentObj = mDataset.get(position);
 
         name.setText(hCommentObj.getName());
         roomNo.setText("Room No: " + hCommentObj.getRoomNo());

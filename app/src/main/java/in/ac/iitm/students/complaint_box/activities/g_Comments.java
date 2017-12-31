@@ -3,9 +3,8 @@ package in.ac.iitm.students.complaint_box.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -35,8 +34,8 @@ import java.util.Map;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
 import in.ac.iitm.students.complaint_box.fragments.g_LatestThreadFragment;
-import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.objects.CommentObj;
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_CmntDataParser;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -44,7 +43,7 @@ import in.ac.iitm.students.others.Utils;
 
 public class g_Comments extends AppCompatActivity {
 
-    List<h_CommentObj> commentList = new ArrayList<>();
+    List<CommentObj> commentList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -63,7 +62,7 @@ public class g_Comments extends AppCompatActivity {
         final String NAME = Utils.getprefString(UtilStrings.NAME, this);
 
         Intent i = getIntent();
-        final h_Complaint hComplaint = (h_Complaint) i.getSerializableExtra("cardData");
+        final Complaint hComplaint = (Complaint) i.getSerializableExtra("cardData");
 
         TextView name = (TextView) findViewById(R.id.comment_tv_name);
         TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);
@@ -96,7 +95,7 @@ public class g_Comments extends AppCompatActivity {
                 Log.e("Comment response",response);
 
                 h_CmntDataParser hCmntDataParser = new h_CmntDataParser(response, getApplicationContext());
-                ArrayList<h_CommentObj> commentArray = null;
+                ArrayList<CommentObj> commentArray = null;
                 try {
                     commentArray = hCmntDataParser.pleaseParseMyData();
                 } catch (IOException e) {

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by harisanker on 22/6/17.
  */
 
-public class h_Complaint implements Serializable {
+public class Complaint implements Serializable {
     private String name;
     private String rollNo;
     private String roomNo;
@@ -25,8 +25,8 @@ public class h_Complaint implements Serializable {
     private String imageUrl;
     private Boolean custom;
 
-    public static h_Complaint getErrorComplaintObject() {
-        h_Complaint hComplaint = new h_Complaint();
+    public static Complaint getErrorComplaintObject() {
+        Complaint hComplaint = new Complaint();
         hComplaint.setName("Institute MobOps");
         hComplaint.setUpvotes(42);
         hComplaint.setDownvotes(0);

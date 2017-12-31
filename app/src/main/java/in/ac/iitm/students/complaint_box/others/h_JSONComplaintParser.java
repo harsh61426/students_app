@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 
 /**
  * Created by DELL on 7/7/2017.
@@ -22,7 +22,7 @@ public class h_JSONComplaintParser {
 
     Activity activity;
     private InputStream stream;
-    private ArrayList<h_Complaint> hComplaintArray;
+    private ArrayList<Complaint> hComplaintArray;
 
     public h_JSONComplaintParser(String string, Activity activity) {
         stream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
@@ -30,7 +30,7 @@ public class h_JSONComplaintParser {
         this.activity = activity;
     }
 
-    public ArrayList<h_Complaint> pleasePleaseParseMyData() throws IOException {
+    public ArrayList<Complaint> pleasePleaseParseMyData() throws IOException {
 
         JsonReader reader = null;
         try {
@@ -50,8 +50,8 @@ public class h_JSONComplaintParser {
 
     }
 
-    public ArrayList<h_Complaint> readComplaintsArray(JsonReader reader) throws IOException {
-        ArrayList<h_Complaint> hComplaints = new ArrayList<>();
+    public ArrayList<Complaint> readComplaintsArray(JsonReader reader) throws IOException {
+        ArrayList<Complaint> hComplaints = new ArrayList<>();
         //Log.e("message",reader+"");
         //while ( reader.peek() == JsonToken.STRING) reader.nextString();
         reader.beginArray();
@@ -65,9 +65,9 @@ public class h_JSONComplaintParser {
     }
 
 
-    public h_Complaint readComplaint(JsonReader reader) throws IOException {
+    public Complaint readComplaint(JsonReader reader) throws IOException {
 
-        h_Complaint hComplaint = new h_Complaint();
+        Complaint hComplaint = new Complaint();
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
@@ -111,7 +111,7 @@ public class h_JSONComplaintParser {
                 reader.nextString();
                 reader.endObject();
 
-                return h_Complaint.getErrorComplaintObject();
+                return Complaint.getErrorComplaintObject();
             } else {
                 reader.skipValue();
             }

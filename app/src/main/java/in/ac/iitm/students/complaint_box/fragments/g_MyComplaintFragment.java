@@ -2,9 +2,11 @@ package in.ac.iitm.students.complaint_box.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -30,7 +31,7 @@ import java.util.Map;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 
@@ -41,12 +42,11 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
 
-    List<h_Complaint> hComplaintList = new ArrayList<>();
+    List<Complaint> hComplaintList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    //private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/myComplaints.php";
-    private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/myComplaints.php";
+    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/myComplaints.php";
 
     public g_MyComplaintFragment() {
         // Required empty public constructor
@@ -83,15 +83,25 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                  Log.e("tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
 
-                ArrayList<h_Complaint> hComplaintArray = null;
+                ArrayList<Complaint> hComplaintArray = null;
                 try {
                     hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar
+                            .make(getActivity().findViewById(R.id.main_content), "Error fetching the complaints", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                    hComplaintArray = new ArrayList<>();
+                    hComplaintArray.add(Complaint.getErrorComplaintObject());
+
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mRecyclerView.setAdapter(mAdapter);
                 }
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext());
+                mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
 
@@ -99,19 +109,29 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "No internet connectivity", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "No internet connectivity", Toast.LENGTH_SHORT).show();
 
+                Snackbar snackbar = Snackbar
+                        .make(getActivity().findViewById(R.id.main_content), "No Internet Connection", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+                ArrayList<Complaint> hComplaintArray = new ArrayList<>();
+                hComplaintArray.add(Complaint.getErrorComplaintObject());
+
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mRecyclerView.setAdapter(mAdapter);
             }
         }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                //String hostel_name = sharedPref.getString("hostel", "Narmada");
-                //sharedPref.getString("rollno","me15b123")
-                params.put(KEY_HOSTEL, hostel);
-                //todo
-                params.put("ROLL_NO", "me15b123");
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                String hostel_name = sharedPref.getString("hostel", "Narmada");
+                String rollno = sharedPref.getString("rollno", "me15b123");
+
+                params.put(KEY_HOSTEL, hostel_name);
+                params.put("ROLL_NO", rollno);
                 return params;
             }
 

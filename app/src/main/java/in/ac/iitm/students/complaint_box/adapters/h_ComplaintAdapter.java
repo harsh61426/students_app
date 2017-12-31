@@ -35,7 +35,7 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.h_Comments;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.others.MySingleton;
 
 /**
@@ -43,16 +43,17 @@ import in.ac.iitm.students.others.MySingleton;
  */
 
 public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.ViewHolder> {
-    private ArrayList<h_Complaint> mDataset;
+    private ArrayList<Complaint> mDataset;
     private Activity activity;
     private Context context;
     private SharedPreferences sharedPref;
     private boolean latest = false;
     private Button bn_resolve;
     private CoordinatorLayout coordinatorLayout;
+    private Complaint hComplaint;
 
 
-    public h_ComplaintAdapter(ArrayList<h_Complaint> myDataset, Activity a, Context c, Boolean latest, CoordinatorLayout coordinatorLayout) {
+    public h_ComplaintAdapter(ArrayList<Complaint> myDataset, Activity a, Context c, Boolean latest, CoordinatorLayout coordinatorLayout) {
         mDataset = myDataset;
         activity = a;
         context = c;
@@ -99,11 +100,10 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
         if(!latest) bn_resolve = (Button)holder.view.findViewById(R.id.bn_resolve);
 
 
-        final h_Complaint hComplaint = mDataset.get(position);
+        hComplaint = mDataset.get(position);
 
         tv_name.setText(hComplaint.getName());
-        //TODO change narmada to IITM
-        tv_hostel.setText(sharedPref.getString("hostel", "IIT Madras"));
+        tv_hostel.setText(hComplaint.getHostel());
         tv_resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         tv_title.setText(hComplaint.getTitle());
         tv_description.setText(hComplaint.getDescription());
@@ -131,8 +131,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    //String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
-                    String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -212,8 +211,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    //String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
-                    String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

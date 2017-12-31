@@ -45,6 +45,7 @@ public class h_NewcomplaintFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String mUUID;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -91,8 +92,7 @@ public class h_NewcomplaintFragment extends Fragment {
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
 
-        //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
-        final String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/addComplaint.php";
+        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
         final EditText prox = (EditText) view.findViewById(R.id.editText_room_number);
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, getActivity());
         final String name = Utils.getprefString(UtilStrings.NAME, getActivity());
@@ -217,7 +217,7 @@ public class h_NewcomplaintFragment extends Fragment {
                 final String title = spinner_complaint_title.getSelectedItem().toString();
                 final String description = spinner_complaint_description.getSelectedItem().toString();
                 final String proximity = prox.getText().toString();
-                final String mUUID = UUID.randomUUID().toString();
+                mUUID = UUID.randomUUID().toString();
 
                 if(title != "" && description !="") {
 
@@ -267,20 +267,19 @@ public class h_NewcomplaintFragment extends Fragment {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
-                            String hostel_name = sharedPref.getString("hostel", "narmada");
-                            String room = sharedPref.getString("roomno", "1004");
-                            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                            String moreRooms = room + ",";
 
-                            params.put("HOSTEL", hostel_name);
-                            //TODO get name from prefs
-                            params.put("NAME", "Omkar Patil");
-                            //TODO get rollno from prefs
-                            params.put("ROLL_NO", "me15b123");
-                            params.put("ROOM_NO", room);
+                            final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                            final SharedPreferences.Editor editor = sharedPref.edit();
+
+                            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                            String moreRooms = Utils.getprefString(UtilStrings.ROOM, getActivity()) + ",";
+
+                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, getActivity()));
+                            params.put("NAME", Utils.getprefString(UtilStrings.NAME, getActivity()));
+                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, getActivity()));
+                            params.put("ROOM_NO", Utils.getprefString(UtilStrings.ROOM, getActivity()));
                             params.put("TITLE", title);
                             params.put("PROXIMITY", proximity);
-                            //Todo add proximity to card
                             params.put("DESCRIPTION", description);
                             params.put("UPVOTES", "0");
                             params.put("DOWNVOTES", "0");
