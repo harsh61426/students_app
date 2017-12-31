@@ -125,7 +125,8 @@ public class h_NewcomplaintFragment extends Fragment {
         description1.add("Water outlet problem");
         description1.add("Dryer not functional");
         description1.add("Not even starting wash cycle");
-        description1.add("Don't know what's the problem");
+        description1.add("Others");
+
 
         final ArrayAdapter<String> dataAdapter_description1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description1);
         dataAdapter_description1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -134,6 +135,8 @@ public class h_NewcomplaintFragment extends Fragment {
         description2.add("Heating or cooling not working");
         description2.add("Monkey drank from the dispenser");
         description2.add("Algae is growing");
+        description2.add("Others");
+
 
         final ArrayAdapter<String> dataAdapter_description2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description2);
         dataAdapter_description2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,6 +149,7 @@ public class h_NewcomplaintFragment extends Fragment {
         description3.add("Washroom doors not closing properly");
         description3.add("Flush tanks not working");
         description3.add("Pipes leaking");
+        description3.add("Others");
 
         final ArrayAdapter<String> dataAdapter_description3 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description3);
         dataAdapter_description3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -155,6 +159,8 @@ public class h_NewcomplaintFragment extends Fragment {
         description4.add("Civil work");
         description4.add("Furniture broken");
         description4.add("Internet problem (LAN port repair)");
+        description4.add("Others");
+
 
         final ArrayAdapter<String> dataAdapter_description4 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description4);
         dataAdapter_description4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -165,8 +171,10 @@ public class h_NewcomplaintFragment extends Fragment {
         description5.add("Furniture broken");
         description5.add("Internet problem");
         description5.add("Wing not cleaned regularly");
-        description5.add("Do not have a dustbin");
+        description5.add("Does not have a dustbin");
         description5.add("Cloth wires not proper");
+        description5.add("Others");
+
 
         final ArrayAdapter<String> dataAdapter_description5 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description5);
         dataAdapter_description5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -218,6 +226,7 @@ public class h_NewcomplaintFragment extends Fragment {
                 final String description = spinner_complaint_description.getSelectedItem().toString();
                 final String proximity = prox.getText().toString();
                 final String mUUID = UUID.randomUUID().toString();
+
 
                 if(title != "" && description !="") {
 
@@ -291,13 +300,14 @@ public class h_NewcomplaintFragment extends Fragment {
                             params.put("COMMENTS", "0");
                             params.put("MORE_ROOMS", moreRooms);
                             params.put("CUSTOM", "0");
+
                             return params;
                         }
                     };
                     MySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
 
                 } else {
-                    Toast.makeText(getContext(), "select appropraite title and description from the drop down menu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "select appropriate title and description from the drop down menu", Toast.LENGTH_SHORT).show();
                 }
 
             }

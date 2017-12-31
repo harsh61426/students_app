@@ -13,7 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -24,17 +25,22 @@ import com.android.volley.toolbox.StringRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Collections;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.complaint_box.activities.h_Comments;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.h_Complaint;
-import in.ac.iitm.students.complaint_box.objects.h_Description;
-import in.ac.iitm.students.complaint_box.objects.h_DescriptionwithFreq;
+
+import in.ac.iitm.students.complaint_box.objects.h_WashingMachine;
+import in.ac.iitm.students.complaint_box.objects.h_Washroom;
+import in.ac.iitm.students.complaint_box.objects.h_WaterDispenser;
+import in.ac.iitm.students.complaint_box.objects.h_PinRoom;
+import in.ac.iitm.students.complaint_box.objects.h_PinWing;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
+
+import static in.ac.iitm.students.R.id.bn_comment1;
 
 
 public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -42,10 +48,18 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
     ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
-    HashMap<String,ArrayList<h_Description>> hComplaintTitleHash = new HashMap<>();
-    //ArrayList<h_Description> hComplaintDescription = new ArrayList<>();
-    ArrayList<String> hComplaintTitle=new ArrayList<>();
-    ArrayList<ArrayList<h_DescriptionwithFreq>> hComplaintDescription=new ArrayList<>();
+    h_WashingMachine hwm=new h_WashingMachine();
+    h_WaterDispenser hwd=new h_WaterDispenser();
+    h_Washroom hw=new h_Washroom();
+    h_PinRoom hpr=new h_PinRoom();
+    h_PinWing hpw=new h_PinWing();
+
+    int t1ids[][]={{R.id.t1p1,R.id.t1f1},{R.id.t1p2,R.id.t1f2},{R.id.t1p3,R.id.t1f3},{R.id.t1p4,R.id.t1f4},{R.id.t1p5,R.id.t1f5},{R.id.t1p6,R.id.t1f6}};
+    int t2ids[][]={{R.id.t2p1,R.id.t2f1},{R.id.t2p2,R.id.t2f2},{R.id.t2p3,R.id.t2f3},{R.id.t2p4,R.id.t2f4},{R.id.t2p5,R.id.t2f5}};
+    int t3ids[][]={{R.id.t3p1,R.id.t3f1},{R.id.t3p2,R.id.t3f2},{R.id.t3p3,R.id.t3f3},{R.id.t3p4,R.id.t3f4},{R.id.t3p5,R.id.t3f5},{R.id.t3p6,R.id.t3f6},{R.id.t3p7,R.id.t3f7},{R.id.t3p8,R.id.t3f8}};
+    int t4ids[][]={{R.id.t4p1,R.id.t4f1},{R.id.t4p2,R.id.t4f2},{R.id.t4p3,R.id.t4f3},{R.id.t4p4,R.id.t4f4},{R.id.t4p5,R.id.t4f5}};
+    int t5ids[][]={{R.id.t5p1,R.id.t5f1},{R.id.t5p2,R.id.t5f2},{R.id.t5p3,R.id.t5f3},{R.id.t5p4,R.id.t5f4},{R.id.t5p5,R.id.t5f5},{R.id.t5p6,R.id.t5f6},{R.id.t5p7,R.id.t5f7},{R.id.t5p8,R.id.t5f8}};
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -64,7 +78,7 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState) throws NullPointerException {
 
         View view = inflater.inflate(R.layout.h_fragment_latest_thread, container, false);
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_latest_thread);
@@ -73,12 +87,61 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         mRecyclerView = (RecyclerView) view.findViewById(R.id.latest_thread_recycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
+        Button bn_comments1=(Button)view.findViewById(bn_comment1);
+        Button bn_comments2=(Button)view.findViewById(R.id.bn_comment2);
+        Button bn_comments3=(Button)view.findViewById(R.id.bn_comment3);
+        Button bn_comments4=(Button)view.findViewById(R.id.bn_comment4);
+        Button bn_comments5=(Button)view.findViewById(R.id.bn_comment5);
         getAllComplaints();
+        for(int i=0;i<6;i++){
+            for(int j=0;j<2;j++){
+                if(hwm.getT1details()[i][j]!=null){
+                    TextView tvs=(TextView)(view.findViewById(t1ids[i][j]));
+                    tvs.setText(hwm.getT1details()[i][j]);
+                }
+            }
+        }
+        for(int i=0;i<5;i++){
+            for(int j=0;j<2;j++){
+                if(hwd.getT2details()[i][j]!=null){
+                    TextView tvs=(TextView)(view.findViewById(t2ids[i][j]));
+                    tvs.setText(hwd.getT2details()[i][j]);
+                }
+            }
+        }
+        for(int i=0;i<8;i++){
+            for(int j=0;j<2;j++){
+                if(hw.getT3details()[i][j]!=null){
+                    TextView tvs=(TextView)(view.findViewById(t3ids[i][j]));
+                    tvs.setText(hw.getT3details()[i][j]);
+                }
+            }
+        }
+        for(int i=0;i<5;i++){
+            for(int j=0;j<2;j++){
+                if(hpr.getT4details()[i][j]!=null){
+                    TextView tvs=(TextView)(view.findViewById(t4ids[i][j]));
+                    tvs.setText(hpr.getT4details()[i][j]);
+                }
+            }
+        }
+        for(int i=0;i<8;i++){
+            for(int j=0;j<2;j++){
+                if(hpw.getT5details()[i][j]!=null){
+                    TextView tvs=(TextView)(view.findViewById(t5ids[i][j]));
+                    tvs.setText(hpw.getT5details()[i][j]);
+                }
+            }
+        }
+
+
         return view;
     }
 
 
     public void getAllComplaints() {
+
+
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -88,7 +151,15 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
                 //ArrayList<h_Complaint> hComplaintArray=null;
                 try {
-                    hComplaintList = hJsonComplaintParser.pleasePleaseParseMyData();
+                    hJsonComplaintParser.pleasePleaseParseMyData();
+                    hComplaintList=hJsonComplaintParser.gethComplaintArray();
+                    hwm=hJsonComplaintParser.getH_wm();
+                    hwd=hJsonComplaintParser.getH_wd();
+                    hw=hJsonComplaintParser.getH_w();
+                    hpr=hJsonComplaintParser.getH_pr();
+                    hpw=hJsonComplaintParser.getH_pw();
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                     Snackbar snackbar = Snackbar
@@ -96,71 +167,24 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                     snackbar.show();
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
 
-                    hComplaintArray = new ArrayList<>();
-                    hComplaintArray.add(h_Complaint.getErrorComplaintObject());
+                    //hComplaintList = new ArrayList<>();
+                    hComplaintList.add(h_Complaint.getErrorComplaintObject());
+                }
+
+
+
+
+
+
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true);
-                int j=hComplaintList.size()-1;
-                //bringing false to top
-                for(int i=0;i<j;i++){
-                    if(hComplaintList.get(i).isType()){
-                        while(!hComplaintList.get(j).isType())
-                            j--;
-                        Collections.swap(hComplaintList,i,j);
-                        j--;
-                    }
-                }
-
-                for(int i=0;i<hComplaintList.size();i++){
-                    h_Description hd=new h_Description(hComplaintList.get(i).getDescription(),hComplaintList.get(i).getProximity());
-
-
-                    if(!hComplaintTitleHash.containsKey(hComplaintList.get(i).getTitle())){
-                        ArrayList<h_Description> ahd=new ArrayList<>();
-                        ahd.add(hd);
-                        hComplaintTitleHash.put(hComplaintList.get(i).getTitle(),ahd);
-                    }
-                    else{
-                        hComplaintTitleHash.get(hComplaintList.get(i).getTitle()).add(hd);
-                    }
-                }
-
-                hComplaintTitle = new ArrayList<String>(hComplaintTitleHash.keySet());
-
-                for(String i:hComplaintTitle){
-
-                    ArrayList<h_DescriptionwithFreq> hComplaintDescriptionwithFreq=new ArrayList<>();
-                    for(int k=0;k<hComplaintTitleHash.get(i).size();k++){
-
-                        int freq=1;
-                        for(int m=k+1;m<hComplaintTitleHash.get(i).size();m++){
-                            if(hComplaintTitleHash.get(i).get(k).getDescription().equals(hComplaintTitleHash.get(i).get(m).getDescription())){
-                                if(hComplaintTitleHash.get(i).get(k).getProximity().equals(hComplaintTitleHash.get(i).get(m).getProximity())){
-                                    freq++;
-                                    hComplaintTitleHash.get(i).remove(m);
-                                    m--;
-                                }
-                            }
-                        }
-                        h_DescriptionwithFreq hdf=new h_DescriptionwithFreq(hComplaintTitleHash.get(i).get(k).getDescription(),hComplaintTitleHash.get(i).get(k).getProximity(),freq);
-                        hComplaintDescriptionwithFreq.add(hdf);
-                    }
-                    hComplaintDescription.add(hComplaintDescriptionwithFreq);
-                }
-
-
-
-
-
-
-
-
-
-
-
+                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true, (CoordinatorLayout)getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
                 // mAdapter.notifyDataSetChanged();
+
+
+
+
 
 
             }
@@ -172,11 +196,11 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                         .make(getActivity().findViewById(R.id.main_content), "No Internet Connection", Snackbar.LENGTH_LONG);
                 snackbar.show();
 
-                ArrayList<h_Complaint> hComplaintArray = new ArrayList<>();
-                hComplaintArray.add(h_Complaint.getErrorComplaintObject());
+
+                hComplaintList.add(h_Complaint.getErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true, (CoordinatorLayout)getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
             }

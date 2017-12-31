@@ -35,7 +35,11 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.h_Comments;
+import in.ac.iitm.students.complaint_box.activities.h_ComplaintDetails;
 import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+
+
+
 import in.ac.iitm.students.others.MySingleton;
 
 /**
@@ -44,6 +48,7 @@ import in.ac.iitm.students.others.MySingleton;
 
 public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.ViewHolder> {
     private ArrayList<h_Complaint> mDataset;
+
     private Activity activity;
     private Context context;
     private SharedPreferences sharedPref;
@@ -79,7 +84,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 //        holder.mTextView.setText(mDataset[position]);
         TextView tv_name = (TextView) holder.view.findViewById(R.id.tv_name);
         TextView tv_hostel = (TextView) holder.view.findViewById(R.id.tv_hostel);
@@ -295,16 +300,17 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                 //creating a popup menu
                 PopupMenu popup = new PopupMenu(context, bn_more_rooms);
                 MenuInflater inflater = popup.getMenuInflater();
-                String[] roomNumber = hComplaint.getMoreRooms().split(",");
+                //String[] roomNumber = hComplaint.getMoreRooms().split(",");
 
-                for (String s:roomNumber) {
+                /*for (String s:roomNumber) {
                     //adding items to menu
                     popup.getMenu().add(Menu.NONE,Menu.NONE,Menu.NONE,s);
 
-                }
+                }*/
                 //inflating popup menu from xml resource
                 inflater.inflate(R.menu.more_rooms_popup, popup.getMenu());
                 popup.show();
+
             }
         });
 
@@ -379,14 +385,19 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
             }
         });
 
-        if (hComplaint.getCustom()) {
+        /*if (hComplaint.isCustom()) {
             if (hComplaint.getTag().equals("")) tv_tags.setVisibility(View.GONE);
             else tv_tags.setText(hComplaint.getTag());
             bn_more_rooms.setVisibility(View.GONE);
 
-        } else {
-            tv_tags.setVisibility(View.GONE);
         }
+        else {
+            tv_tags.setVisibility(View.GONE);
+        }*/
+
+        if (hComplaint.getTag().equals("")) tv_tags.setVisibility(View.GONE);
+        else tv_tags.setText(hComplaint.getTag());
+        bn_more_rooms.setVisibility(View.GONE);
 
         if (hComplaint.getName().equals("Institute MobOps")) {
             iv_profile.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher));

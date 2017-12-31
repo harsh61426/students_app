@@ -22,12 +22,12 @@ import com.android.volley.toolbox.StringRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 
@@ -37,7 +37,10 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
 
-    List<h_Complaint> hComplaintList = new ArrayList<>();
+    ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
+
+
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -79,9 +82,10 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                 //Log.d("tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
 
-                ArrayList<h_Complaint> hComplaintArray = null;
+                //ArrayList<h_Complaint> hComplaintArray = null;
                 try {
-                    hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
+                    hJsonComplaintParser.pleasePleaseParseMyData();
+                    hComplaintList=hJsonComplaintParser.gethComplaintArray();
                 } catch (IOException e) {
                     e.printStackTrace();
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
@@ -89,15 +93,15 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                             .make(getActivity().findViewById(R.id.main_content), "Error fetching the complaints", Snackbar.LENGTH_LONG);
                     snackbar.show();
 
-                    hComplaintArray = new ArrayList<>();
-                    hComplaintArray.add(h_Complaint.getErrorComplaintObject());
+                    //hComplaintList = new ArrayList<>();
+                    hComplaintList.add(h_Complaint.getErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new h_ComplaintAdapter(hComplaintList,getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(hComplaintList,getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
 
@@ -111,11 +115,11 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                         .make(getActivity().findViewById(R.id.main_content), "No Internet Connection", Snackbar.LENGTH_LONG);
                 snackbar.show();
 
-                ArrayList<h_Complaint> hComplaintArray = new ArrayList<>();
-                hComplaintArray.add(h_Complaint.getErrorComplaintObject());
+                ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
+                hComplaintList.add(h_Complaint.getErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
             }
         }) {
