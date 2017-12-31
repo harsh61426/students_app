@@ -8,7 +8,9 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.icu.util.IndianCalendar;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.CalendarContract;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import in.ac.iitm.students.R;
@@ -59,6 +62,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         return viewHolder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         String day = null;
@@ -87,6 +91,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             default:
                 day = "";
         }
+
         holder.tv_day.setText(day);
         holder.tv_date.setText(String.valueOf(month_events.get(position).getDate()));
         holder.tv_desc.setText(month_events.get(position).getDetails());
@@ -102,37 +107,37 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             holder.tv_day.setTextColor(Color.parseColor("#3F51B5"));
         }
 
-        if(month_events.get(position).eventDisplay1==""){
+        if(Objects.equals(month_events.get(position).eventDisplay1, "")){
             holder.reminderCardView.setVisibility(View.GONE);
         }
-        if(month_events.get(position).eventDisplay1!=""){
+        if(!Objects.equals(month_events.get(position).eventDisplay1, "")){
             holder.reminderCardView.setVisibility(View.VISIBLE);
             holder.reminderText.setText(month_events.get(position).eventDisplay1);
         }
-        if(month_events.get(position).eventDisplay2!=""){
+        if(!Objects.equals(month_events.get(position).eventDisplay2, "")){
             holder.reminerDots.setVisibility(View.VISIBLE);
         }
 
-        Calendar beginTime=Calendar.getInstance();
-        beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
-        beginTime.set(Calendar.MILLISECOND, 0);
-        beginTime.setTimeZone(TimeZone.getDefault());
-        // A date-time specified in milliseconds since the epoch.
-        final long  begin= beginTime.getTimeInMillis();
+//        Calendar beginTime=Calendar.getInstance();
+//        beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
+//        beginTime.set(Calendar.MILLISECOND, 0);
+//        beginTime.setTimeZone(TimeZone.getDefault());
+//        // A date-time specified in milliseconds since the epoch.
+//        final long  begin= beginTime.getTimeInMillis();
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-                builder.appendPath("time");
-                ContentUris.appendId(builder, begin);
-                Intent intent = new Intent(Intent.ACTION_VIEW)
-                        .setData(builder.build());
-                context.startActivity(intent);
-
-            }
-        });
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+////                Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+////                builder.appendPath("time");
+////                ContentUris.appendId(builder, begin);
+////                Intent intent = new Intent(Intent.ACTION_VIEW)
+////                        .setData(builder.build());
+////                context.startActivity(intent);
+//
+//            }
+//        });
     }
 
     @Override

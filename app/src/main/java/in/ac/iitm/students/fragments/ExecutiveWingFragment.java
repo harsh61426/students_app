@@ -262,9 +262,10 @@ public class ExecutiveWingFragment extends Fragment implements View.OnClickListe
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(getActivity())
                 .load(urlPic)
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.color.cardview_light_background)
                 .error(R.mipmap.ic_launcher)
                 .fit()
+                .centerInside()
                 .into(imageView);
 
     }

@@ -35,11 +35,7 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.h_Comments;
-import in.ac.iitm.students.complaint_box.activities.h_ComplaintDetails;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
-
-
-
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.others.MySingleton;
 
 /**
@@ -47,17 +43,17 @@ import in.ac.iitm.students.others.MySingleton;
  */
 
 public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.ViewHolder> {
-    private ArrayList<h_Complaint> mDataset;
-
+    private ArrayList<Complaint> mDataset;
     private Activity activity;
     private Context context;
     private SharedPreferences sharedPref;
     private boolean latest = false;
     private Button bn_resolve;
     private CoordinatorLayout coordinatorLayout;
+    private Complaint hComplaint;
 
 
-    public h_ComplaintAdapter(ArrayList<h_Complaint> myDataset, Activity a, Context c, Boolean latest, CoordinatorLayout coordinatorLayout) {
+    public h_ComplaintAdapter(ArrayList<Complaint> myDataset, Activity a, Context c, Boolean latest, CoordinatorLayout coordinatorLayout) {
         mDataset = myDataset;
         activity = a;
         context = c;
@@ -84,7 +80,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 //        holder.mTextView.setText(mDataset[position]);
         TextView tv_name = (TextView) holder.view.findViewById(R.id.tv_name);
         TextView tv_hostel = (TextView) holder.view.findViewById(R.id.tv_hostel);
@@ -104,11 +100,10 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
         if(!latest) bn_resolve = (Button)holder.view.findViewById(R.id.bn_resolve);
 
 
-        final h_Complaint hComplaint = mDataset.get(position);
+        hComplaint = mDataset.get(position);
 
         tv_name.setText(hComplaint.getName());
-        //TODO change narmada to IITM
-        tv_hostel.setText(sharedPref.getString("hostel", "IIT Madras"));
+        tv_hostel.setText(hComplaint.getHostel());
         tv_resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         tv_title.setText(hComplaint.getTitle());
         tv_description.setText(hComplaint.getDescription());
@@ -136,8 +131,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    //String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
-                    String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -217,8 +211,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    //String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
-                    String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -300,17 +293,16 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                 //creating a popup menu
                 PopupMenu popup = new PopupMenu(context, bn_more_rooms);
                 MenuInflater inflater = popup.getMenuInflater();
-                //String[] roomNumber = hComplaint.getMoreRooms().split(",");
+                String[] roomNumber = hComplaint.getMoreRooms().split(",");
 
-                /*for (String s:roomNumber) {
+                for (String s:roomNumber) {
                     //adding items to menu
                     popup.getMenu().add(Menu.NONE,Menu.NONE,Menu.NONE,s);
 
-                }*/
+                }
                 //inflating popup menu from xml resource
                 inflater.inflate(R.menu.more_rooms_popup, popup.getMenu());
                 popup.show();
-
             }
         });
 
@@ -385,19 +377,14 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
             }
         });
 
-        /*if (hComplaint.isCustom()) {
+        if (hComplaint.getCustom()) {
             if (hComplaint.getTag().equals("")) tv_tags.setVisibility(View.GONE);
             else tv_tags.setText(hComplaint.getTag());
             bn_more_rooms.setVisibility(View.GONE);
 
-        }
-        else {
+        } else {
             tv_tags.setVisibility(View.GONE);
-        }*/
-
-        if (hComplaint.getTag().equals("")) tv_tags.setVisibility(View.GONE);
-        else tv_tags.setText(hComplaint.getTag());
-        bn_more_rooms.setVisibility(View.GONE);
+        }
 
         if (hComplaint.getName().equals("Institute MobOps")) {
             iv_profile.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher));

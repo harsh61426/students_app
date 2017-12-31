@@ -19,6 +19,7 @@ import in.ac.iitm.students.complaint_box.objects.h_WashingMachine;
 import in.ac.iitm.students.complaint_box.objects.h_Washroom;
 import in.ac.iitm.students.complaint_box.objects.h_WaterDispenser;
 
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 
 /**
  * Created by DELL on 7/7/2017.
@@ -28,7 +29,7 @@ public class h_JSONComplaintParser {
 
     Activity activity;
     private InputStream stream;
-    private ArrayList<h_Complaint> hComplaintArray;
+    //private ArrayList<h_Complaint> hComplaintArray;
     private h_WashingMachine h_wm=new h_WashingMachine();
     private h_WaterDispenser h_wd=new h_WaterDispenser();
     private h_Washroom h_w=new h_Washroom();
@@ -37,6 +38,7 @@ public class h_JSONComplaintParser {
     private String[][] arr;
 
 
+    private ArrayList<Complaint> hComplaintArray;
 
     public h_JSONComplaintParser(String string, Activity activity) {
         stream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
@@ -82,9 +84,9 @@ public class h_JSONComplaintParser {
     }
 
 
-    public h_Complaint readComplaint(JsonReader reader) throws IOException,NullPointerException {
+    public Complaint readComplaint(JsonReader reader) throws IOException,NullPointerException {
 
-        h_Complaint hComplaint = new h_Complaint();
+        Complaint hComplaint = new Complaint();
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
@@ -340,7 +342,7 @@ public class h_JSONComplaintParser {
                 reader.nextString();
                 reader.endObject();
 
-                return h_Complaint.getErrorComplaintObject();
+                return Complaint.getErrorComplaintObject();
             } else {
                 reader.skipValue();
             }

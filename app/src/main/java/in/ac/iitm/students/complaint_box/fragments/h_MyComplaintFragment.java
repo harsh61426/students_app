@@ -1,6 +1,8 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -22,12 +24,12 @@ import com.android.volley.toolbox.StringRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
-
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 
@@ -37,15 +39,11 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
 
-    ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
-
-
-
+    List<Complaint> hComplaintList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    //private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/myComplaints.php";
-    private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/myComplaints.php";
+    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/myComplaints.php";
 
     public h_MyComplaintFragment() {
         // Required empty public constructor
@@ -82,7 +80,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                 //Log.d("tag", response);
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
 
-                //ArrayList<h_Complaint> hComplaintArray = null;
+                //ArrayList<Complaint> hComplaintArray = null;
                 try {
                     hJsonComplaintParser.pleasePleaseParseMyData();
                     hComplaintList=hJsonComplaintParser.gethComplaintArray();
@@ -93,8 +91,8 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                             .make(getActivity().findViewById(R.id.main_content), "Error fetching the complaints", Snackbar.LENGTH_LONG);
                     snackbar.show();
 
-                    //hComplaintList = new ArrayList<>();
-                    hComplaintList.add(h_Complaint.getErrorComplaintObject());
+                    //hComplaintArray = new ArrayList<>();
+                    hComplaintArray.add(Complaint.getErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mAdapter = new h_ComplaintAdapter(hComplaintList,getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
@@ -115,8 +113,8 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                         .make(getActivity().findViewById(R.id.main_content), "No Internet Connection", Snackbar.LENGTH_LONG);
                 snackbar.show();
 
-                ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
-                hComplaintList.add(h_Complaint.getErrorComplaintObject());
+                ArrayList<Complaint> hComplaintArray = new ArrayList<>();
+                hComplaintArray.add(Complaint.getErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
@@ -126,12 +124,12 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                //String hostel_name = sharedPref.getString("hostel", "Narmada");
-                //sharedPref.getString("rollno","me15b123")
-                params.put(KEY_HOSTEL, hostel);
-                //todo
-                params.put("ROLL_NO", "me15b123");
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                String hostel_name = sharedPref.getString("hostel", "Narmada");
+                String rollno = sharedPref.getString("rollno", "me15b123");
+
+                params.put(KEY_HOSTEL, hostel_name);
+                params.put("ROLL_NO", rollno);
                 return params;
             }
 

@@ -273,5 +273,11 @@
     <string name="tag_phone">phone</string>
     <string name="tag_mail">mail</string>
 
+    <string-array name="query_suggestions">
+        <item>furniture</item>
+        <item>hotels</item>
+        <item>electronics</item>
+    </string-array>
+
 
 </resources>

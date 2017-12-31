@@ -4,20 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,8 +32,7 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.g_Comments;
-import in.ac.iitm.students.complaint_box.activities.h_Comments;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.others.MySingleton;
 
 /**
@@ -42,24 +40,23 @@ import in.ac.iitm.students.others.MySingleton;
  */
 
 public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.ViewHolder> {
-    private ArrayList<h_Complaint> mDataset;
+    private ArrayList<Complaint> mDataset;
     private int mstatus;
     private Activity activity;
     private Context context;
     private SharedPreferences sharedPref;
-    private TextView tv_upvote;
-    private TextView tv_downvote;
-    private Button bn_upvote;
-    private Button bn_downvote;
+    private boolean latest = false;
+    private Button bn_resolve;
+    private CoordinatorLayout coordinatorLayout;
 
 
-
-    public g_ComplaintAdapter(ArrayList<h_Complaint> myDataset, Activity a, Context c) {
+    public g_ComplaintAdapter(ArrayList<Complaint> myDataset, Activity a, Context c, Boolean latest, CoordinatorLayout coordinatorLayout) {
         mDataset = myDataset;
         activity = a;
         context = c;
         sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
-
+        this.latest = latest;
+        this.coordinatorLayout = coordinatorLayout;
     }
 
     @Override
@@ -77,7 +74,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
     }
 
     @Override
-    public void onBindViewHolder(g_ComplaintAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 //        holder.mTextView.setText(mDataset[position]);
         TextView tv_name = (TextView) holder.view.findViewById(R.id.tv_name);
         TextView tv_hostel = (TextView) holder.view.findViewById(R.id.tv_hostel);
@@ -85,40 +82,56 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         TextView tv_title = (TextView) holder.view.findViewById(R.id.tv_title);
         TextView tv_tags = (TextView) holder.view.findViewById(R.id.tv_tags);
         TextView tv_description = (TextView) holder.view.findViewById(R.id.tv_description);
-         tv_upvote = (TextView) holder.view.findViewById(R.id.tv_upvote);
-         tv_downvote = (TextView) holder.view.findViewById(R.id.tv_downvote);
+        TextView tv_upvote = (TextView) holder.view.findViewById(R.id.tv_upvote);
+        TextView tv_downvote = (TextView) holder.view.findViewById(R.id.tv_downvote);
         TextView tv_comment = (TextView) holder.view.findViewById(R.id.tv_comment);
-         bn_upvote = (Button) holder.view.findViewById(R.id.bn_upvote);
-         bn_downvote = (Button) holder.view.findViewById(R.id.bn_downvote);
+        Button bn_upvote = (Button) holder.view.findViewById(R.id.bn_upvote);
+        Button bn_downvote = (Button) holder.view.findViewById(R.id.bn_downvote);
         Button bn_comment = (Button) holder.view.findViewById(R.id.bn_comment);
         ImageView iv_profile = (ImageView) holder.view.findViewById(R.id.imgProfilePicture);
         LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_comment);
+        RelativeLayout relativeLayout=(RelativeLayout)holder.view.findViewById(R.id.rl_name);
 
 
-        final h_Complaint hComplaint = mDataset.get(position);
+        final Complaint gComplaint = mDataset.get(position);
 
-        tv_name.setText(hComplaint.getName());
-        //TODO change narmada to IITM
-        tv_hostel.setText(sharedPref.getString("hostel", "Narmada"));
-        tv_resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
-        tv_title.setText(hComplaint.getTitle());
-        tv_description.setText(hComplaint.getDescription());
-        tv_upvote.setText("" + hComplaint.getUpvotes());
-        tv_downvote.setText("" + hComplaint.getDownvotes());
-        tv_comment.setText("" + hComplaint.getComments());
-        //if (hComplaint.getTag() != null && hComplaint.getTag().equals("")) tv_tags.setVisibility(View.INVISIBLE);
+        tv_name.setText(gComplaint.getName());
+        tv_hostel.setText(gComplaint.getHostel());
+        tv_resolved.setText(gComplaint.isResolved() ? "Resolved" : "Unresolved");
+        tv_title.setText(gComplaint.getTitle());
+        tv_description.setText(gComplaint.getDescription());
+        tv_upvote.setText("" + gComplaint.getUpvotes());
+        tv_downvote.setText("" + gComplaint.getDownvotes());
+        tv_comment.setText("" + gComplaint.getComments());
+        //if (gComplaint.getTag() != null && gComplaint.getTag().equals("")) tv_tags.setVisibility(View.INVISIBLE);
         //else
-        tv_tags.setText(hComplaint.getTag());
+        tv_tags.setText(gComplaint.getTag());
 
         //todo use glide and get profile picture
-        if (hComplaint.getName() != null && hComplaint.getName().equals("Institute MobOps")) {
+        if (gComplaint.getName() != null && gComplaint.getName().equals("Institute MobOps")) {
             iv_profile.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher));
-            tv_hostel.setText(hComplaint.getHostel());
+            tv_hostel.setText(gComplaint.getHostel());
         }
 
-        final String mUUID = hComplaint.getUid();
+        final String mUUID = gComplaint.getUid();
 
-        if (hComplaint.isResolved()) {
+        if (gComplaint.getRollNo() == context.getString(R.string.acaf_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.resaf_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.sgs_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.cocas_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.has_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.culsec_lit_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.culsec_arts_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.iar_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.speaker_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.sports_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.mitr_roll) ||
+                gComplaint.getRollNo() == context.getString(R.string.cfi_roll)) {
+
+            relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.red_background));
+        }
+
+        if (gComplaint.isResolved()) {
             linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.resolved_colour));
 
              bn_upvote.setClickable(false);
@@ -132,36 +145,58 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    //String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/vote.php";
-                    String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
+                            Log.d("lollz", response);
+
                             try {
                                 JSONObject jsObject = new JSONObject(response);
-
-                                if (jsObject.has("error")) {
-                                    Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
-                                } else if (jsObject.has("status")) {
+                                if (jsObject.has("status")) {
                                     String status = jsObject.getString("status");
                                     if (status == "1") {
                                         increaseUpvotes();
-                                        notifyItemChanged(position);
+                                        notifyItemChanged(holder.getAdapterPosition());
+
                                     } else {
-                                        Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        if (jsObject.has("error")) {
+                                            if (jsObject.getString("error").equals("Same vote")) ;
+                                            {
+                                                Snackbar snackbar = Snackbar
+                                                        .make(coordinatorLayout, "You can up-vote a complaint only once.", Snackbar.LENGTH_LONG);
+                                                snackbar.show();
+                                            }
+                                        } else {
+                                            Snackbar snackbar = Snackbar
+                                                    .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+                                            //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
+                                } else if (jsObject.has("error")) {
+
+                                    Snackbar snackbar = Snackbar
+                                            .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+                                    //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
                                 }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                Snackbar snackbar = Snackbar
+                                        .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
+                                snackbar.show();
                             }
                         }
 
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
+                            Snackbar snackbar = Snackbar
+                                    .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
                     }) {
                         //to POST params
@@ -181,8 +216,8 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                 }
 
                 private void increaseUpvotes() {
-                    int upvote_no = hComplaint.getUpvotes();
-                    hComplaint.setUpvotes(upvote_no + 1);
+                    int upvote_no = gComplaint.getUpvotes();
+                    mDataset.get(holder.getAdapterPosition()).setUpvotes(upvote_no + 1);
                 }
             });
 
@@ -190,22 +225,27 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    //String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/vote.php";
-                    String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
                                 JSONObject jsObject = new JSONObject(response);
                                 if (jsObject.has("error")) {
-                                    Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                    Snackbar snackbar = Snackbar
+                                            .make(coordinatorLayout, "Error down-voting the complaint", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+                                    //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
                                 } else if (jsObject.has("status")) {
                                     String status = jsObject.getString("status");
                                     if (status == "1") {
                                         increaseDownvotes();
-                                        notifyItemChanged(position);
+                                        notifyItemChanged(holder.getAdapterPosition());
                                     } else {
-                                        Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        Snackbar snackbar = Snackbar
+                                                .make(coordinatorLayout, "Error down-voting the complaint", Snackbar.LENGTH_LONG);
+                                        snackbar.show();
+                                        //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
@@ -238,8 +278,8 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                 }
 
                 private void increaseDownvotes() {
-                    int downvote_no = hComplaint.getDownvotes();
-                    hComplaint.setDownvotes(downvote_no + 1);
+                    int downvote_no = gComplaint.getDownvotes();
+                    gComplaint.setDownvotes(downvote_no + 1);
                 }
             });
         }
@@ -248,9 +288,16 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, g_Comments.class);
-                intent.putExtra("cardData", hComplaint);
-                activity.startActivity(intent);
+                if (gComplaint.isResolved() && gComplaint.getComments() == 0) {
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "No Comments", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    Intent intent = new Intent(context, g_Comments.class);
+                    intent.putExtra("cardData", gComplaint);
+                    activity.startActivity(intent);
+                }
+
             }
         });
 

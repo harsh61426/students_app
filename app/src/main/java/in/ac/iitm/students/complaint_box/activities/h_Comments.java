@@ -27,14 +27,14 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
-import in.ac.iitm.students.complaint_box.objects.h_CommentObj;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
+import in.ac.iitm.students.complaint_box.objects.CommentObj;
+import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_CmntDataParser;
 import in.ac.iitm.students.others.MySingleton;
 
 public class h_Comments extends AppCompatActivity {
 
-    List<h_CommentObj> commentList = new ArrayList<>();
+    List<CommentObj> commentList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -48,7 +48,7 @@ public class h_Comments extends AppCompatActivity {
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
         Intent i = getIntent();
-        final h_Complaint hComplaint = (h_Complaint) i.getSerializableExtra("cardData");
+        final Complaint hComplaint = (Complaint) i.getSerializableExtra("cardData");
 
         TextView name = (TextView) findViewById(R.id.comment_tv_name);
         TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);
@@ -80,7 +80,7 @@ public class h_Comments extends AppCompatActivity {
                 Log.e("h",response);
 
                 h_CmntDataParser hCmntDataParser = new h_CmntDataParser(response, getApplicationContext());
-                ArrayList<h_CommentObj> commentArray = null;
+                ArrayList<CommentObj> commentArray = null;
                 try {
                     commentArray = hCmntDataParser.pleaseParseMyData();
                 } catch (IOException e) {
@@ -90,7 +90,7 @@ public class h_Comments extends AppCompatActivity {
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
 
-                mAdapter = new h_CommentsAdapter(commentArray);
+                mAdapter = new h_CommentsAdapter(commentArray,getApplicationContext());
                 mRecyclerView.setAdapter(mAdapter);
             }
 
