@@ -136,6 +136,8 @@ public class RollSearchFragment extends Fragment {
                         about = baseObject.getString("about");
                     }
 
+                    // TODO : @Aebel remove intent and add fragment below the search widget dynamically
+
                     Intent intent = new Intent(context, StudentDetailsActivity.class);
                     intent.putExtra("studName", studName);
                     intent.putExtra("studRoll", studRoll);
