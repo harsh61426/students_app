@@ -41,17 +41,17 @@ public class MonthFragment extends Fragment{
 
     private void setMonthName(int i) {
         if (i == 0)
-            monthName.setText("July,2017");
+            monthName.setText("January,2018");
         else if (i == 1)
-            monthName.setText("August,2017");
+            monthName.setText("February,2018");
         else if (i == 2)
-            monthName.setText("September,2017");
+            monthName.setText("March,2018");
         else if (i == 3)
-            monthName.setText("October,2017");
+            monthName.setText("April,2018");
         else if (i == 4)
-            monthName.setText("November,2017");
+            monthName.setText("May,2018");
         else
-            monthName.setText("December,2017");
+            monthName.setText("June,2018");
 
     }
 

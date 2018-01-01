@@ -143,6 +143,7 @@ public class InstiCalendar {
         cur = cr.query(CalendarContract.Events.CONTENT_URI, PROJECTION, selectionClause, selectionArgs, null);
 
         int j=0;
+        assert cur != null;
         while (cur.moveToNext()) {
             if(j==2) break;
             if(j==0 && cur.getString(0).length()>0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")){
@@ -163,9 +164,15 @@ public class InstiCalendar {
         while (reader.hasNext()) {
 
             String name = reader.nextName();
+
             Log.d("kaka", "holigaga1 " + name);
             if (name.equals("date")) {
-                event.setDate(Integer.parseInt(reader.nextString()));
+
+                try{
+                    event.setDate(Integer.parseInt(reader.nextString()));
+                }catch(NumberFormatException ex){ // handle your exception
+                    event.setDate(0);
+                }
 
             } else if (name.equals("day")) {
                 event.setDay(reader.nextString());
