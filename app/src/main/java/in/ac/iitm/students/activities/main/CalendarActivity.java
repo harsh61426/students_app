@@ -1,5 +1,6 @@
 package in.ac.iitm.students.activities.main;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ import in.ac.iitm.students.others.Utils;
 public class CalendarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2017; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
+    public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2018; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
     public static int currentlyDisplayedMonth;
 
     private Toolbar toolbar;
@@ -68,6 +69,7 @@ public class CalendarActivity extends AppCompatActivity
     private ViewPager viewPager;
     private Menu menu;
     private NavigationView navigationView;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,6 +117,10 @@ public class CalendarActivity extends AppCompatActivity
 ////            getLoaderManager().initLoader(0, null,this);
 //        }
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading Calender....");
+        progressDialog.show();
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
         if(currentlyDisplayedMonth>=6)
@@ -146,6 +152,7 @@ public class CalendarActivity extends AppCompatActivity
                         MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
                         adapter.setCal_events(cal_events);
                         // Set the adapter onto the view pager
+                        progressDialog.dismiss();
                         viewPager.setAdapter(adapter);
                         viewPager.setCurrentItem(currentlyDisplayedMonth);
 

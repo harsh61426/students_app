@@ -36,7 +36,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@id/swiperefreshhome1"/>
+            android:layout_below="@+id/swiperefreshhome1"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

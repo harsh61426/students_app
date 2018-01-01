@@ -68,17 +68,36 @@
                 android:layout_marginTop="16dp"
                 android:src="@drawable/app_logo" />
 
-            <TextView
-                android:id="@+id/textView2"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="32dp"
-                android:gravity="center_horizontal"
-                android:text="Login using LDAP credentials"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="16sp" />
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:padding="5dp"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/bt_ldap_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:elevation="8dp"
+                    android:text="Ldap Login"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/rollno"
@@ -90,6 +109,7 @@
                 android:fontFamily="sans-serif"
                 android:hint="Roll Number"
                 android:imeOptions="actionNext"
+                android:visibility="gone"
                 android:inputType="textVisiblePassword"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp" />
@@ -103,6 +123,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif"
                 android:hint="Password"
+                android:visibility="gone"
                 android:imeOptions="actionGo"
                 android:inputType="textPassword"
                 android:paddingLeft="8dp"
@@ -113,6 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginTop="16dp"
