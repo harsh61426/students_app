@@ -1,18 +1,12 @@
 package in.ac.iitm.students.activities.main;
 
-import android.Manifest;
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -58,8 +52,6 @@ import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
-
-import static in.ac.iitm.students.others.InstiCalendar.CalID;
 
 /**
  * Created by admin on 14-12-2016.
@@ -147,7 +139,9 @@ public class CalendarActivity extends AppCompatActivity
                 }
                 try {
                     try {
-                        ArrayList<ArrayList<Calendar_Event>> cal_events = InstiCalendar.readMonthObject(reader, CalendarActivity.this, 1);
+                        Log.d("kaka", "holigaga1");
+                        ArrayList<ArrayList<Calendar_Event>> cal_events = InstiCalendar.readMonthObject(reader, CalendarActivity.this);
+                        Log.d("kaka", "holigaga2");
                         // Create an adapter that knows which fragment should be shown on each page
                         MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
                         adapter.setCal_events(cal_events);

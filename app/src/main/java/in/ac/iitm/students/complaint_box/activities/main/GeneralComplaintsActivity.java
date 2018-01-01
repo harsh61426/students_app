@@ -2,26 +2,22 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +40,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -63,15 +57,9 @@ import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.g_CustomComplaintActivity;
-import in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity;
-import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.fragments.Updateable;
 import in.ac.iitm.students.complaint_box.fragments.g_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.g_MyComplaintFragment;
-import in.ac.iitm.students.complaint_box.fragments.h_LatestThreadFragment;
-import in.ac.iitm.students.complaint_box.fragments.h_MyComplaintFragment;
-import in.ac.iitm.students.complaint_box.objects.h_Complaint;
-import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
@@ -80,6 +68,10 @@ import in.ac.iitm.students.others.Utils;
 
 public class GeneralComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
 
+    public String mGeneralString;
+    GeneralComplaintsActivity.ViewPagerAdapter adapter;
+    MaterialSearchView searchView;
+    String[] suggestions;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -88,11 +80,6 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Menu menu;
-    GeneralComplaintsActivity.ViewPagerAdapter adapter;
-
-    MaterialSearchView searchView;
-    String[] suggestions;
-    public String mGeneralString;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -147,10 +134,6 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 .fit()
                 .centerCrop()
                 .into(imageView);
-
-
-        final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -261,7 +244,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                             }
 
                             /*h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(jsonArray.toString(), GeneralComplaintsActivity.this);
-                            ArrayList<h_Complaint> hComplaintArray = null;
+                            ArrayList<Complaint> hComplaintArray = null;
                             try {
                                 hComplaintArray = hJsonComplaintParser.pleasePleaseParseMyData();
                                 Log.e("ComplaintArray",hComplaintArray.toString());
@@ -460,7 +443,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
-            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_mess)).setChecked(true);
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_general)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {
@@ -511,7 +494,6 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             item1.setVisible(false);
             item2.setVisible(false);
             item3.setVisible(false);
-            menu.getItem(R.id.nav_complaint_box).setIcon(R.drawable.ic_forum_black_24dp);
 
             drawer.closeDrawer(GravityCompat.START);
 

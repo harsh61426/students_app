@@ -37,6 +37,9 @@
             android:text="Show details"
             android:textColor="#FFFFFF" />
 
+        <include layout="@layout/activity_student_details"
+            android:visibility="gone"/>
+
     </LinearLayout>
 
 </FrameLayout>

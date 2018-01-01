@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("brr", response);
 
                         try {
                             responseJson[0] = new JSONObject(response);
@@ -174,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                 MakeSnSnackbar(getString(R.string.error_connection));
                 Log.d("invalid login: ", error.toString() + "; Error connecting to server!");
                 Utils.clearpref(context);
+                Log.d("brr", "onError");
                 progress.dismiss();
             }
         }) {

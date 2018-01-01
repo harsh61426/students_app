@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.others.UtilStrings;
 
 public class StudentDetailsActivity extends AppCompatActivity {
 
@@ -30,10 +31,10 @@ public class StudentDetailsActivity extends AppCompatActivity {
         phoneno = (TextView) findViewById(R.id.phone_info);
         abtyourself = (TextView) findViewById(R.id.aboutyourself);
 
-        name.setText(getIntent().getStringExtra("studName"));
-        rollno.setText(getIntent().getStringExtra("studRoll"));
-        room.setText(getIntent().getStringExtra("roomNo"));
-        hostel.setText(getIntent().getStringExtra("hostel"));
+        name.setText(getIntent().getStringExtra(UtilStrings.NAME));
+        rollno.setText(getIntent().getStringExtra(UtilStrings.ROLLNO));
+        room.setText(getIntent().getStringExtra(UtilStrings.ROOM));
+        hostel.setText(getIntent().getStringExtra(UtilStrings.HOSTEl));
         if(getIntent().getStringExtra("email").equalsIgnoreCase("null")){
             email.setText("Not available");
         }else{

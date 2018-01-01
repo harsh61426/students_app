@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +36,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.StudentDetailsActivity;
 import in.ac.iitm.students.others.MySingleton;
@@ -45,6 +48,15 @@ public class RollSearchFragment extends Fragment {
     Context context;
     EditText etRollNoSearch;
     FrameLayout frameLayout;
+    CircleImageView profilePic_;
+    TextView name_;
+    TextView rollno_;
+    TextView hostel_;
+    TextView room_;
+    TextView email_;
+    TextView phoneno_;
+    TextView abtyourself_;
+    ScrollView sc_;
 
     public RollSearchFragment() {
         // Required empty public constructor
@@ -72,6 +84,16 @@ public class RollSearchFragment extends Fragment {
             }
         });
 
+        profilePic_ = (CircleImageView) view.findViewById(R.id.profile_pic);
+        name_ = (TextView) view.findViewById(R.id.name_overview);
+        rollno_ = (TextView) view.findViewById(R.id.rollno_overview);
+        hostel_ = (TextView) view.findViewById(R.id.hostel_overview);
+        room_ = (TextView) view.findViewById(R.id.room_overview);
+        email_ = (TextView) view.findViewById(R.id.email_info);
+        phoneno_ = (TextView) view.findViewById(R.id.phone_info);
+        abtyourself_ = (TextView) view.findViewById(R.id.aboutyourself);
+        sc_=(ScrollView) view.findViewById(R.id.scroll_view);
+
         Button buttonShowDetails = (Button) view.findViewById(R.id.button_show_details);
         buttonShowDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,13 +118,13 @@ public class RollSearchFragment extends Fragment {
         Uri.Builder builder = new Uri.Builder();
 
         builder.scheme("http")//https://students.iitm.ac.in/studentsapp/map/get_location.php?
-                .authority("192.168.1.7")
+                .authority("students.iitm.ac.in")
                 .appendPath("Android")
                 .appendPath("includes")
                 .appendPath("search_by_roll.php");
 
 
-        String url = builder.build().toString();
+        String url = "https://students.iitm.ac.in/studentsapp/studentlist/search_by_roll.php";
 
 
         StringRequest stud_detail_via_roll_req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -136,7 +158,9 @@ public class RollSearchFragment extends Fragment {
                         about = baseObject.getString("about");
                     }
 
-                    Intent intent = new Intent(context, StudentDetailsActivity.class);
+                    // TODO : @aebel remove intent and add fragment below the search widget dynamically
+
+                    /*Intent intent = new Intent(context, StudentDetailsActivity.class);
                     intent.putExtra("studName", studName);
                     intent.putExtra("studRoll", studRoll);
                     intent.putExtra("hostel", hostel);
@@ -145,7 +169,43 @@ public class RollSearchFragment extends Fragment {
                     intent.putExtra("phone", phone);
                     intent.putExtra("reveal_photo",reveal_photo);
                     intent.putExtra("about", about);
-                    startActivity(intent);
+                    startActivity(intent);*/
+                    sc_.setVisibility(View.VISIBLE);
+                    name_.setText(studName);
+                    rollno_.setText(studRoll);
+                    room_.setText(roomNo);
+                    hostel_.setText(hostel);
+                    if(email.equalsIgnoreCase("null")){
+                        email_.setText("Not available");
+                    }else{
+                        email_.setText(email);
+                    }
+
+                    if(phone.equalsIgnoreCase("null")){
+                        phoneno_.setText("Not available");
+                    }else{
+                        phoneno_.setText(phone);
+                    }
+
+                    if(about.equalsIgnoreCase("null")){
+                        abtyourself_.setText("Not available");
+                    }else{
+                        abtyourself_.setText(about);
+                    }
+
+                    int check=reveal_photo;
+                    //int check = getIntent().getIntExtra("reveal_photo", 1);
+
+                    if(check == 1) {
+                        Uri.Builder builder = new Uri.Builder();
+
+                        builder.scheme("https")
+                                .authority("photos.iitm.ac.in")
+                                .appendPath("byroll.php")
+                                .appendQueryParameter("roll", rollno_.getText().toString());
+                        String url = builder.build().toString();
+                        Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.dummypropic).error(R.drawable.dummypropic).fit().centerCrop().into(profilePic_);
+                    }
 
 
                 } catch (JSONException e) {

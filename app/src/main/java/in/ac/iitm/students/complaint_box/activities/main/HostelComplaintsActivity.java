@@ -2,7 +2,6 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -103,10 +102,6 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
                 .fit()
                 .centerCrop()
                 .into(imageView);
-
-
-        final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -235,7 +230,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
-            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_mess)).setChecked(true);
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_hostel)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {
@@ -286,7 +281,6 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             item1.setVisible(false);
             item2.setVisible(false);
             item3.setVisible(false);
-            menu.getItem(R.id.nav_complaint_box).setIcon(R.drawable.ic_forum_black_24dp);
 
             drawer.closeDrawer(GravityCompat.START);
 

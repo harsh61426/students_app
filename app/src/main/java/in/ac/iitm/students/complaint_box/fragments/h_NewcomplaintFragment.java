@@ -1,8 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -45,6 +43,7 @@ public class h_NewcomplaintFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String mUUID;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,11 +87,7 @@ public class h_NewcomplaintFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.h_fragment_new_complaint, container, false);
 
-        final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
-
-        //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
-        final String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/addComplaint.php";
+        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
         final EditText prox = (EditText) view.findViewById(R.id.editText_room_number);
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, getActivity());
         final String name = Utils.getprefString(UtilStrings.NAME, getActivity());
@@ -125,7 +120,8 @@ public class h_NewcomplaintFragment extends Fragment {
         description1.add("Water outlet problem");
         description1.add("Dryer not functional");
         description1.add("Not even starting wash cycle");
-        description1.add("Don't know what's the problem");
+        description1.add("Others");
+
 
         final ArrayAdapter<String> dataAdapter_description1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description1);
         dataAdapter_description1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -134,6 +130,8 @@ public class h_NewcomplaintFragment extends Fragment {
         description2.add("Heating or cooling not working");
         description2.add("Monkey drank from the dispenser");
         description2.add("Algae is growing");
+        description2.add("Others");
+
 
         final ArrayAdapter<String> dataAdapter_description2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description2);
         dataAdapter_description2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,6 +144,7 @@ public class h_NewcomplaintFragment extends Fragment {
         description3.add("Washroom doors not closing properly");
         description3.add("Flush tanks not working");
         description3.add("Pipes leaking");
+        description3.add("Others");
 
         final ArrayAdapter<String> dataAdapter_description3 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description3);
         dataAdapter_description3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -155,6 +154,8 @@ public class h_NewcomplaintFragment extends Fragment {
         description4.add("Civil work");
         description4.add("Furniture broken");
         description4.add("Internet problem (LAN port repair)");
+        description4.add("Others");
+
 
         final ArrayAdapter<String> dataAdapter_description4 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description4);
         dataAdapter_description4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -165,8 +166,10 @@ public class h_NewcomplaintFragment extends Fragment {
         description5.add("Furniture broken");
         description5.add("Internet problem");
         description5.add("Wing not cleaned regularly");
-        description5.add("Do not have a dustbin");
+        description5.add("Does not have a dustbin");
         description5.add("Cloth wires not proper");
+        description5.add("Others");
+
 
         final ArrayAdapter<String> dataAdapter_description5 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description5);
         dataAdapter_description5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -217,7 +220,8 @@ public class h_NewcomplaintFragment extends Fragment {
                 final String title = spinner_complaint_title.getSelectedItem().toString();
                 final String description = spinner_complaint_description.getSelectedItem().toString();
                 final String proximity = prox.getText().toString();
-                final String mUUID = UUID.randomUUID().toString();
+                mUUID = UUID.randomUUID().toString();
+
 
                 if(title != "" && description !="") {
 
@@ -267,20 +271,16 @@ public class h_NewcomplaintFragment extends Fragment {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
-                            String hostel_name = sharedPref.getString("hostel", "narmada");
-                            String room = sharedPref.getString("roomno", "1004");
-                            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                            String moreRooms = room + ",";
 
-                            params.put("HOSTEL", hostel_name);
-                            //TODO get name from prefs
-                            params.put("NAME", "Omkar Patil");
-                            //TODO get rollno from prefs
-                            params.put("ROLL_NO", "me15b123");
-                            params.put("ROOM_NO", room);
+                            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                            String moreRooms = Utils.getprefString(UtilStrings.ROOM, getActivity()) + ",";
+
+                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, getActivity()));
+                            params.put("NAME", Utils.getprefString(UtilStrings.NAME, getActivity()));
+                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, getActivity()));
+                            params.put("ROOM_NO", Utils.getprefString(UtilStrings.ROOM, getActivity()));
                             params.put("TITLE", title);
                             params.put("PROXIMITY", proximity);
-                            //Todo add proximity to card
                             params.put("DESCRIPTION", description);
                             params.put("UPVOTES", "0");
                             params.put("DOWNVOTES", "0");
@@ -291,13 +291,14 @@ public class h_NewcomplaintFragment extends Fragment {
                             params.put("COMMENTS", "0");
                             params.put("MORE_ROOMS", moreRooms);
                             params.put("CUSTOM", "0");
+
                             return params;
                         }
                     };
                     MySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
 
                 } else {
-                    Toast.makeText(getContext(), "select appropraite title and description from the drop down menu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "select appropriate title and description from the drop down menu", Toast.LENGTH_SHORT).show();
                 }
 
             }

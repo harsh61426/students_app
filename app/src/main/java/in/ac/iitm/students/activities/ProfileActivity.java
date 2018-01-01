@@ -1,6 +1,5 @@
 package in.ac.iitm.students.activities;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,14 +24,12 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -49,13 +45,10 @@ import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.adapters.ProfileAccomAdapter;
-import in.ac.iitm.students.fragments.ProfileAccomAddFragment;
+import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
-import static in.ac.iitm.students.fragments.ProfileAccomAddFragment.accomPos;
 
 /**
  * Created by DELL on 10/5/2017.
@@ -66,7 +59,6 @@ public class ProfileActivity extends AppCompatActivity {
     private final static int SELECTED_PICTURE_FOR_GALLERY = 1;
     private final static int CAPTURED_PICTURE = 0;
     public static android.app.FragmentManager fragmentManager;
-    public static ProfileAccomAdapter accomadapter;
     public static String activity = "";
     static String emailString = "", phonenoString = "", nickNameString = "", aboutThePersonString = "";
     // This is a reference to catch Profile picture imagebutton view.
@@ -80,6 +72,21 @@ public class ProfileActivity extends AppCompatActivity {
 
     //private File imageFile;
     private TextView tv_name, tv_roll, tv_hostel, tv_room;
+
+    public static String reverse(String input) {
+        char[] in = input.toCharArray();
+        int begin = 0;
+        int end = in.length - 1;
+        char temp;
+        while (end > begin) {
+            temp = in[begin];
+            in[begin] = in[end];
+            in[end] = temp;
+            end--;
+            begin++;
+        }
+        return new String(in);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +104,6 @@ public class ProfileActivity extends AppCompatActivity {
         tv_name = (TextView) findViewById(R.id.profile_name);
         tv_roll = (TextView) findViewById(R.id.profile_roll_no);
         tv_hostel = (TextView) findViewById(R.id.profile_hostel);
-        tv_room = (TextView) findViewById(R.id.profile_room_no);
 
         email = (EditText) findViewById(R.id.profile_contactEmail);
         phoneno = (EditText) findViewById(R.id.profile_phoneno);
@@ -117,8 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         tv_name.setText(name);
         tv_roll.setText(roll_no);
-        tv_hostel.setText(hostel);
-        tv_room.setText(room);
+        tv_hostel.setText(hostel + ", " + room);
 
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
@@ -323,10 +328,10 @@ public class ProfileActivity extends AppCompatActivity {
         aboutThePerson.setText(aboutThePersonString);
         if(reveal_place==0){
             roomNoSwitch.setChecked(false);
-            ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.GRAY);
+            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.GRAY);
         }else{
             roomNoSwitch.setChecked(true);
-            ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.BLACK);
+            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.BLACK);
         }
         if (reveal_roll == 0) {
             rollNoSwitch.setChecked(false);
@@ -356,7 +361,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         if(item.getItemId() == R.id.profile_accom_save_action_button) {
-            if (activity.equals("MainActivity")) {
+            if (activity.equals("ProfileActivity")) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
                 //Checking validation
@@ -390,7 +395,6 @@ public class ProfileActivity extends AppCompatActivity {
                 Utils.saveprefInt("reveal_photo",reveal_photo,this);
 
                 //You can replace this when you have MySingleton class
-                final RequestQueue queue = Volley.newRequestQueue(this);
 
                 builder.setMessage("Do you want to save changes?")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -403,7 +407,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                                 //getPostParams method is declared dbelow
                                 final String requestBody = getPostParams().toString();
-                                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                                StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://students.iitm.ac.in/studentsapp/studentlist/profile.php", new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
                                         Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
@@ -442,8 +446,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         }
                                     }
                                 };
-                                queue.add(stringRequest);
-
+                                MySingleton.getInstance(ProfileActivity.this).addToRequestQueue(stringRequest);
                                 //Changes end here
 
                                 Toast.makeText(ProfileActivity.this, "Uploading", Toast.LENGTH_SHORT).show();
@@ -461,7 +464,6 @@ public class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     /**
      * method is used for checking valid email id format.
      *
@@ -476,11 +478,8 @@ public class ProfileActivity extends AppCompatActivity {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    private boolean isPhonenoValid(String s) {
 
-        return s.length() == 10 || s.length() == 0;
-    }
-
+    /*
     // This method is invoked when accom_plus_image is clicked.
     public void onAccomPlusClicked(View view) {
 
@@ -496,7 +495,12 @@ public class ProfileActivity extends AppCompatActivity {
 // Commit the transaction
         transaction.commit();
     }
+     */
 
+    private boolean isPhonenoValid(String s) {
+
+        return s.length() == 10 || s.length() == 0;
+    }
 
     // Required for Capture image ,this method creates a file for saving the captured image.
     private File createImageFile() throws IOException {
@@ -515,38 +519,15 @@ public class ProfileActivity extends AppCompatActivity {
         return image;
     }
 
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.profile_radio_button_organisation:
-                if (checked)
-                    ProfileAccomAddFragment.radioButtonProject.setChecked(false);
-                ProfileAccomAddFragment.radioStatus="Organisation";
-                ProfileAccomAddFragment.accomOrgan.setHint("Organisation");
-                accomPos.setHint("Position in Organisation");
-                break;
-            case R.id.profile_radio_Button_Project:
-                if (checked)
-                    ProfileAccomAddFragment.radioButtonOrganisation.setChecked(false);
-                ProfileAccomAddFragment.radioStatus="Project";
-                ProfileAccomAddFragment.accomOrgan.setHint("Project Title");
-                accomPos.setHint("Project description");
-                break;
-        }
-    }
-
     public void onRoomNoChecked(View view){
         if (roomNoSwitch.isChecked()) {
             roomNoSwitch.setChecked(true);
-            ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.BLACK);
+            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.BLACK);
             reveal_place=1;
 
         }else{
             roomNoSwitch.setChecked(false);
-            ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.GRAY);
+            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.GRAY);
             reveal_place=0;
         }
 
@@ -566,7 +547,8 @@ public class ProfileActivity extends AppCompatActivity {
     public JSONObject getPostParams(){
         JSONObject jsonPost = new JSONObject();
         try {
-            jsonPost.put("roll", tv_roll.getText().toString());
+            //the roll string is reversed in backend for security
+            jsonPost.put("roll", reverse(tv_roll.getText().toString()));
             jsonPost.put("email",emailString );
             jsonPost.put("Phone", phonenoString);
             jsonPost.put("about", aboutThePersonString);
