@@ -82,8 +82,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
 
                 //ArrayList<Complaint> hComplaintArray = null;
                 try {
-                    hJsonComplaintParser.pleasePleaseParseMyData();
-                    hComplaintList=hJsonComplaintParser.gethComplaintArray();
+                    hComplaintList = hJsonComplaintParser.pleasePleaseParseMyData();
                     Log.d("polly", "dumma");
                 } catch (IOException e) {
                     e.printStackTrace();

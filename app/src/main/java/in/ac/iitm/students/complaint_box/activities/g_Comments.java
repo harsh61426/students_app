@@ -53,7 +53,7 @@ public class g_Comments extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_g__comments);
+        setContentView(R.layout.g_activity_comments);
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
         final String add_url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/newComment.php";

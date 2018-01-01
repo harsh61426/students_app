@@ -3,6 +3,7 @@ package in.ac.iitm.students.complaint_box.others;
 import android.app.Activity;
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class h_JSONComplaintParser {
         this.activity = activity;
     }
 
-    public void pleasePleaseParseMyData() throws IOException {
+    public ArrayList<Complaint> pleasePleaseParseMyData() throws IOException {
 
         JsonReader reader = null;
         try {
@@ -54,17 +55,16 @@ public class h_JSONComplaintParser {
             e.printStackTrace();
         }
         try {
-            //Log.d("Read complaints array", reader+"");
-            readComplaintsArray(reader);
+            Log.d("Read complaints array", reader + "");
+            return readComplaintsArray(reader);
         } finally {
 
             reader.close();
 
         }
-
     }
 
-    public void readComplaintsArray(JsonReader reader) throws IOException {
+    public ArrayList<Complaint> readComplaintsArray(JsonReader reader) throws IOException {
         //ArrayList<h_Complaint> hComplaints = new ArrayList<>();
         //Log.e("message",reader+"");
         //while ( reader.peek() == JsonToken.STRING) reader.nextString();
@@ -72,15 +72,27 @@ public class h_JSONComplaintParser {
 
         while (reader.hasNext()) {
 
-            hComplaintArray.add(readComplaint(reader));
-            if(!(hComplaintArray.get(hComplaintArray.size()-1).isCustom()))
-                hComplaintArray.remove(hComplaintArray.size()-1);
+            Complaint hComplaint = readComplaint(reader);
+            if (hComplaint.isCustom()) hComplaintArray.add(hComplaint);
+
+            //if(hComplaintArray.size()!=0 && !(hComplaintArray.get(hComplaintArray.size()-1).isCustom()))
+            //    hComplaintArray.remove(hComplaintArray.size()-1);
         }
         reader.endArray();
-        //return hComplaints;
+        return hComplaintArray;
 
     }
 
+    /**
+     * IMP
+     * Always keep custom as the last column in the table. The parsing assumes so.
+     * IMP
+     *
+     * @param reader
+     * @return
+     * @throws IOException
+     * @throws NullPointerException
+     */
 
     public Complaint readComplaint(JsonReader reader) throws IOException,NullPointerException {
 
@@ -160,8 +172,7 @@ public class h_JSONComplaintParser {
                             h_wm.getT1details()[5][0]=(h_wm.getT1details()[5][0]==null)?hComplaint.getProximity():h_wm.getT1details()[5][0]+","+hComplaint.getProximity();
                             h_wm.getT1details()[5][1]=(h_wm.getT1details()[5][1]==null)?"1":String.valueOf(Integer.parseInt(h_wm.getT1details()[5][1])+1);
                         }
-                    }
-                    else if(hComplaint.getTitle().equals("Water Dispenser")){
+                    } else if(hComplaint.getTitle().equals("Water Dispenser")){
                         if(hComplaint.getDescription().equals("Power supply not proper")){
                             h_wd.setComments(hComplaint.getComments());
                             h_wd.setImageUrl(hComplaint.getImageUrl());
@@ -193,8 +204,7 @@ public class h_JSONComplaintParser {
                             h_wd.getT2details()[4][1]=(h_wd.getT2details()[4][1]==null)?"1":String.valueOf(Integer.parseInt(h_wd.getT2details()[4][1])+1);
                         }
 
-                    }
-                    else if(hComplaint.getTitle().equals("Washroom")){
+                    } else if(hComplaint.getTitle().equals("Washroom")){
                         if(hComplaint.getDescription().equals("Power supply not proper")){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
@@ -243,8 +253,7 @@ public class h_JSONComplaintParser {
                             h_w.getT3details()[7][0]=(h_w.getT3details()[7][0]==null)?hComplaint.getProximity():h_w.getT3details()[7][0]+","+hComplaint.getProximity();
                             h_w.getT3details()[7][1]=(h_w.getT3details()[7][1]==null)?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[7][1])+1);
                         }
-                    }
-                    else if(hComplaint.getTitle().equals("Problems in your room")){
+                    } else if(hComplaint.getTitle().equals("Problems in your room")){
 
                         if(hComplaint.getDescription().equals("Power supply not proper")){
                             h_pr.setComments(hComplaint.getComments());
@@ -277,8 +286,7 @@ public class h_JSONComplaintParser {
                             h_pr.getT4details()[4][1]=(h_pr.getT4details()[4][1]==null)?"1":String.valueOf(Integer.parseInt(h_pr.getT4details()[4][1])+1);
                         }
 
-                    }
-                    else if(hComplaint.getTitle().equals("Problems in your wing")){
+                    } else if(hComplaint.getTitle().equals("Problems in your wing")){
 
                         if(hComplaint.getDescription().equals("Power supply not proper")){
                             h_pw.setComments(hComplaint.getComments());
@@ -330,8 +338,7 @@ public class h_JSONComplaintParser {
                         }
 
                     }
-                }
-                else if(reader.nextString().equals("1")){
+                } else {
                     hComplaint.setCustom(true);
                 }
 

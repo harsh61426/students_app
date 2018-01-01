@@ -24,14 +24,12 @@ import com.android.volley.toolbox.StringRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.g_JSONComplaintParser;
-import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -41,7 +39,6 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
-    List<Complaint> hComplaintList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -63,7 +60,7 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_g__latest_thread, container, false);
+        View view = inflater.inflate(R.layout.g_fragment_latest_thread, container, false);
 
         hostel_name = Utils.getprefString(UtilStrings.HOSTEl, getActivity());
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_latest_thread);
@@ -84,11 +81,10 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
         if(searchResponse!=null){
             //String searchResponse = getArguments().getString("tagSearch");
             Log.d("searchResponse",searchResponse);
-            h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(searchResponse, getActivity());
+            g_JSONComplaintParser gJsonComplaintParser = new g_JSONComplaintParser(searchResponse, getActivity());
             ArrayList<Complaint> hComplaintArray = null;
             try {
-                hJsonComplaintParser.pleasePleaseParseMyData();
-                hComplaintList=hJsonComplaintParser.gethComplaintArray();
+                hComplaintArray = gJsonComplaintParser.pleasePleaseParseMyData();
                 /*add
                 hwm=hJsonComplaintParser.getH_wm();
                 hwd=hJsonComplaintParser.getH_wd();
@@ -102,6 +98,7 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
             }
 
+            //TODO always null
             mRecyclerView.setLayoutManager(mLayoutManager);
             mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
             mRecyclerView.setAdapter(mAdapter);

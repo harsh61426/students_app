@@ -33,7 +33,7 @@ public class g_AddYourComment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_g__add_your_comment);
+        setContentView(R.layout.g_activity_add_your_comment);
 
         final String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/newComment.php";
         //final String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/newComment.php";

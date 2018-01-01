@@ -62,7 +62,7 @@ public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_g__my_complaint, container, false);
+        View view = inflater.inflate(R.layout.g_fragment_my_complaint, container, false);
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_my_complaint);
         swipeLayout.setOnRefreshListener(this);
 

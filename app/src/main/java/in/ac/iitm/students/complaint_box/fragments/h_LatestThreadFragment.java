@@ -48,7 +48,6 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
     ArrayList<Complaint> hComplaintList = new ArrayList<>();
-    //ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
     h_WashingMachine hwm=new h_WashingMachine();
     h_WaterDispenser hwd=new h_WaterDispenser();
     h_Washroom hw=new h_Washroom();
@@ -149,13 +148,13 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                 h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
                 //ArrayList<Complaint> hComplaintArray = null;
                 try {
-                    hJsonComplaintParser.pleasePleaseParseMyData();
-                    hComplaintList=hJsonComplaintParser.gethComplaintArray();
+                    hComplaintList = hJsonComplaintParser.pleasePleaseParseMyData();
                     hwm=hJsonComplaintParser.getH_wm();
                     hwd=hJsonComplaintParser.getH_wd();
                     hw=hJsonComplaintParser.getH_w();
                     hpr=hJsonComplaintParser.getH_pr();
                     hpw=hJsonComplaintParser.getH_pw();
+                    //Log.d("lanag", "onResponse: "+hComplaintList.get(0).getName());
 
 
                 } catch (IOException e) {
@@ -173,9 +172,12 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true, (CoordinatorLayout)getActivity().findViewById(R.id.main_content));
-                mRecyclerView.setAdapter(mAdapter);
+                if (!hComplaintList.isEmpty()) {
+                    Log.d("pip", "onResponse: " + hComplaintList.get(0).getName());
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mRecyclerView.setAdapter(mAdapter);
+                }
                 // mAdapter.notifyDataSetChanged();
 
 
