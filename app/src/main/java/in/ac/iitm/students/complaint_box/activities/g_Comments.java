@@ -47,7 +47,7 @@ public class g_Comments extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/searchComment.php";
+    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/searchComments.php";
     //private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/searchComments.php";
 
     @Override
@@ -56,7 +56,7 @@ public class g_Comments extends AppCompatActivity {
         setContentView(R.layout.g_activity_comments);
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
-        final String add_url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/newComment.php";
+        final String add_url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/newComment.php";
         //final String add_url = "https://rockstarharshitha.000webhostapp.com/general_complaints/newComment.php";
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         final String NAME = Utils.getprefString(UtilStrings.NAME, this);

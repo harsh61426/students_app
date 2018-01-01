@@ -35,7 +35,7 @@ public class g_AddYourComment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.g_activity_add_your_comment);
 
-        final String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/newComment.php";
+        final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/newComment.php";
         //final String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/newComment.php";
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         final String NAME = Utils.getprefString(UtilStrings.NAME, this);

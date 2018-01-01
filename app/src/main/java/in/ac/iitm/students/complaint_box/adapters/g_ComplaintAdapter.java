@@ -155,7 +155,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -235,7 +235,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/vote.php";
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/vote.php";
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
