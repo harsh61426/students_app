@@ -47,6 +47,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -236,15 +237,20 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
                             JSONArray array =jsonObject.getJSONArray("suggestions");
                             suggestions = new String[array.length()];
+                            //suggestions=getResources().getStringArray(R.array.query_suggestions);
+                            //List<String> list = new ArrayList<String>();
+                            //list = Arrays.asList(suggestions);
+                            //ArrayList<String> arrayList = new ArrayList<String>(list);
                             for (int i=0;i <array.length(); i++) {
                                 JSONObject tag = array.getJSONObject(i);
                                 suggestions[i] = tag.getString("tags");
-                                Log.d("suggestions", suggestions[i]);
+                                //arrayList.add(tag.getString("tags"));
+                                //Log.d("suggestions", suggestions[i]);
                             }
+                            //suggestions = arrayList.toArray(new String[list.size()]);
                             searchView.setSuggestions(suggestions);
                             searchView.showSuggestions();
                             searchView.setEllipsize(true);
-
 
                             /*if(jsonArray!=null) {
                                 Log.e("array",jsonArray.toString());
