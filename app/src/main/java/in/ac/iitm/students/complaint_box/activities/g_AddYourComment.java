@@ -1,8 +1,6 @@
 package in.ac.iitm.students.complaint_box.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -36,10 +34,9 @@ public class g_AddYourComment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g__add_your_comment);
-        final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
-        //final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/newComment.php";
-        final String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/newComment.php";
+        final String url = "https://students.iitm.ac.in/studentsapp/);complaints_portal/gen_complaints/newComment.php";
+        //final String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/newComment.php";
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         final String NAME = Utils.getprefString(UtilStrings.NAME, this);
 
@@ -59,7 +56,7 @@ public class g_AddYourComment extends AppCompatActivity {
 
         name.setText(hComplaint.getName());
         //todo change narmad
-        hostel.setText(sharedPref.getString("hostel", "narmada"));
+        hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, g_AddYourComment.this));
         resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         title.setText(hComplaint.getTitle());
         description.setText(hComplaint.getDescription());
@@ -108,8 +105,8 @@ public class g_AddYourComment extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<>();
-                        String hostel_name = sharedPref.getString("hostel", "narmada");
-                        String room = sharedPref.getString("roomno", "1004");
+                        String hostel_name = Utils.getprefString(UtilStrings.HOSTEl, g_AddYourComment.this);
+                        String room = Utils.getprefString(UtilStrings.ROOM, g_AddYourComment.this);
                         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
                         params.put("HOSTEL", hostel_name);

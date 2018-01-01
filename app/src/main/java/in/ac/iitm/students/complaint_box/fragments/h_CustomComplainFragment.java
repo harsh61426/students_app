@@ -1,9 +1,7 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -142,9 +140,6 @@ public class h_CustomComplainFragment extends Fragment {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
-
-                            final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                            final SharedPreferences.Editor editor = sharedPref.edit();
 
                             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                             String moreRooms = Utils.getprefString(UtilStrings.ROOM, getActivity()) + ",";

@@ -1,8 +1,6 @@
 package in.ac.iitm.students.complaint_box.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +29,8 @@ import in.ac.iitm.students.complaint_box.objects.CommentObj;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_CmntDataParser;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 public class h_Comments extends AppCompatActivity {
 
@@ -38,14 +38,13 @@ public class h_Comments extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-   // private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/searchComment.php";
-    private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/searchComment.php";
+    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/searchComment.php";
+    //private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/searchComment.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.h_activity_comments);
-        final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
         Intent i = getIntent();
         final Complaint hComplaint = (Complaint) i.getSerializableExtra("cardData");
@@ -61,7 +60,7 @@ public class h_Comments extends AppCompatActivity {
         FloatingActionButton fab_comment = (FloatingActionButton) findViewById(R.id.comment_fab);
 
         name.setText(hComplaint.getName());
-        hostel.setText(sharedPref.getString("hostel", "narmada"));
+        hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, h_Comments.this));
         resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         title.setText(hComplaint.getTitle());
         description.setText(hComplaint.getDescription());

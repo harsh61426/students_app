@@ -1,8 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -32,23 +30,24 @@ import java.util.Map;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
+import in.ac.iitm.students.complaint_box.others.g_JSONComplaintParser;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 
 public class g_LatestThreadFragment extends Fragment implements Updateable,SwipeRefreshLayout.OnRefreshListener{
 
     private final String KEY_HOSTEL = "HOSTEL";
-    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-    String hostel_name = sharedPref.getString("hostel", "Narmada");
-    private final String VALUE_HOSTEL = hostel_name;
     SwipeRefreshLayout swipeLayout;
     List<Complaint> hComplaintList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String hostel_name;
 
-    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/general_complaints/getAllComplaints.php";
+    private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/getAllComplaints.php";
 
     public g_LatestThreadFragment() {
         // Required empty public constructor
@@ -65,6 +64,8 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_g__latest_thread, container, false);
+
+        hostel_name = Utils.getprefString(UtilStrings.HOSTEl, getActivity());
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_latest_thread);
         swipeLayout.setOnRefreshListener(this);
 
@@ -115,11 +116,12 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
             @Override
             public void onResponse(String response) {
                 Log.e("latest tag", response);
-                h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
-                ArrayList<Complaint> hComplaintArray = null;
+                g_JSONComplaintParser gJsonComplaintParser = new g_JSONComplaintParser(response, getActivity());
+                ArrayList<Complaint> gComplaintArray = null;
                 try {
                     //fix
-                    hJsonComplaintParser.pleasePleaseParseMyData();
+                    gComplaintArray = gJsonComplaintParser.pleasePleaseParseMyData();
+                    Log.d("bleek", "yaasss");
                 } catch (IOException e) {
                     e.printStackTrace();
                     Snackbar snackbar = Snackbar
@@ -127,16 +129,16 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     snackbar.show();
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
 
-                    hComplaintArray = new ArrayList<>();
-                    hComplaintArray.add(Complaint.getErrorComplaintObject());
+                    gComplaintArray = new ArrayList<>();
+                    gComplaintArray.add(Complaint.getErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new h_ComplaintAdapter(gComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(gComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
                 // mAdapter.notifyDataSetChanged();
 
@@ -162,7 +164,7 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put(KEY_HOSTEL, VALUE_HOSTEL);
+                params.put(KEY_HOSTEL, hostel_name);
                 return params;
             }
 

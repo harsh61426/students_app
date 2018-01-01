@@ -270,6 +270,7 @@ public class HomeActivity extends AppCompatActivity
 ////                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
 ////        }
 
+        //TODO @omkar remove
         Utils.saveprefString(UtilStrings.NAME, "Omkar Patil", getBaseContext());
         Utils.saveprefString(UtilStrings.HOSTEl, "narmada", getBaseContext());
         Utils.saveprefString(UtilStrings.ROOM, "1004", getBaseContext());

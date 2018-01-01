@@ -1,8 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,29 +25,27 @@ import com.android.volley.toolbox.StringRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
-//import in.ac.iitm.students.complaint_box.objects.h_Complaint;
-
+import in.ac.iitm.students.complaint_box.objects.h_PinRoom;
+import in.ac.iitm.students.complaint_box.objects.h_PinWing;
 import in.ac.iitm.students.complaint_box.objects.h_WashingMachine;
 import in.ac.iitm.students.complaint_box.objects.h_Washroom;
 import in.ac.iitm.students.complaint_box.objects.h_WaterDispenser;
-import in.ac.iitm.students.complaint_box.objects.h_PinRoom;
-import in.ac.iitm.students.complaint_box.objects.h_PinWing;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
+
+//import in.ac.iitm.students.complaint_box.objects.h_Complaint;
 
 
 public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private final String KEY_HOSTEL = "HOSTEL";
-    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-    String hostel_name = sharedPref.getString("hostel", "Narmada");
-    private final String VALUE_HOSTEL = hostel_name;
     SwipeRefreshLayout swipeLayout;
     ArrayList<Complaint> hComplaintList = new ArrayList<>();
     //ArrayList<h_Complaint> hComplaintList = new ArrayList<>();
@@ -58,13 +54,12 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     h_Washroom hw=new h_Washroom();
     h_PinRoom hpr=new h_PinRoom();
     h_PinWing hpw=new h_PinWing();
-
     int t1ids[][]={{R.id.t1p1,R.id.t1f1},{R.id.t1p2,R.id.t1f2},{R.id.t1p3,R.id.t1f3},{R.id.t1p4,R.id.t1f4},{R.id.t1p5,R.id.t1f5},{R.id.t1p6,R.id.t1f6}};
     int t2ids[][]={{R.id.t2p1,R.id.t2f1},{R.id.t2p2,R.id.t2f2},{R.id.t2p3,R.id.t2f3},{R.id.t2p4,R.id.t2f4},{R.id.t2p5,R.id.t2f5}};
     int t3ids[][]={{R.id.t3p1,R.id.t3f1},{R.id.t3p2,R.id.t3f2},{R.id.t3p3,R.id.t3f3},{R.id.t3p4,R.id.t3f4},{R.id.t3p5,R.id.t3f5},{R.id.t3p6,R.id.t3f6},{R.id.t3p7,R.id.t3f7},{R.id.t3p8,R.id.t3f8}};
     int t4ids[][]={{R.id.t4p1,R.id.t4f1},{R.id.t4p2,R.id.t4f2},{R.id.t4p3,R.id.t4f3},{R.id.t4p4,R.id.t4f4},{R.id.t4p5,R.id.t4f5}};
     int t5ids[][]={{R.id.t5p1,R.id.t5f1},{R.id.t5p2,R.id.t5f2},{R.id.t5p3,R.id.t5f3},{R.id.t5p4,R.id.t5f4},{R.id.t5p5,R.id.t5f5},{R.id.t5p6,R.id.t5f6},{R.id.t5p7,R.id.t5f7},{R.id.t5p8,R.id.t5f8}};
-
+    private String hostel_name;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -85,6 +80,7 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                              Bundle savedInstanceState) throws NullPointerException {
 
         View view = inflater.inflate(R.layout.h_fragment_latest_thread, container, false);
+        hostel_name = Utils.getprefString(UtilStrings.HOSTEl, getActivity());
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_latest_thread);
         swipeLayout.setOnRefreshListener(this);
 
@@ -204,7 +200,7 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put(KEY_HOSTEL, VALUE_HOSTEL);
+                params.put(KEY_HOSTEL, hostel_name);
                 return params;
             }
 

@@ -2,17 +2,13 @@ package in.ac.iitm.students.others;
 
 import android.Manifest;
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.util.JsonReader;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,18 +19,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
-import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
 
@@ -43,8 +31,8 @@ import in.ac.iitm.students.objects.Calendar_Event;
  */
 
 public class InstiCalendar {
-    public ArrayList<ArrayList<Calendar_Event>> cal_events;
     public static long CalID = -1;
+    public ArrayList<ArrayList<Calendar_Event>> cal_events;
     private Context context;
     private String cal_ver = "0";
 
@@ -52,58 +40,59 @@ public class InstiCalendar {
         this.context = context;
     }
 
-    public static ArrayList<ArrayList<Calendar_Event>> readMonthObject(JsonReader reader, Context context, int mode) throws IOException {
+    public static ArrayList<ArrayList<Calendar_Event>> readMonthObject(JsonReader reader, Context context) throws IOException {
 
         ArrayList<ArrayList<Calendar_Event>> cal_events = new ArrayList<>();
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
+            Log.d("kaka", "holigaga1: " + name);
             if (name.equals("january")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 0, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 0, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("february")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 1, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 1, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("march")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 2, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 2, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("april")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 3, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 3, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("may")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 4, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 4, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("june")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 5, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 5, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("july")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 6, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 6, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("august")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 7, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 7, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("september")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 8, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 8, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("october")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 9, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 9, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("november")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 10, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 10, context);
                 cal_events.add(eventList);
 
             } else if (name.equals("december")) {
-                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 11, context, mode);
+                ArrayList<Calendar_Event> eventList = readMonthArray(reader, 11, context);
                 cal_events.add(eventList);
 
             } else {
@@ -116,10 +105,11 @@ public class InstiCalendar {
 
     }
 
-    private static Calendar_Event readDayObject(JsonReader reader, int month, int i, Context context, int mode) throws IOException {
+    private static Calendar_Event readDayObject(JsonReader reader, int month, int i, Context context) throws IOException {
 
         Calendar_Event event = new Calendar_Event();
 
+        Log.d("kaka", "holigaga_semi");
         /* check if there are any events for this particular day */
         Calendar beginTime = Calendar.getInstance();
         beginTime.set(CalendarActivity.yearForRecyclerView, month, i + 1, 5, 30);
@@ -167,11 +157,13 @@ public class InstiCalendar {
         }
 
         /*******************************************************************/
-
+        // TODO @rohithram, holigaga:alpha not being called
+        Log.d("kaka", "holigaga1:alpha");
         reader.beginObject();
         while (reader.hasNext()) {
 
             String name = reader.nextName();
+            Log.d("kaka", "holigaga1 " + name);
             if (name.equals("date")) {
                 event.setDate(Integer.parseInt(reader.nextString()));
 
@@ -203,13 +195,13 @@ public class InstiCalendar {
         return event;
     }
 
-    private static ArrayList<Calendar_Event> readMonthArray(JsonReader reader, int month, Context context, int mode) throws IOException {
+    private static ArrayList<Calendar_Event> readMonthArray(JsonReader reader, int month, Context context) throws IOException {
 
         ArrayList<Calendar_Event> eventList = new ArrayList<>();
         reader.beginArray();
         int i = 0;
         while (reader.hasNext()) {
-            Calendar_Event event = readDayObject(reader, month, i, context, mode);
+            Calendar_Event event = readDayObject(reader, month, i, context);
             eventList.add(event);
             i++;
         }
@@ -236,7 +228,7 @@ public class InstiCalendar {
 //                }
 //                try {
 //                    try {
-//                        readMonthObject(reader, context, mode);
+//                        readMonthObject(reader, context);
 //                    } catch (IOException e) {
 //                        e.printStackTrace();
 //                    }
@@ -442,11 +434,11 @@ public class InstiCalendar {
 //
 //            Toast.makeText(context, "Updating Calendar", Toast.LENGTH_SHORT).show();
 //            deleteallevents();
-//            sendJsonRequest(context, mode);
+//            sendJsonRequest(context);
 //            Utils.saveprefString("Cal_Ver", getVersion(), context);
 //        } else {
 //            mode=1;
-//            sendJsonRequest(context, mode);
+//            sendJsonRequest(context);
 //        }
 //    }
 

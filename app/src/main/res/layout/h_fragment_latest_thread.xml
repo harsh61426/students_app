@@ -1,5 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,15 +9,16 @@
         android:layout_height="wrap_content">
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="30dp"
             android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_margin="30dp">
+            android:padding="10dp">
 
 
 
@@ -49,8 +49,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/title1"/>
+                        android:layout_below="@id/title1"
+                        android:background="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/t1description1"
@@ -192,8 +192,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/t1description6"/>
+                        android:layout_below="@id/t1description6"
+                        android:background="@android:color/darker_gray" />
 
 
                     <TextView
@@ -201,16 +201,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="Comments"
-                        android:layout_below="@id/t1description6" />
+                        android:layout_below="@id/t1description6"
+                        android:text="Comments" />
 
                     <Button
                         android:id="@+id/bn_comment1"
                         android:layout_width="24dp"
                         android:layout_height="20dp"
+                        android:layout_below="@id/t1description6"
                         android:layout_gravity="center_vertical"
                         android:layout_toStartOf="@id/tv_comment1"
-                        android:layout_below="@id/t1description6"
                         android:background="@drawable/ic_comment_black_24dp" />
 
 
@@ -223,8 +223,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
                 android:layout_margin="15dp"
+                android:layout_marginTop="10dp"
                 card_view:cardCornerRadius="4dp"
                 >
 
@@ -237,15 +237,15 @@
                         android:id="@+id/title2"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="Water Dispenser"
                         android:gravity="center"
+                        android:text="Water Dispenser"
                         android:textColor="@color/colorPrimaryText"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/title2"/>
+                        android:layout_below="@id/title2"
+                        android:background="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/t2d1"
@@ -266,16 +266,16 @@
                         android:id="@+id/t2p1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@id/t2f1"
-                        android:layout_below="@id/title2"/>
+                        android:layout_below="@id/title2"
+                        android:layout_toStartOf="@id/t2f1" />
 
 
                     <TextView
                         android:id="@+id/t2d2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Heating or cooling not working"
                         android:layout_below="@id/t2d1"
+                        android:text="Heating or cooling not working"
                         />
 
 
@@ -290,24 +290,24 @@
                         android:id="@+id/t2p2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@id/t2f2"
-                        android:layout_below="@id/t2d1"/>
+                        android:layout_below="@id/t2d1"
+                        android:layout_toStartOf="@id/t2f2" />
 
 
                     <TextView
                         android:id="@+id/t2d3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Monkey drank from the dispenser"
-                        android:layout_below="@id/t2d2"/>
+                        android:layout_below="@id/t2d2"
+                        android:text="Monkey drank from the dispenser" />
 
 
                     <TextView
                         android:id="@+id/t2f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t2d2"
-                        android:layout_alignParentEnd="true"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t2d2" />
 
                     <TextView
                         android:id="@+id/t2p3"
@@ -321,16 +321,16 @@
                         android:id="@+id/t2d4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Algae is growing"
-                        android:layout_below="@id/t2d3"/>
+                        android:layout_below="@id/t2d3"
+                        android:text="Algae is growing" />
 
 
                     <TextView
                         android:id="@+id/t2f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t2d3"
-                        android:layout_alignParentRight="true"/>
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/t2d3" />
 
                     <TextView
                         android:id="@+id/t2p4"
@@ -345,29 +345,29 @@
                         android:id="@+id/t2d5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Others"
-                        android:layout_below="@id/t2d4"/>
+                        android:layout_below="@id/t2d4"
+                        android:text="Others" />
 
 
                     <TextView
                         android:id="@+id/t2f5"
-                        android:layout_below="@id/t2d4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t2d4" />
 
                     <TextView
                         android:id="@+id/t2p5"
                         android:layout_width="wrap_content"
-                        android:layout_below="@id/t2d4"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t2d4"
                         android:layout_toStartOf="@id/t2f5"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/t2d5"/>
+                        android:layout_below="@id/t2d5"
+                        android:background="@android:color/darker_gray" />
 
 
                     <TextView
@@ -375,16 +375,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="Comments"
-                        android:layout_below="@id/t2d5" />
+                        android:layout_below="@id/t2d5"
+                        android:text="Comments" />
 
                     <Button
                         android:id="@+id/bn_comment2"
                         android:layout_width="24dp"
                         android:layout_height="20dp"
+                        android:layout_below="@id/t2d5"
                         android:layout_gravity="center_vertical"
                         android:layout_toStartOf="@id/tv_comment2"
-                        android:layout_below="@id/t2d5"
                         android:background="@drawable/ic_comment_black_24dp" />
 
 
@@ -397,12 +397,12 @@
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/Washroom"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:cardCornerRadius="4dp"
+                android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                card_view:cardCornerRadius="4dp">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -411,15 +411,15 @@
                         android:id="@+id/title3"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="Washroom"
                         android:gravity="center"
+                        android:text="Washroom"
                         android:textColor="@color/colorPrimaryText"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/title3"/>
+                        android:layout_below="@id/title3"
+                        android:background="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/t3d1"
@@ -433,8 +433,8 @@
                         android:id="@+id/t3f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/title3"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/title3"
                         />
 
                     <TextView
@@ -458,8 +458,8 @@
                         android:id="@+id/t3f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t3d1"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t3d1"
                         />
 
                     <TextView
@@ -474,16 +474,16 @@
                         android:id="@+id/t3d3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Showers not properly working"
                         android:layout_below="@id/t3d2"
+                        android:text="Showers not properly working"
                         />
 
                     <TextView
                         android:id="@+id/t3f3"
-                        android:layout_below="@id/t3d2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t3d2"
                         />
 
                     <TextView
@@ -504,133 +504,133 @@
 
                     <TextView
                         android:id="@+id/t3f4"
-                        android:layout_below="@id/t3d3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t3d3"
                         />
 
                     <TextView
                         android:id="@+id/t3p4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@id/t3f4"
                         android:layout_below="@id/t3d3"
+                        android:layout_toStartOf="@id/t3f4"
                         />
 
                     <TextView
                         android:id="@+id/t3d5"
-                        android:layout_below="@id/t3d4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d4"
                         android:text="Washroom doors not closing properly"/>
 
                     <TextView
                         android:id="@+id/t3f5"
-                        android:layout_below="@id/t3d4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t3d4"
                         />
 
                     <TextView
                         android:id="@+id/t3p5"
-                        android:layout_below="@id/t3d4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d4"
                         android:layout_toStartOf="@id/t3f5"
                         />
 
 
                     <TextView
                         android:id="@+id/t3d6"
-                        android:layout_below="@id/t3d5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d5"
                         android:text="Flush tanks not working"/>
 
                     <TextView
                         android:id="@+id/t3f6"
-                        android:layout_below="@id/t3d5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t3d5"
                         />
 
                     <TextView
                         android:id="@+id/t3p6"
-                        android:layout_below="@id/t3d5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d5"
                         android:layout_toStartOf="@id/t3f6"
                         />
 
 
                     <TextView
                         android:id="@+id/t3d7"
-                        android:layout_below="@id/t3d6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d6"
                         android:text="Pipes leaking"/>
 
                     <TextView
                         android:id="@+id/t3f7"
-                        android:layout_below="@id/t3d6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t3d6"
                         />
                     <TextView
                         android:id="@+id/t3p7"
-                        android:layout_below="@id/t3d6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d6"
                         android:layout_toStartOf="@id/t3f7"
                         />
 
 
                     <TextView
                         android:id="@+id/t3d8"
-                        android:layout_below="@id/t3d7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d7"
                         android:text="Others"/>
                     <TextView
                         android:id="@+id/t3f8"
-                        android:layout_below="@id/t3d7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t3d7"
                         />
                     <TextView
                         android:id="@+id/t3p8"
-                        android:layout_below="@id/t3d7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/t3d7"
                         android:layout_toStartOf="@id/t3f8"
                         />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/t3d8"/>
+                        android:layout_below="@id/t3d8"
+                        android:background="@android:color/darker_gray" />
 
 
                     <TextView
                         android:id="@+id/tv_comment3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Comments"
                         android:layout_alignParentEnd="true"
-                        android:layout_below="@id/t3d8" />
+                        android:layout_below="@id/t3d8"
+                        android:text="Comments" />
                     <Button
                         android:id="@+id/bn_comment3"
                         android:layout_width="24dp"
                         android:layout_height="20dp"
+                        android:layout_below="@id/t3d8"
                         android:layout_gravity="center_vertical"
                         android:layout_toStartOf="@id/tv_comment3"
-                        android:layout_below="@id/t3d8"
                         android:background="@drawable/ic_comment_black_24dp" />
 
                 </RelativeLayout>
@@ -640,12 +640,12 @@
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/PinRoom"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:cardCornerRadius="4dp"
+                android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                card_view:cardCornerRadius="4dp">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -655,28 +655,28 @@
                         android:id="@+id/title4"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="Problems in your room"
                         android:gravity="center"
+                        android:text="Problems in your room"
                         android:textColor="@color/colorPrimaryText"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/title4"/>
+                        android:layout_below="@id/title4"
+                        android:background="@android:color/darker_gray" />
                     <TextView
                         android:id="@+id/t4d1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Electrical work"
-                        android:layout_below="@id/title4"/>
+                        android:layout_below="@id/title4"
+                        android:text="Electrical work" />
 
                     <TextView
                         android:id="@+id/t4f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/title4"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/title4"
                         />
                     <TextView
                         android:id="@+id/t4p1"
@@ -691,15 +691,15 @@
                         android:id="@+id/t4d2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Civil work"
-                        android:layout_below="@id/t4d1"/>
+                        android:layout_below="@id/t4d1"
+                        android:text="Civil work" />
 
                     <TextView
                         android:id="@+id/t4f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t4d1"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t4d1"
                         />
                     <TextView
                         android:id="@+id/t4p2"
@@ -713,15 +713,15 @@
                         android:id="@+id/t4d3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Furniture broken"
-                        android:layout_below="@id/t4d2"/>
+                        android:layout_below="@id/t4d2"
+                        android:text="Furniture broken" />
 
                     <TextView
                         android:id="@+id/t4f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t4d2"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t4d2"
                         />
                     <TextView
                         android:id="@+id/t4p3"
@@ -742,8 +742,8 @@
                         android:id="@+id/t4f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t4d3"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t4d3"
                         />
 
                     <TextView
@@ -759,44 +759,44 @@
                         android:id="@+id/t4d5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Others"
-                        android:layout_below="@id/t4d4"/>
+                        android:layout_below="@id/t4d4"
+                        android:text="Others" />
                     <TextView
                         android:id="@+id/t4f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t4d4"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t4d4"
                         />
 
                     <TextView
                         android:id="@+id/t4p5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@id/t4f5"
-                        android:layout_below="@id/t4d4"/>
+                        android:layout_below="@id/t4d4"
+                        android:layout_toStartOf="@id/t4f5" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/t4d5"/>
+                        android:layout_below="@id/t4d5"
+                        android:background="@android:color/darker_gray" />
 
 
                     <TextView
                         android:id="@+id/tv_comment4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Comments"
                         android:layout_alignParentEnd="true"
-                        android:layout_below="@id/t4d5" />
+                        android:layout_below="@id/t4d5"
+                        android:text="Comments" />
                     <Button
                         android:id="@+id/bn_comment4"
                         android:layout_width="24dp"
                         android:layout_height="20dp"
+                        android:layout_below="@id/t4d5"
                         android:layout_gravity="center_vertical"
                         android:layout_toStartOf="@id/tv_comment4"
-                        android:layout_below="@id/t4d5"
                         android:background="@drawable/ic_comment_black_24dp" />
 
                 </RelativeLayout>
@@ -806,12 +806,12 @@
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/PinWing"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                card_view:cardCornerRadius="4dp"
+                android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                card_view:cardCornerRadius="4dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -821,29 +821,29 @@
                         android:id="@+id/title5"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="Problems in your wing"
                         android:gravity="center"
+                        android:text="Problems in your wing"
                         android:textColor="@color/colorPrimaryText"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/title5"/>
+                        android:layout_below="@id/title5"
+                        android:background="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/t5d1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Electrical work"
-                        android:layout_below="@id/title5"/>
+                        android:layout_below="@id/title5"
+                        android:text="Electrical work" />
 
                     <TextView
                         android:id="@+id/t5f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/title5"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/title5"
                         />
 
                     <TextView
@@ -859,15 +859,15 @@
                         android:id="@+id/t5d2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Civil work"
-                        android:layout_below="@id/t5d1"/>
+                        android:layout_below="@id/t5d1"
+                        android:text="Civil work" />
 
                     <TextView
                         android:id="@+id/t5f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t5d1"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d1"
                         />
                     <TextView
                         android:id="@+id/t5p2"
@@ -881,15 +881,15 @@
                         android:id="@+id/t5d3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Furniture broken"
-                        android:layout_below="@id/t5d2"/>
+                        android:layout_below="@id/t5d2"
+                        android:text="Furniture broken" />
 
                     <TextView
                         android:id="@+id/t5f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t5d2"
                         android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d2"
                         />
                     <TextView
                         android:id="@+id/t5p3"
@@ -904,16 +904,16 @@
                         android:id="@+id/t5d4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Internet problem"
-                        android:layout_below="@id/t5d3"/>
+                        android:layout_below="@id/t5d3"
+                        android:text="Internet problem" />
 
                     <TextView
                         android:id="@+id/t5f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_below="@id/t5d3"
-                        android:layout_alignParentEnd="true"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d3" />
 
                     <TextView
                         android:id="@+id/t5p4"
@@ -928,15 +928,15 @@
                         android:id="@+id/t5d5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Wing not cleaned regularly"
-                        android:layout_below="@id/t5d4"/>
+                        android:layout_below="@id/t5d4"
+                        android:text="Wing not cleaned regularly" />
                     <TextView
                         android:id="@+id/t5f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_below="@id/t5d4"
-                        android:layout_alignParentEnd="true"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d4" />
                     <TextView
                         android:id="@+id/t5p5"
                         android:layout_width="wrap_content"
@@ -949,15 +949,15 @@
                         android:id="@+id/t5d6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Does not have a dustbin"
-                        android:layout_below="@id/t5d5"/>
+                        android:layout_below="@id/t5d5"
+                        android:text="Does not have a dustbin" />
                     <TextView
                         android:id="@+id/t5f6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_below="@id/t5d5"
-                        android:layout_alignParentEnd="true"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d5" />
 
                     <TextView
                         android:id="@+id/t5p6"
@@ -971,15 +971,15 @@
                         android:id="@+id/t5d7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cloth wires not proper"
-                        android:layout_below="@id/t5d6"/>
+                        android:layout_below="@id/t5d6"
+                        android:text="Cloth wires not proper" />
                     <TextView
                         android:id="@+id/t5f7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_below="@id/t5d6"
-                        android:layout_alignParentEnd="true"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d6" />
 
                     <TextView
                         android:id="@+id/t5p7"
@@ -993,15 +993,15 @@
                         android:id="@+id/t5d8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Others"
-                        android:layout_below="@id/t5d7"/>
+                        android:layout_below="@id/t5d7"
+                        android:text="Others" />
                     <TextView
                         android:id="@+id/t5f8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_below="@id/t5d7"
-                        android:layout_alignParentEnd="true"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d7" />
 
                     <TextView
                         android:id="@+id/t5p8"
@@ -1015,15 +1015,15 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_below="@id/t5d8"/>
+                        android:layout_below="@id/t5d8"
+                        android:background="@android:color/darker_gray" />
                     <TextView
                         android:id="@+id/tv_comment5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Comments"
                         android:layout_alignParentEnd="true"
-                        android:layout_below="@id/t5d8" />
+                        android:layout_below="@id/t5d8"
+                        android:text="Comments" />
 
 
 
@@ -1031,27 +1031,24 @@
                         android:id="@+id/bn_comment5"
                         android:layout_width="24dp"
                         android:layout_height="20dp"
+                        android:layout_below="@id/t5d8"
                         android:layout_gravity="center_vertical"
                         android:layout_toStartOf="@id/tv_comment5"
-                        android:layout_below="@id/t5d8"
                         android:background="@drawable/ic_comment_black_24dp" />
 
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/latest_thread_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                />
-
         </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/latest_thread_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
-</RelativeLayout>
+</LinearLayout>

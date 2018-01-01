@@ -1,8 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -88,9 +86,6 @@ public class h_NewcomplaintFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.h_fragment_new_complaint, container, false);
-
-        final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
 
         final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
         final EditText prox = (EditText) view.findViewById(R.id.editText_room_number);
@@ -276,9 +271,6 @@ public class h_NewcomplaintFragment extends Fragment {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
-
-                            final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                            final SharedPreferences.Editor editor = sharedPref.edit();
 
                             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                             String moreRooms = Utils.getprefString(UtilStrings.ROOM, getActivity()) + ",";

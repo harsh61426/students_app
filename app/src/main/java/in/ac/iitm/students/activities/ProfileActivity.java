@@ -104,7 +104,6 @@ public class ProfileActivity extends AppCompatActivity {
         tv_name = (TextView) findViewById(R.id.profile_name);
         tv_roll = (TextView) findViewById(R.id.profile_roll_no);
         tv_hostel = (TextView) findViewById(R.id.profile_hostel);
-        tv_room = (TextView) findViewById(R.id.profile_room_no);
 
         email = (EditText) findViewById(R.id.profile_contactEmail);
         phoneno = (EditText) findViewById(R.id.profile_phoneno);
@@ -124,8 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         tv_name.setText(name);
         tv_roll.setText(roll_no);
-        tv_hostel.setText(hostel);
-        tv_room.setText(room);
+        tv_hostel.setText(hostel + ", " + room);
 
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
@@ -330,10 +328,10 @@ public class ProfileActivity extends AppCompatActivity {
         aboutThePerson.setText(aboutThePersonString);
         if(reveal_place==0){
             roomNoSwitch.setChecked(false);
-            ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.GRAY);
+            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.GRAY);
         }else{
             roomNoSwitch.setChecked(true);
-            ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.BLACK);
+            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.BLACK);
         }
         if (reveal_roll == 0) {
             rollNoSwitch.setChecked(false);
@@ -524,12 +522,12 @@ public class ProfileActivity extends AppCompatActivity {
     public void onRoomNoChecked(View view){
         if (roomNoSwitch.isChecked()) {
             roomNoSwitch.setChecked(true);
-            ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.BLACK);
+            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.BLACK);
             reveal_place=1;
 
         }else{
             roomNoSwitch.setChecked(false);
-            ((TextView) findViewById(R.id.profile_room_no)).setTextColor(Color.GRAY);
+            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.GRAY);
             reveal_place=0;
         }
 

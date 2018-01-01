@@ -2,7 +2,6 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +57,6 @@ import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.g_CustomComplaintActivity;
-import in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity;
-import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.fragments.Updateable;
 import in.ac.iitm.students.complaint_box.fragments.g_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.g_MyComplaintFragment;
@@ -70,6 +68,10 @@ import in.ac.iitm.students.others.Utils;
 
 public class GeneralComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
 
+    public String mGeneralString;
+    GeneralComplaintsActivity.ViewPagerAdapter adapter;
+    MaterialSearchView searchView;
+    String[] suggestions;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -78,11 +80,6 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Menu menu;
-    GeneralComplaintsActivity.ViewPagerAdapter adapter;
-
-    MaterialSearchView searchView;
-    String[] suggestions;
-    public String mGeneralString;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -137,10 +134,6 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 .fit()
                 .centerCrop()
                 .into(imageView);
-
-
-        final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -227,15 +220,20 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
                             JSONArray array =jsonObject.getJSONArray("suggestions");
                             suggestions = new String[array.length()];
+                            //suggestions=getResources().getStringArray(R.array.query_suggestions);
+                            //List<String> list = new ArrayList<String>();
+                            //list = Arrays.asList(suggestions);
+                            //ArrayList<String> arrayList = new ArrayList<String>(list);
                             for (int i=0;i <array.length(); i++) {
                                 JSONObject tag = array.getJSONObject(i);
                                 suggestions[i] = tag.getString("tags");
-                                Log.d("suggestions", suggestions[i]);
+                                //arrayList.add(tag.getString("tags"));
+                                //Log.d("suggestions", suggestions[i]);
                             }
+                            //suggestions = arrayList.toArray(new String[list.size()]);
                             searchView.setSuggestions(suggestions);
                             searchView.showSuggestions();
                             searchView.setEllipsize(true);
-
 
                             /*if(jsonArray!=null) {
                                 Log.e("array",jsonArray.toString());

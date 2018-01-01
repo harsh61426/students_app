@@ -2,7 +2,6 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -103,10 +102,6 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
                 .fit()
                 .centerCrop()
                 .into(imageView);
-
-
-        final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
