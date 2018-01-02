@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -59,7 +59,7 @@ public class g_Comments extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/searchComments.php";
     //private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/searchComments.php";
-    private CoordinatorLayout coordinatorLayout;
+    private RelativeLayout relativeLayout;
     private InputStream stream;
     private Complaint hComplaint;
 
@@ -80,7 +80,7 @@ public class g_Comments extends AppCompatActivity {
         setContentView(R.layout.g_activity_comments);
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
+        relativeLayout = (RelativeLayout) findViewById(R.id.rl_comments);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -148,6 +148,7 @@ public class g_Comments extends AppCompatActivity {
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new h_CommentsAdapter(commentArray,getApplicationContext());
                 mRecyclerView.setAdapter(mAdapter);
+                mRecyclerView.setNestedScrollingEnabled(false);
             }
 
         }, new Response.ErrorListener() {
@@ -189,102 +190,104 @@ public class g_Comments extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String cmntDescStr = CmntDesc.getText().toString();
-                //write code here to send the comment description to the database, increase the number of comments in database by 1
-                final String mUUID = hComplaint.getUid();
+                if (cmntDescStr.equals("")) makeSnackbar("Empty field");
+                else {
+                    //write code here to send the comment description to the database, increase the number of comments in database by 1
+                    final String mUUID = hComplaint.getUid();
 
 
-                Log.d("buiz", "hello");
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, add_url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                    Log.d("buiz", "hello");
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, add_url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-                        Log.d("buiz", "hello from heere");
+                            Log.d("buiz", "hello from heere");
 
-                        stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-                        JsonReader reader = null;
-                        try {
-                            reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-                            reader.setLenient(true);
+                            stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                            JsonReader reader = null;
+                            try {
+                                reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                                reader.setLenient(true);
 
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            reader.beginArray();
-                            while (reader.hasNext()) {
-                                reader.beginObject();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                reader.beginArray();
                                 while (reader.hasNext()) {
-                                    String name = reader.nextName();
-                                    Log.e("name", name);
-                                    if (name.equals("status")) {
-                                        if (reader.nextString().equals("1")) {
-                                            CmntDesc.setText("");
-                                            hideKeyboard(g_Comments.this);
-                                            CommentObj cmtObj = new CommentObj();
-                                            cmtObj.setName(Utils.getprefString(UtilStrings.NAME, g_Comments.this));
-                                            cmtObj.setRollNo(Utils.getprefString(UtilStrings.ROLLNO, g_Comments.this));
-                                            cmtObj.setRoomNo(Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
-                                            cmtObj.setCommentStr(cmntDescStr);
-                                            cmtObj.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                                            mAdapter.addComment(cmtObj);
-                                            mAdapter.notifyItemInserted(0);
-                                        } else {
+                                    reader.beginObject();
+                                    while (reader.hasNext()) {
+                                        String name = reader.nextName();
+                                        Log.e("name", name);
+                                        if (name.equals("status")) {
+                                            if (reader.nextString().equals("1")) {
+                                                CmntDesc.setText("");
+                                                hideKeyboard(g_Comments.this);
+                                                CommentObj cmtObj = new CommentObj();
+                                                cmtObj.setName(Utils.getprefString(UtilStrings.NAME, g_Comments.this));
+                                                cmtObj.setRollNo(Utils.getprefString(UtilStrings.ROLLNO, g_Comments.this));
+                                                cmtObj.setRoomNo(Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
+                                                cmtObj.setCommentStr(cmntDescStr);
+                                                cmtObj.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                                                mAdapter.addComment(cmtObj);
+                                            } else {
+                                                makeSnackbar("Error commenting");
+                                                hideKeyboard(g_Comments.this);
+                                            }
+                                        } else if (name.equals("error")) {
+                                            reader.nextString();
                                             makeSnackbar("Error commenting");
                                             hideKeyboard(g_Comments.this);
+
+                                        } else {
+                                            reader.skipValue();
                                         }
-                                    } else if (name.equals("error")) {
-                                        reader.nextString();
-                                        makeSnackbar("Error commenting");
-                                        hideKeyboard(g_Comments.this);
-
-                                    } else {
-                                        reader.skipValue();
                                     }
+                                    reader.endObject();
                                 }
-                                reader.endObject();
-                            }
-                            reader.endArray();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            makeSnackbar("Error commenting");
-                            hideKeyboard(g_Comments.this);
-                        } finally {
-
-                            try {
-                                reader.close();
+                                reader.endArray();
                             } catch (IOException e) {
                                 e.printStackTrace();
                                 makeSnackbar("Error commenting");
                                 hideKeyboard(g_Comments.this);
+                            } finally {
+
+                                try {
+                                    reader.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    makeSnackbar("Error commenting");
+                                    hideKeyboard(g_Comments.this);
+                                }
+
                             }
 
                         }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //Toast.makeText(g_Comments.this, error.toString(), Toast.LENGTH_SHORT).show();
+                            makeSnackbar("Error commenting");
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            String hostel_name = Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this);
+                            String room = Utils.getprefString(UtilStrings.ROOM, g_Comments.this);
+                            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Toast.makeText(g_Comments.this, error.toString(), Toast.LENGTH_SHORT).show();
-                        makeSnackbar("Error commenting");
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
-                        String hostel_name = Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this);
-                        String room = Utils.getprefString(UtilStrings.ROOM, g_Comments.this);
-                        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-                        params.put("HOSTEL", hostel_name);
-                        params.put("NAME", Utils.getprefString(UtilStrings.NAME, g_Comments.this));
-                        params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, g_Comments.this));
-                        params.put("COMMENT", cmntDescStr);
-                        params.put("UUID", mUUID);
-                        params.put("DATE_TIME", date);
-                        return params;
-                    }
-                };
-                MySingleton.getInstance(g_Comments.this).addToRequestQueue(stringRequest);
+                            params.put("HOSTEL", hostel_name);
+                            params.put("NAME", Utils.getprefString(UtilStrings.NAME, g_Comments.this));
+                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, g_Comments.this));
+                            params.put("COMMENT", cmntDescStr);
+                            params.put("UUID", mUUID);
+                            params.put("DATE_TIME", date);
+                            return params;
+                        }
+                    };
+                    MySingleton.getInstance(g_Comments.this).addToRequestQueue(stringRequest);
+                }
             }
         });
 
@@ -304,7 +307,7 @@ public class g_Comments extends AppCompatActivity {
     private void makeSnackbar(String msg) {
 
         Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+                .make(relativeLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 

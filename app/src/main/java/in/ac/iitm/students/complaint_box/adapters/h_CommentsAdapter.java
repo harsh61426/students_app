@@ -29,8 +29,15 @@ public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.Vi
     }
 
     public void addComment(CommentObj cmnt) {
-        mDataset.add(0, cmnt);
-        if (mDataset.get(1).getName().equals("Institute MobOps")) mDataset.remove(1);
+
+        if (mDataset.get(0).getName().equals("Institute MobOps")) {
+            mDataset.add(0, cmnt);
+            mDataset.remove(1);
+            notifyDataSetChanged();
+        } else {
+            mDataset.add(0, cmnt);
+            notifyItemInserted(0);
+        }
     }
 
     @Override

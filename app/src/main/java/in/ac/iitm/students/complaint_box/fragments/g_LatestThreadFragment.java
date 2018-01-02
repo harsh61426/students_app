@@ -52,7 +52,6 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("crai", "frag");
         super.onCreate(savedInstanceState);
     }
 

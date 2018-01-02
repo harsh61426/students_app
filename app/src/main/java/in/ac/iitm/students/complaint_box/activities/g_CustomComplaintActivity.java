@@ -65,60 +65,61 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
             final String tags = tv_tags.getText().toString();
             final String mUUID = UUID.randomUUID().toString();
 
+                if (title.equals("") || description.equals("")) makeSnackbar("Empty field");
+                else {
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                Log.e("response", response);
+                                JSONObject jsObject = new JSONObject(response);
+                                String status = jsObject.getString("status");
+                                Log.e("status", status);
+                                if (status.equals("1")) {
+                                    // finish();
+                                    makeSnackbar("Complaint registered");
+                                    Intent intent = new Intent(g_CustomComplaintActivity.this, GeneralComplaintsActivity.class);
+                                    startActivity(intent);
+                                } else if (status.equals("0")) {
+                                    makeSnackbar("Error registering complaint");
+                                    //Toast.makeText(g_CustomComplaintActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                makeSnackbar("Error registering complaint");
+                            }
 
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        Log.e("response",response);
-                        JSONObject jsObject = new JSONObject(response);
-                        String status = jsObject.getString("status");
-                        Log.e("status",status);
-                        if (status.equals("1")) {
-                            // finish();
-                            makeSnackbar("Complaint registered");
-                            Intent intent = new Intent(g_CustomComplaintActivity.this, GeneralComplaintsActivity.class);
-                            startActivity(intent);
-                        } else if (status.equals("0")) {
-                            makeSnackbar("Error registering complaint");
-                            //Toast.makeText(g_CustomComplaintActivity.this, "Error", Toast.LENGTH_SHORT).show();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        makeSnackbar("Error registering complaint");
-                    }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            makeSnackbar("Error registering complaint");
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            String hostel_name = Utils.getprefString(UtilStrings.HOSTEl, g_CustomComplaintActivity.this);
+                            String room = Utils.getprefString(UtilStrings.ROOM, g_CustomComplaintActivity.this);
+                            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-
+                            params.put("HOSTEL", hostel_name);
+                            params.put("NAME", Utils.getprefString(UtilStrings.NAME, g_CustomComplaintActivity.this));
+                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, g_CustomComplaintActivity.this));
+                            params.put("TITLE", title);
+                            params.put("DESCRIPTION", description);
+                            params.put("UPVOTES", "0");
+                            params.put("DOWNVOTES", "0");
+                            params.put("UUID", mUUID);
+                            params.put("TAGS", tags);
+                            params.put("DATETIME", date);
+                            params.put("COMMENTS", "0");
+                            return params;
+                        }
+                    };
+                    MySingleton.getInstance(g_CustomComplaintActivity.this).addToRequestQueue(stringRequest);
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    makeSnackbar("Error registering complaint");
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    String hostel_name = Utils.getprefString(UtilStrings.HOSTEl, g_CustomComplaintActivity.this);
-                    String room = Utils.getprefString(UtilStrings.ROOM, g_CustomComplaintActivity.this);
-                    String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-                    params.put("HOSTEL", hostel_name);
-                    params.put("NAME", Utils.getprefString(UtilStrings.NAME, g_CustomComplaintActivity.this));
-                    params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, g_CustomComplaintActivity.this));
-                    params.put("TITLE", title);
-                    params.put("DESCRIPTION", description);
-                    params.put("UPVOTES", "0");
-                    params.put("DOWNVOTES", "0");
-                    params.put("UUID", mUUID);
-                    params.put("TAGS", tags);
-                    params.put("DATETIME", date);
-                    params.put("COMMENTS", "0");
-                    return params;
-                }
-            };
-            MySingleton.getInstance(g_CustomComplaintActivity.this).addToRequestQueue(stringRequest);
             }
         });
     }
