@@ -118,7 +118,7 @@ public class CalendarActivity extends AppCompatActivity
 //        }
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading Calender....");
+        progressDialog.setMessage("Loading Calendar....");
         progressDialog.show();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
