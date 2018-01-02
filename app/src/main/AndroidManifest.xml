@@ -222,9 +222,21 @@
             android:label="New Complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".complaint_box.activities.g_CustomComplaintActivity" />
-        <activity android:name=".complaint_box.activities.g_Comments" />
-        <activity android:name=".complaint_box.activities.g_AddYourComment"></activity>
+        <activity
+            android:name=".complaint_box.activities.g_CustomComplaintActivity"
+            android:label="New Complaint"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".complaint_box.activities.g_Comments"
+            android:label="Comments"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".complaint_box.activities.g_AddYourComment"
+            android:label="New Comment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

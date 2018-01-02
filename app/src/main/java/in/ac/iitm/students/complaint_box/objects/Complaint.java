@@ -20,7 +20,7 @@ public class Complaint implements Serializable {
     private boolean resolved;
     private String uid;
     private int comments;
-    private String hostel;
+    private String hostel = "IIT Madras";
     private String moreRooms;
     private String imageUrl;
     private boolean custom;
@@ -163,7 +163,7 @@ public class Complaint implements Serializable {
         return hostel;
     }
 
-    private void setHostel(String hostel) {
+    public void setHostel(String hostel) {
         this.hostel = hostel;
     }
 
@@ -175,11 +175,11 @@ public class Complaint implements Serializable {
         return custom;
     }*/
 
-    public void setCustom(boolean custom) {
-        this.custom = custom;
-    }
-
     public boolean isCustom() {
         return custom;
+    }
+
+    public void setCustom(boolean custom) {
+        this.custom = custom;
     }
 }

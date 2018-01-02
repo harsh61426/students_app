@@ -83,11 +83,11 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_is_resolved"
+                        android:id="@+id/tv_trending"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-                        android:text="TextView" />
+                        android:text="#1" />
 
 
                     <TextView
@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:padding="4dp"
-                        android:text="3-7-17" />
+                        android:text="3-1-18" />
 
                 </LinearLayout>
 
