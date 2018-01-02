@@ -112,7 +112,10 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         tv_upvote.setText("" + gComplaint.getUpvotes());
         tv_downvote.setText("" + gComplaint.getDownvotes());
         tv_comment.setText("" + gComplaint.getComments());
-        tv_trending.setText("#" + position + 1);
+        int p = position + 1;
+        String trend = "#" + p;
+        gComplaint.setTrending(trend);
+        tv_trending.setText(trend);
         //if (gComplaint.getTag() != null && gComplaint.getTag().equals("")) tv_tags.setVisibility(View.INVISIBLE);
         //else
         tv_tags.setText(gComplaint.getTag());

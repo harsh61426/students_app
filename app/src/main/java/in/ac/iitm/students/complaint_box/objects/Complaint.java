@@ -24,6 +24,7 @@ public class Complaint implements Serializable {
     private String moreRooms;
     private String imageUrl;
     private boolean custom;
+    private String trending;
 
     public static Complaint getErrorComplaintObject() {
         Complaint hComplaint = new Complaint();
@@ -39,6 +40,14 @@ public class Complaint implements Serializable {
         hComplaint.setTitle("Error getting complaints!");
         hComplaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
         return hComplaint;
+    }
+
+    public String getTrending() {
+        return trending;
+    }
+
+    public void setTrending(String trending) {
+        this.trending = trending;
     }
 
     public String getImageUrl() {
