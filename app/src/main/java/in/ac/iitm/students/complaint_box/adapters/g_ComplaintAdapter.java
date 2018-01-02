@@ -82,6 +82,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         TextView tv_name = (TextView) holder.view.findViewById(R.id.tv_name);
         TextView tv_hostel = (TextView) holder.view.findViewById(R.id.tv_hostel);
         TextView tv_resolved = (TextView) holder.view.findViewById(R.id.tv_is_resolved);
+        TextView tv_date =(TextView)holder.view.findViewById(R.id.date);
         TextView tv_title = (TextView) holder.view.findViewById(R.id.tv_title);
         TextView tv_tags = (TextView) holder.view.findViewById(R.id.tv_tags);
         TextView tv_description = (TextView) holder.view.findViewById(R.id.tv_description);
@@ -108,6 +109,8 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         tv_name.setText(gComplaint.getName());
         tv_hostel.setText(gComplaint.getHostel());
         tv_resolved.setText(gComplaint.isResolved() ? "Resolved" : "Unresolved");
+        tv_date.setText(gComplaint.getDate());
+            Log.e("date",gComplaint.getDate());
         tv_title.setText(gComplaint.getTitle());
         tv_description.setText(gComplaint.getDescription());
         tv_upvote.setText("" + gComplaint.getUpvotes());

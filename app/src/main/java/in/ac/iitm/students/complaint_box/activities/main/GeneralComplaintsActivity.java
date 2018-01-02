@@ -194,7 +194,8 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
         String url = builder.build().toString();*/
 
-        String url="https://rockstarharshitha.000webhostapp.com/general_complaints/Search.php";
+        //String url="https://rockstarharshitha.000webhostapp.com/general_complaints/Search.php";
+        String url ="https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/search.php";
 
         StringRequest jsonObjReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {

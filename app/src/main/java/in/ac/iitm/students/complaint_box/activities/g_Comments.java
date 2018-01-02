@@ -67,6 +67,7 @@ public class g_Comments extends AppCompatActivity {
         TextView name = (TextView) findViewById(R.id.comment_tv_name);
         TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);
         TextView resolved = (TextView) findViewById(R.id.comment_tv_is_resolved);
+        TextView date =(TextView)findViewById(R.id.comment_date);
         TextView title = (TextView) findViewById(R.id.comment_tv_title);
         TextView description = (TextView) findViewById(R.id.comment_tv_description);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
@@ -78,6 +79,7 @@ public class g_Comments extends AppCompatActivity {
         name.setText(hComplaint.getName());
         hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
         resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
+        date.setText(hComplaint.getDate());
         title.setText(hComplaint.getTitle());
         description.setText(hComplaint.getDescription());
         upvote.setText("" + hComplaint.getUpvotes());
@@ -92,7 +94,7 @@ public class g_Comments extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Comment response",response);
+               // Log.e("Comment response",response);
 
                 h_CmntDataParser hCmntDataParser = new h_CmntDataParser(response, getApplicationContext());
                 ArrayList<CommentObj> commentArray = null;
@@ -156,12 +158,14 @@ public class g_Comments extends AppCompatActivity {
                     public void onResponse(String response) {
                         Toast.makeText(g_Comments.this, "sending comment...", Toast.LENGTH_SHORT).show();
                         try {
+                            Log.e("resp",response);
                             JSONObject jsObject = new JSONObject(response);
 
                             if (jsObject.has("error")) {
                                 Toast.makeText(g_Comments.this, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
                             } else if (jsObject.has("status")) {
                                 String status = jsObject.getString("status");
+                                Log.e("status",status);
                                 if (status == "1") {
                                     Intent intent = new Intent(g_Comments.this,g_LatestThreadFragment.class);
                                     startActivity(intent);
