@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.mauker.materialsearchview.MaterialSearchView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
@@ -163,10 +164,9 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 return false;
             }
         });
-
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+        searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
-            public void onSearchViewShown() {
+            public void onSearchViewOpened() {
 
             }
 
@@ -175,6 +175,18 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
             }
         });
+
+        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Do something when the suggestion list is clicked.
+                String suggestion = searchView.getSuggestionAtPosition(position);
+
+                searchView.setQuery(suggestion, false);
+            }
+        });
+
+
 
 
     }
@@ -228,12 +240,11 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                                 JSONObject tag = array.getJSONObject(i);
                                 suggestions[i] = tag.getString("tags");
                                 //arrayList.add(tag.getString("tags"));
-                                //Log.d("suggestions", suggestions[i]);
+                                Log.d("suggestions", suggestions[i]);
                             }
                             //suggestions = arrayList.toArray(new String[list.size()]);
-                            searchView.setSuggestions(suggestions);
-                            searchView.showSuggestions();
-                            searchView.setEllipsize(true);
+                            searchView.addSuggestions(suggestions);
+                            //searchView.showSuggestions();
 
                             /*if(jsonArray!=null) {
                                 Log.e("array",jsonArray.toString());
@@ -309,7 +320,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     @Override
     public void onBackPressed() {
 
-        if(searchView.isSearchOpen()){
+        if(searchView.isOpen()){
             searchView.closeSearch();
         }else{
             Intent intent = new Intent(GeneralComplaintsActivity.this, HomeActivity.class);
@@ -392,8 +403,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             onBackPressed();
             return true;
         }else if(id==R.id.action_search){
-            searchView.showSearch(true);
-            searchView.setVisibility(View.VISIBLE);
+            searchView.openSearch();
             return true;
 
         }
