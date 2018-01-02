@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +55,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
     private boolean latest = false;
     private Button bn_resolve;
     private CoordinatorLayout coordinatorLayout;
+    private InputStream stream;
 
 
     public g_ComplaintAdapter(ArrayList<Complaint> myDataset, Activity a, Context c, Boolean latest, CoordinatorLayout coordinatorLayout) {
@@ -77,7 +82,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 //        holder.mTextView.setText(mDataset[position]);
         TextView tv_name = (TextView) holder.view.findViewById(R.id.tv_name);
         TextView tv_hostel = (TextView) holder.view.findViewById(R.id.tv_hostel);
@@ -96,14 +101,17 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         RelativeLayout relativeLayout=(RelativeLayout)holder.view.findViewById(R.id.rl_name);
 
         final Complaint gComplaint = mDataset.get(position);
-        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + gComplaint.getRollNo().toUpperCase() + ".JPG";
-        Picasso.with(context)
-                .load(urlPic)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .fit()
-                .centerCrop()
-                .into(iv_profile);
+        if (!gComplaint.getRollNo().equals("X")) {
+            String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + gComplaint.getRollNo().toUpperCase() + ".JPG";
+            Picasso.with(context)
+                    .load(urlPic)
+                    .placeholder(R.color.cardview_shadow_end_color)
+                    .error(R.mipmap.ic_launcher)
+                    .fit()
+                    .centerCrop()
+                    .into(iv_profile);
+        }
+
 
         tv_name.setText(gComplaint.getName());
         tv_hostel.setText(gComplaint.getHostel());
@@ -143,176 +151,213 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
             relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.red_background));
         }
 
-        if (gComplaint.isResolved()) {
-            linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.resolved_colour));
+        linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.unresolved_colour));
 
-             bn_upvote.setClickable(false);
-             bn_downvote.setClickable(false);
-            bn_comment.setClickable(false);
+        bn_upvote.setOnClickListener(new View.OnClickListener() {
 
-        } else {
-            linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.unresolved_colour));
+            @Override
+            public void onClick(View view) {
+                String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/vote.php";
+                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("chlk", "onResponse: " + response);
+                        int pos = holder.getAdapterPosition();
+                        Log.d("lollz", response);
+                        stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                        JsonReader reader = null;
+                        try {
+                            reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                            reader.setLenient(true);
 
-            bn_upvote.setOnClickListener(new View.OnClickListener() {
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
 
-                @Override
-                public void onClick(View view) {
-                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/vote.php";
-                    StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
+                        try {
+                            reader.beginObject();
+                            while (reader.hasNext()) {
+                                String name = reader.nextName();
+                                Log.e("name", name);
+                                if (name.equals("status")) {
+                                    String status = reader.nextString();
+                                    if (status.equals("1")) {
+                                        int upvotes = mDataset.get(pos).getUpvotes();
+                                        mDataset.get(pos).setUpvotes(upvotes + 1);
+                                        notifyItemChanged(pos);
 
-                            Log.d("lollz", response);
-
-                            try {
-                                JSONObject jsObject = new JSONObject(response);
-                                if (jsObject.has("status")) {
-                                    String status = jsObject.getString("status");
-                                    if (status == "1") {
-                                        increaseUpvotes();
-                                        notifyItemChanged(holder.getAdapterPosition());
+                                    } else if (status.equals("3")) {
+                                        makeSnackbar("Already up-voted");
+                                    } else if (status.equals("2")) {
+                                        Log.d("lollz", "rev");
+                                        int upvotes = mDataset.get(pos).getUpvotes();
+                                        int downvotes = mDataset.get(pos).getDownvotes();
+                                        mDataset.get(pos).setUpvotes(upvotes + 1);
+                                        mDataset.get(pos).setDownvotes(downvotes - 1);
+                                        notifyItemChanged(pos);
 
                                     } else {
-                                        if (jsObject.has("error")) {
-                                            if (jsObject.getString("error").equals("Same vote")) ;
-                                            {
-                                                Snackbar snackbar = Snackbar
-                                                        .make(coordinatorLayout, "You can up-vote a complaint only once.", Snackbar.LENGTH_LONG);
-                                                snackbar.show();
-                                            }
-                                        } else {
-                                            Snackbar snackbar = Snackbar
-                                                    .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
-                                            snackbar.show();
-                                            //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
-                                        }
+                                        makeSnackbar("Error up-voting the complaint");
                                     }
-                                } else if (jsObject.has("error")) {
-
-                                    Snackbar snackbar = Snackbar
-                                            .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                    //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                } else if (name.equals("error")) {
+                                    reader.nextString();
+                                    makeSnackbar("Error up-voting the complaint");
+                                } else {
+                                    reader.skipValue();
                                 }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Snackbar snackbar = Snackbar
-                                        .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
-                                snackbar.show();
                             }
-                        }
-
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Snackbar snackbar = Snackbar
-                                    .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
-                            snackbar.show();
-                        }
-                    }) {
-                        //to POST params
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<String, String>();
-                            //get hostel from prefs
-                            //put some dummy for now
-                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
-                            params.put("UUID", mUUID);
-                            params.put("VOTE", "0");
-                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, context));
-                            return params;
-                        }
-                    };
-                    MySingleton.getInstance(activity).addToRequestQueue(request);
-                }
-
-                private void increaseUpvotes() {
-                    int upvote_no = gComplaint.getUpvotes();
-                    mDataset.get(holder.getAdapterPosition()).setUpvotes(upvote_no + 1);
-                }
-            });
-
-             bn_downvote.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/vote.php";
-                    StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
+                            reader.endObject();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            makeSnackbar("Error up-voting the complaint");
+                        } finally {
                             try {
-                                JSONObject jsObject = new JSONObject(response);
-                                if (jsObject.has("error")) {
-                                    Snackbar snackbar = Snackbar
-                                            .make(coordinatorLayout, "Error down-voting the complaint", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                    //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
-                                } else if (jsObject.has("status")) {
-                                    String status = jsObject.getString("status");
-                                    if (status == "1") {
-                                        increaseDownvotes();
-                                        notifyItemChanged(holder.getAdapterPosition());
-                                    } else {
-                                        Snackbar snackbar = Snackbar
-                                                .make(coordinatorLayout, "Error down-voting the complaint", Snackbar.LENGTH_LONG);
-                                        snackbar.show();
-                                        //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-
-                            } catch (JSONException e) {
+                                reader.close();
+                            } catch (IOException e) {
                                 e.printStackTrace();
+                                makeSnackbar("Error up-voting the complaint");
                             }
                         }
+                    }
 
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        makeSnackbar("Error up-voting the complaint");
+                    }
+                }) {
+                    //to POST params
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
+                        //get hostel from prefs
+                        //put some dummy for now
+                        params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
+                        params.put("UUID", mUUID);
+                        params.put("VOTE", "1");
+                        params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, context));
+                        return params;
+                    }
+                };
+                MySingleton.getInstance(activity).addToRequestQueue(request);
+            }
+        });
 
+        bn_downvote.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/vote.php";
+                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("chlk", "onResponse: " + response);
+                        int pos = holder.getAdapterPosition();
+                        Log.d("lollz", response);
+                        stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                        JsonReader reader = null;
+                        try {
+                            reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                            reader.setLenient(true);
+
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
                         }
-                    }) {
-                        //to POST params
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<String, String>();
-                            //get hostel from prefs
-                            //put some dummy for now
-                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
-                            params.put("UUID", mUUID);
-                            params.put("VOTE", "0");
-                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, context));
-                            return params;
+
+                        try {
+                            reader.beginObject();
+                            while (reader.hasNext()) {
+                                String name = reader.nextName();
+                                if (name.equals("status")) {
+                                    String status = reader.nextString();
+                                    if (status.equals("1")) {
+                                        int downvotes = mDataset.get(pos).getDownvotes();
+                                        mDataset.get(pos).setDownvotes(downvotes + 1);
+                                        notifyItemChanged(pos);
+
+                                    } else if (status.equals("2")) {
+                                        int upvotes = mDataset.get(pos).getUpvotes();
+                                        int downvotes = mDataset.get(pos).getDownvotes();
+                                        mDataset.get(pos).setUpvotes(upvotes - 1);
+                                        mDataset.get(pos).setDownvotes(downvotes + 1);
+                                        notifyItemChanged(pos);
+
+                                    } else if (status.equals("3")) {
+                                        makeSnackbar("Already down-voted");
+                                    } else {
+                                        makeSnackbar("Error down-voting the complaint");
+                                    }
+                                } else if (name.equals("error")) {
+                                    reader.nextString();
+                                    makeSnackbar("Error down-voting the complaint");
+                                } else {
+                                    reader.skipValue();
+                                }
+                            }
+                            reader.endObject();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            makeSnackbar("Error down-voting the complaint");
+                        } finally {
+                            try {
+                                reader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                makeSnackbar("Error down-voting the complaint");
+                            }
                         }
+                    }
 
-                    };
-                    MySingleton.getInstance(activity).addToRequestQueue(request);
-                }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        makeSnackbar("Error down-voting the complaint");
+                    }
+                }) {
+                    //to POST params
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
+                        //get hostel from prefs
+                        //put some dummy for now
+                        params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
+                        params.put("UUID", mUUID);
+                        params.put("VOTE", "0");
+                        params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, context));
+                        return params;
+                    }
 
-                private void increaseDownvotes() {
-                    int downvote_no = gComplaint.getDownvotes();
-                    gComplaint.setDownvotes(downvote_no + 1);
-                }
-            });
-        }
+                };
+                MySingleton.getInstance(activity).addToRequestQueue(request);
+            }
+        });
 
         bn_comment.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                if (gComplaint.isResolved() && gComplaint.getComments() == 0) {
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "No Comments", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else {
-                    Intent intent = new Intent(context, g_Comments.class);
-                    intent.putExtra("cardData", gComplaint);
-                    activity.startActivity(intent);
-                }
+                Intent intent = new Intent(context, g_Comments.class);
+                intent.putExtra("cardData", gComplaint);
+                activity.startActivity(intent);
 
             }
         });
 
+        if (gComplaint.getName().equals("Institute MobOps")) {
+            linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.resolved_colour));
+
+            bn_upvote.setClickable(false);
+            bn_downvote.setClickable(false);
+            bn_comment.setClickable(false);
+        }
+
+    }
+
+    private void makeSnackbar(String msg) {
+
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     // Return the size of your dataset (invoked by the layout manager)

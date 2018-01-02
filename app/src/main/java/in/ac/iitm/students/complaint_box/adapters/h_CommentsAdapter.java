@@ -60,7 +60,7 @@ public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.Vi
         final CommentObj hCommentObj = mDataset.get(position);
 
         name.setText(hCommentObj.getName());
-        roomNo.setText("Room No: " + hCommentObj.getRoomNo());
+        roomNo.setText(hCommentObj.getRoomNo());
         date.setText(hCommentObj.getDate());
         comStr.setText(hCommentObj.getCommentStr());
 
