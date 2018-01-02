@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,8 +93,7 @@ public class NameSearchFragment extends Fragment {
         etSearch = (EditText) view.findViewById(R.id.et_search_name);
         searchMessage = (TextView) view.findViewById(R.id.tv_search_result_msg);
         lvSuggestion = (ListView) view.findViewById(R.id.lv_suggestion);
-        adapter = new ArrayAdapter<>(context,
-                android.R.layout.simple_list_item_1,
+        adapter = new ArrayAdapter<>(context,R.layout.item_search_result,
                 listSuggestion);
         lvSuggestion.setAdapter(adapter);
 
@@ -163,7 +163,7 @@ public class NameSearchFragment extends Fragment {
             adapter.notifyDataSetChanged();
             return;
         }
-        searchMessage.setVisibility(View.GONE);
+        searchMessage.setVisibility(View.INVISIBLE);
         progressSearch.setVisibility(View.VISIBLE);
 
         Uri.Builder builder = new Uri.Builder();
@@ -198,7 +198,8 @@ public class NameSearchFragment extends Fragment {
                             listSuggestion.add(studName);//+", "+studRoll
                     }
                     adapter.notifyDataSetChanged();
-                    searchMessage.setVisibility(View.GONE);
+                    searchMessage.setText("Search Results");
+                    searchMessage.setVisibility(View.VISIBLE);
                     progressSearch.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
@@ -235,6 +236,7 @@ public class NameSearchFragment extends Fragment {
             public Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("name", etSearch.getText().toString());
+                Log.i("name",etSearch.getText().toString());
                 return params;
             }
         };
