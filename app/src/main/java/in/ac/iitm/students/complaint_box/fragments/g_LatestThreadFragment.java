@@ -28,7 +28,6 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
-import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.g_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
@@ -53,6 +52,7 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("crai", "frag");
         super.onCreate(savedInstanceState);
     }
 

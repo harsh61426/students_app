@@ -28,6 +28,11 @@ public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.Vi
         context = c;
     }
 
+    public void addComment(CommentObj cmnt) {
+        mDataset.add(0, cmnt);
+        if (mDataset.get(1).getName().equals("Institute MobOps")) mDataset.remove(1);
+    }
+
     @Override
     public h_CommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
