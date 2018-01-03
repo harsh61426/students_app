@@ -1,5 +1,6 @@
 package in.ac.iitm.students.fragments;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +49,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.StudentDetailsActivity;
+import in.ac.iitm.students.adapters.StudentSearchAdapter;
+import in.ac.iitm.students.objects.Student;
 import in.ac.iitm.students.others.MySingleton;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -56,8 +59,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class NameSearchFragment extends Fragment {
 
     ListView lvSuggestion;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> listSuggestion = new ArrayList<>(25);
+    StudentSearchAdapter adapter;
+    ArrayList<Student> listSuggestion = new ArrayList<>(25);
     EditText etSearch;
     ProgressBar progressSearch;
     Context context;
@@ -93,15 +96,14 @@ public class NameSearchFragment extends Fragment {
         etSearch = (EditText) view.findViewById(R.id.et_search_name);
         searchMessage = (TextView) view.findViewById(R.id.tv_search_result_msg);
         lvSuggestion = (ListView) view.findViewById(R.id.lv_suggestion);
-        adapter = new ArrayAdapter<>(context,R.layout.item_search_result,
-                listSuggestion);
+        adapter = new StudentSearchAdapter(listSuggestion,getContext());
         lvSuggestion.setAdapter(adapter);
-
         lvSuggestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String name = (String) parent.getItemAtPosition(position);
-                goToDetails(name);
+                Student student = (Student) parent.getItemAtPosition(position);
+                viewDetails(student);
+                //goToDetails(name);
             }
         });
 
@@ -188,14 +190,21 @@ public class NameSearchFragment extends Fragment {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONObject jsonObject;
                     int i;
-                    String studName;
+                    Student student;
                     listSuggestion.clear();
 
                     for (i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
-                        studName = jsonObject.getString("fullname");
-                        if (!listSuggestion.contains(studName))
-                            listSuggestion.add(studName);//+", "+studRoll
+                        Log.i("JSON",jsonObject.toString());
+                        student = new Student();
+                        student.setName(jsonObject.getString("fullname"));
+                        student.setRollno(jsonObject.getString("username"));
+                        student.setHostel(jsonObject.getString("hostel"));
+                        student.setRoom(jsonObject.getString("room"));
+                        student.setGender(jsonObject.getString("gender").charAt(0));
+
+                        if (!listSuggestion.contains(student))
+                            listSuggestion.add(student);//+", "+studRoll
                     }
                     adapter.notifyDataSetChanged();
                     searchMessage.setText("Search Results");
@@ -243,6 +252,35 @@ public class NameSearchFragment extends Fragment {
 
         jsonObjReq.setTag("tag");
         MySingleton.getInstance(context).addToRequestQueue(jsonObjReq);
+    }
+
+    private void viewDetails(Student student)
+    {
+        Dialog dialog = new Dialog(getContext());
+        dialog.setTitle("Student details");
+        dialog.setContentView(R.layout.dialog_details);
+        TextView rollno = (TextView)dialog.findViewById(R.id.d_rollno);
+        rollno.setText(student.getRollno());
+        TextView name = (TextView)dialog.findViewById(R.id.d_name);
+        name.setText(student.getName());
+        TextView room = (TextView)dialog.findViewById(R.id.d_room);
+        room.setText(student.getRoom()+", "+student.getHostel());
+        CircleImageView photo = (CircleImageView)dialog.findViewById(R.id.d_photo);Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("https")
+                .authority("photos.iitm.ac.in")
+                .appendPath("byroll.php")
+                .appendQueryParameter("roll", student.getRollno());
+
+        String url = builder.build().toString();
+
+        Picasso.with(getContext()).load(url).
+                placeholder(R.drawable.dummypropic).
+                error(R.drawable.dummypropic).
+                fit().centerCrop().
+                into(photo);
+
+        dialog.show();
     }
 
     private void goToDetails(String passed_name) {
@@ -342,14 +380,7 @@ public class NameSearchFragment extends Fragment {
                     //int check = getIntent().getIntExtra("reveal_photo", 1);
 
                     if(check == 1) {
-                        Uri.Builder builder = new Uri.Builder();
 
-                        builder.scheme("https")
-                                .authority("photos.iitm.ac.in")
-                                .appendPath("byroll.php")
-                                .appendQueryParameter("roll", rollno_.getText().toString());
-                        String url = builder.build().toString();
-                        Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.dummypropic).error(R.drawable.dummypropic).fit().centerCrop().into(profilePic_);
                     }
 
 
