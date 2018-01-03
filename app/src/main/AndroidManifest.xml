@@ -222,9 +222,6 @@
             android:label="New Complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".complaint_box.activities.g_CustomComplaintActivity" />
-        <activity android:name=".complaint_box.activities.g_Comments" />
-        <activity android:name=".complaint_box.activities.g_AddYourComment"></activity>
 
         <provider
             android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
@@ -232,6 +229,23 @@
             android:exported="false"
             android:protectionLevel="signature"
             android:syncable="true"/>
+
+        <activity
+            android:name=".complaint_box.activities.g_CustomComplaintActivity"
+            android:label="New Complaint"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".complaint_box.activities.g_Comments"
+            android:label="Comments"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".complaint_box.activities.g_AddYourComment"
+            android:label="New Comment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

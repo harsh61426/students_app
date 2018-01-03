@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,12 +52,20 @@ public class g_Comments extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/searchComments.php";
     //private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/searchComments.php";
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.g_activity_comments);
         final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setElevation(0);
 
         final String add_url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/newComment.php";
         //final String add_url = "https://rockstarharshitha.000webhostapp.com/general_complaints/newComment.php";
@@ -66,8 +77,8 @@ public class g_Comments extends AppCompatActivity {
 
         TextView name = (TextView) findViewById(R.id.comment_tv_name);
         TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);
-        TextView resolved = (TextView) findViewById(R.id.comment_tv_is_resolved);
         TextView date =(TextView)findViewById(R.id.comment_date);
+        TextView trending = (TextView) findViewById(R.id.tv_trending);
         TextView title = (TextView) findViewById(R.id.comment_tv_title);
         TextView description = (TextView) findViewById(R.id.comment_tv_description);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
@@ -78,8 +89,8 @@ public class g_Comments extends AppCompatActivity {
 
         name.setText(hComplaint.getName());
         hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
-        resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         date.setText(hComplaint.getDate());
+        trending.setText(hComplaint.getTrending());
         title.setText(hComplaint.getTitle());
         description.setText(hComplaint.getDescription());
         upvote.setText("" + hComplaint.getUpvotes());
@@ -192,10 +203,11 @@ public class g_Comments extends AppCompatActivity {
                         String room = Utils.getprefString(UtilStrings.ROOM, g_Comments.this);
                         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
+                        // TODO SET PARAMS RIGHT
                         params.put("HOSTEL", hostel_name);
                         params.put("NAME", "Omkar Patil");
                         params.put("ROLL_NO", "me15b123");
-                        params.put("ROOM_NO", room);
+                        params.put("HOSTEL", room);
                         params.put("COMMENT", cmntDescStr);
                         params.put("UUID", mUUID);
                         params.put("DATE_TIME", date);

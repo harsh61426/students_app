@@ -76,12 +76,10 @@ public class g_JSONComplaintParser {
                 hComplaint.setName(reader.nextString());
             } else if (name.equals("rollno")) {
                 hComplaint.setRollNo(reader.nextString());
-            } else if (name.equals("roomno")) {
-                hComplaint.setRoomNo(reader.nextString());
+            } else if (name.equals("hostel")) {
+                hComplaint.setHostel(reader.nextString());
             } else if (name.equals("title")) {
                 hComplaint.setTitle(reader.nextString());
-            } else if (name.equals("proximity")) {
-                hComplaint.setProximity(reader.nextString());
             } else if (name.equals("description")) {
                 hComplaint.setDescription(reader.nextString());
             } else if (name.equals("upvotes")) {

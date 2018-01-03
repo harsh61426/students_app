@@ -81,7 +81,6 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 //        holder.mTextView.setText(mDataset[position]);
         TextView tv_name = (TextView) holder.view.findViewById(R.id.tv_name);
         TextView tv_hostel = (TextView) holder.view.findViewById(R.id.tv_hostel);
-        TextView tv_resolved = (TextView) holder.view.findViewById(R.id.tv_is_resolved);
         TextView tv_date =(TextView)holder.view.findViewById(R.id.date);
         TextView tv_title = (TextView) holder.view.findViewById(R.id.tv_title);
         TextView tv_tags = (TextView) holder.view.findViewById(R.id.tv_tags);
@@ -89,6 +88,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         TextView tv_upvote = (TextView) holder.view.findViewById(R.id.tv_upvote);
         TextView tv_downvote = (TextView) holder.view.findViewById(R.id.tv_downvote);
         TextView tv_comment = (TextView) holder.view.findViewById(R.id.tv_comment);
+        TextView tv_trending = (TextView) holder.view.findViewById(R.id.tv_trending);
         Button bn_upvote = (Button) holder.view.findViewById(R.id.bn_upvote);
         Button bn_downvote = (Button) holder.view.findViewById(R.id.bn_downvote);
         Button bn_comment = (Button) holder.view.findViewById(R.id.bn_comment);
@@ -108,7 +108,6 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
         tv_name.setText(gComplaint.getName());
         tv_hostel.setText(gComplaint.getHostel());
-        tv_resolved.setText(gComplaint.isResolved() ? "Resolved" : "Unresolved");
         tv_date.setText(gComplaint.getDate());
             Log.e("date",gComplaint.getDate());
         tv_title.setText(gComplaint.getTitle());
@@ -116,11 +115,14 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         tv_upvote.setText("" + gComplaint.getUpvotes());
         tv_downvote.setText("" + gComplaint.getDownvotes());
         tv_comment.setText("" + gComplaint.getComments());
+        int p = position + 1;
+        String trend = "#" + p;
+        gComplaint.setTrending(trend);
+        tv_trending.setText(trend);
         //if (gComplaint.getTag() != null && gComplaint.getTag().equals("")) tv_tags.setVisibility(View.INVISIBLE);
         //else
         tv_tags.setText(gComplaint.getTag());
 
-        //todo use glide and get profile picture
         if (gComplaint.getName() != null && gComplaint.getName().equals("Institute MobOps")) {
             iv_profile.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher));
             tv_hostel.setText(gComplaint.getHostel());

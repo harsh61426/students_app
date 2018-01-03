@@ -20,10 +20,11 @@ public class Complaint implements Serializable {
     private boolean resolved;
     private String uid;
     private int comments;
-    private String hostel;
+    private String hostel = "IIT Madras";
     private String moreRooms;
     private String imageUrl;
     private boolean custom;
+    private String trending;
 
     public static Complaint getErrorComplaintObject() {
         Complaint hComplaint = new Complaint();
@@ -39,6 +40,14 @@ public class Complaint implements Serializable {
         hComplaint.setTitle("Error getting complaints!");
         hComplaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
         return hComplaint;
+    }
+
+    public String getTrending() {
+        return trending;
+    }
+
+    public void setTrending(String trending) {
+        this.trending = trending;
     }
 
     public String getImageUrl() {
@@ -163,7 +172,7 @@ public class Complaint implements Serializable {
         return hostel;
     }
 
-    private void setHostel(String hostel) {
+    public void setHostel(String hostel) {
         this.hostel = hostel;
     }
 
@@ -175,11 +184,11 @@ public class Complaint implements Serializable {
         return custom;
     }*/
 
-    public void setCustom(boolean custom) {
-        this.custom = custom;
-    }
-
     public boolean isCustom() {
         return custom;
+    }
+
+    public void setCustom(boolean custom) {
+        this.custom = custom;
     }
 }
