@@ -222,6 +222,14 @@
             android:label="New Complaint"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
+            android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase"
+            android:exported="false"
+            android:protectionLevel="signature"
+            android:syncable="true"/>
+
         <activity
             android:name=".complaint_box.activities.g_CustomComplaintActivity"
             android:label="New Complaint"
@@ -237,6 +245,7 @@
             android:label="New Comment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

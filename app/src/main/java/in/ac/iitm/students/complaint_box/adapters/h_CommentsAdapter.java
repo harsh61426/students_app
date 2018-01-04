@@ -28,6 +28,18 @@ public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.Vi
         context = c;
     }
 
+    public void addComment(CommentObj cmnt) {
+
+        if (mDataset.get(0).getName().equals("Institute MobOps")) {
+            mDataset.add(0, cmnt);
+            mDataset.remove(1);
+            notifyDataSetChanged();
+        } else {
+            mDataset.add(0, cmnt);
+            notifyItemInserted(0);
+        }
+    }
+
     @Override
     public h_CommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -48,7 +60,7 @@ public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.Vi
         final CommentObj hCommentObj = mDataset.get(position);
 
         name.setText(hCommentObj.getName());
-        roomNo.setText("Room No: " + hCommentObj.getRoomNo());
+        roomNo.setText(hCommentObj.getRoomNo());
         date.setText(hCommentObj.getDate());
         comStr.setText(hCommentObj.getCommentStr());
 

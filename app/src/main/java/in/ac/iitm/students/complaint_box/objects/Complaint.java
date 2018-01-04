@@ -29,6 +29,7 @@ public class Complaint implements Serializable {
     public static Complaint getErrorComplaintObject() {
         Complaint hComplaint = new Complaint();
         hComplaint.setName("Institute MobOps");
+        hComplaint.setRollNo("X");
         hComplaint.setUpvotes(42);
         hComplaint.setDownvotes(0);
         hComplaint.setComments(0);

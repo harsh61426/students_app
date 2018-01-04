@@ -13,6 +13,18 @@ public class h_PinRoom {
     private int comments;
     private String imageUrl;
     private  String[][] t4details=new String[5][2];
+
+    public h_PinRoom(){
+        resolved=false;
+        uid="";
+        comments=0;
+        imageUrl="";
+        for(int i=0;i<5;i++){
+            for(int j=0;j<2;j++){
+                t4details[i][j]="";
+            }
+        }
+    }
     /*public String getRoomNo() {
         return roomNo;
     }
