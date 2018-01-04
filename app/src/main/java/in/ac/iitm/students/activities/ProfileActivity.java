@@ -10,11 +10,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.util.Util;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -56,22 +60,9 @@ import in.ac.iitm.students.others.Utils;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private final static int SELECTED_PICTURE_FOR_GALLERY = 1;
-    private final static int CAPTURED_PICTURE = 0;
-    public static android.app.FragmentManager fragmentManager;
-    public static String activity = "";
-    static String emailString = "", phonenoString = "", nickNameString = "", aboutThePersonString = "";
-    // This is a reference to catch Profile picture imagebutton view.
-    int reveal_place=1;
-    int reveal_photo=1;
-    int reveal_roll = 1;
     CircleImageView profilePicImage;
-    String mCurrentPhotoPath;
-    EditText email,phoneno,aboutThePerson;
-    Switch roomNoSwitch, rollNoSwitch;
-
-    //private File imageFile;
-    private TextView tv_name, tv_roll, tv_hostel, tv_room;
+    EditText et_email, et_phone;
+    TextView tv_name, tv_roll, tv_hostel, tv_room, tv_phone, tv_email;
 
     public static String reverse(String input) {
         char[] in = input.toCharArray();
@@ -95,35 +86,37 @@ public class ProfileActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(0);
         actionBar.setTitle(R.string.title_activity_profile);
 
-        activity = "ProfileActivity";
-        tv_name = (TextView) findViewById(R.id.profile_name);
-        tv_roll = (TextView) findViewById(R.id.profile_roll_no);
-        tv_hostel = (TextView) findViewById(R.id.profile_hostel);
+        //activity = "ProfileActivity";
+        tv_name = (TextView) findViewById(R.id.p_name);
+        tv_roll = (TextView) findViewById(R.id.p_rollno);
+        tv_hostel = (TextView) findViewById(R.id.p_hostel);
+        tv_room = (TextView) findViewById(R.id.p_room);
+        tv_phone = (TextView) findViewById(R.id.p_mobile);
+        tv_email = (TextView) findViewById(R.id.p_email);
 
-        email = (EditText) findViewById(R.id.profile_contactEmail);
-        phoneno = (EditText) findViewById(R.id.profile_phoneno);
-        aboutThePerson = (EditText) findViewById(R.id.profile_about_the_person);
-        roomNoSwitch = (Switch) findViewById(R.id.profile_room_no_switch);
-        rollNoSwitch = (Switch) findViewById(R.id.profile_rollno_switch);
-        profilePicImage = (CircleImageView) findViewById(R.id.profile_propic);
-        roomNoSwitch.setChecked(true);
-        rollNoSwitch.setChecked(true);
-        fragmentManager = getFragmentManager();
+        et_email = (EditText) findViewById(R.id.p_edit_email);
+        et_phone = (EditText) findViewById(R.id.p_edit_mobile);
 
+        profilePicImage = (CircleImageView) findViewById(R.id.p_propic);
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
         String hostel = Utils.getprefString(UtilStrings.HOSTEl, this);
         String room = Utils.getprefString(UtilStrings.ROOM, this);
+        String mobile = Utils.getprefString(UtilStrings.MOBILE,this);
+        String email = Utils.getprefString(UtilStrings.MAIL,this);
 
         tv_name.setText(name);
         tv_roll.setText(roll_no);
-        tv_hostel.setText(hostel + ", " + room);
+        tv_hostel.setText("Hostel: "+hostel.toUpperCase());
+        tv_room.setText("Room: "+room);
+        tv_email.setText("Email ID: "+email);
+        tv_phone.setText("Contact No: "+mobile);
 
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
@@ -134,339 +127,108 @@ public class ProfileActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(profilePicImage);
 
-        email.setText(Utils.getprefString("StudentEmail",this));
-        phoneno.setText(Utils.getprefString("StudentPhoneNo",this));
-        aboutThePerson.setText(Utils.getprefString("aboutYourself",this));
-        if(Utils.getprefInt("reveal_place",this)==0){
-            roomNoSwitch.setChecked(false);
-        }else{
-            roomNoSwitch.setChecked(true);
-        }
-        if (Utils.getprefInt("reveal_roll", this) == 0) {
-            rollNoSwitch.setChecked(false);
-        } else {
-            rollNoSwitch.setChecked(true);
-        }
-        if(Utils.getprefInt("reveal_photo",this)==0){
-            reveal_photo=0;
-            profilePicImage.setImageResource(R.drawable.dummypropic);
-        }else{
-            reveal_photo=1;
-            // set profilepicImage to original photo.
 
-        }
-
-        profilePicImage.setOnClickListener(new View.OnClickListener() {
+        tv_phone.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final PopupMenu popupMenu = new PopupMenu(ProfileActivity.this,profilePicImage);
-                popupMenu.getMenuInflater().inflate(R.menu.profile_image_dropdown_menu,popupMenu.getMenu());
-                MenuItem item = popupMenu.getMenu().getItem(0);
-                if(reveal_photo==1){
-                    item.setTitle("Hide Image");
-                }else{
-                    item.setTitle("Show Image");
-                }
+            public void onClick(View view) {
+                tv_phone.setVisibility(View.GONE);
+                et_phone.setVisibility(View.VISIBLE);
+                et_phone.requestFocus();
+            }
+        });
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.profile_remove_image_item){
-                            item.setVisible(false);
-                            if(reveal_photo==1){
-                                item.setTitle("Show Image");
-                            }else{
-                                item.setTitle("Hide Image");
-                            }
-                            AlertDialog.Builder builder  = new AlertDialog.Builder(ProfileActivity.this);
+        tv_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tv_email.setVisibility(View.GONE);
+                et_email.setVisibility(View.VISIBLE);
+                et_email.requestFocus();
+            }
+        });
 
-                            if(reveal_photo==1) {
-                                builder.setMessage("Do you want to hide your Profile Pic?")
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                profilePicImage.setImageResource(R.drawable.dummypropic);
-                                                reveal_photo=0;
-                                            }
-                                        })
-                                        .setNegativeButton("Cancel", null);
-
-                            }else{
-                                builder.setMessage("Do you want to show your Profile Pic?")
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // set the original pic here.
-                                                //profilePicImage.setImageResource(R.drawable.dummypropic);
-                                                reveal_photo=1;
-                                            }
-                                        })
-                                        .setNegativeButton("Cancel", null);
-
-                            }
-
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-                        }
-
-                        /*if(item.getItemId()==R.id.profile_default_image_item){
-                            item.setVisible(false);
-                            setDefaultProfilePic();
-                        }
-
-                        else if(item.getItemId()==R.id.upload_image_item){
-                            onUploadButtonClicked();
-                        }
-
-                       else if(item.getItemId()==R.id.capture_image_item){
-
-                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            // Ensure that there's a camera activity to handle the intent
-                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                // Create the File where the photo should go
-                                File photoFile = null;
-                                try {
-                                    photoFile = createImageFile();
-                                } catch (IOException ex) {
-                                    // Error occurred while creating the File
-
-                                }
-                                // Continue only if the File was successfully created
-                                if (photoFile != null) {
-                                    Uri photoURI = FileProvider.getUriForFile(ProfileActivity.this,
-                                            "com.example.android.fileprovider",
-                                            photoFile);
-                                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                    startActivityForResult(takePictureIntent, CAPTURED_PICTURE);
-                                }
-                            }
-
-
-                        }*/
-
+        et_email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                Log.i("Event",Integer.toString(actionId));
+                if(actionId== EditorInfo.IME_ACTION_DONE) {
+                    String mail = et_email.getText().toString();
+                    Log.i("Mail",mail);
+                    if (!isEmailValid(mail)) {
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                        builder.setMessage("Email is invalid.")
+                                .setPositiveButton("Ok", null);
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
                         return true;
-
-
                     }
-                });
-
-                popupMenu.show();
-            }
-        });
-
-
-
-        email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                if(!isEmailValid(email.getText().toString())){
-                    final AlertDialog.Builder builder  = new AlertDialog.Builder(ProfileActivity.this);
-                    builder.setMessage("Email is invalid.")
-                            .setPositiveButton("Ok",null);
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-
-                    return true;
+                    else
+                    {
+                        Utils.saveprefString(UtilStrings.MAIL,mail,ProfileActivity.this);
+                        tv_email.setText("Email ID: "+mail);
+                        et_email.setVisibility(View.GONE);
+                        tv_email.setVisibility(View.VISIBLE);
+                        return true;
+                    }
                 }
-
                 return false;
             }
         });
 
-        phoneno.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        et_phone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if(!isPhonenoValid(phoneno.getText().toString())){
-                    final AlertDialog.Builder builder  = new AlertDialog.Builder(ProfileActivity.this);
-                    builder.setMessage("Phone no. is invalid.")
-                            .setPositiveButton("Ok",null);
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                if(actionId == EditorInfo.IME_ACTION_DONE || actionId==EditorInfo.IME_ACTION_NEXT) {
 
-                    return true;
+                    String phone = et_phone.getText().toString();
+
+                    if (!isPhonenoValid(phone)) {
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                        builder.setMessage("Phone no. is invalid.")
+                                .setPositiveButton("Ok", null);
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                        return true;
+                    }
+                    else
+                    {
+                        Utils.saveprefString(UtilStrings.MOBILE,phone,ProfileActivity.this);
+                        tv_phone.setText("Contact No: "+phone);
+                        et_phone.setVisibility(View.GONE);
+                        tv_phone.setVisibility(View.VISIBLE);
+                        return true;
+                    }
                 }
-                InputMethodManager inputManager =
-                        (InputMethodManager) ProfileActivity.this.
-                                getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(
-                        ProfileActivity.this.getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-
-                phoneno.clearFocus();
+                et_phone.clearFocus();
                 return false;
             }
         });
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        aboutThePersonString = aboutThePerson.getText().toString();
-        phonenoString = phoneno.getText().toString();
-        emailString = email.getText().toString();
-        if (roomNoSwitch.isChecked()) reveal_place = 1;
-        if (rollNoSwitch.isChecked()) reveal_roll = 1;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        email.setText(emailString);
-        phoneno.setText(phonenoString);
-        aboutThePerson.setText(aboutThePersonString);
-        if(reveal_place==0){
-            roomNoSwitch.setChecked(false);
-            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.GRAY);
-        }else{
-            roomNoSwitch.setChecked(true);
-            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.BLACK);
+        if(!Utils.getprefString(UtilStrings.MAIL,this).isEmpty()) {
+            et_email.setVisibility(View.GONE);
+            tv_email.setVisibility(View.VISIBLE);
         }
-        if (reveal_roll == 0) {
-            rollNoSwitch.setChecked(false);
-            ((TextView) findViewById(R.id.profile_roll_no)).setTextColor(Color.GRAY);
-        } else {
-            rollNoSwitch.setChecked(true);
-            ((TextView) findViewById(R.id.profile_roll_no)).setTextColor(Color.BLACK);
+        else
+        {
+            et_email.setVisibility(View.VISIBLE);
+            tv_email.setVisibility(View.GONE);
         }
-    }
-
-    private void setDefaultProfilePic() {
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.profile_accom_save_action,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if(!Utils.getprefString(UtilStrings.MOBILE,this).isEmpty()) {
+            et_phone.setVisibility(View.GONE);
+            tv_phone.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            et_phone.setVisibility(View.VISIBLE);
+            tv_phone.setVisibility(View.GONE);
         }
 
-        if(item.getItemId() == R.id.profile_accom_save_action_button) {
-            if (activity.equals("ProfileActivity")) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-                //Checking validation
-                if (!isEmailValid(email.getText().toString()) && !isPhonenoValid(phoneno.getText().toString())) {
-                    builder.setMessage("Invalid Email and phone no.")
-                            .setPositiveButton("Ok", null);
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-                    return super.onOptionsItemSelected(item);
-                } else if (!isEmailValid(email.getText().toString()) && isPhonenoValid(phoneno.getText().toString())) {
-                    builder.setMessage("Invalid Email.")
-                            .setPositiveButton("Ok", null);
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-                    return super.onOptionsItemSelected(item);
-                } else if (isEmailValid(email.getText().toString()) && !isPhonenoValid(phoneno.getText().toString())) {
-                    builder.setMessage("Invalid Phone no.")
-                            .setPositiveButton("Ok", null);
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-
-                    return super.onOptionsItemSelected(item);
-                }
-                // Saving the progress
-
-                Utils.saveprefString("StudentEmail",email.getText().toString(),this);
-                Utils.saveprefString("StudentPhoneNo",phoneno.getText().toString(),this);
-                Utils.saveprefString("aboutYourself",aboutThePerson.getText().toString(),this);
-                Utils.saveprefInt("reveal_place",reveal_place,this);
-                Utils.saveprefInt("reveal_roll", reveal_roll, this);
-                Utils.saveprefInt("reveal_photo",reveal_photo,this);
-
-                //You can replace this when you have MySingleton class
-
-                builder.setMessage("Do you want to save changes?")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //Upload the data into the server.
-
-
-                                /**Changes made**/
-
-                                //getPostParams method is declared dbelow
-                                final String requestBody = getPostParams().toString();
-                                StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://students.iitm.ac.in/studentsapp/studentlist/profile.php", new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        String message = null;
-                                        if (error instanceof NetworkError) {
-                                            message = "Cannot connect to Internet. Please check your connection!!";
-                                        } else if (error instanceof ServerError) {
-                                            message = "Server down. Please try again after some time!!";
-                                        } else if (error instanceof AuthFailureError) {
-                                            message = "Authentication error!!";
-                                        } else if (error instanceof ParseError) {
-                                            message = "Parsing error! Please try again after some time!!";
-                                        } else if (error instanceof TimeoutError) {
-                                            message = "Connection TimeOut! Please check your internet connection.";
-                                        }
-                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                    }
-                                }) {
-                                    @Override
-                                    public String getBodyContentType() {
-                                        return String.format("application/json; charset=utf-8");
-                                    }
-
-                                    @Override
-                                    public byte[] getBody() throws AuthFailureError {
-                                        try {
-                                            return requestBody == null ? null : requestBody.getBytes("utf-8");
-                                        } catch (UnsupportedEncodingException uee) {
-                                            VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
-                                                    requestBody, "utf-8");
-                                            return null;
-                                        }
-                                    }
-                                };
-                                MySingleton.getInstance(ProfileActivity.this).addToRequestQueue(stringRequest);
-                                //Changes end here
-
-                                Toast.makeText(ProfileActivity.this, "Uploading", Toast.LENGTH_SHORT).show();
-
-                                /**********************************/
-                            }
-                        })
-                        .setNegativeButton("Cancel", null);
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * method is used for checking valid email id format.
-     *
      * @param email
      * @return boolean true for valid false for invalid
      */
@@ -479,152 +241,18 @@ public class ProfileActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    /*
-    // This method is invoked when accom_plus_image is clicked.
-    public void onAccomPlusClicked(View view) {
-
-        // Create new fragment and transaction
-        android.app.Fragment newFragment = new ProfileAccomAddFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack
-        transaction.replace(R.id.mainActivityRelativeLayout, newFragment);
-        transaction.addToBackStack(null);
-
-// Commit the transaction
-        transaction.commit();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home)
+        {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
-     */
 
     private boolean isPhonenoValid(String s) {
-
         return s.length() == 10 || s.length() == 0;
     }
-
-    // Required for Capture image ,this method creates a file for saving the captured image.
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    public void onRoomNoChecked(View view){
-        if (roomNoSwitch.isChecked()) {
-            roomNoSwitch.setChecked(true);
-            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.BLACK);
-            reveal_place=1;
-
-        }else{
-            roomNoSwitch.setChecked(false);
-            ((TextView) findViewById(R.id.profile_hostel)).setTextColor(Color.GRAY);
-            reveal_place=0;
-        }
-
-        if (rollNoSwitch.isChecked()) {
-            rollNoSwitch.setChecked(true);
-            ((TextView) findViewById(R.id.profile_roll_no)).setTextColor(Color.BLACK);
-            reveal_roll = 1;
-
-        } else {
-            rollNoSwitch.setChecked(false);
-            ((TextView) findViewById(R.id.profile_roll_no)).setTextColor(Color.GRAY);
-            reveal_roll = 0;
-        }
-    }
-
-    //This is the method to get JsonObject from user input
-    public JSONObject getPostParams(){
-        JSONObject jsonPost = new JSONObject();
-        try {
-            //the roll string is reversed in backend for security
-            jsonPost.put("roll", reverse(tv_roll.getText().toString()));
-            jsonPost.put("email",emailString );
-            jsonPost.put("Phone", phonenoString);
-            jsonPost.put("about", aboutThePersonString);
-            jsonPost.put("reveal_photo", 1);
-            jsonPost.put("reveal_place", 1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        return jsonPost;
-
-    }
-
-
-
-    /*
-    // This method invokes when the upload imagebutton is clicked.
-
-    public void onUploadButtonClicked(){
-
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent,SELECTED_PICTURE_FOR_GALLERY);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
-            if(requestCode == SELECTED_PICTURE_FOR_GALLERY){
-                Uri image_uri = data.getData();
-
-                InputStream inputStream;
-
-                try {
-                    inputStream = getContentResolver().openInputStream(image_uri);
-
-                    Bitmap image = BitmapFactory.decodeStream(inputStream);
-
-                    profilePicImage.setImageBitmap(image);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this,"Unable to locate image",Toast.LENGTH_LONG).show();
-                }
-            }
-
-
-
-            else if(requestCode == CAPTURED_PICTURE){
-                Toast.makeText(ProfileActivity.this,"image saved.",Toast.LENGTH_LONG).show();
-                // Get the dimensions of the View
-                int targetW = profilePicImage.getWidth();
-                int targetH = profilePicImage.getHeight();
-
-                // Get the dimensions of the bitmap
-                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                bmOptions.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-                int photoW = bmOptions.outWidth;
-                int photoH = bmOptions.outHeight;
-
-                // Determine how much to scale down the image
-                int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-                // Decode the image file into a Bitmap sized to fill the View
-                bmOptions.inJustDecodeBounds = false;
-                bmOptions.inSampleSize = scaleFactor;
-                bmOptions.inPurgeable = true;
-
-                Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-                profilePicImage.setImageBitmap(bitmap);
-
-            }
-        }
-    }*/
-    /*****************************************************************/
 
 
 
