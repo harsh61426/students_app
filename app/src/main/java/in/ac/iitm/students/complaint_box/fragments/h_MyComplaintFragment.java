@@ -29,6 +29,7 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_JSONComplaintParser;
+import in.ac.iitm.students.complaint_box.others.h_JSONMyComplaintsParser;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -78,7 +79,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
             public void onResponse(String response) {
                 //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                 //Log.d("tag", response);
-                h_JSONComplaintParser hJsonComplaintParser = new h_JSONComplaintParser(response, getActivity());
+                h_JSONMyComplaintsParser hJsonComplaintParser = new h_JSONMyComplaintsParser(response, getActivity());
 
                 //ArrayList<Complaint> hComplaintArray = null;
                 try {
@@ -117,7 +118,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                 hComplaintArray.add(Complaint.getErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
             }
         }) {

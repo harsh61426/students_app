@@ -21,6 +21,11 @@
             android:padding="8dp">
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="@string/hcomplaints_guide"/>
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/WashingMachine"
@@ -66,6 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:paddingStart="6dp"
                         android:layout_below="@id/title1" />
 
                     <TextView
@@ -73,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title1"
-                        android:layout_toStartOf="@id/t1f1" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f1" />
 
 
                     <TextView
@@ -89,7 +95,7 @@
                         android:id="@+id/t1f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t1description1" />
 
                     <TextView
@@ -97,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description1"
-                        android:layout_toStartOf="@id/t1f2" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f2" />
 
                     <TextView
                         android:id="@+id/t1description3"
@@ -112,7 +118,7 @@
                         android:id="@+id/t1f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t1description2" />
 
                     <TextView
@@ -120,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description2"
-                        android:layout_toStartOf="@id/t1f3" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f3" />
 
                     <TextView
                         android:id="@+id/t1description4"
@@ -133,7 +139,7 @@
                         android:id="@+id/t1f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t1description3" />
 
                     <TextView
@@ -141,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description3"
-                        android:layout_toStartOf="@id/t1f3" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f3" />
 
 
                     <TextView
@@ -156,7 +162,7 @@
                         android:id="@+id/t1f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t1description4" />
 
                     <TextView
@@ -164,7 +170,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description4"
-                        android:layout_toStartOf="@id/t1f5" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f5" />
 
 
                     <TextView
@@ -179,7 +185,7 @@
                         android:id="@+id/t1f6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t1description5" />
 
                     <TextView
@@ -187,7 +193,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description5"
-                        android:layout_toStartOf="@id/t1f6" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f6" />
 
                     <View
                         android:layout_width="match_parent"
@@ -202,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/t1description6"
-                        android:text="Comments" />
+                        android:text="" />
 
                     <Button
                         android:id="@+id/bn_comment1"
@@ -259,7 +265,7 @@
                         android:id="@+id/t2f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/title2"/>
 
                     <TextView
@@ -267,7 +273,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title2"
-                        android:layout_toStartOf="@id/t2f1" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f1" />
 
 
                     <TextView
@@ -283,7 +289,7 @@
                         android:id="@+id/t2f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t2d1"/>
 
                     <TextView
@@ -291,7 +297,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t2d1"
-                        android:layout_toStartOf="@id/t2f2" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f2" />
 
 
                     <TextView
@@ -306,7 +312,7 @@
                         android:id="@+id/t2f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t2d2" />
 
                     <TextView
@@ -314,7 +320,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t2d2"
-                        android:layout_toStartOf="@id/t2f3"/>
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f3"/>
 
 
                     <TextView
@@ -330,6 +336,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:paddingStart="6dp"
                         android:layout_below="@id/t2d3" />
 
                     <TextView
@@ -337,7 +344,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t2d3"
-                        android:layout_toStartOf="@id/t2f4"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f4"
                         />
 
 
@@ -353,7 +360,7 @@
                         android:id="@+id/t2f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t2d4" />
 
                     <TextView
@@ -361,7 +368,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t2d4"
-                        android:layout_toStartOf="@id/t2f5"/>
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f5"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -376,7 +383,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/t2d5"
-                        android:text="Comments" />
+                        android:text="" />
 
                     <Button
                         android:id="@+id/bn_comment2"
@@ -433,7 +440,7 @@
                         android:id="@+id/t3f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/title3"
                         />
 
@@ -442,7 +449,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title3"
-                        android:layout_toStartOf="@id/t3f1"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f1"
                         />
 
 
@@ -458,7 +465,7 @@
                         android:id="@+id/t3f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t3d1"
                         />
 
@@ -467,7 +474,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d1"
-                        android:layout_toStartOf="@id/t3f2"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f2"
                         />
 
                     <TextView
@@ -482,7 +489,7 @@
                         android:id="@+id/t3f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t3d2"
                         />
 
@@ -491,7 +498,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d2"
-                        android:layout_toStartOf="@id/t3f3"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f3"
                         />
 
 
@@ -506,7 +513,7 @@
                         android:id="@+id/t3f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t3d3"
                         />
 
@@ -515,7 +522,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d3"
-                        android:layout_toStartOf="@id/t3f4"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f4"
                         />
 
                     <TextView
@@ -529,7 +536,7 @@
                         android:id="@+id/t3f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t3d4"
                         />
 
@@ -538,7 +545,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d4"
-                        android:layout_toStartOf="@id/t3f5"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f5"
                         />
 
 
@@ -553,7 +560,7 @@
                         android:id="@+id/t3f6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t3d5"
                         />
 
@@ -562,7 +569,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d5"
-                        android:layout_toStartOf="@id/t3f6"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f6"
                         />
 
 
@@ -577,7 +584,7 @@
                         android:id="@+id/t3f7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t3d6"
                         />
                     <TextView
@@ -585,7 +592,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d6"
-                        android:layout_toStartOf="@id/t3f7"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f7"
                         />
 
 
@@ -599,7 +606,7 @@
                         android:id="@+id/t3f8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t3d7"
                         />
                     <TextView
@@ -607,7 +614,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d7"
-                        android:layout_toStartOf="@id/t3f8"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f8"
                         />
 
                     <View
@@ -623,7 +630,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/t3d8"
-                        android:text="Comments" />
+                        android:text="" />
                     <Button
                         android:id="@+id/bn_comment3"
                         android:layout_width="24dp"
@@ -675,7 +682,7 @@
                         android:id="@+id/t4f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/title4"
                         />
                     <TextView
@@ -683,7 +690,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title4"
-                        android:layout_toStartOf="@id/t4f1"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f1"
                         />
 
 
@@ -698,7 +705,7 @@
                         android:id="@+id/t4f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t4d1"
                         />
                     <TextView
@@ -706,7 +713,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t4d1"
-                        android:layout_toStartOf="@id/t4f2"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f2"
                         />
 
                     <TextView
@@ -720,7 +727,7 @@
                         android:id="@+id/t4f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t4d2"
                         />
                     <TextView
@@ -728,7 +735,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t4d2"
-                        android:layout_toStartOf="@id/t4f3"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f3"
                         />
 
                     <TextView
@@ -742,7 +749,7 @@
                         android:id="@+id/t4f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t4d3"
                         />
 
@@ -751,7 +758,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t4d3"
-                        android:layout_toStartOf="@id/t4f4"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f4"
                         />
 
 
@@ -765,7 +772,7 @@
                         android:id="@+id/t4f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t4d4"
                         />
 
@@ -774,7 +781,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t4d4"
-                        android:layout_toStartOf="@id/t4f5" />
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f5" />
 
                     <View
                         android:layout_width="match_parent"
@@ -789,7 +796,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/t4d5"
-                        android:text="Comments" />
+                        android:text="" />
                     <Button
                         android:id="@+id/bn_comment4"
                         android:layout_width="24dp"
@@ -842,7 +849,7 @@
                         android:id="@+id/t5f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/title5"
                         />
 
@@ -851,7 +858,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title5"
-                        android:layout_toStartOf="@id/t5f1"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f1"
                         />
 
 
@@ -866,7 +873,7 @@
                         android:id="@+id/t5f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t5d1"
                         />
                     <TextView
@@ -874,7 +881,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t5d1"
-                        android:layout_toStartOf="@id/t5f2"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f2"
                         />
 
                     <TextView
@@ -888,7 +895,7 @@
                         android:id="@+id/t5f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t5d2"
                         />
                     <TextView
@@ -896,7 +903,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t5d2"
-                        android:layout_toStartOf="@id/t5f3"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f3"
 
                         />
 
@@ -912,7 +919,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t5d3" />
 
                     <TextView
@@ -920,7 +927,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t5d3"
-                        android:layout_toStartOf="@id/t5f4"
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f4"
                         />
 
 
@@ -935,7 +942,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t5d4" />
                     <TextView
                         android:id="@+id/t5p5"
@@ -943,7 +950,7 @@
                         android:layout_height="wrap_content"
 
                         android:layout_below="@id/t5d4"
-                        android:layout_toStartOf="@id/t5f5"/>
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f5"/>
 
                     <TextView
                         android:id="@+id/t5d6"
@@ -956,7 +963,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t5d5" />
 
                     <TextView
@@ -965,7 +972,7 @@
                         android:layout_height="wrap_content"
 
                         android:layout_below="@id/t5d5"
-                        android:layout_toStartOf="@id/t5f6"/>
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f6"/>
 
                     <TextView
                         android:id="@+id/t5d7"
@@ -978,7 +985,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t5d6" />
 
                     <TextView
@@ -987,7 +994,7 @@
                         android:layout_height="wrap_content"
 
                         android:layout_below="@id/t5d6"
-                        android:layout_toStartOf="@id/t5f7"/>
+                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f7"/>
 
                     <TextView
                         android:id="@+id/t5d8"
@@ -1000,7 +1007,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
                         android:layout_below="@id/t5d7" />
 
                     <TextView
@@ -1009,6 +1016,7 @@
                         android:layout_height="wrap_content"
 
                         android:layout_below="@id/t5d7"
+                        android:paddingStart="5dp"
                         android:layout_toStartOf="@id/t5f8"/>
 
 
@@ -1023,7 +1031,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/t5d8"
-                        android:text="Comments" />
+                        android:text="" />
 
 
 

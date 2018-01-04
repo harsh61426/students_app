@@ -15,6 +15,18 @@ public class h_WaterDispenser {
     private String imageUrl;
     private String [][] t2details=new String[5][2];
 
+    public h_WaterDispenser(){
+        resolved=false;
+        uid="";
+        comments=0;
+        imageUrl="";
+        for(int i=0;i<5;i++){
+            for(int j=0;j<2;j++){
+                t2details[i][j]="";
+            }
+        }
+    }
+
     /*public String getRoomNo() {
         return roomNo;
     }

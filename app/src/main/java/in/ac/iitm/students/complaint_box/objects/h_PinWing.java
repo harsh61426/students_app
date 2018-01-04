@@ -13,6 +13,18 @@ public class h_PinWing {
     private int comments;
     private String imageUrl;
     private String[][] t5details=new String[8][2];
+
+    public h_PinWing(){
+        resolved=false;
+        uid="";
+        comments=0;
+        imageUrl="";
+        for(int i=0;i<8;i++){
+            for(int j=0;j<2;j++){
+                t5details[i][j]="";
+            }
+        }
+    }
     /*public String getRoomNo() {
         return roomNo;
     }
