@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_comments"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
@@ -51,8 +52,8 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/imgProfilePicture"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
@@ -99,6 +100,13 @@
                             android:layout_marginStart="8dp"
                             android:orientation="vertical">
 
+                            <TextView
+                                android:id="@+id/comment_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:padding="4dp"
+                                android:text="3-7-17" />
 
                             <TextView
                                 android:id="@+id/tv_trending"
@@ -107,14 +115,6 @@
                                 android:padding="4dp"
                                 android:text="#1" />
 
-
-                            <TextView
-                                android:id="@+id/comment_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:padding="4dp"
-                                android:text="3-7-17" />
 
 
                         </LinearLayout>

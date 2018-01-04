@@ -75,6 +75,8 @@ public class h_CmntDataParser {
                 hCommentObj.setRollNo(reader.nextString());
             } else if (name.equals("roomno")) {
                 hCommentObj.setRoomNo(reader.nextString());
+            } else if (name.equals("hostel")) {
+                hCommentObj.setRoomNo(reader.nextString());
             } else if (name.equals("comment")) {
                 hCommentObj.setCommentStr(reader.nextString());
             } else if (name.equals("datetime")) {
