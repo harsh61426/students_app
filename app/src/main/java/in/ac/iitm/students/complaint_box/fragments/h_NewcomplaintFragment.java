@@ -244,7 +244,7 @@ public class h_NewcomplaintFragment extends Fragment {
 
                                 } else if (status.equals("0")) {
                                     //Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                                    Log.d("panc", "fali");
+                                    Log.d("panc", "fail");
                                     Snackbar snackbar = Snackbar
                                             .make(getActivity().findViewById(R.id.cl_new_comp), "Error registering Complaint", Snackbar.LENGTH_LONG);
                                     snackbar.show();

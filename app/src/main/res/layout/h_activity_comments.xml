@@ -2,9 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_comments"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     tools:context=".complaint_box.activities.h_Comments">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
         android:id="@+id/comment_card"
@@ -23,7 +48,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:padding="4dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgProfilePicture"
@@ -50,7 +75,7 @@
                     android:layout_toStartOf="@+id/comment_ll_resolve"
                     android:orientation="vertical">
 
-                    <TextView
+                <TextView
                         android:id="@+id/comment_tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -106,26 +131,25 @@
                 android:id="@+id/comment_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
+                android:paddingBottom="2dp"
                 android:paddingEnd="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingStart="16dp"
-                android:paddingTop="4dp"
+                android:paddingTop="2dp"
                 android:text="Title"
                 android:textSize="20sp" />
-
 
             <TextView
                 android:id="@+id/comment_tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
+                android:paddingBottom="2dp"
                 android:paddingEnd="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingStart="16dp"
-                android:paddingTop="4dp"
+                android:paddingTop="2dp"
                 android:text="Description"
                 android:textSize="15sp" />
 
@@ -133,15 +157,14 @@
                 android:id="@+id/comment_tv_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
+                android:paddingBottom="2dp"
                 android:paddingEnd="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingStart="16dp"
-                android:paddingTop="4dp"
+                android:paddingTop="2dp"
                 android:text="Tags"
                 android:textSize="15sp" />
-
 
             <View
                 android:layout_width="match_parent"
@@ -152,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="4dp">
+                android:padding="2dp">
 
 
                 <Button
@@ -217,28 +240,38 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/comment_card"
+                android:layout_marginStart="8dp"
+                android:layout_toStartOf="@id/bn_save"
+                android:background="@drawable/tv_border"
+                android:gravity="start"
+                android:hint="Enter your comment here.."
+                android:inputType="text|textMultiLine"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/bn_save"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/comment_card"
+                android:text="SAVE" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_comments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/comment_card"
-        android:layout_alignLeft="@+id/comment_card"
-        android:layout_alignRight="@+id/comment_card"
-        android:layout_alignStart="@+id/comment_card"
-        android:layout_below="@+id/comment_card">
+        android:layout_below="@id/editText"
+        android:layout_margin="8dp">
 
     </android.support.v7.widget.RecyclerView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/comment_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/comment_card"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/comment_card"
-        android:layout_marginBottom="10dp"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +31,12 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +60,8 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
     private boolean latest = false;
     private Button bn_resolve;
     private CoordinatorLayout coordinatorLayout;
-    private Complaint hComplaint;
+   // private Complaint hComplaint;
+    private InputStream stream;
 
 
     public h_ComplaintAdapter(ArrayList<Complaint> myDataset, Activity a, Context c, Boolean latest, CoordinatorLayout coordinatorLayout) {
@@ -96,13 +104,13 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
         TextView tv_comment = (TextView) holder.view.findViewById(R.id.tv_comment);
         Button bn_upvote = (Button) holder.view.findViewById(R.id.bn_upvote);
         Button bn_downvote = (Button) holder.view.findViewById(R.id.bn_downvote);
-        Button bn_comment = (Button) holder.view.findViewById(R.id.bn_comment);
+        final Button bn_comment = (Button) holder.view.findViewById(R.id.bn_comment);
         ImageView iv_profile = (ImageView) holder.view.findViewById(R.id.imgProfilePicture);
         LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_comment);
         final ImageButton bn_more_rooms = (ImageButton)holder.view.findViewById(R.id.more_rooms);
         if(!latest) bn_resolve = (Button)holder.view.findViewById(R.id.bn_resolve);
 
-        hComplaint = mDataset.get(position);
+       final Complaint hComplaint = mDataset.get(position);
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + hComplaint.getRollNo().toUpperCase() + ".JPG";
         Picasso.with(context)
                 .load(urlPic)
@@ -146,44 +154,62 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                         @Override
                         public void onResponse(String response) {
 
+                            Log.d("chlk", "onResponse: " + response);
+                            int pos = holder.getAdapterPosition();
                             Log.d("lollz", response);
+                            stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                            JsonReader reader = null;
+                            try {
+                                reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                                reader.setLenient(true);
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
 
                             try {
-                                JSONObject jsObject = new JSONObject(response);
-                                if (jsObject.has("status")) {
-                                    String status = jsObject.getString("status");
-                                    if (status == "1") {
-                                        increaseUpvotes();
-                                        notifyItemChanged(holder.getAdapterPosition());
+                                reader.beginObject();
+                                while (reader.hasNext()) {
+                                    String name = reader.nextName();
+                                    Log.e("name", name);
+                                    if (name.equals("status")) {
+                                        String status = reader.nextString();
+                                        if (status.equals("1")) {
+                                            int upvotes = mDataset.get(pos).getUpvotes();
+                                            mDataset.get(pos).setUpvotes(upvotes + 1);
+                                            notifyItemChanged(pos);
 
-                                    } else {
-                                        if (jsObject.has("error")) {
-                                            if (jsObject.getString("error").equals("Same vote")) ;
-                                            {
-                                                Snackbar snackbar = Snackbar
-                                                        .make(coordinatorLayout, "You can up-vote a complaint only once.", Snackbar.LENGTH_LONG);
-                                                snackbar.show();
-                                            }
+                                        } else if (status.equals("3")) {
+                                            makeSnackbar("Already up-voted");
+                                        } else if (status.equals("2")) {
+                                            Log.d("lollz", "rev");
+                                            int upvotes = mDataset.get(pos).getUpvotes();
+                                            int downvotes = mDataset.get(pos).getDownvotes();
+                                            mDataset.get(pos).setUpvotes(upvotes + 1);
+                                            mDataset.get(pos).setDownvotes(downvotes - 1);
+                                            notifyItemChanged(pos);
+
                                         } else {
-                                            Snackbar snackbar = Snackbar
-                                                    .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
-                                            snackbar.show();
-                                            //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                            makeSnackbar("Error up-voting the complaint");
                                         }
+                                    } else if (name.equals("error")) {
+                                        reader.nextString();
+                                        makeSnackbar("Error up-voting the complaint");
+                                    } else {
+                                        reader.skipValue();
                                     }
-                                } else if (jsObject.has("error")) {
-
-                                    Snackbar snackbar = Snackbar
-                                            .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                    //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
                                 }
-
-                            } catch (JSONException e) {
+                                reader.endObject();
+                            } catch (IOException e) {
                                 e.printStackTrace();
-                                Snackbar snackbar = Snackbar
-                                        .make(coordinatorLayout, "Error up-voting the complaint", Snackbar.LENGTH_LONG);
-                                snackbar.show();
+                                makeSnackbar("Error up-voting the complaint");
+                            } finally {
+                                try {
+                                    reader.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    makeSnackbar("Error up-voting the complaint");
+                                }
                             }
                         }
 
@@ -211,10 +237,6 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                     MySingleton.getInstance(activity).addToRequestQueue(request);
                 }
 
-                private void increaseUpvotes() {
-                    int upvote_no = hComplaint.getUpvotes();
-                    mDataset.get(holder.getAdapterPosition()).setUpvotes(upvote_no + 1);
-                }
             });
 
             bn_downvote.setOnClickListener(new View.OnClickListener() {
@@ -225,28 +247,60 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            Log.d("chlk", "onResponse: " + response);
+                            int pos = holder.getAdapterPosition();
+                            Log.d("lollz", response);
+                            stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                            JsonReader reader = null;
                             try {
-                                JSONObject jsObject = new JSONObject(response);
-                                if (jsObject.has("error")) {
-                                    Snackbar snackbar = Snackbar
-                                            .make(coordinatorLayout, "Error down-voting the complaint", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                    //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
-                                } else if (jsObject.has("status")) {
-                                    String status = jsObject.getString("status");
-                                    if (status == "1") {
-                                        increaseDownvotes();
-                                        notifyItemChanged(holder.getAdapterPosition());
+                                reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                                reader.setLenient(true);
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                reader.beginObject();
+                                while (reader.hasNext()) {
+                                    String name = reader.nextName();
+                                    if (name.equals("status")) {
+                                        String status = reader.nextString();
+                                        if (status.equals("1")) {
+                                            int downvotes = mDataset.get(pos).getDownvotes();
+                                            mDataset.get(pos).setDownvotes(downvotes + 1);
+                                            notifyItemChanged(pos);
+
+                                        } else if (status.equals("2")) {
+                                            int upvotes = mDataset.get(pos).getUpvotes();
+                                            int downvotes = mDataset.get(pos).getDownvotes();
+                                            mDataset.get(pos).setUpvotes(upvotes - 1);
+                                            mDataset.get(pos).setDownvotes(downvotes + 1);
+                                            notifyItemChanged(pos);
+
+                                        } else if (status.equals("3")) {
+                                            makeSnackbar("Already down-voted");
+                                        } else {
+                                            makeSnackbar("Error down-voting the complaint");
+                                        }
+                                    } else if (name.equals("error")) {
+                                        reader.nextString();
+                                        makeSnackbar("Error down-voting the complaint");
                                     } else {
-                                        Snackbar snackbar = Snackbar
-                                                .make(coordinatorLayout, "Error down-voting the complaint", Snackbar.LENGTH_LONG);
-                                        snackbar.show();
-                                        //Toast.makeText(activity, jsObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                        reader.skipValue();
                                     }
                                 }
-
-                            } catch (JSONException e) {
+                                reader.endObject();
+                            } catch (IOException e) {
                                 e.printStackTrace();
+                                makeSnackbar("Error down-voting the complaint");
+                            } finally {
+                                try {
+                                    reader.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    makeSnackbar("Error down-voting the complaint");
+                                }
                             }
                         }
 
@@ -273,10 +327,6 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                     MySingleton.getInstance(activity).addToRequestQueue(request);
                 }
 
-                private void increaseDownvotes() {
-                    int downvote_no = hComplaint.getDownvotes();
-                    hComplaint.setDownvotes(downvote_no + 1);
-                }
             });
         }
 
@@ -412,6 +462,12 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
         }
     }
 
+    private void makeSnackbar(String msg) {
+
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {

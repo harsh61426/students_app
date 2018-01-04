@@ -2,6 +2,7 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -18,17 +19,32 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import br.com.mauker.materialsearchview.MaterialSearchView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
@@ -40,10 +56,12 @@ import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity;
+import in.ac.iitm.students.complaint_box.fragments.Updateable;
 import in.ac.iitm.students.complaint_box.fragments.h_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.h_MyComplaintFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
+import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
@@ -57,6 +75,10 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Menu menu;
+    MaterialSearchView searchView;
+    String[] suggestions;
+    public String mGeneralString;
+    HostelComplaintsActivity.ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +92,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(0);
         actionBar.setTitle(R.string.title_activity_complaint_hostel);
+        searchViewCode();
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
@@ -115,8 +138,118 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         fab.setOnClickListener(this);
     }
 
+    private void searchViewCode(){
+        searchView =(MaterialSearchView)findViewById(R.id.search_view);
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+                SearchQuery(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                SearchQuery(s);
+                return false;
+            }
+        });
+        searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewOpened() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+            }
+        });
+
+        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Do something when the suggestion list is clicked.
+                String suggestion = searchView.getSuggestionAtPosition(position);
+                searchView.setQuery(suggestion, false);
+            }
+        });
+
+
+
+
+    }
+    private void SearchQuery(String s){
+        final String query =s;
+        //to get suggestions
+
+        String url ="https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/search.php";
+
+        StringRequest jsonObjReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("complaintSearch",response);
+
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+
+                    if (jsonObject.has("error")) {
+                        Log.d("data error",jsonObject.getString("error"));
+                    } else if (jsonObject.has("status")) {
+                        String status = jsonObject.getString("status");
+
+                        if (status == "1") {
+                            JSONArray jsonArray =jsonObject.getJSONArray("searchResult");
+
+                            adapter.update(jsonArray.toString());
+
+                            JSONArray array =jsonObject.getJSONArray("suggestions");
+                            suggestions = new String[array.length()];
+
+                            for (int i=0;i <array.length(); i++) {
+                                JSONObject tag = array.getJSONObject(i);
+                                suggestions[i] = tag.getString("tags");
+                                Log.d("suggestions", suggestions[i]);
+                            }
+
+                            searchView.addSuggestions(suggestions);
+
+                        } else {
+                            Toast.makeText(HostelComplaintsActivity.this, jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("String", query);
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(HostelComplaintsActivity.this).addToRequestQueue(jsonObjReq);
+
+
+    }
+
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new h_LatestThreadFragment(), "Latest thread");
         adapter.addFragment(new h_MyComplaintFragment(), "My complaints");
         viewPager.setAdapter(adapter);
@@ -125,8 +258,13 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(HostelComplaintsActivity.this, HomeActivity.class);
-        startActivity(intent);
+
+        if(searchView.isOpen()){
+            searchView.closeSearch();
+        }else{
+            Intent intent = new Intent(HostelComplaintsActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -160,7 +298,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.search_item,menu);
         return true;
     }
 
@@ -183,6 +321,10 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         } else if (id == R.id.home) {
             onBackPressed();
             return true;
+        }else if(id==R.id.action_search){
+            searchView.openSearch();
+            return true;
+
         }
         return super.onOptionsItemSelected(item);
 
@@ -320,6 +462,21 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         @Override
         public int getCount() {
             return mFragmentList.size();
+        }
+
+        public void update(String string) {
+            mGeneralString = string;
+            //updated
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            if (object instanceof Updateable) {
+                //sent to FirstFragment and SecondFragment
+                ((Updateable) object).update(mGeneralString);
+            }
+            return super.getItemPosition(object);
         }
 
         public void addFragment(Fragment fragment, String title) {
