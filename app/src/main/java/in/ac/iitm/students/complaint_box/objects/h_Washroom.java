@@ -12,6 +12,18 @@ public class h_Washroom {
     private String imageUrl;
     private String[][] t3details= new String[8][2];
 
+    public h_Washroom(){
+        resolved=false;
+        uid="";
+        comments=0;
+        imageUrl="";
+        for(int i=0;i<8;i++){
+            for(int j=0;j<2;j++){
+                t3details[i][j]="";
+            }
+        }
+    }
+
     /*public String getRoomNo() {
         return roomNo;
     }

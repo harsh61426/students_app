@@ -58,6 +58,12 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
     int t3ids[][]={{R.id.t3p1,R.id.t3f1},{R.id.t3p2,R.id.t3f2},{R.id.t3p3,R.id.t3f3},{R.id.t3p4,R.id.t3f4},{R.id.t3p5,R.id.t3f5},{R.id.t3p6,R.id.t3f6},{R.id.t3p7,R.id.t3f7},{R.id.t3p8,R.id.t3f8}};
     int t4ids[][]={{R.id.t4p1,R.id.t4f1},{R.id.t4p2,R.id.t4f2},{R.id.t4p3,R.id.t4f3},{R.id.t4p4,R.id.t4f4},{R.id.t4p5,R.id.t4f5}};
     int t5ids[][]={{R.id.t5p1,R.id.t5f1},{R.id.t5p2,R.id.t5f2},{R.id.t5p3,R.id.t5f3},{R.id.t5p4,R.id.t5f4},{R.id.t5p5,R.id.t5f5},{R.id.t5p6,R.id.t5f6},{R.id.t5p7,R.id.t5f7},{R.id.t5p8,R.id.t5f8}};
+    TextView tvst1[][]=new TextView[6][2];
+    TextView tvst2[][]=new TextView[5][2];
+    TextView tvst3[][]=new TextView[8][2];
+    TextView tvst4[][]=new TextView[5][2];
+    TextView tvst5[][]=new TextView[8][2];
+
     private String hostel_name;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -76,13 +82,38 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) throws NullPointerException {
+                             Bundle savedInstanceState)  {
 
         View view = inflater.inflate(R.layout.h_fragment_latest_thread, container, false);
         hostel_name = Utils.getprefString(UtilStrings.HOSTEl, getActivity());
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_latest_thread);
         swipeLayout.setOnRefreshListener(this);
+        for(int i=0;i<6;i++){
+            for(int j=0;j<2;j++){
+                tvst1[i][j]=(TextView)(view.findViewById(t1ids[i][j]));
+            }
+        }
+        for(int i=0;i<5;i++){
+            for(int j=0;j<2;j++){
+                tvst2[i][j]=(TextView)(view.findViewById(t2ids[i][j]));
+            }
+        }
+        for(int i=0;i<8;i++){
+            for(int j=0;j<2;j++){
+                tvst3[i][j]=(TextView)(view.findViewById(t3ids[i][j]));
+            }
+        }
+        for(int i=0;i<5;i++){
+            for(int j=0;j<2;j++){
+                tvst4[i][j]=(TextView)(view.findViewById(t4ids[i][j]));
+            }
+        }
 
+        for(int i=0;i<8;i++){
+            for(int j=0;j<2;j++){
+                tvst5[i][j]=(TextView)(view.findViewById(t5ids[i][j]));
+            }
+        }
         mRecyclerView = (RecyclerView) view.findViewById(R.id.latest_thread_recycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -91,47 +122,21 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
         Button bn_comments3=(Button)view.findViewById(R.id.bn_comment3);
         Button bn_comments4=(Button)view.findViewById(R.id.bn_comment4);
         Button bn_comments5=(Button)view.findViewById(R.id.bn_comment5);
+        bn_comments1.setVisibility(View.INVISIBLE);
+        bn_comments2.setVisibility(View.INVISIBLE);
+        bn_comments3.setVisibility(View.INVISIBLE);
+        bn_comments4.setVisibility(View.INVISIBLE);
+        bn_comments5.setVisibility(View.INVISIBLE);
+        //Log.d("dork",hwm.getT1details()[0][0]);
         getAllComplaints();
-        for(int i=0;i<6;i++){
-            for(int j=0;j<2;j++){
-                if(hwm.getT1details()[i][j]!=null){
-                    TextView tvs=(TextView)(view.findViewById(t1ids[i][j]));
-                    tvs.setText(hwm.getT1details()[i][j]);
-                }
-            }
-        }
-        for(int i=0;i<5;i++){
-            for(int j=0;j<2;j++){
-                if(hwd.getT2details()[i][j]!=null){
-                    TextView tvs=(TextView)(view.findViewById(t2ids[i][j]));
-                    tvs.setText(hwd.getT2details()[i][j]);
-                }
-            }
-        }
-        for(int i=0;i<8;i++){
-            for(int j=0;j<2;j++){
-                if(hw.getT3details()[i][j]!=null){
-                    TextView tvs=(TextView)(view.findViewById(t3ids[i][j]));
-                    tvs.setText(hw.getT3details()[i][j]);
-                }
-            }
-        }
-        for(int i=0;i<5;i++){
-            for(int j=0;j<2;j++){
-                if(hpr.getT4details()[i][j]!=null){
-                    TextView tvs=(TextView)(view.findViewById(t4ids[i][j]));
-                    tvs.setText(hpr.getT4details()[i][j]);
-                }
-            }
-        }
-        for(int i=0;i<8;i++){
-            for(int j=0;j<2;j++){
-                if(hpw.getT5details()[i][j]!=null){
-                    TextView tvs=(TextView)(view.findViewById(t5ids[i][j]));
-                    tvs.setText(hpw.getT5details()[i][j]);
-                }
-            }
-        }
+        //Log.d("dork",hwm.getT1details()[0][0]);
+
+
+
+
+
+
+
 
 
         return view;
@@ -150,11 +155,51 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                 try {
                     hComplaintList = hJsonComplaintParser.pleasePleaseParseMyData();
                     hwm=hJsonComplaintParser.getH_wm();
+
                     hwd=hJsonComplaintParser.getH_wd();
                     hw=hJsonComplaintParser.getH_w();
                     hpr=hJsonComplaintParser.getH_pr();
                     hpw=hJsonComplaintParser.getH_pw();
                     //Log.d("lanag", "onResponse: "+hComplaintList.get(0).getName());
+
+                    for(int i=0;i<6;i++){
+                        for(int j=0;j<2;j++){
+                            if(hwm.getT1details()[i][j]!=null){
+                                tvst1[i][j].setText(hwm.getT1details()[i][j]);
+                            }
+                        }
+                    }
+                    for(int i=0;i<5;i++){
+                        for(int j=0;j<2;j++){
+                            if(hwd.getT2details()[i][j]!=null){
+                                tvst2[i][j].setText(hwd.getT2details()[i][j]);
+                            }
+                        }
+                    }
+                    for(int i=0;i<8;i++){
+                        for(int j=0;j<2;j++){
+                            if(hw.getT3details()[i][j]!=null){
+                                tvst3[i][j].setText(hw.getT3details()[i][j]);
+                            }
+                        }
+                    }
+                    for(int i=0;i<5;i++){
+                        for(int j=0;j<2;j++){
+                            if(hpr.getT4details()[i][j]!=null){
+                                tvst4[i][j].setText(hpr.getT4details()[i][j]);
+                                Log.d("dork",hpr.getT4details()[0][0]);
+                            }
+                        }
+                    }
+                    for(int i=0;i<8;i++){
+                        for(int j=0;j<2;j++){
+                            if(hpw.getT5details()[i][j]!=null){
+                                tvst5[i][j].setText(hpw.getT5details()[i][j]);
+                            }
+                        }
+                    }
+
+
 
 
                 } catch (IOException e) {
@@ -194,7 +239,7 @@ public class h_LatestThreadFragment extends Fragment implements SwipeRefreshLayo
                 hComplaintArray.add(Complaint.getErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true, (CoordinatorLayout)getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout)getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
             }

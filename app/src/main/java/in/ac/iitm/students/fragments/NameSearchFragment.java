@@ -35,6 +35,8 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -80,6 +82,7 @@ public class NameSearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -96,6 +99,7 @@ public class NameSearchFragment extends Fragment {
         adapter = new ArrayAdapter<>(context,R.layout.item_search_result,
                 listSuggestion);
         lvSuggestion.setAdapter(adapter);
+
 
         lvSuggestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

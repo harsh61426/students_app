@@ -14,6 +14,18 @@ public class h_WashingMachine {
     private String imageUrl;
     private String[][] t1details=new String[6][2];
 
+    public h_WashingMachine(){
+        resolved=false;
+        uid="";
+        comments=0;
+        imageUrl="";
+        for(int i=0;i<6;i++){
+            for(int j=0;j<2;j++){
+                t1details[i][j]="";
+            }
+        }
+    }
+
     /*public String getRoomNo() {
         return roomNo;
     }
