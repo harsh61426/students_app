@@ -1,10 +1,13 @@
 package in.ac.iitm.students.activities.main;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,28 +19,55 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.adapters.StudentSearchAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.fragments.NameSearchFragment;
 import in.ac.iitm.students.fragments.RollSearchFragment;
+import in.ac.iitm.students.objects.Student;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
+import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
@@ -49,6 +79,23 @@ public class StudentSearchActivity extends AppCompatActivity
     private Menu menu;
     private NavigationView navigationView;
 
+    ListView lvSuggestion;
+    StudentSearchAdapter adapter;
+    ArrayList<Student> listSuggestion = new ArrayList<>(25);
+    EditText etSearch;
+    ProgressBar progressSearch;
+    TextView searchMessage;
+    FrameLayout frameLayout;
+    CircleImageView profilePic_;
+    TextView name_;
+    TextView rollno_;
+    TextView hostel_;
+    TextView room_;
+    TextView email_;
+    TextView phoneno_;
+    TextView abtyourself_;
+    ScrollView sc_;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +103,6 @@ public class StudentSearchActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
-        setupViewPager(viewPager);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        if (tabLayout != null) {
-            tabLayout.setupWithViewPager(viewPager);
-        }
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -100,14 +135,208 @@ public class StudentSearchActivity extends AppCompatActivity
                 .fit()
                 .centerCrop()
                 .into(imageView);
+
+        initialize_search();
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new NameSearchFragment(), "Name");
-        adapter.addFragment(new RollSearchFragment(), "Roll number");
-        viewPager.setAdapter(adapter);
+    private void initialize_search()
+    {
+        frameLayout = (FrameLayout) findViewById(R.id.frame_layout_name);
+        progressSearch = (ProgressBar) findViewById(R.id.pb_search);
+        etSearch = (EditText) findViewById(R.id.et_search_name);
+        searchMessage = (TextView) findViewById(R.id.tv_search_result_msg);
+        lvSuggestion = (ListView) findViewById(R.id.lv_suggestion);
+        adapter = new StudentSearchAdapter(listSuggestion,this);
+        lvSuggestion.setAdapter(adapter);
+        lvSuggestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Student student = (Student) parent.getItemAtPosition(position);
+                viewDetails(student);
+                //goToDetails(name);
+            }
+        });
+
+        profilePic_ = (CircleImageView) findViewById(R.id.profile_pic);
+        name_ = (TextView) findViewById(R.id.name_overview);
+        rollno_ = (TextView) findViewById(R.id.rollno_overview);
+        hostel_ = (TextView) findViewById(R.id.hostel_overview);
+        room_ = (TextView) findViewById(R.id.room_overview);
+        email_ = (TextView) findViewById(R.id.email_info);
+        phoneno_ = (TextView) findViewById(R.id.phone_info);
+        abtyourself_ = (TextView) findViewById(R.id.aboutyourself);
+        sc_=(ScrollView) findViewById(R.id.scroll_view);
+
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                showSuggestion(s.toString());
+            }
+        });
+
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    final Editable selection = etSearch.getText();
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
+                    }
+                    showSuggestion(selection.toString());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
+
+
+    private void showSuggestion(String query) {
+
+        listSuggestion.clear();
+        MySingleton.getInstance(this).getRequestQueue().cancelAll("tag");
+        if (query.length() <= 2) {
+            progressSearch.setVisibility(View.GONE);
+            searchMessage.setText(R.string.error_enter_more_characters);
+            searchMessage.setVisibility(View.VISIBLE);
+            adapter.notifyDataSetChanged();
+            return;
+        }
+        searchMessage.setVisibility(View.INVISIBLE);
+        progressSearch.setVisibility(View.VISIBLE);
+
+        Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("https")//https://students.iitm.ac.in/studentsapp/studentlist/search_by_name.php
+                .authority("students.iitm.ac.in")
+                .appendPath("studentsapp")
+                .appendPath("studentlist")
+                .appendPath("search_student.php");
+
+        String url = builder.build().toString();
+
+        StringRequest jsonObjReq = new StringRequest(Request.Method.POST,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject;
+                    int i;
+                    Student student;
+                    listSuggestion.clear();
+
+                    for (i = 0; i < jsonArray.length(); i++) {
+                        jsonObject = jsonArray.getJSONObject(i);
+                        Log.i("JSON",jsonObject.toString());
+                        student = new Student();
+                        student.setName(jsonObject.getString("fullname"));
+                        student.setRollno(jsonObject.getString("username"));
+                        student.setHostel(jsonObject.getString("hostel"));
+                        student.setRoom(jsonObject.getString("room"));
+                        student.setGender(jsonObject.getString("gender").charAt(0));
+
+                        if (!listSuggestion.contains(student))
+                            listSuggestion.add(student);//+", "+studRoll
+                    }
+                    adapter.notifyDataSetChanged();
+                    searchMessage.setText("Search Results");
+                    searchMessage.setVisibility(View.VISIBLE);
+                    progressSearch.setVisibility(View.GONE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+//                    Log.d("URL", response);
+                    if (response.equals("No results") || response.equals("")) {
+                        searchMessage.setText(R.string.error_no_result);
+                        searchMessage.setVisibility(View.VISIBLE);
+                    } else {
+                        Snackbar snackbar = Snackbar
+                                .make(frameLayout, getString(R.string.error_parsing), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                    listSuggestion.clear();
+                    adapter.notifyDataSetChanged();
+                    progressSearch.setVisibility(View.GONE);
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                searchMessage.setText(R.string.error_connection);
+                searchMessage.setVisibility(View.VISIBLE);
+                listSuggestion.clear();
+                adapter.notifyDataSetChanged();
+                progressSearch.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", etSearch.getText().toString());
+                Log.i("name",etSearch.getText().toString());
+                return params;
+            }
+        };
+
+        jsonObjReq.setTag("tag");
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjReq);
+    }
+
+    private void viewDetails(Student student)
+    {
+        Dialog dialog = new Dialog(this);
+        dialog.setTitle("Student details");
+        dialog.setContentView(R.layout.dialog_details);
+        TextView rollno = (TextView)dialog.findViewById(R.id.d_rollno);
+        rollno.setText(student.getRollno());
+        TextView name = (TextView)dialog.findViewById(R.id.d_name);
+        name.setText(student.getName());
+        TextView room = (TextView)dialog.findViewById(R.id.d_room);
+        room.setText(student.getRoom()+", "+student.getHostel());
+        CircleImageView photo = (CircleImageView)dialog.findViewById(R.id.d_photo);Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("https")
+                .authority("photos.iitm.ac.in")
+                .appendPath("byroll.php")
+                .appendQueryParameter("roll", student.getRollno());
+
+        String url = builder.build().toString();
+
+        Picasso.with(this).load(url).
+                placeholder(R.drawable.dummypropic).
+                error(R.drawable.dummypropic).
+                fit().centerCrop().
+                into(photo);
+
+        dialog.show();
+    }
+
+//    private void setupViewPager(ViewPager viewPager) {
+//        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+//        adapter.addFragment(new NameSearchFragment(), "Name");
+//        adapter.addFragment(new RollSearchFragment(), "Roll number");
+//        viewPager.setAdapter(adapter);
+//    }
 
     @Override
     public void onBackPressed() {
@@ -171,8 +400,7 @@ public class StudentSearchActivity extends AppCompatActivity
             intent = new Intent(context, OrganizationActivity.class);
             flag = true;
         } else if (id == R.id.nav_search) {
-            //intent = new Intent(context, StudentSearchActivity.class);
-            //flag = true;
+            return true;
         } else if (id == R.id.nav_map) {
             intent = new Intent(context, MapActivity.class);
             flag = true;
@@ -264,32 +492,32 @@ public class StudentSearchActivity extends AppCompatActivity
 
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
+//    class ViewPagerAdapter extends FragmentPagerAdapter {
+//        private final List<Fragment> mFragmentList = new ArrayList<>();
+//        private final List<String> mFragmentTitleList = new ArrayList<>();
+//
+//        public ViewPagerAdapter(FragmentManager manager) {
+//            super(manager);
+//        }
+//
+//        @Override
+//        public Fragment getItem(int position) {
+//            return mFragmentList.get(position);
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return mFragmentList.size();
+//        }
+//
+//        public void addFragment(Fragment fragment, String title) {
+//            mFragmentList.add(fragment);
+//            mFragmentTitleList.add(title);
+//        }
+//
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return mFragmentTitleList.get(position);
+//        }
+//    }
 }
