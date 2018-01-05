@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import br.com.mauker.materialsearchview.MaterialSearchView;
 import in.ac.iitm.students.R;
@@ -83,6 +84,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<UUID> uuidArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -312,7 +314,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new GeneralComplaintsActivity.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new g_LatestThreadFragment(), "Trending");
+        adapter.addFragment(new g_LatestThreadFragment(), "Latest Thread");
         adapter.addFragment(new g_MyComplaintFragment(), "My complaints");
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
@@ -331,10 +333,13 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (position == 0)
+        if (position == 0) {
             fab.show();
-        else
+
+        } else {
             fab.hide();
+        }
+
     }
 
     @Override

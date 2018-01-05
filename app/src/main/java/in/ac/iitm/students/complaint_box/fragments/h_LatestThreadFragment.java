@@ -1,5 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -82,8 +83,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
     CardView t3;
     CardView t4;
     CardView t5;
-
-
+    private ProgressDialog progressDialog;
     private String hostel_name;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -224,6 +224,10 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
     public void getAllComplaints() {
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading Complaints....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -234,8 +238,8 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 try {
                     hComplaintList = hJsonComplaintParser.pleasePleaseParseMyData();
                     hwm=hJsonComplaintParser.getH_wm();
-
                     hwd=hJsonComplaintParser.getH_wd();
+                    Log.d("gucci_gang", "onResponse: " + hwd.getT2details()[0][0]);
                     hw=hJsonComplaintParser.getH_w();
                     hpr=hJsonComplaintParser.getH_pr();
                     hpw=hJsonComplaintParser.getH_pw();
@@ -243,7 +247,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
                     for(int i=0;i<6;i++){
                         for(int j=0;j<2;j++){
-                            if(hwm.getT1details()[i][j]!=null){
+                            if(!hwm.getT1details()[i][j].isEmpty()){
                                 tvst1[i][j].setText(hwm.getT1details()[i][j]);
                             }
                         }
@@ -255,7 +259,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
                     for(int i=0;i<5;i++){
                         for(int j=0;j<2;j++){
-                            if(hwd.getT2details()[i][j]!=null){
+                            if(!hwd.getT2details()[i][j].isEmpty()){
                                 tvst2[i][j].setText(hwd.getT2details()[i][j]);
                             }
                         }
@@ -266,7 +270,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                         t2.setVisibility(View.GONE);
                     for(int i=0;i<8;i++){
                         for(int j=0;j<2;j++){
-                            if(hw.getT3details()[i][j]!=null){
+                            if(!hw.getT3details()[i][j].isEmpty()){
                                 tvst3[i][j].setText(hw.getT3details()[i][j]);
                             }
                         }
@@ -277,7 +281,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                         t3.setVisibility(View.GONE);
                     for(int i=0;i<5;i++){
                         for(int j=0;j<2;j++){
-                            if(hpr.getT4details()[i][j]!=null){
+                            if(!hpr.getT4details()[i][j].isEmpty()){
                                 tvst4[i][j].setText(hpr.getT4details()[i][j]);
                                 Log.d("dork",hpr.getT4details()[0][0]);
                             }
@@ -289,7 +293,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                         t4.setVisibility(View.GONE);
                     for(int i=0;i<8;i++){
                         for(int j=0;j<2;j++){
-                            if(hpw.getT5details()[i][j]!=null){
+                            if(!hpw.getT5details()[i][j].isEmpty()){
                                 tvst5[i][j].setText(hpw.getT5details()[i][j]);
                             }
                         }
@@ -298,6 +302,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     }
                     if(tvst5d[0].getVisibility()==View.GONE&&tvst5d[1].getVisibility()==View.GONE&&tvst5d[2].getVisibility()==View.GONE&&tvst5d[3].getVisibility()==View.GONE&&tvst5d[4].getVisibility()==View.GONE&&tvst5d[5].getVisibility()==View.GONE&&tvst5d[6].getVisibility()==View.GONE&&tvst5d[7].getVisibility()==View.GONE)
                         t5.setVisibility(View.GONE);
+                    progressDialog.dismiss();
 
 
 
@@ -313,6 +318,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     //hComplaintArray = new ArrayList<>();
                     hComplaintList.add(Complaint.getErrorComplaintObject());
 
+                    progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
@@ -320,9 +326,11 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
                 if (!hComplaintList.isEmpty()) {
                     Log.d("pip", "onResponse: " + hComplaintList.get(0).getName());
+                    progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.setNestedScrollingEnabled(false);
                 }
                 // mAdapter.notifyDataSetChanged();
 
@@ -339,6 +347,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 ArrayList<Complaint> hComplaintArray = new ArrayList<>();
                 hComplaintArray.add(Complaint.getErrorComplaintObject());
 
+                progressDialog.dismiss();
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout)getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);

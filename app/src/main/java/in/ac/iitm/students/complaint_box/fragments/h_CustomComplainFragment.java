@@ -1,5 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,9 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -42,8 +40,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.activities.g_CustomComplaintActivity;
-import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -57,6 +53,7 @@ public class h_CustomComplainFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ProgressDialog progressDialog;
     private String mUUID;
     private InputStream stream;
 

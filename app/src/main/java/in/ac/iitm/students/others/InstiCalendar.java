@@ -109,7 +109,8 @@ public class InstiCalendar {
 
         Calendar_Event event = new Calendar_Event();
 
-        Log.d("kaka", "holigaga_semi");
+        Log.d("kaka", "0");
+        //Log.d("kaka", "holigaga_semi");
         /* check if there are any events for this particular day */
         Calendar beginTime = Calendar.getInstance();
         beginTime.set(CalendarActivity.yearForRecyclerView, month, i + 1, 5, 30);
@@ -117,6 +118,7 @@ public class InstiCalendar {
         beginTime.set(Calendar.MILLISECOND, 0);
         long begin = beginTime.getTimeInMillis();
         long end = begin + 86400000;
+        Log.d("kaka", "1");
 
         String[] PROJECTION = new String[]{
                 CalendarContract.Events.TITLE, // 0
@@ -125,12 +127,15 @@ public class InstiCalendar {
                 CalendarContract.Events.DTEND //3
         };
 
+        Log.d("kaka", "2");
         String selectionClause = CalendarContract.Events.DTSTART + ">= ? AND " + CalendarContract.Events.DTEND + "<= ? AND " + CalendarContract.Events.CALENDAR_DISPLAY_NAME + "!= ?";
 
         String[] selectionArgs = new String[]{String.valueOf(begin),String.valueOf(end),"IITM Calendar"};
         Cursor cur = null;
         ContentResolver cr = context.getContentResolver();
 
+        Log.d("kaka", "3");
+        // TODO @Sameer, holigaga1:pre-alpha not being called
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -140,6 +145,7 @@ public class InstiCalendar {
             // for ActivityCompat#requestPermissions for more details.
             return null;
         }
+        Log.d("kaka", "holigaga1:pre-alpha");
         cur = cr.query(CalendarContract.Events.CONTENT_URI, PROJECTION, selectionClause, selectionArgs, null);
 
         int j=0;
@@ -158,7 +164,7 @@ public class InstiCalendar {
         }
 
         /*******************************************************************/
-        // TODO @rohithram, holigaga:alpha not being called
+
         Log.d("kaka", "holigaga1:alpha");
         reader.beginObject();
         while (reader.hasNext()) {
