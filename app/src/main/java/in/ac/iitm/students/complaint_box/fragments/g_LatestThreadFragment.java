@@ -1,5 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
+    private ProgressDialog progressDialog;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -108,6 +110,10 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
     public void getAllComplaints() {
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading Complaints....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -129,11 +135,13 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     gComplaintArray = new ArrayList<>();
                     gComplaintArray.add(Complaint.getErrorComplaintObject());
 
+                    progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mAdapter = new g_ComplaintAdapter(gComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
+                progressDialog.dismiss();
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new g_ComplaintAdapter(gComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
@@ -152,6 +160,7 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 ArrayList<Complaint> hComplaintArray = new ArrayList<>();
                 hComplaintArray.add(Complaint.getErrorComplaintObject());
 
+                progressDialog.dismiss();
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new g_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);

@@ -1,5 +1,6 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -82,8 +83,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
     CardView t3;
     CardView t4;
     CardView t5;
-
-
+    private ProgressDialog progressDialog;
     private String hostel_name;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -224,6 +224,10 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
     public void getAllComplaints() {
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading Complaints....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -236,6 +240,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     hwm=hJsonComplaintParser.getH_wm();
 
                     hwd=hJsonComplaintParser.getH_wd();
+                    Log.d("gucci_gang", "onResponse: " + hwd.getT2details()[0][0]);
                     hw=hJsonComplaintParser.getH_w();
                     hpr=hJsonComplaintParser.getH_pr();
                     hpw=hJsonComplaintParser.getH_pw();
@@ -298,6 +303,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     }
                     if(tvst5d[0].getVisibility()==View.GONE&&tvst5d[1].getVisibility()==View.GONE&&tvst5d[2].getVisibility()==View.GONE&&tvst5d[3].getVisibility()==View.GONE&&tvst5d[4].getVisibility()==View.GONE&&tvst5d[5].getVisibility()==View.GONE&&tvst5d[6].getVisibility()==View.GONE&&tvst5d[7].getVisibility()==View.GONE)
                         t5.setVisibility(View.GONE);
+                    progressDialog.dismiss();
 
 
 
@@ -313,6 +319,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     //hComplaintArray = new ArrayList<>();
                     hComplaintList.add(Complaint.getErrorComplaintObject());
 
+                    progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
@@ -320,9 +327,11 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
                 if (!hComplaintList.isEmpty()) {
                     Log.d("pip", "onResponse: " + hComplaintList.get(0).getName());
+                    progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.setNestedScrollingEnabled(false);
                 }
                 // mAdapter.notifyDataSetChanged();
 
@@ -339,6 +348,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 ArrayList<Complaint> hComplaintArray = new ArrayList<>();
                 hComplaintArray.add(Complaint.getErrorComplaintObject());
 
+                progressDialog.dismiss();
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout)getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
