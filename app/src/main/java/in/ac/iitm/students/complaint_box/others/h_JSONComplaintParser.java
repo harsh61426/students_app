@@ -293,43 +293,43 @@ public class h_JSONComplaintParser {
 
                     } else if(hComplaint.getTitle().equals("Problems in your wing")){
 
-                        if(hComplaint.getDescription().equals("Power supply not proper")&&!hComplaint.isResolved()){
+                        if(hComplaint.getDescription().equals("Electrical work")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
                             h_pw.setT5details((h_pw.getT5details()[0][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[0][0]+","+hComplaint.getProximity(),0,0);
                             h_pw.setT5details((h_pw.getT5details()[0][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[0][1])+1),0,1);
                         }
-                        if(hComplaint.getDescription().equals("Taps not properly working")&&!hComplaint.isResolved()){
+                        if(hComplaint.getDescription().equals("Civil work")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
                             h_pw.setT5details((h_pw.getT5details()[1][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[1][0]+","+hComplaint.getProximity(),1,0);
                             h_pw.setT5details((h_pw.getT5details()[1][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[1][1])+1),1,1);
                         }
-                        if(hComplaint.getDescription().equals("Showers not properly working")&&!hComplaint.isResolved()){
+                        if(hComplaint.getDescription().equals("Furniture broken")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
                             h_pw.setT5details((h_pw.getT5details()[2][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[2][0]+","+hComplaint.getProximity(),2,0);
                             h_pw.setT5details((h_pw.getT5details()[2][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[2][1])+1),2,1);
                         }
-                        if(hComplaint.getDescription().equals("Towel Hangers not present")&&!hComplaint.isResolved()){
+                        if(hComplaint.getDescription().equals("Internet problem")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
                             h_pw.setT5details((h_pw.getT5details()[3][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[3][0]+","+hComplaint.getProximity(),3,0);
                             h_pw.setT5details((h_pw.getT5details()[3][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[3][1])+1),3,1);
                         }
-                        if(hComplaint.getDescription().equals("Washroom doors not closing properly")&&!hComplaint.isResolved()){
+                        if(hComplaint.getDescription().equals("Wing not cleaned regularly")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
                             h_pw.setT5details((h_pw.getT5details()[4][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[4][0]+","+hComplaint.getProximity(),4,0);
                             h_pw.setT5details((h_pw.getT5details()[4][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[4][1])+1),4,1);
                         }
-                        if(hComplaint.getDescription().equals("Flush tanks not working")&&!hComplaint.isResolved()){
+                        if(hComplaint.getDescription().equals("Does not have a dustbin")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
                             h_pw.setT5details((h_pw.getT5details()[5][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[5][0]+","+hComplaint.getProximity(),5,0);
                             h_pw.setT5details((h_pw.getT5details()[5][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[5][1])+1),5,1);
                         }
-                        if(hComplaint.getDescription().equals("Pipes leaking")&&!hComplaint.isResolved()){
+                        if(hComplaint.getDescription().equals("Cloth wires not proper")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
                             h_pw.setT5details((h_pw.getT5details()[6][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[6][0]+","+hComplaint.getProximity(),6,0);
