@@ -29,7 +29,6 @@ public class MonthFragment extends Fragment{
     // todo dont make them static, find a work-around
     public  DayAdapter adapter;
     public  RecyclerView rv;
-    public  TextView monthName=null;
     int monthNo=0;
     int currentMonth,currentDate;
     private ArrayList<Calendar_Event> month_events;
@@ -39,30 +38,13 @@ public class MonthFragment extends Fragment{
         // Required empty public constructor
     }
 
-    private void setMonthName(int i) {
-        if (i == 0)
-            monthName.setText("January,2018");
-        else if (i == 1)
-            monthName.setText("February,2018");
-        else if (i == 2)
-            monthName.setText("March,2018");
-        else if (i == 3)
-            monthName.setText("April,2018");
-        else if (i == 4)
-            monthName.setText("May,2018");
-        else
-            monthName.setText("June,2018");
 
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_month, container, false);
-
-        monthName = (TextView) rootView.findViewById(R.id.tv_month_name);
-        setMonthName(monthNo);
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_month);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
