@@ -1,7 +1,10 @@
 package in.ac.iitm.students.activities.main;
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -11,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -38,6 +42,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -49,12 +54,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
@@ -74,9 +90,11 @@ import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
+import in.ac.iitm.students.activities.LoginActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
@@ -92,6 +110,7 @@ import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity
@@ -120,67 +139,69 @@ public class HomeActivity extends AppCompatActivity
     private ArrayList<HomeNotifObject> notifObjectList = new ArrayList<>();
     private Menu menu;
     private NavigationView navigationView;
+    private String url_roll = "https://students.iitm.ac.in/studentsapp/studentlist/search_by_roll.php";
+    private String rollNO;
 
-    /*
-    public static void showAlert(Activity activity, String title, String message) {
 
-        Drawable dialog_icon;
-        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
+//    public static void showAlert(Activity activity, String title, String message) {
+//
+//        Drawable dialog_icon;
+//        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//        builder.setIcon(dialog_icon);
+//        builder.setTitle(title);
+//        builder.setMessage(message)
+//                .setNeutralButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        // User cancelled the dialog
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
+//
+//    public static void showAlert(final Activity activity, String title, String message, final String link) {
+//
+//        Drawable dialog_icon;
+//        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//        builder.setIcon(dialog_icon);
+//        builder.setTitle(title);
+//        builder.setMessage(message)
+//                .setNegativeButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        // User cancelled the dialog
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .setPositiveButton(R.string.go_to_link, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                        openWebPage(link, activity);
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
+//
+//    private static void openWebPage(String url, Activity activity) {
+//        Toast.makeText(activity, "Getting data...", Toast.LENGTH_SHORT).show();
+//        Uri webpage = Uri.parse(url);
+//        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+//            activity.startActivity(intent);
+//        } else {
+//            Toast.makeText(activity, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setIcon(dialog_icon);
-        builder.setTitle(title);
-        builder.setMessage(message)
-                .setNeutralButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.dismiss();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    public static void showAlert(final Activity activity, String title, String message, final String link) {
-
-        Drawable dialog_icon;
-        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setIcon(dialog_icon);
-        builder.setTitle(title);
-        builder.setMessage(message)
-                .setNegativeButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveButton(R.string.go_to_link, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        openWebPage(link, activity);
-                        dialog.dismiss();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    private static void openWebPage(String url, Activity activity) {
-        Toast.makeText(activity, "Getting data...", Toast.LENGTH_SHORT).show();
-        Uri webpage = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (intent.resolveActivity(activity.getPackageManager()) != null) {
-            activity.startActivity(intent);
-        } else {
-            Toast.makeText(activity, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
-        }
-    }
-    */
 
     @Override
     protected void onResume() {
@@ -206,6 +227,13 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         updatePreferences();
 
+        Intent i = getIntent();
+        if(i.getStringExtra("signin")!=null){
+            rollNO = i.getStringExtra("signin");
+        }else{
+            rollNO = null;
+        }
+
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefreshhome);
         swipeRefreshLayout.setOnRefreshListener(HomeActivity.this);
 
@@ -219,9 +247,6 @@ public class HomeActivity extends AppCompatActivity
 
         snackbar = Snackbar.make(drawer, R.string.error_connection, Snackbar.LENGTH_LONG);
         getData();
-
-
-
 
         containerLayout2 = (RelativeLayout) findViewById(R.id.rl_multipopup);
         multipopup = new PopupWindow(HomeActivity.this);
@@ -269,21 +294,23 @@ public class HomeActivity extends AppCompatActivity
 ////                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
 ////        }
 
-        //TODO @omkar remove
-        Utils.saveprefString(UtilStrings.NAME, "Omkar Patil", getBaseContext());
-        Utils.saveprefString(UtilStrings.HOSTEl, "narmada", getBaseContext());
-        Utils.saveprefString(UtilStrings.ROOM, "1004", getBaseContext());
-        Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt("1"), getBaseContext());
-        Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt("1"), getBaseContext());
-        Utils.saveprefString(UtilStrings.ROLLNO, "ME15B123", getBaseContext());
-        Utils.saveprefBool(UtilStrings.LOGEDIN, true, this);
-
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            String personName = acct.getGivenName();
+            String personEmail = acct.getEmail();
+//            Uri personPhoto = acct.getPhotoUrl();
+            Utils.saveprefString(UtilStrings.NAME, personName, getBaseContext());
+            Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt("1"), getBaseContext());
+            Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt("1"), getBaseContext());
+            Utils.saveprefString(UtilStrings.ROLLNO, personEmail.split("@")[0], getBaseContext());
+            Utils.saveprefBool(UtilStrings.LOGEDIN, true, this);
+            getMyDetails();
+        }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
 
         String firebaseToken = FirebaseInstanceId.getInstance().getToken();
-        //Log.d("tada", firebaseToken.toString());
         sendRegistrationToServer(firebaseToken, name, roll_no);
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -297,7 +324,7 @@ public class HomeActivity extends AppCompatActivity
         TextView userrollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
 
         username.setText(name);
-        userrollNumber.setText(roll_no);
+        userrollNumber.setText(roll_no.toUpperCase());
         ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
@@ -313,6 +340,103 @@ public class HomeActivity extends AppCompatActivity
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
         refreshList();
+    }
+
+    private void getMyDetails() {
+
+        pbar.setVisibility(View.VISIBLE);
+
+        Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("http")//https://students.iitm.ac.in/studentsapp/map/get_location.php?
+                .authority("students.iitm.ac.in")
+                .appendPath("Android")
+                .appendPath("includes")
+                .appendPath("search_by_roll.php");
+
+        StringRequest stud_detail_via_roll_req = new StringRequest(Request.Method.POST, url_roll, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    String studName = "Name appears here",
+                            studRoll = "Roll number appears here",
+                            hostel = "Hostel",
+                            roomNo = "room number",
+                            email = "Email here",
+                            phone = "Phone no. here",
+                            about = "About student";
+
+//                    pDialog.dismiss();
+                    JSONArray baseArray = new JSONArray(response);
+                    for (int i = 0; i < baseArray.length(); i++) {
+                        JSONObject baseObject = baseArray.getJSONObject(i);
+                        studName = baseObject.getString("fullname");
+                        hostel = baseObject.getString("hostel");
+                        roomNo = baseObject.getString("room");
+                        phone = baseObject.getString("phone_no");
+                        email = baseObject.getString("email");
+                    }
+
+                    Utils.saveprefString(UtilStrings.NAME,studName, getBaseContext());
+                    Utils.saveprefString(UtilStrings.HOSTEl, hostel, getBaseContext());
+                    Utils.saveprefString(UtilStrings.ROOM, roomNo, getBaseContext());
+                    Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt("1"), getBaseContext());
+                    Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt("1"), getBaseContext());
+
+                    if(phone.equalsIgnoreCase("null")){
+                        Utils.saveprefString(UtilStrings.MOBILE,"Enter mobile number", getBaseContext());
+                    }else{
+                        Utils.saveprefString(UtilStrings.MOBILE, phone, getBaseContext());
+                    }
+
+                    if(email.equalsIgnoreCase("null")){
+                        Utils.saveprefString(UtilStrings.MAIL,"Enter email", getBaseContext());
+                    }else{
+                        Utils.saveprefString(UtilStrings.MAIL,email, getBaseContext());
+                    }
+
+                    pbar.setVisibility(View.GONE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    pbar.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(),
+                            "Error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                pDialog.dismiss();
+                String message = null;
+                if (error instanceof NetworkError) {
+                    message = "Cannot connect to Internet. Please check your connection!!";
+                } else if (error instanceof ServerError) {
+                    message = "Server down. Please try again after some time!!";
+                } else if (error instanceof AuthFailureError) {
+                    message = "Authentication error!!";
+                } else if (error instanceof ParseError) {
+                    message = "Parsing error! Please try again after some time!!";
+                } else if (error instanceof TimeoutError) {
+                    message = "Connection TimeOut! Please check your internet connection.";
+                }
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("roll" , Utils.getprefString(UtilStrings.ROLLNO,getApplicationContext()));
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stud_detail_via_roll_req);
     }
 
     public void refreshList() {
@@ -540,9 +664,10 @@ public class HomeActivity extends AppCompatActivity
             lg.isSure(HomeActivity.this);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+
     }
+
 
     private void updatePreferences() {
         final ArrayList<HashMap<String, String>> database_topics = new ArrayList<>();
@@ -891,10 +1016,18 @@ public class HomeActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     if(link!=null && !link.isEmpty()){
-                        Uri uri = Uri.parse(link);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
-                    }
+                        Uri uri = null;
+                        if (!link.startsWith("http://") && !link.startsWith("https://")) {
+                                uri = Uri.parse("http://" + url);
+                            }
+
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+                                startActivity(intent);
+                            }
+                        }
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                        startActivity(intent)
 
                 }
             });
@@ -908,8 +1041,8 @@ public class HomeActivity extends AppCompatActivity
                         // it's collapsed - expand it
                         holder.tvDetails.setVisibility(View.VISIBLE);
                         holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
-                        holder.bt_not_going.setVisibility(View.VISIBLE);
-                        holder.bt_going.setVisibility(View.VISIBLE);
+//                        holder.bt_not_going.setVisibility(View.VISIBLE);
+//                        holder.bt_going.setVisibility(View.VISIBLE);
                         holder.tv_link.setVisibility(View.VISIBLE);
                         holder.ibt_link.setVisibility(View.VISIBLE);
 
@@ -1247,8 +1380,8 @@ public class HomeActivity extends AppCompatActivity
                         // it's collapsed - expand it
                         holder.tvDetails.setVisibility(View.VISIBLE);
                         holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
-                        holder.bt_not_going.setVisibility(View.VISIBLE);
-                        holder.bt_going.setVisibility(View.VISIBLE);
+//                        holder.bt_not_going.setVisibility(View.VISIBLE);
+//                        holder.bt_going.setVisibility(View.VISIBLE);
                         holder.tv_link.setVisibility(View.VISIBLE);
                         holder.ibt_link.setVisibility(View.VISIBLE);
 

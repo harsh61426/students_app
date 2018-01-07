@@ -1,6 +1,6 @@
 package in.ac.iitm.students.activities;
 
-import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -11,10 +11,11 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Picasso;
 
 import java.util.regex.Matcher;
@@ -35,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
     CircleImageView profilePicImage;
     EditText et_email, et_phone;
     TextView tv_name, tv_roll, tv_hostel, tv_room, tv_phone, tv_email;
-    //final InputMethodManager imm = (InputMethodManager) getSystemService(.INPUT_METHOD_SERVICE);
+
     public static String reverse(String input) {
         char[] in = input.toCharArray();
         int begin = 0;
@@ -84,12 +85,10 @@ public class ProfileActivity extends AppCompatActivity {
         String email = Utils.getprefString(UtilStrings.MAIL,this);
 
         tv_name.setText(name);
-        tv_roll.setText(roll_no);
+        tv_roll.setText(roll_no.toUpperCase());
         tv_hostel.setText("Hostel: "+hostel.toUpperCase());
         tv_room.setText("Room: "+room);
-        tv_email.setText("Email ID: "+email);
         tv_phone.setText("Contact No: "+mobile);
-
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
@@ -99,6 +98,12 @@ public class ProfileActivity extends AppCompatActivity {
                 .centerInside()
                 .into(profilePicImage);
 
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            tv_email.setText(acct.getEmail());
+        }else {
+            tv_email.setText(email);
+        }
 
         tv_phone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,14 +111,6 @@ public class ProfileActivity extends AppCompatActivity {
                 tv_phone.setVisibility(View.GONE);
                 et_phone.setVisibility(View.VISIBLE);
                 et_phone.requestFocus();
-                String phone = tv_phone.getText().toString();
-                phone=phone.replace("Contact No: ","");
-                et_phone.setText(phone);
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                //et_phone.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
-                //et_phone.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
-
             }
         });
 
@@ -123,13 +120,6 @@ public class ProfileActivity extends AppCompatActivity {
                 tv_email.setVisibility(View.GONE);
                 et_email.setVisibility(View.VISIBLE);
                 et_email.requestFocus();
-                String email = tv_email.getText().toString();
-                email=email.replace("Email ID: ","");
-                et_email.setText(email);
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                //et_email.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
-                //et_email.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
             }
         });
 
@@ -154,8 +144,6 @@ public class ProfileActivity extends AppCompatActivity {
                         tv_email.setText("Email ID: "+mail);
                         et_email.setVisibility(View.GONE);
                         tv_email.setVisibility(View.VISIBLE);
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
                         return true;
                     }
                 }
@@ -185,8 +173,6 @@ public class ProfileActivity extends AppCompatActivity {
                         tv_phone.setText("Contact No: "+phone);
                         et_phone.setVisibility(View.GONE);
                         tv_phone.setVisibility(View.VISIBLE);
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
                         return true;
                     }
                 }
