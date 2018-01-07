@@ -14,6 +14,7 @@ import in.ac.iitm.students.objects.Calendar_Event;
  */
 
 public class MonthFmAdapter extends FragmentPagerAdapter {
+
     private ArrayList<ArrayList<Calendar_Event>> cal_events;
 
     public MonthFmAdapter(FragmentManager fm) {
@@ -33,10 +34,35 @@ public class MonthFmAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         //return cal_events.size();
-        return Integer.MAX_VALUE;
+        return 6;
     }
 
     public void setCal_events(ArrayList<ArrayList<Calendar_Event>> cal_events) {
         this.cal_events = cal_events;
+    }
+
+    private String setMonthName(int i) {
+        switch (i)
+        {
+            case 0:
+                return "January,2018";
+            case 1:
+                return "February,2018";
+            case 2:
+                return "March,2018";
+            case 3:
+                return "April,2018";
+            case 4:
+                return "May,2018";
+            case 5:
+                return "June,2018";
+            default:
+                return "Unknown";
+        }
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return setMonthName(position);
     }
 }

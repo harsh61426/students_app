@@ -9,6 +9,7 @@ import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.util.JsonReader;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,7 +33,6 @@ import in.ac.iitm.students.objects.Calendar_Event;
 
 public class InstiCalendar {
     public static long CalID = -1;
-    public ArrayList<ArrayList<Calendar_Event>> cal_events;
     private Context context;
     private String cal_ver = "0";
 
@@ -109,8 +109,6 @@ public class InstiCalendar {
 
         Calendar_Event event = new Calendar_Event();
 
-        Log.d("kaka", "0");
-        //Log.d("kaka", "holigaga_semi");
         /* check if there are any events for this particular day */
         Calendar beginTime = Calendar.getInstance();
         beginTime.set(CalendarActivity.yearForRecyclerView, month, i + 1, 5, 30);
@@ -118,7 +116,6 @@ public class InstiCalendar {
         beginTime.set(Calendar.MILLISECOND, 0);
         long begin = beginTime.getTimeInMillis();
         long end = begin + 86400000;
-        Log.d("kaka", "1");
 
         String[] PROJECTION = new String[]{
                 CalendarContract.Events.TITLE, // 0
@@ -137,13 +134,7 @@ public class InstiCalendar {
         Log.d("kaka", "3");
         // TODO @Sameer, holigaga1:pre-alpha not being called
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return null;
+            Toast.makeText(context,"Please enable the calendar read permission to view",Toast.LENGTH_SHORT).show();
         }
         Log.d("kaka", "holigaga1:pre-alpha");
         cur = cr.query(CalendarContract.Events.CONTENT_URI, PROJECTION, selectionClause, selectionArgs, null);

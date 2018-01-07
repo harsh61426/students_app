@@ -238,7 +238,6 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 try {
                     hComplaintList = hJsonComplaintParser.pleasePleaseParseMyData();
                     hwm=hJsonComplaintParser.getH_wm();
-
                     hwd=hJsonComplaintParser.getH_wd();
                     Log.d("gucci_gang", "onResponse: " + hwd.getT2details()[0][0]);
                     hw=hJsonComplaintParser.getH_w();
@@ -248,7 +247,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
                     for(int i=0;i<6;i++){
                         for(int j=0;j<2;j++){
-                            if(hwm.getT1details()[i][j]!=null){
+                            if(!hwm.getT1details()[i][j].isEmpty()){
                                 tvst1[i][j].setText(hwm.getT1details()[i][j]);
                             }
                         }
@@ -260,7 +259,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
                     for(int i=0;i<5;i++){
                         for(int j=0;j<2;j++){
-                            if(hwd.getT2details()[i][j]!=null){
+                            if(!hwd.getT2details()[i][j].isEmpty()){
                                 tvst2[i][j].setText(hwd.getT2details()[i][j]);
                             }
                         }
@@ -271,7 +270,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                         t2.setVisibility(View.GONE);
                     for(int i=0;i<8;i++){
                         for(int j=0;j<2;j++){
-                            if(hw.getT3details()[i][j]!=null){
+                            if(!hw.getT3details()[i][j].isEmpty()){
                                 tvst3[i][j].setText(hw.getT3details()[i][j]);
                             }
                         }
@@ -282,7 +281,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                         t3.setVisibility(View.GONE);
                     for(int i=0;i<5;i++){
                         for(int j=0;j<2;j++){
-                            if(hpr.getT4details()[i][j]!=null){
+                            if(!hpr.getT4details()[i][j].isEmpty()){
                                 tvst4[i][j].setText(hpr.getT4details()[i][j]);
                                 Log.d("dork",hpr.getT4details()[0][0]);
                             }
@@ -294,7 +293,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                         t4.setVisibility(View.GONE);
                     for(int i=0;i<8;i++){
                         for(int j=0;j<2;j++){
-                            if(hpw.getT5details()[i][j]!=null){
+                            if(!hpw.getT5details()[i][j].isEmpty()){
                                 tvst5[i][j].setText(hpw.getT5details()[i][j]);
                             }
                         }

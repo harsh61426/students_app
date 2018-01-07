@@ -116,7 +116,7 @@ import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
-    static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 99;
+    static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 99;
     private static int optionalUpdateDialogCount = 0;
     public PopupWindow multipopup;
     public CardView containerLayout;

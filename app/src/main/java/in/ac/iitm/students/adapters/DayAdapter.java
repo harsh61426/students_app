@@ -39,15 +39,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     ArrayList<Calendar_Event> month_events = new ArrayList<>();
     private Context context;
 
-    /*
-    public DayAdapter(ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, ArrayList<String> list4, Context context) {
-        day_dataset = list1;
-        date_dataset = list2;
-        desc_dataset = list3;
-        holiday_dataset = list4;
-        this.context = context;
-    }
-    */
 
     public DayAdapter(ArrayList<Calendar_Event> month_events, Context context) {
         this.month_events = month_events;
@@ -118,26 +109,26 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
             holder.reminerDots.setVisibility(View.VISIBLE);
         }
 
-//        Calendar beginTime=Calendar.getInstance();
-//        beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
-//        beginTime.set(Calendar.MILLISECOND, 0);
-//        beginTime.setTimeZone(TimeZone.getDefault());
-//        // A date-time specified in milliseconds since the epoch.
-//        final long  begin= beginTime.getTimeInMillis();
+        Calendar beginTime=Calendar.getInstance();
+        beginTime.set(CalendarActivity.yearForRecyclerView, CalendarActivity.monthForRecyclerView, position+1);
+        beginTime.set(Calendar.MILLISECOND, 0);
+        beginTime.setTimeZone(TimeZone.getDefault());
+        // A date-time specified in milliseconds since the epoch.
+        final long  begin= beginTime.getTimeInMillis();
 
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-////                Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-////                builder.appendPath("time");
-////                ContentUris.appendId(builder, begin);
-////                Intent intent = new Intent(Intent.ACTION_VIEW)
-////                        .setData(builder.build());
-////                context.startActivity(intent);
-//
-//            }
-//        });
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+                builder.appendPath("time");
+                ContentUris.appendId(builder, begin);
+                Intent intent = new Intent(Intent.ACTION_VIEW)
+                        .setData(builder.build());
+                context.startActivity(intent);
+
+            }
+        });
     }
 
     @Override
