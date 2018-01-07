@@ -3,8 +3,10 @@ package in.ac.iitm.students.activities.main;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -164,8 +167,11 @@ public class CalendarActivity extends AppCompatActivity
 
     private void instantiate_calendar()
     {
+
+        //TODO: Try checking if internet is available before loading
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading Calendar...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -182,24 +188,14 @@ public class CalendarActivity extends AppCompatActivity
             public void onResponse(String response) {
                 Log.d("kaka", response);
                 InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-
                 JsonReader reader = null;
                 try {
+
                     reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
                     reader.setLenient(true);
-                    ArrayList<ArrayList<Calendar_Event>> cal_events = InstiCalendar.readMonthObject(reader, CalendarActivity.this);
-                    // Create an adapter that knows which fragment should be shown on each page
-                    MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
-                    adapter.setCal_events(cal_events);
-                    // Set the adapter onto the view pager
-                    progressDialog.dismiss();
-                    viewPager.setAdapter(adapter);
-                    viewPager.setCurrentItem(currentlyDisplayedMonth);
-                    reader.close();
+                    new DDLTask().execute(reader);
 
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -423,6 +419,38 @@ public class CalendarActivity extends AppCompatActivity
         }
         return true;
 
+    }
+
+    public class DDLTask extends AsyncTask<JsonReader, Integer, ArrayList<ArrayList<Calendar_Event>>>
+    {
+        @Override
+        protected ArrayList<ArrayList<Calendar_Event>> doInBackground(JsonReader... jsonReaders) {
+            try {
+                ArrayList<ArrayList<Calendar_Event>> events = InstiCalendar.readMonthObject(jsonReaders[0], CalendarActivity.this);
+                jsonReaders[0].close();
+                return events;
+                // Create an adapter that knows which fragment should be shown on each page
+            }
+            catch (IOException io)
+            {
+                io.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ArrayList<Calendar_Event>> cal_events) {
+            MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
+            adapter.setCal_events(cal_events);
+            progressDialog.dismiss();
+            viewPager.setAdapter(adapter);
+            viewPager.setCurrentItem(currentlyDisplayedMonth);
+        }
     }
 
 
