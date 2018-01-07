@@ -2,7 +2,6 @@ package in.ac.iitm.students.organisations.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -74,7 +73,7 @@ public class Fbfragment extends Fragment implements SwipeRefreshLayout.OnRefresh
                 getResources().getColor(android.R.color.holo_blue_dark),
                 getResources().getColor(android.R.color.holo_orange_dark));
 
-        adapter = new PostApapter(getActivity(),postList,pactivity.key,pactivity.Pagename,pactivity.logo_url,pactivity.fragmentManager,pactivity.fragment,pactivity.layout_MainMenu,pactivity.pd,pactivity.reactions_popup,pactivity.layout,pactivity.multipopup,pactivity.layout1);
+        adapter = new PostApapter(getActivity(), postList, pactivity.key, PostActivity.Pagename, pactivity.logo_url, pactivity.fragmentManager, pactivity.fragment, pactivity.layout_MainMenu, pactivity.pd, pactivity.reactions_popup, pactivity.layout, pactivity.multipopup, pactivity.layout1);
         recyclerView.setAdapter(adapter);
         return view;
     }
@@ -82,7 +81,7 @@ public class Fbfragment extends Fragment implements SwipeRefreshLayout.OnRefresh
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        adapter =  new PostApapter(getActivity(),postList,pactivity.key,pactivity.Pagename,pactivity.logo_url,pactivity.fragmentManager,pactivity.fragment,pactivity.layout_MainMenu,pactivity.pd,pactivity.reactions_popup,pactivity.layout,pactivity.multipopup,pactivity.layout1);
+        adapter = new PostApapter(getActivity(), postList, pactivity.key, PostActivity.Pagename, pactivity.logo_url, pactivity.fragmentManager, pactivity.fragment, pactivity.layout_MainMenu, pactivity.pd, pactivity.reactions_popup, pactivity.layout, pactivity.multipopup, pactivity.layout1);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

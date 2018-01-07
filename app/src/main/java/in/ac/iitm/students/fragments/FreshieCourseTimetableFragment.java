@@ -1,20 +1,14 @@
 package in.ac.iitm.students.fragments;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
@@ -34,9 +25,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.EditCourseDialogActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
-import in.ac.iitm.students.adapters.CourseAdapter;
 import in.ac.iitm.students.adapters.FreshieCourseAdapter;
 import in.ac.iitm.students.objects.Bunks;
 import in.ac.iitm.students.objects.Course;
@@ -510,7 +499,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                     slots[0][1] = 'P';
                     ids[0][1] = R.id.mex1;
                     tvs[0][1].setText("");
-                    if(tvs[0][1]!=(TextView)view.findViewById(ids[0][1]))tvs[0][1].setAlpha(0.0f);
+                    if (tvs[0][1] != view.findViewById(ids[0][1])) tvs[0][1].setAlpha(0.0f);
                     tvs[0][1] = (TextView)view.findViewById(ids[0][1]);
                     tvs[0][1].setVisibility(View.VISIBLE);
                     if(!bunk[0][1])
@@ -522,7 +511,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[0][6] = 'P';
                     ids[0][6] = R.id.mex2;
-                    if(tvs[0][6]!=(TextView)view.findViewById(ids[0][6]))tvs[0][6].setAlpha(0.0f);
+                    if (tvs[0][6] != view.findViewById(ids[0][6])) tvs[0][6].setAlpha(0.0f);
                     tvs[0][6] = (TextView)view.findViewById(ids[0][6]);
                     tvs[0][6].setVisibility(View.VISIBLE);
                     if(!bunk[0][6])
@@ -537,7 +526,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==0){
                     slots[1][1] = 'Q';
                     ids[1][1] = R.id.tex1;
-                    if(tvs[1][1]!=(TextView)view.findViewById(ids[1][1]))tvs[1][1].setAlpha(0.0f);
+                    if (tvs[1][1] != view.findViewById(ids[1][1])) tvs[1][1].setAlpha(0.0f);
                     tvs[1][1] = (TextView)view.findViewById(ids[1][1]);
                     tvs[1][1].setVisibility(View.VISIBLE);
                     if(!bunk[1][1])
@@ -548,7 +537,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[1][6] = 'Q';
                     ids[1][6] = R.id.mex2;
-                    if(tvs[1][6]!=(TextView)view.findViewById(ids[1][6]))tvs[1][6].setAlpha(0.0f);
+                    if (tvs[1][6] != view.findViewById(ids[1][6])) tvs[1][6].setAlpha(0.0f);
                     tvs[1][6] = (TextView)view.findViewById(ids[1][6]);
                     tvs[1][6].setVisibility(View.VISIBLE);
                     if(!bunk[1][6])
@@ -561,7 +550,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==0){
                     slots[2][1] = 'R';
                     ids[2][1] = R.id.wex1;
-                    if(tvs[2][1]!=(TextView)view.findViewById(ids[2][1]))tvs[2][1].setAlpha(0.0f);
+                    if (tvs[2][1] != view.findViewById(ids[2][1])) tvs[2][1].setAlpha(0.0f);
                     tvs[2][1] = (TextView)view.findViewById(ids[0][1]);
                     tvs[2][1].setVisibility(View.VISIBLE);
                     if(!bunk[2][1])
@@ -572,7 +561,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[2][6] = 'R';
                     ids[2][6] = R.id.wex2;
-                    if(tvs[2][6]!=(TextView)view.findViewById(ids[2][6]))tvs[2][6].setAlpha(0.0f);
+                    if (tvs[2][6] != view.findViewById(ids[2][6])) tvs[2][6].setAlpha(0.0f);
                     tvs[2][6] = (TextView)view.findViewById(ids[2][6]);
                     tvs[2][6].setVisibility(View.VISIBLE);
                     if(!bunk[2][6])
@@ -585,7 +574,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==0){
                     slots[3][1] = 'S';
                     ids[3][1] = R.id.hex1;
-                    if(tvs[3][1]!=(TextView)view.findViewById(ids[3][1]))tvs[3][1].setAlpha(0.0f);
+                    if (tvs[3][1] != view.findViewById(ids[3][1])) tvs[3][1].setAlpha(0.0f);
                     tvs[3][1] = (TextView)view.findViewById(ids[3][1]);
                     tvs[3][1].setVisibility(View.VISIBLE);
                     if(!bunk[3][1])
@@ -596,7 +585,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[3][6] = 'S';
                     ids[3][6] = R.id.hex2;
-                    if(tvs[3][6]!=(TextView)view.findViewById(ids[3][6]))tvs[3][6].setAlpha(0.0f);
+                    if (tvs[3][6] != view.findViewById(ids[3][6])) tvs[3][6].setAlpha(0.0f);
                     tvs[3][6] = (TextView)view.findViewById(ids[3][6]);
                     tvs[3][6].setVisibility(View.VISIBLE);
                     if(!bunk[3][6])
@@ -610,7 +599,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==0){
                     slots[4][1] = 'T';
                     ids[4][1] = R.id.fex1;
-                    if(tvs[4][1]!=(TextView)view.findViewById(ids[4][1]))tvs[4][1].setAlpha(0.0f);
+                    if (tvs[4][1] != view.findViewById(ids[4][1])) tvs[4][1].setAlpha(0.0f);
                     tvs[4][1] = (TextView)view.findViewById(ids[4][1]);
                     tvs[4][1].setVisibility(View.VISIBLE);
                     if(!bunk[4][1])
@@ -621,7 +610,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[4][6] = 'T';
                     ids[4][6] = R.id.fex2;
-                    if(tvs[4][6]!=(TextView)view.findViewById(ids[4][6]))tvs[4][6].setAlpha(0.0f);
+                    if (tvs[4][6] != view.findViewById(ids[4][6])) tvs[4][6].setAlpha(0.0f);
                     tvs[4][6] = (TextView)view.findViewById(ids[4][6]);
                     tvs[4][6].setVisibility(View.VISIBLE);
                     if(!bunk[4][6])
@@ -911,106 +900,57 @@ public class FreshieCourseTimetableFragment extends Fragment {
         c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[0]=true;
-                    //course.setDays(course.getDays()*2);
-                }
-                else
-                {
-                    check[0]=false;
-                    //course.setDays(course.getDays()/2);
-                }
+                //course.setDays(course.getDays()*2);
+//course.setDays(course.getDays()/2);
+                check[0] = isChecked;
             }
         });
         c2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[1]=true;
-                    //course.setDays(course.getDays()*3);
-                }
-                else
-                {
-                    check[1]=false;
-                    //course.setDays(course.getDays()/3);
-                }
+                //course.setDays(course.getDays()*3);
+//course.setDays(course.getDays()/3);
+                check[1] = isChecked;
             }
         });
         c3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[2]=true;
-                    //course.setDays(course.getDays()*5);
-                }
-                else
-                {
-                    check[2]=false;
-                    //course.setDays(course.getDays()/5);
-                }
+                //course.setDays(course.getDays()*5);
+//course.setDays(course.getDays()/5);
+                check[2] = isChecked;
             }
         });
         c4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[3]=true;
-                    //course.setDays(course.getDays()*7);
-                }
-                else
-                {
-                    check[3]=false;
-                    //course.setDays(course.getDays()/7);
-                }
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[3] = isChecked;
             }
         });
         c5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[4]=true;
-                    //course.setDays(course.getDays()*7);
-                }
-                else
-                {
-                    check[4]=false;
-                    //course.setDays(course.getDays()/7);
-                }
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[4] = isChecked;
             }
         });
         c6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[5]=true;
-                    //course.setDays(course.getDays()*7);
-                }
-                else
-                {
-                    check[5]=false;
-                    //course.setDays(course.getDays()/7);
-                }
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[5] = isChecked;
             }
         });
         c7.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[6]=true;
-                    //course.setDays(course.getDays()*7);
-                }
-                else
-                {
-                    check[6]=false;
-                    //course.setDays(course.getDays()/7);
-                }
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[6] = isChecked;
             }
         });
         add.setOnClickListener(new View.OnClickListener() {

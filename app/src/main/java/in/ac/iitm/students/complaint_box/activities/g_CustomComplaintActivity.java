@@ -19,9 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +33,6 @@ import java.util.UUID;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
-import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -167,6 +163,7 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
                             params.put("UPVOTES", "0");
                             params.put("DOWNVOTES", "0");
                             params.put("UUID", mUUID);
+                            params.put("DATE", date);
                             params.put("TAGS", tags);
                             params.put("DATETIME", date);
                             params.put("COMMENTS", "0");

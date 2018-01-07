@@ -1,12 +1,9 @@
 package in.ac.iitm.students.adapters;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.icu.util.IndianCalendar;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
@@ -17,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,8 +23,6 @@ import java.util.TimeZone;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.objects.Calendar_Event;
-
-import static in.ac.iitm.students.R.id.visible;
 
 /**
  * Created by Sarath on 8/6/17.

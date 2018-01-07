@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -150,6 +149,7 @@ public class InstiCalendar {
         Log.d("kaka", "3");
         // TODO @Sameer, holigaga1:pre-alpha not being called
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+
             Toast.makeText(context,"Please enable the calendar read permission to view",Toast.LENGTH_SHORT).show();
         }
         //Log.d("kaka", "holigaga1:pre-alpha");
@@ -225,90 +225,6 @@ public class InstiCalendar {
         }
         reader.endArray();
         return eventList;
-    }
-
-    public void sendJsonRequest(final Context context) {
-
-        String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d("kaka", response);
-                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-
-                JsonReader reader = null;
-                try {
-                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-                    reader.setLenient(true);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    try {
-                        readMonthObject(reader, context);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } finally {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VolleyError", error.toString());
-                //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
-            }
-        });
-        MySingleton.getInstance(context).addToRequestQueue(stringRequest);
-
-    }
-
-    public void getAllEvents (final Activity activity)
-    {
-        String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                //Log.d("kaka", response);
-                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-                reader = null;
-                try {
-                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-                    reader.setLenient(true);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                sync_calendar(readMonthObject(reader, activity.getApplicationContext()), activity);
-                                reader.close();
-                            }
-                            catch (IOException e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VolleyError", error.toString());
-                //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
-            }
-        });
-        MySingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     private static void insertEvents(Calendar_Event event, Context context, long calID) {
@@ -420,6 +336,103 @@ public class InstiCalendar {
 
     }
 
+    public static void deleteCalendarTest(Context context, String CalID) {
+        Uri.Builder builder = CalendarContract.Calendars.CONTENT_URI.buildUpon();
+        builder.appendPath(CalID)
+                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, "students.iitm")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
+
+        Uri uri = builder.build();
+
+        context.getContentResolver().delete(uri, null, null);
+        Utils.saveprefInt("CalStat", 0, context);
+        Utils.saveprefString("Cal_Ver", "deleted", context);
+        InstiCalendar.CalID = -1;
+        //Toast.makeText(context, "IITM Calendar removed", Toast.LENGTH_SHORT).show();
+    }
+
+    public void sendJsonRequest(final Context context) {
+
+        String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("kaka", response);
+                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+
+                JsonReader reader = null;
+                try {
+                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                    reader.setLenient(true);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    try {
+                        readMonthObject(reader, context);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } finally {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VolleyError", error.toString());
+                //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
+            }
+        });
+        MySingleton.getInstance(context).addToRequestQueue(stringRequest);
+
+    }
+
+    public void getAllEvents(final Activity activity) {
+        String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //Log.d("kaka", response);
+                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                reader = null;
+                try {
+                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                    reader.setLenient(true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                sync_calendar(readMonthObject(reader, activity.getApplicationContext()), activity);
+                                reader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VolleyError", error.toString());
+                //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
+            }
+        });
+        MySingleton.getInstance(context).addToRequestQueue(stringRequest);
+    }
+
     public long insertCalendar(Context context) {
         String acc = "students.iitm";
         String disp = "IITM Calendar";
@@ -444,7 +457,7 @@ public class InstiCalendar {
                 .build();
         Uri result = context.getContentResolver().insert(calUri, cv);
         Log.i("Result", result.toString());
-        Toast.makeText(context,"IITM Calendar integrated",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"IITM Calendar integrated",Toast.LENGTH_SHORT).show();
         Utils.saveprefBool(UtilStrings.CAL_ADDED,true,context);
         return getCalendarId(context);
     }
@@ -500,7 +513,7 @@ public class InstiCalendar {
             /************************************************************************************/
 
 
-            Toast.makeText(context, "Updating Calendar", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Updating Calendar", Toast.LENGTH_SHORT).show();
             deleteallevents();
             sendJsonRequest(context);
             Utils.saveprefString("Cal_Ver", getVersion(), context);
@@ -508,22 +521,6 @@ public class InstiCalendar {
             mode=1;
             sendJsonRequest(context);
         }
-    }
-
-    public static void deleteCalendarTest(Context context,String CalID) {
-        Uri.Builder builder = CalendarContract.Calendars.CONTENT_URI.buildUpon();
-        builder.appendPath(CalID)
-                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
-                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, "students.iitm")
-                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
-
-        Uri uri = builder.build();
-
-        context.getContentResolver().delete(uri,null,null);
-        Utils.saveprefInt("CalStat",0,context);
-        Utils.saveprefString("Cal_Ver","deleted", context);
-        InstiCalendar.CalID=-1;
-        Toast.makeText(context, "IITM Calendar removed", Toast.LENGTH_SHORT).show();
     }
 
     public String getVersion() {

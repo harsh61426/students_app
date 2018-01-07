@@ -92,7 +92,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import in.ac.iitm.students.Manifest;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.LoginActivity;
@@ -105,7 +104,6 @@ import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
-import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -118,8 +116,6 @@ import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
-    static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 99;
-    static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 23;
     private static int optionalUpdateDialogCount = 0;
     public PopupWindow multipopup;
     public CardView containerLayout;
@@ -340,26 +336,6 @@ public class HomeActivity extends AppCompatActivity
                 .into(imageView);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    new InstiCalendar(this).getAllEvents(this);
-                } else {
-                    Toast.makeText(this,"Unable to sync calendar: Permission denied",Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-        return;
-    }
 
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
@@ -805,9 +781,6 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_calendar) {
             intent = new Intent(context, CalendarActivity.class);
             flag = true;
-        }
-        else if(id==R.id.nav_sync_calendar) {
-            sync_calendar();
         } else if (id == R.id.nav_timetable) {
             intent = new Intent(context, TimetableActivity.class);
             flag = true;
@@ -865,25 +838,6 @@ public class HomeActivity extends AppCompatActivity
         }
         return true;
 
-    }
-
-    private void sync_calendar()
-    {
-        //new Thread
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(checkSelfPermission(android.Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)
-            {
-                new InstiCalendar(this).getAllEvents(this);
-            }
-            else
-            {
-                requestPermissions(new String[]{android.Manifest.permission.WRITE_CALENDAR},MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-            }
-        }
-        else
-        {
-            new InstiCalendar(this).getAllEvents(this);
-        }
     }
 
     public interface ItemTouchHelperAdapter {
