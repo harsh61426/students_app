@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.HomeActivity;
 import in.ac.iitm.students.objects.News;
 import in.ac.iitm.students.organisations.adapters.OrgPagerAdapter;
 import in.ac.iitm.students.organisations.fragments.Fbfragment;
@@ -70,6 +69,8 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
     public static Boolean isT5e;
     public static Boolean isLitsoc;
     public static Boolean isTechsoc;
+    public static String Pagename;
+    public static String Pagedes;
     static ViewPager viewPager;
     final Gson gson = new Gson();
     public  AccessToken key;
@@ -78,7 +79,6 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
     public CardView  containerLayout;
     public RelativeLayout containerLayout2;
     public String logo_url;
-    public static String Pagename;
     public android.support.v4.app.FragmentManager fragmentManager;
     public VideoFragment fragment;
     public View layout1,layout;
@@ -88,7 +88,6 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
     String pageid;
     String appid ;
     String reaction_url;
-    public static String Pagedes;
     String url_main = "https://graph.facebook.com/v2.10/";
     private SwipeRefreshLayout swipeRefreshLayout;
 

@@ -1,20 +1,14 @@
 package in.ac.iitm.students.fragments;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
@@ -33,7 +25,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.EditCourseDialogActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.adapters.CourseAdapter;
 import in.ac.iitm.students.objects.Bunks;
@@ -910,61 +901,33 @@ public class CourseTimetableFragment extends Fragment {
         c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[0]=true;
-                    //course.setDays(course.getDays()*2);
-                }
-                else
-                {
-                    check[0]=false;
-                    //course.setDays(course.getDays()/2);
-                }
+                //course.setDays(course.getDays()*2);
+//course.setDays(course.getDays()/2);
+                check[0] = isChecked;
             }
         });
         c2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[1]=true;
-                    //course.setDays(course.getDays()*3);
-                }
-                else
-                {
-                    check[1]=false;
-                    //course.setDays(course.getDays()/3);
-                }
+                //course.setDays(course.getDays()*3);
+//course.setDays(course.getDays()/3);
+                check[1] = isChecked;
             }
         });
         c3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[2]=true;
-                    //course.setDays(course.getDays()*5);
-                }
-                else
-                {
-                    check[2]=false;
-                    //course.setDays(course.getDays()/5);
-                }
+                //course.setDays(course.getDays()*5);
+//course.setDays(course.getDays()/5);
+                check[2] = isChecked;
             }
         });
         c4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    check[3]=true;
-                    //course.setDays(course.getDays()*7);
-                }
-                else
-                {
-                    check[3]=false;
-                    //course.setDays(course.getDays()/7);
-                }
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[3] = isChecked;
             }
         });
         add.setOnClickListener(new View.OnClickListener() {

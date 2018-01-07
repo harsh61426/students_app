@@ -129,8 +129,12 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MessAndFacilitiesActivity.this, HomeActivity.class);
-        startActivity(intent);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            Intent intent = new Intent(MessAndFacilitiesActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

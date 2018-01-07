@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
    <!-- <item android:title="Upload Image from Gallery"
 
@@ -17,10 +16,11 @@
 
         android:title="Set Image" />-->
 
-    <item android:title="Remove Image"
+    <item
+        android:id="@+id/profile_remove_image_item"
 
-        android:visible="true"
-        android:id="@+id/profile_remove_image_item"/>
+        android:title="Remove Image"
+        android:visible="true" />
 
 
 

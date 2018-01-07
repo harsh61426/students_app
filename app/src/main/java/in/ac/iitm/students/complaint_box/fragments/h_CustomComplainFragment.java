@@ -1,16 +1,12 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +18,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -239,6 +232,7 @@ public class h_CustomComplainFragment extends Fragment {
         });
 
 
+        /*
         FloatingActionButton addPhoto = (FloatingActionButton) view.findViewById(R.id.fab_addImage);
         addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,6 +275,7 @@ public class h_CustomComplainFragment extends Fragment {
 
             }
         });
+        */
         return view;
     }
 

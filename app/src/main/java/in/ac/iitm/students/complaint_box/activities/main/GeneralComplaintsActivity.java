@@ -2,11 +2,12 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,7 +28,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -84,6 +84,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<UUID> uuidArrayList = new ArrayList<>();
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(0);
         actionBar.setTitle(R.string.title_activity_complaint_general);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
         //toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
        searchViewCode();
@@ -155,7 +157,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
                 SearchQuery(query);
                 return false;
             }
@@ -183,23 +185,26 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Do something when the suggestion list is clicked.
                 String suggestion = searchView.getSuggestionAtPosition(position);
-
                 searchView.setQuery(suggestion, false);
             }
         });
+    }
 
+    private void makeSnackbar(String msg) {
 
-
-
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     private void SearchQuery(String s){
         final String query =s;
         //to get suggestions
 
+        /*
         Uri.Builder builder = new Uri.Builder();
 
-       /* builder.scheme("https")//https://rockstarharshitha.000webhostapp.com/general_complaints/Search.php
+        builder.scheme("https")//https://rockstarharshitha.000webhostapp.com/general_complaints/Search.php
                 .authority("students.iitm.ac.in")
                 .appendPath("studentsapp")
                 .appendPath("studentlist")
@@ -222,7 +227,8 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                     JSONObject jsonObject=new JSONObject(response);
 
                     if (jsonObject.has("error")) {
-                         Log.d("data error",jsonObject.getString("error"));
+                        makeSnackbar("Error Searching");
+                        Log.d("data error", jsonObject.getString("error"));
                     } else if (jsonObject.has("status")) {
                         String status = jsonObject.getString("status");
 
@@ -276,7 +282,8 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
 
                         } else {
-                            Toast.makeText(GeneralComplaintsActivity.this, jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                            makeSnackbar("Error Searching");
+                            //Toast.makeText(GeneralComplaintsActivity.this, jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
                         }
                     }
                     /*
@@ -287,6 +294,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                     }*/
 
                 } catch (JSONException e) {
+                    makeSnackbar("Error Searching");
                     e.printStackTrace();
                 }
 
@@ -295,7 +303,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                makeSnackbar("Error Searching");
             }
         }){
             @Override

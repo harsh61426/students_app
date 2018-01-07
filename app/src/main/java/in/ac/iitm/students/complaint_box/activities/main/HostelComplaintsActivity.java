@@ -2,7 +2,6 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -67,6 +66,10 @@ import in.ac.iitm.students.others.Utils;
 
 public class HostelComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
+    public String mGeneralString;
+    MaterialSearchView searchView;
+    String[] suggestions;
+    HostelComplaintsActivity.ViewPagerAdapter adapter;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -75,10 +78,6 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Menu menu;
-    MaterialSearchView searchView;
-    String[] suggestions;
-    public String mGeneralString;
-    HostelComplaintsActivity.ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

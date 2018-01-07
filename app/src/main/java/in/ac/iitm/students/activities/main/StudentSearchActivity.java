@@ -8,13 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +45,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,8 +56,6 @@ import in.ac.iitm.students.adapters.StudentSearchAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
-import in.ac.iitm.students.fragments.NameSearchFragment;
-import in.ac.iitm.students.fragments.RollSearchFragment;
 import in.ac.iitm.students.objects.Student;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
@@ -75,10 +67,6 @@ public class StudentSearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
-    private DrawerLayout drawer;
-    private Menu menu;
-    private NavigationView navigationView;
-
     ListView lvSuggestion;
     StudentSearchAdapter adapter;
     ArrayList<Student> listSuggestion = new ArrayList<>(25);
@@ -95,6 +83,9 @@ public class StudentSearchActivity extends AppCompatActivity
     TextView phoneno_;
     TextView abtyourself_;
     ScrollView sc_;
+    private DrawerLayout drawer;
+    private Menu menu;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

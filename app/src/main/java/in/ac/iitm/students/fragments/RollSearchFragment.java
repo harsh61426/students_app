@@ -2,7 +2,6 @@ package in.ac.iitm.students.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +37,6 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.StudentDetailsActivity;
 import in.ac.iitm.students.others.MySingleton;
 
 import static com.facebook.FacebookSdk.getApplicationContext;

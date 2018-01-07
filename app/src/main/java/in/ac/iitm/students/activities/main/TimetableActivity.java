@@ -21,17 +21,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.util.Util;
 import com.squareup.picasso.Picasso;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
-import in.ac.iitm.students.adapters.GradTimetablePagerAdapter;
 import in.ac.iitm.students.adapters.FreshieTimetablePagerAdapter;
+import in.ac.iitm.students.adapters.GradTimetablePagerAdapter;
 import in.ac.iitm.students.adapters.TimetablePagerAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
