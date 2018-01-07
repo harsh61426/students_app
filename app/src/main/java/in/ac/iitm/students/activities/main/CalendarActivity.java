@@ -152,9 +152,9 @@ public class CalendarActivity extends AppCompatActivity
                         MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
                         adapter.setCal_events(cal_events);
                         // Set the adapter onto the view pager
-                        progressDialog.dismiss();
                         viewPager.setAdapter(adapter);
                         viewPager.setCurrentItem(currentlyDisplayedMonth);
+                        progressDialog.dismiss();
 
                     } catch (IOException e) {
                         e.printStackTrace();

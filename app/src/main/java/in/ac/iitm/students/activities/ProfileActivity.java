@@ -1,5 +1,6 @@
 package in.ac.iitm.students.activities;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +14,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Picasso;
 
 import java.util.regex.Matcher;
@@ -82,12 +85,10 @@ public class ProfileActivity extends AppCompatActivity {
         String email = Utils.getprefString(UtilStrings.MAIL,this);
 
         tv_name.setText(name);
-        tv_roll.setText(roll_no);
+        tv_roll.setText(roll_no.toUpperCase());
         tv_hostel.setText("Hostel: "+hostel.toUpperCase());
         tv_room.setText("Room: "+room);
-        tv_email.setText("Email ID: "+email);
         tv_phone.setText("Contact No: "+mobile);
-
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
@@ -97,6 +98,12 @@ public class ProfileActivity extends AppCompatActivity {
                 .centerInside()
                 .into(profilePicImage);
 
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            tv_email.setText(acct.getEmail());
+        }else {
+            tv_email.setText(email);
+        }
 
         tv_phone.setOnClickListener(new View.OnClickListener() {
             @Override
