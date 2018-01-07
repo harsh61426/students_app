@@ -210,6 +210,4 @@ public class g_LatestThreadFragment extends Fragment implements Updateable,Swipe
             }
         }, 3000);
     }
-
-
 }

@@ -47,6 +47,7 @@ import in.ac.iitm.students.others.Utils;
  */
 
 public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.ViewHolder> {
+    public static int DATA_CHANGED = 0;
     private ArrayList<Complaint> mDataset;
     private int mstatus;
     private Activity activity;
@@ -188,6 +189,9 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         int upvotes = mDataset.get(pos).getUpvotes();
                                         mDataset.get(pos).setUpvotes(upvotes + 1);
                                         notifyItemChanged(pos);
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                            DATA_CHANGED = 1;
+                                        }
 
                                     } else if (status.equals("3")) {
                                         makeSnackbar("Already up-voted");
@@ -198,6 +202,9 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         mDataset.get(pos).setUpvotes(upvotes + 1);
                                         mDataset.get(pos).setDownvotes(downvotes - 1);
                                         notifyItemChanged(pos);
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                            DATA_CHANGED = 1;
+                                        }
 
                                     } else {
                                         makeSnackbar("Error up-voting the complaint");
@@ -277,6 +284,9 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         int downvotes = mDataset.get(pos).getDownvotes();
                                         mDataset.get(pos).setDownvotes(downvotes + 1);
                                         notifyItemChanged(pos);
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                            DATA_CHANGED = 1;
+                                        }
 
                                     } else if (status.equals("2")) {
                                         int upvotes = mDataset.get(pos).getUpvotes();
@@ -284,6 +294,9 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         mDataset.get(pos).setUpvotes(upvotes - 1);
                                         mDataset.get(pos).setDownvotes(downvotes + 1);
                                         notifyItemChanged(pos);
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                            DATA_CHANGED = 1;
+                                        }
 
                                     } else if (status.equals("3")) {
                                         makeSnackbar("Already down-voted");
@@ -354,6 +367,12 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
             bn_comment.setClickable(false);
         }
 
+    }
+
+    public void IncreaseCmnt(int pos) {
+        int num = mDataset.get(pos).getComments();
+        mDataset.get(pos).setComments(num + 1);
+        notifyItemChanged(pos);
     }
 
     private void makeSnackbar(String msg) {

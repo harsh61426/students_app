@@ -58,7 +58,7 @@ import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.g_CustomComplaintActivity;
-import in.ac.iitm.students.complaint_box.fragments.Updateable;
+import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.fragments.g_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.g_MyComplaintFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
@@ -82,7 +82,6 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     private NavigationView navigationView;
     private Menu menu;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<UUID> uuidArrayList = new ArrayList<>();
 
@@ -344,10 +343,20 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
     @Override
     public void onPageSelected(int position) {
-        if (position == 0)
+        if (position == 0) {
+            if (g_ComplaintAdapter.DATA_CHANGED == 1) {
+                adapter.notifyDataSetChanged();
+                g_ComplaintAdapter.DATA_CHANGED = 0;
+            }
             fab.show();
-        else
+        } else {
+            if (g_ComplaintAdapter.DATA_CHANGED == 1) {
+                Log.d("jane", "call in else");
+                adapter.notifyDataSetChanged();
+                g_ComplaintAdapter.DATA_CHANGED = 0;
+            }
             fab.hide();
+        }
     }
 
     @Override
@@ -556,7 +565,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             //updated
             notifyDataSetChanged();
         }
-
+        /*
         @Override
         public int getItemPosition(Object object) {
             if (object instanceof Updateable) {
@@ -564,6 +573,11 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 ((Updateable) object).update(mGeneralString);
             }
             return super.getItemPosition(object);
+        }
+        */
+
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         public void addFragment(Fragment fragment, String title) {
