@@ -28,6 +28,8 @@ public class    UtilStrings {
     public static String ROW = "row";
     public static String COLUMN = "col";
 
+    public static String CAL_ADDED = "cal_added";
+
     //Format: COURSE_NUM+int+SLOT = slot[i] and so on..
 
 }
