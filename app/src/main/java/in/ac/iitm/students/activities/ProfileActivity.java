@@ -1,6 +1,8 @@
 package in.ac.iitm.students.activities;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -33,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
     CircleImageView profilePicImage;
     EditText et_email, et_phone;
     TextView tv_name, tv_roll, tv_hostel, tv_room, tv_phone, tv_email;
-
+    //final InputMethodManager imm = (InputMethodManager) getSystemService(.INPUT_METHOD_SERVICE);
     public static String reverse(String input) {
         char[] in = input.toCharArray();
         int begin = 0;
@@ -104,6 +109,14 @@ public class ProfileActivity extends AppCompatActivity {
                 tv_phone.setVisibility(View.GONE);
                 et_phone.setVisibility(View.VISIBLE);
                 et_phone.requestFocus();
+                String phone = tv_phone.getText().toString();
+                phone=phone.replace("Contact No: ","");
+                et_phone.setText(phone);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                //et_phone.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
+                //et_phone.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
+
             }
         });
 
@@ -113,6 +126,13 @@ public class ProfileActivity extends AppCompatActivity {
                 tv_email.setVisibility(View.GONE);
                 et_email.setVisibility(View.VISIBLE);
                 et_email.requestFocus();
+                String email = tv_email.getText().toString();
+                email=email.replace("Email ID: ","");
+                et_email.setText(email);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                //et_email.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
+                //et_email.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
             }
         });
 
@@ -137,6 +157,8 @@ public class ProfileActivity extends AppCompatActivity {
                         tv_email.setText("Email ID: "+mail);
                         et_email.setVisibility(View.GONE);
                         tv_email.setVisibility(View.VISIBLE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
                         return true;
                     }
                 }
@@ -166,6 +188,8 @@ public class ProfileActivity extends AppCompatActivity {
                         tv_phone.setText("Contact No: "+phone);
                         et_phone.setVisibility(View.GONE);
                         tv_phone.setVisibility(View.VISIBLE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
                         return true;
                     }
                 }
