@@ -975,6 +975,26 @@ public class HomeActivity extends AppCompatActivity
 
         }
 
+        private void openWebPage(String url) {
+            Uri webpage = null;
+            url = url.trim();
+
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                Log.i("LINKXX",url);
+                webpage = Uri.parse("http://" + url);
+            }else {
+                webpage = Uri.parse(url);
+            }
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
@@ -989,9 +1009,10 @@ public class HomeActivity extends AppCompatActivity
             holder.tvDetails.setText(detail);
             holder.tvorg.setText(topic);
 
-            SpannableString content = new SpannableString(link);
+            final SpannableString content = new SpannableString(link);
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
             holder.tv_link.setText(content);
+
 
             if(notifObjectList.get(holder.getAdapterPosition()).date!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
                 holder.tv_date.setText(notifObjectList.get(holder.getAdapterPosition()).date);
@@ -1015,22 +1036,12 @@ public class HomeActivity extends AppCompatActivity
             holder.tv_link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(link!=null && !link.isEmpty()){
-                        Uri uri = null;
-                        if (!link.startsWith("http://") && !link.startsWith("https://")) {
-                                uri = Uri.parse("http://" + url);
-                            }
-
-                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            if (intent.resolveActivity(getPackageManager()) != null) {
-                                startActivity(intent);
-                            }
-                        }
-//                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                        startActivity(intent)
-
+                    if(link!=null && !link.isEmpty() && !(link.compareToIgnoreCase("nada")==0)){
+                        openWebPage(link);
+                    }
                 }
-            });
+            }
+            );
 
             holder.cvhome.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1043,8 +1054,11 @@ public class HomeActivity extends AppCompatActivity
                         holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
 //                        holder.bt_not_going.setVisibility(View.VISIBLE);
 //                        holder.bt_going.setVisibility(View.VISIBLE);
-                        holder.tv_link.setVisibility(View.VISIBLE);
-                        holder.ibt_link.setVisibility(View.VISIBLE);
+                        if(link!=null && !link.isEmpty() && !(link.compareToIgnoreCase("nada")==0)){
+                            holder.tv_link.setVisibility(View.VISIBLE);
+                            holder.ibt_link.setVisibility(View.VISIBLE);
+                        }
+
 
 //                            lp.addRule(RelativeLayout.BELOW, holder.tvDetails.getId());
 //
@@ -1382,8 +1396,12 @@ public class HomeActivity extends AppCompatActivity
                         holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
 //                        holder.bt_not_going.setVisibility(View.VISIBLE);
 //                        holder.bt_going.setVisibility(View.VISIBLE);
-                        holder.tv_link.setVisibility(View.VISIBLE);
-                        holder.ibt_link.setVisibility(View.VISIBLE);
+                        if(link!=null && !link.isEmpty() && !(link.compareToIgnoreCase("nada")==0)){
+                            holder.tv_link.setVisibility(View.VISIBLE);
+                            holder.ibt_link.setVisibility(View.VISIBLE);
+                        }
+//                        holder.tv_link.setVisibility(View.VISIBLE);
+//                        holder.ibt_link.setVisibility(View.VISIBLE);
 
 //                            lp.addRule(RelativeLayout.BELOW, holder.tvDetails.getId());
 //
