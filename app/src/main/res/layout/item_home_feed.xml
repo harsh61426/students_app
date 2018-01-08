@@ -285,6 +285,7 @@
                 android:layout_toEndOf="@+id/ibt_link"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:clickable="true"
                 android:text="link click"
                 android:textColor="@color/com_facebook_blue"
                 android:textSize="16sp"

@@ -71,12 +71,12 @@ public class LoginActivity extends AppCompatActivity {
         if (getIntent().hasExtra("class")) {
             cls_name = getIntent().getExtras().get("class").toString();
         }
+
         cls = HomeActivity.class;
         try {
             cls = Class.forName(cls_name);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            cls = HomeActivity.class;
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -238,18 +238,19 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        super.onStart();
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
+        super.onStart();
     }
 
     public void updateUI(GoogleSignInAccount account){
         if(account!=null){
             if(account.getEmail().contains("smail.iitm.ac.in")){
                 isSignedIn = true;
-                progress.dismiss();
+                if(progress!=null)
+                    progress.dismiss();
                 Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
                 intent.putExtra("sigin",account.getEmail().split("@")[0]);
                 startActivity(intent);
