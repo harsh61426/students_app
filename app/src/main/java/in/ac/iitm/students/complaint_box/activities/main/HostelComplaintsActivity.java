@@ -81,60 +81,65 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.h_activity_hostel_complaints);
+        String hostel = Utils.getprefString(UtilStrings.HOSTEl, this);
+        if (hostel == null) {
+            Toast.makeText(getApplicationContext(), "unable to obtain required details from server", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.h_activity_hostel_complaints);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setElevation(0);
-        actionBar.setTitle(R.string.title_activity_complaint_hostel);
-        searchViewCode();
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setElevation(0);
+            actionBar.setTitle(R.string.title_activity_complaint_hostel);
+            searchViewCode();
 
-        String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
-        String name = Utils.getprefString(UtilStrings.NAME, this);
-
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout_hostel_complaints);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        menu = navigationView.getMenu();
-        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_box)).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View header = navigationView.getHeaderView(0);
-
-        TextView username = (TextView) header.findViewById(R.id.tv_username);
-        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
-
-        username.setText(name);
-        rollNumber.setText(roll_no);
-        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
-        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
-        Picasso.with(this)
-                .load(urlPic)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .fit()
-                .centerCrop()
-                .into(imageView);
+            String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
+            String name = Utils.getprefString(UtilStrings.NAME, this);
 
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+            drawer = (DrawerLayout) findViewById(R.id.drawer_layout_hostel_complaints);
+            toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            menu = navigationView.getMenu();
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_complaint_box)).setChecked(true);
+            navigationView.setNavigationItemSelectedListener(this);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
-        fab.setOnClickListener(this);
+            View header = navigationView.getHeaderView(0);
+
+            TextView username = (TextView) header.findViewById(R.id.tv_username);
+            TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+
+            username.setText(name);
+            rollNumber.setText(roll_no);
+            ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
+            String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
+            Picasso.with(this)
+                    .load(urlPic)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
+                    .fit()
+                    .centerCrop()
+                    .into(imageView);
+
+
+            viewPager = (ViewPager) findViewById(R.id.viewpager);
+            setupViewPager(viewPager);
+
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(viewPager);
+
+            fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setVisibility(View.GONE);
+            fab.setOnClickListener(this);
+        }
     }
 
     private void searchViewCode(){
