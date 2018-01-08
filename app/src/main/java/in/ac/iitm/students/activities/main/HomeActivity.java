@@ -665,7 +665,9 @@ public class HomeActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+
     }
+
 
     private void updatePreferences() {
         final ArrayList<HashMap<String, String>> database_topics = new ArrayList<>();
