@@ -63,6 +63,7 @@ public class g_Comments extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private InputStream stream;
     private Complaint hComplaint;
+    private TextView comment;
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -104,7 +105,7 @@ public class g_Comments extends AppCompatActivity {
         TextView date = (TextView) findViewById(R.id.comment_date);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
         final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
-        TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
+        comment = (TextView) findViewById(R.id.comment_tv_comment);
         final EditText CmntDesc = (EditText) findViewById(R.id.editText);
         Button save = (Button) findViewById(R.id.bn_save);
         ImageView iv_pro = (ImageView) findViewById(R.id.imgProfilePicture);
@@ -233,6 +234,9 @@ public class g_Comments extends AppCompatActivity {
                                                 cmtObj.setCommentStr(cmntDescStr);
                                                 cmtObj.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                                                 mAdapter.addComment(cmtObj);
+
+                                                int cmnts = hComplaint.getComments() + 1;
+                                                comment.setText(cmnts + "");
                                             } else {
                                                 makeSnackbar("Error commenting");
                                                 hideKeyboard(g_Comments.this);

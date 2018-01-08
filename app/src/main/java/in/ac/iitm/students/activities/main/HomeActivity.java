@@ -1,10 +1,7 @@
 package in.ac.iitm.students.activities.main;
 
 import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -14,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -42,7 +38,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -67,10 +62,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
@@ -90,11 +81,9 @@ import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
-import in.ac.iitm.students.activities.LoginActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
@@ -110,7 +99,6 @@ import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity
@@ -1018,14 +1006,14 @@ public class HomeActivity extends AppCompatActivity
                     if(link!=null && !link.isEmpty()){
                         Uri uri = null;
                         if (!link.startsWith("http://") && !link.startsWith("https://")) {
-                                uri = Uri.parse("http://" + url);
-                            }
-
-                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            if (intent.resolveActivity(getPackageManager()) != null) {
-                                startActivity(intent);
-                            }
+                            uri = Uri.parse("http://" + url);
                         }
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    }
 //                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 //                        startActivity(intent)
 
@@ -1067,279 +1055,277 @@ public class HomeActivity extends AppCompatActivity
                         if(image_urls!=null){
                             if(image_urls.size()!=0) {
 
-                            if(image_urls.size()==1){
-                                Glide.with(context).
-                                        load(image_urls.get(0))
-                                        .placeholder(R.color.Imageback)
-                                        .crossFade(500)
-                                        .into(holder.iv_content);
-
-                            }
-
-
-                            if(image_urls!=null && image_urls.size() >= 2){
-
-                                holder.iv_content.setVisibility(View.INVISIBLE);
-                                holder.iv_content.getLayoutParams().height = 0;
-                                holder.iv_content.getLayoutParams().width = 0;
-
-                                if(image_urls.size()>=3){
-
+                                if (image_urls.size() == 1) {
                                     Glide.with(context).
                                             load(image_urls.get(0))
                                             .placeholder(R.color.Imageback)
                                             .crossFade(500)
-                                            .centerCrop()
-                                            .into(holder.iv_imag11);
-                                    Glide.with(context).
-                                            load(image_urls.get(1))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .into(holder.iv_image12);
-
-                                    Glide.with(context).
-                                            load(image_urls.get(2))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .into(holder.iv_image13);
-
-                                    holder.rv_gridimages.setVisibility(View.VISIBLE);
+                                            .into(holder.iv_content);
 
                                 }
 
-                                if(image_urls.size()==2) {
 
-                                    Glide.with(context).
-                                            load(image_urls.get(0))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .centerCrop()
-                                            .into(holder.iv_image21);
-                                    Glide.with(context).
-                                            load(image_urls.get(1))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .centerCrop()
-                                            .into(holder.iv_image22);
+                                if (image_urls != null && image_urls.size() >= 2) {
 
-                                    holder.rv_gridimages2.setVisibility(View.VISIBLE);
+                                    holder.iv_content.setVisibility(View.INVISIBLE);
+                                    holder.iv_content.getLayoutParams().height = 0;
+                                    holder.iv_content.getLayoutParams().width = 0;
 
-
-                                }
-
-                                if(image_urls.size()==3){
-                                    holder.tv_nofimages.setVisibility(View.INVISIBLE);
-
-                                }
-                                else if(image_urls.size()==2){
-                                    holder.tv_nofimages.setVisibility(View.INVISIBLE);
-                                    holder.iv_image12.getLayoutParams().height = 280;
-
-                                }
-                                else if(image_urls.size() > 3) {
-
-                                    holder.tv_nofimages.setText(String.valueOf(image_urls.size() - 3) + "+");
-                                }
-
-                            }
-
-                            holder.rv_gridimages2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(final View v) {
-                                    try{
-
-                                        final int[] p = {0};
-                                        multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
-
-                                        final ImageView iv_popupimage;
-                                        ImageButton ibt_close,ibt_fwd,ibt_back;
-
-                                        iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
-
-                                        ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
-                                        ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
-                                        ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
+                                    if (image_urls.size() >= 3) {
 
                                         Glide.with(context).
-                                                load(image_urls.get(p[0]))
+                                                load(image_urls.get(0))
                                                 .placeholder(R.color.Imageback)
                                                 .crossFade(500)
-                                                .into(iv_popupimage);
+                                                .centerCrop()
+                                                .into(holder.iv_imag11);
+                                        Glide.with(context).
+                                                load(image_urls.get(1))
+                                                .placeholder(R.color.Imageback)
+                                                .crossFade(500)
+                                                .into(holder.iv_image12);
 
-                                        multipopup.setTouchable(true);
-                                        multipopup.setFocusable(true);
-                                        multipopup.setBackgroundDrawable(new ColorDrawable(
-                                                android.graphics.Color.TRANSPARENT));
-                                        multipopup.setOutsideTouchable(false);
+                                        Glide.with(context).
+                                                load(image_urls.get(2))
+                                                .placeholder(R.color.Imageback)
+                                                .crossFade(500)
+                                                .into(holder.iv_image13);
 
+                                        holder.rv_gridimages.setVisibility(View.VISIBLE);
 
-
-                                        new Handler().postDelayed(new Runnable(){
-                                            public void run() {
-                                                multipopup.showAtLocation(v, Gravity.CENTER,0,0);
-//                                                obj.dim();
-                                            }
-
-                                        }, 200L);
-
-
-                                        ibt_back.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                                if(p[0]==0){
-                                                    Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
-
-                                                }
-                                                if(p[0]!=0){
-                                                    p[0] = p[0]-1;
-                                                    setImage(iv_popupimage,image_urls.get(p[0]));
-                                                }
-
-                                            }
-                                        });
-
-
-                                        ibt_fwd.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                if(p[0]==image_urls.size()-1){
-                                                    Toast.makeText(context, "That's All Buddy!", Toast.LENGTH_SHORT).show();
-
-                                                }
-                                                if(p[0]!=image_urls.size()-1){
-                                                    p[0] = p[0] +1;
-                                                    setImage(iv_popupimage,image_urls.get(p[0]));}
-
-                                            }
-                                        });
-
-                                        ibt_close.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                multipopup.dismiss();
-//                                                obj.normal();
-
-                                            }
-                                        });
-
-                                        multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                                            @Override
-                                            public void onDismiss() {
-//                                                obj.normal();
-                                            }
-                                        });
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
                                     }
 
-
-                                }
-                            });
-
-                            holder.rv_gridimages.setOnClickListener(new View.OnClickListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                                @Override
-                                public void onClick(final View v) {
-
-                                    try{
-
-                                        final int[] p = {0};
-                                        multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
-
-                                        final ImageView iv_popupimage;
-                                        ImageButton ibt_close,ibt_fwd,ibt_back;
-
-                                        iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
-
-                                        ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
-                                        ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
-                                        ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
+                                    if (image_urls.size() == 2) {
 
                                         Glide.with(context).
-                                                load(image_urls.get(p[0]))
+                                                load(image_urls.get(0))
                                                 .placeholder(R.color.Imageback)
                                                 .crossFade(500)
-                                                .into(iv_popupimage);
+                                                .centerCrop()
+                                                .into(holder.iv_image21);
+                                        Glide.with(context).
+                                                load(image_urls.get(1))
+                                                .placeholder(R.color.Imageback)
+                                                .crossFade(500)
+                                                .centerCrop()
+                                                .into(holder.iv_image22);
 
-                                        multipopup.setTouchable(true);
-                                        multipopup.setFocusable(true);
-                                        multipopup.setElevation(32);
-                                        multipopup.setBackgroundDrawable(new ColorDrawable(
-                                                android.graphics.Color.TRANSPARENT));
-                                        multipopup.setOutsideTouchable(false);
+                                        holder.rv_gridimages2.setVisibility(View.VISIBLE);
 
-                                        new Handler().postDelayed(new Runnable(){
-                                            public void run() {
-                                                multipopup.showAtLocation(v,Gravity.CENTER,0,0);
+
+                                    }
+
+                                    if (image_urls.size() == 3) {
+                                        holder.tv_nofimages.setVisibility(View.INVISIBLE);
+
+                                    } else if (image_urls.size() == 2) {
+                                        holder.tv_nofimages.setVisibility(View.INVISIBLE);
+                                        holder.iv_image12.getLayoutParams().height = 280;
+
+                                    } else if (image_urls.size() > 3) {
+
+                                        holder.tv_nofimages.setText(String.valueOf(image_urls.size() - 3) + "+");
+                                    }
+
+                                }
+
+                                holder.rv_gridimages2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(final View v) {
+                                        try {
+
+                                            final int[] p = {0};
+                                            multipopup = new PopupWindow(layout1, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+
+                                            final ImageView iv_popupimage;
+                                            ImageButton ibt_close, ibt_fwd, ibt_back;
+
+                                            iv_popupimage = (ImageView) layout1.findViewById(R.id.iv_popupimage);
+
+                                            ibt_close = (ImageButton) layout1.findViewById(R.id.ibt_close);
+                                            ibt_fwd = (ImageButton) layout1.findViewById(R.id.ibt_forward);
+                                            ibt_back = (ImageButton) layout1.findViewById(R.id.ibt_backward);
+
+                                            Glide.with(context).
+                                                    load(image_urls.get(p[0]))
+                                                    .placeholder(R.color.Imageback)
+                                                    .crossFade(500)
+                                                    .into(iv_popupimage);
+
+                                            multipopup.setTouchable(true);
+                                            multipopup.setFocusable(true);
+                                            multipopup.setBackgroundDrawable(new ColorDrawable(
+                                                    android.graphics.Color.TRANSPARENT));
+                                            multipopup.setOutsideTouchable(false);
+
+
+                                            new Handler().postDelayed(new Runnable() {
+                                                public void run() {
+                                                    multipopup.showAtLocation(v, Gravity.CENTER, 0, 0);
 //                                                obj.dim();
-                                            }
-
-                                        }, 200L);
-
-                                        ibt_back.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                                if(p[0]==0){
-                                                    Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
-
-                                                }
-                                                if(p[0]!=0){
-                                                    p[0] = p[0]-1;
-                                                    setImage(iv_popupimage,image_urls.get(p[0]));
                                                 }
 
-                                            }
-                                        });
+                                            }, 200L);
 
 
-                                        ibt_fwd.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
+                                            ibt_back.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
 
-                                                if(p[0]==image_urls.size()-1 ){
-                                                    Toast.makeText(context, "That's All Buddy", Toast.LENGTH_SHORT).show();
-                                                }
-                                                if(p[0]!=image_urls.size()-1){
-                                                    p[0] = p[0] +1;
-                                                    if(p[0]==image_urls.size()-2){
+                                                    if (p[0] == 0) {
+                                                        Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
 
                                                     }
-                                                    setImage(iv_popupimage,image_urls.get(p[0]));
+                                                    if (p[0] != 0) {
+                                                        p[0] = p[0] - 1;
+                                                        setImage(iv_popupimage, image_urls.get(p[0]));
+                                                    }
+
+                                                }
+                                            });
+
+
+                                            ibt_fwd.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    if (p[0] == image_urls.size() - 1) {
+                                                        Toast.makeText(context, "That's All Buddy!", Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                    if (p[0] != image_urls.size() - 1) {
+                                                        p[0] = p[0] + 1;
+                                                        setImage(iv_popupimage, image_urls.get(p[0]));
+                                                    }
+
+                                                }
+                                            });
+
+                                            ibt_close.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    multipopup.dismiss();
+//                                                obj.normal();
+
+                                                }
+                                            });
+
+                                            multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                                                @Override
+                                                public void onDismiss() {
+//                                                obj.normal();
+                                                }
+                                            });
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                    }
+                                });
+
+                                holder.rv_gridimages.setOnClickListener(new View.OnClickListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                    @Override
+                                    public void onClick(final View v) {
+
+                                        try {
+
+                                            final int[] p = {0};
+                                            multipopup = new PopupWindow(layout1, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+
+                                            final ImageView iv_popupimage;
+                                            ImageButton ibt_close, ibt_fwd, ibt_back;
+
+                                            iv_popupimage = (ImageView) layout1.findViewById(R.id.iv_popupimage);
+
+                                            ibt_fwd = (ImageButton) layout1.findViewById(R.id.ibt_forward);
+                                            ibt_close = (ImageButton) layout1.findViewById(R.id.ibt_close);
+                                            ibt_back = (ImageButton) layout1.findViewById(R.id.ibt_backward);
+
+                                            Glide.with(context).
+                                                    load(image_urls.get(p[0]))
+                                                    .placeholder(R.color.Imageback)
+                                                    .crossFade(500)
+                                                    .into(iv_popupimage);
+
+                                            multipopup.setTouchable(true);
+                                            multipopup.setFocusable(true);
+                                            multipopup.setElevation(32);
+                                            multipopup.setBackgroundDrawable(new ColorDrawable(
+                                                    android.graphics.Color.TRANSPARENT));
+                                            multipopup.setOutsideTouchable(false);
+
+                                            new Handler().postDelayed(new Runnable() {
+                                                public void run() {
+                                                    multipopup.showAtLocation(v, Gravity.CENTER, 0, 0);
+//                                                obj.dim();
                                                 }
 
-                                            }
-                                        });
+                                            }, 200L);
 
-                                        ibt_close.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                multipopup.dismiss();
+                                            ibt_back.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                    if (p[0] == 0) {
+                                                        Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                    if (p[0] != 0) {
+                                                        p[0] = p[0] - 1;
+                                                        setImage(iv_popupimage, image_urls.get(p[0]));
+                                                    }
+
+                                                }
+                                            });
+
+
+                                            ibt_fwd.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                    if (p[0] == image_urls.size() - 1) {
+                                                        Toast.makeText(context, "That's All Buddy", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    if (p[0] != image_urls.size() - 1) {
+                                                        p[0] = p[0] + 1;
+                                                        if (p[0] == image_urls.size() - 2) {
+
+                                                        }
+                                                        setImage(iv_popupimage, image_urls.get(p[0]));
+                                                    }
+
+                                                }
+                                            });
+
+                                            ibt_close.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    multipopup.dismiss();
 //                                                obj.normal();
 
-                                            }
-                                        });
+                                                }
+                                            });
 
-                                        multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                                            @Override
-                                            public void onDismiss() {
+                                            multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                                                @Override
+                                                public void onDismiss() {
 //                                                obj.normal();
-                                            }
-                                        });
+                                                }
+                                            });
 
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
                                     }
-
-
-                                }
-                            });
-                        }
+                                });
+                            }
 
 //                        holder.v_bottom.setLayoutParams(lp);
-                    }
+                        }
 
                     }else {
                         // it's expanded - collapse it
@@ -1733,7 +1719,7 @@ public class HomeActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     int pos = holder.getAdapterPosition();
-                   holder.ibt_fav.setVisibility(View.VISIBLE);
+                    holder.ibt_fav.setVisibility(View.VISIBLE);
                     final SharedPreferences[] sharedprefs = {HomeActivity.this.getSharedPreferences(favPrefs, MODE_PRIVATE)};
                     final SharedPreferences.Editor editor = sharedprefs[0].edit();
                     editor.putString(notifObjectList.get(holder.getAdapterPosition()).title,notifObjectList.get(holder.getAdapterPosition()).title
@@ -1781,13 +1767,13 @@ public class HomeActivity extends AppCompatActivity
         }
 
         private Void  setImage(ImageView image,String url){
-        Glide.with(context).
-                load(url)
-                .placeholder(R.color.Imageback)
-                .fitCenter()
-                .crossFade(500)
-                .into(image);
-        return null;
+            Glide.with(context).
+                    load(url)
+                    .placeholder(R.color.Imageback)
+                    .fitCenter()
+                    .crossFade(500)
+                    .into(image);
+            return null;
         }
 
         @Override
@@ -1806,9 +1792,9 @@ public class HomeActivity extends AppCompatActivity
             return position;
         }
 
-       @Override
+        @Override
         public int getItemCount() {
-           return notifObjectList.size();
+            return notifObjectList.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

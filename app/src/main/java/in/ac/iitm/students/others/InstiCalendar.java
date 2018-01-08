@@ -61,7 +61,6 @@ public class InstiCalendar {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            //Log.d("kaka", "holigaga1: " + name);
             if (name.equals("january")) {
                 ArrayList<Calendar_Event> eventList = readMonthArray(reader, 0, context);
                 cal_events.add(eventList);
@@ -86,7 +85,9 @@ public class InstiCalendar {
                 ArrayList<Calendar_Event> eventList = readMonthArray(reader, 5, context);
                 cal_events.add(eventList);
 
-            } else if (name.equals("july")) {
+            }
+            /*
+            else if (name.equals("july")) {
                 ArrayList<Calendar_Event> eventList = readMonthArray(reader, 6, context);
                 cal_events.add(eventList);
 
@@ -110,7 +111,10 @@ public class InstiCalendar {
                 ArrayList<Calendar_Event> eventList = readMonthArray(reader, 11, context);
                 cal_events.add(eventList);
 
-            } else {
+            }
+            */
+
+            else {
                 reader.skipValue();
             }
 
@@ -139,44 +143,37 @@ public class InstiCalendar {
                 CalendarContract.Events.DTEND //3
         };
 
-        //Log.d("kaka", "2");
         String selectionClause = CalendarContract.Events.DTSTART + ">= ? AND " + CalendarContract.Events.DTEND + "<= ? AND " + CalendarContract.Events.CALENDAR_DISPLAY_NAME + "!= ?";
 
         String[] selectionArgs = new String[]{String.valueOf(begin),String.valueOf(end),"IITM Calendar"};
         Cursor cur = null;
         ContentResolver cr = context.getContentResolver();
 
-        Log.d("kaka", "3");
-        // TODO @Sameer, holigaga1:pre-alpha not being called
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
 
-            Toast.makeText(context,"Please enable the calendar read permission to view",Toast.LENGTH_SHORT).show();
-        }
-        //Log.d("kaka", "holigaga1:pre-alpha");
-        cur = cr.query(CalendarContract.Events.CONTENT_URI, PROJECTION, selectionClause, selectionArgs, null);
+            cur = cr.query(CalendarContract.Events.CONTENT_URI, PROJECTION, selectionClause, selectionArgs, null);
 
-        int j=0;
-        assert cur != null;
-        while (cur.moveToNext()) {
-            if(j==2) break;
-            if(j==0 && cur.getString(0).length()>0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")){
-                event.eventDisplay1 = cur.getString(0);
-                Log.i("InstiCalendar",begin+"-"+end+"  "+cur.getString(2)+"-"+cur.getString(3)+"--"+cur.getString(0));
-                j++;
-            }
-            if(j==1 && cur.getString(0).length()>0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")){
-                event.eventDisplay2 = cur.getString(0);
-                j++;
+            int j = 0;
+            assert cur != null;
+            while (cur.moveToNext()) {
+                if (j == 2) break;
+                if (j == 0 && cur.getString(0).length() > 0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")) {
+                    event.eventDisplay1 = cur.getString(0);
+                    Log.i("InstiCalendar", begin + "-" + end + "  " + cur.getString(2) + "-" + cur.getString(3) + "--" + cur.getString(0));
+                    j++;
+                }
+                if (j == 1 && cur.getString(0).length() > 0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")) {
+                    event.eventDisplay2 = cur.getString(0);
+                    j++;
+                }
             }
         }
 
-        //Log.d("kaka", "holigaga1:alpha");
         reader.beginObject();
         while (reader.hasNext()) {
 
             String name = reader.nextName();
 
-            //Log.d("kaka", "holigaga1 " + name);
             if (name.equals("date")) {
 
                 try{
