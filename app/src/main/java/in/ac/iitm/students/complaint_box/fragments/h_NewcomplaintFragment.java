@@ -226,7 +226,8 @@ public class h_NewcomplaintFragment extends Fragment {
                 final String proximity = prox.getText().toString();
                 mUUID = UUID.randomUUID().toString();
 
-                if (title.equals("") || description.equals("")) makeSnackbar("Empty field");
+                if (title.equals("") || description.equals("") || proximity.equals(""))
+                    makeSnackbar("Empty field");
                 else {
 
 
@@ -329,7 +330,6 @@ public class h_NewcomplaintFragment extends Fragment {
                             Map<String, String> params = new HashMap<>();
 
                             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                            String moreRooms = Utils.getprefString(UtilStrings.ROOM, getActivity()) + ",";
 
                             params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, getActivity()));
                             params.put("NAME", Utils.getprefString(UtilStrings.NAME, getActivity()));
@@ -345,7 +345,6 @@ public class h_NewcomplaintFragment extends Fragment {
                             params.put("TAGS", title);
                             params.put("DATETIME", date);
                             params.put("COMMENTS", "0");
-                            params.put("MORE_ROOMS", moreRooms);
                             params.put("CUSTOM", "0");
 
                             return params;

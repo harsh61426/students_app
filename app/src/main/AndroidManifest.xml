@@ -23,7 +23,6 @@
         vectorDrawables.useSupportLibrary = true
         }
         }
-
         <!-- [START fcm_default_icon] -->
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -210,11 +209,6 @@
         <activity
             android:name=".complaint_box.activities.h_Comments"
             android:label="Comments"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".complaint_box.activities.h_CustomComplaintActivity"
-            android:label="Custom Complaints"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

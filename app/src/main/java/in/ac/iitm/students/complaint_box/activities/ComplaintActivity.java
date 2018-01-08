@@ -51,7 +51,7 @@ public class ComplaintActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mess_and_facilities_activity_complaint);
+        setContentView(R.layout.m_activity_complaint);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);

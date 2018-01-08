@@ -11,15 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -51,6 +47,7 @@ import in.ac.iitm.students.others.Utils;
  */
 
 public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.ViewHolder> {
+    public static int DATA_CHANGED = 0;
     private ArrayList<Complaint> mDataset;
     private Activity activity;
     private Context context;
@@ -105,14 +102,13 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
         final Button bn_comment = (Button) holder.view.findViewById(R.id.bn_comment);
         ImageView iv_profile = (ImageView) holder.view.findViewById(R.id.imgProfilePicture);
         LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_comment);
-        final ImageButton bn_more_rooms = (ImageButton)holder.view.findViewById(R.id.more_rooms);
         if(!latest) bn_resolve = (Button)holder.view.findViewById(R.id.bn_resolve);
 
        final Complaint hComplaint = mDataset.get(position);
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + hComplaint.getRollNo().toUpperCase() + ".JPG";
         Picasso.with(context)
                 .load(urlPic)
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.color.cardview_shadow_end_color)
                 .error(R.mipmap.ic_launcher)
                 .fit()
                 .centerCrop()
@@ -135,9 +131,9 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
             linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.resolved_colour));
 
             bn_upvote.setClickable(false);
-            bn_upvote.setAlpha(0.5f);
+            bn_upvote.setAlpha(0.2f);
             bn_downvote.setClickable(false);
-            bn_downvote.setAlpha(0.5f);
+            bn_downvote.setAlpha(0.2f);
             if (!latest) bn_resolve.setVisibility(View.GONE);
 
         } else {
@@ -152,9 +148,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                         @Override
                         public void onResponse(String response) {
 
-                            Log.d("chlk", "onResponse: " + response);
                             int pos = holder.getAdapterPosition();
-                            Log.d("lollz", response);
                             stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
                             JsonReader reader = null;
                             try {
@@ -176,16 +170,21 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                                             int upvotes = mDataset.get(pos).getUpvotes();
                                             mDataset.get(pos).setUpvotes(upvotes + 1);
                                             notifyItemChanged(pos);
+                                            if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(hComplaint.getRollNo())) {
+                                                DATA_CHANGED = 1;
+                                            }
 
                                         } else if (status.equals("3")) {
                                             makeSnackbar("Already up-voted");
                                         } else if (status.equals("2")) {
-                                            Log.d("lollz", "rev");
                                             int upvotes = mDataset.get(pos).getUpvotes();
                                             int downvotes = mDataset.get(pos).getDownvotes();
                                             mDataset.get(pos).setUpvotes(upvotes + 1);
                                             mDataset.get(pos).setDownvotes(downvotes - 1);
                                             notifyItemChanged(pos);
+                                            if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(hComplaint.getRollNo())) {
+                                                DATA_CHANGED = 1;
+                                            }
 
                                         } else {
                                             makeSnackbar("Error up-voting the complaint");
@@ -223,12 +222,10 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<String, String>();
-                            //get hostel from prefs
-                            //put some dummy for now
-                            params.put("HOSTEL", "narmada");
+                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
                             params.put("UUID", mUUID);
                             params.put("VOTE", "1");
-                            params.put("ROLL_NO", "ae11d001");
+                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, context));
                             return params;
                         }
                     };
@@ -245,9 +242,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.d("chlk", "onResponse: " + response);
                             int pos = holder.getAdapterPosition();
-                            Log.d("lollz", response);
                             stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
                             JsonReader reader = null;
                             try {
@@ -268,6 +263,10 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                                             int downvotes = mDataset.get(pos).getDownvotes();
                                             mDataset.get(pos).setDownvotes(downvotes + 1);
                                             notifyItemChanged(pos);
+                                            if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(hComplaint.getRollNo())) {
+                                                DATA_CHANGED = 1;
+                                                Log.d("lilw", "trudat");
+                                            }
 
                                         } else if (status.equals("2")) {
                                             int upvotes = mDataset.get(pos).getUpvotes();
@@ -275,6 +274,9 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                                             mDataset.get(pos).setUpvotes(upvotes - 1);
                                             mDataset.get(pos).setDownvotes(downvotes + 1);
                                             notifyItemChanged(pos);
+                                            if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(hComplaint.getRollNo())) {
+                                                DATA_CHANGED = 1;
+                                            }
 
                                         } else if (status.equals("3")) {
                                             makeSnackbar("Already down-voted");
@@ -312,12 +314,10 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<String, String>();
-                            //get hostel from prefs
-                            //put some dummy for now
-                            params.put("HOSTEL", "narmada");
+                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
                             params.put("UUID", mUUID);
                             params.put("VOTE", "0");
-                            params.put("ROLL_NO", "ae11d001");
+                            params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, context));
                             return params;
                         }
 
@@ -345,96 +345,69 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
             }
         });
 
-        bn_more_rooms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //creating a popup menu
-                PopupMenu popup = new PopupMenu(context, bn_more_rooms);
-                MenuInflater inflater = popup.getMenuInflater();
-                String[] roomNumber = hComplaint.getMoreRooms().split(",");
 
-                for (String s:roomNumber) {
-                    //adding items to menu
-                    popup.getMenu().add(Menu.NONE,Menu.NONE,Menu.NONE,s);
+        if (!latest) {
+            bn_resolve.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/resolve.php";
+                    //String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/resolve.php";
+                    StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-                }
-                //inflating popup menu from xml resource
-                inflater.inflate(R.menu.more_rooms_popup, popup.getMenu());
-                popup.show();
-            }
-        });
+                            stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                            JsonReader reader = null;
+                            try {
+                                reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                                reader.setLenient(true);
 
-        if(!latest) bn_resolve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //if custom hComplaint
-                String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/resolve.php";
-                //String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/resolve.php";
-                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
 
-                        stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-                        JsonReader reader = null;
-                        try {
-                            reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-                            reader.setLenient(true);
+                            try {
+                                reader.beginObject();
+                                while (reader.hasNext()) {
+                                    String name = reader.nextName();
+                                    Log.e("name", name);
+                                    if (name.equals("status")) {
+                                        String status = reader.nextString();
+                                        if (status.equals("1")) {
+                                            notifyItemChanged(holder.getAdapterPosition());
+                                            Intent intent = new Intent(activity, HostelComplaintsActivity.class);
+                                            activity.startActivity(intent);
 
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
+                                            Snackbar snackbar = Snackbar
+                                                    .make(coordinatorLayout, "Complaint is resolved", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
 
-                        try {
-                            reader.beginObject();
-                            while (reader.hasNext()) {
-                                String name = reader.nextName();
-                                Log.e("name", name);
-                                if (name.equals("status")) {
-                                    String status = reader.nextString();
-                                    if (status.equals("1")) {
-                                        notifyItemChanged(holder.getAdapterPosition());
-
-                                        Snackbar snackbar = Snackbar
-                                                .make(coordinatorLayout, "Complaint is resolved", Snackbar.LENGTH_LONG)
-                                                .setAction("UNDO", new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-                                                        Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Code this", Snackbar.LENGTH_SHORT);
-                                                        snackbar1.show();
-                                                    }
-                                                });
-
-                                        snackbar.show();
-
-                                        Intent intent = new Intent(activity, HostelComplaintsActivity.class);
-                                        activity.startActivity(intent);
-
-                                    } else if (status.equals("0")) {
+                                        } else if (status.equals("0")) {
+                                            Snackbar snackbar = Snackbar
+                                                    .make(coordinatorLayout, "Error resolving the complaint", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+                                        }
+                                    } else if (name.equals("error")) {
+                                        reader.nextString();
                                         Snackbar snackbar = Snackbar
                                                 .make(coordinatorLayout, "Error resolving the complaint", Snackbar.LENGTH_LONG);
                                         snackbar.show();
+                                    } else {
+                                        reader.skipValue();
                                     }
-                                } else if (name.equals("error")) {
-                                    reader.nextString();
-                                    Snackbar snackbar = Snackbar
-                                            .make(coordinatorLayout, "Error resolving the complaint", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                } else {
-                                    reader.skipValue();
                                 }
-                            }
-                            reader.endObject();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            makeSnackbar("Error resolving the complaint");
-                        } finally {
-                            try {
-                                reader.close();
+                                reader.endObject();
                             } catch (IOException e) {
                                 e.printStackTrace();
                                 makeSnackbar("Error resolving the complaint");
+                            } finally {
+                                try {
+                                    reader.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    makeSnackbar("Error resolving the complaint");
+                                }
                             }
-                        }
                         /*try {
                             JSONObject jsObject = new JSONObject(response);
                             if (jsObject.has("error")) {
@@ -473,38 +446,39 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }*/
-                    }
+                        }
 
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                    }
-                }) {
-                    //to POST params
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<String, String>();
-                        //get hostel from prefs
-                        //put some dummy for now
-                        params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
-                        params.put("UUID", mUUID);
-                        return params;
-                    }
+                        }
+                    }) {
+                        //to POST params
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            //get hostel from prefs
+                            //put some dummy for now
+                            params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, context));
+                            params.put("UUID", mUUID);
+                            return params;
+                        }
 
-                };
-                MySingleton.getInstance(activity).addToRequestQueue(request);
+                    };
+                    MySingleton.getInstance(activity).addToRequestQueue(request);
 
-            }
-        });
+                }
+            });
+        }
 
         if (hComplaint.getCustom()) {
             if (hComplaint.getTag().equals("")) tv_tags.setVisibility(View.GONE);
             else tv_tags.setText(hComplaint.getTag());
-            bn_more_rooms.setVisibility(View.GONE);
 
         } else {
-            tv_tags.setVisibility(View.GONE);
+            tv_tags.setText("Proximity: " + hComplaint.getProximity());
+            tv_tags.setText("Proximity: " + hComplaint.getProximity());
         }
 
         if (hComplaint.getName().equals("Institute MobOps")) {
@@ -513,7 +487,6 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
             bn_comment.setClickable(false);
             bn_upvote.setClickable(false);
             bn_downvote.setClickable(false);
-            bn_more_rooms.setClickable(false);
             if (!latest) bn_resolve.setClickable(false);
 
             bn_upvote.setAlpha(1);

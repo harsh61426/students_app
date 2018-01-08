@@ -55,6 +55,7 @@ import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity;
+import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.fragments.Updateable;
 import in.ac.iitm.students.complaint_box.fragments.h_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.h_MyComplaintFragment;
@@ -281,10 +282,20 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
 
     @Override
     public void onPageSelected(int position) {
-        if (position == 0)
+        if (position == 0) {
+            if (h_ComplaintAdapter.DATA_CHANGED == 1) {
+                adapter.notifyDataSetChanged();
+                h_ComplaintAdapter.DATA_CHANGED = 0;
+            }
             fab.show();
-        else
+        } else {
+            if (h_ComplaintAdapter.DATA_CHANGED == 1) {
+                Log.d("jane", "call in else");
+                adapter.notifyDataSetChanged();
+                h_ComplaintAdapter.DATA_CHANGED = 0;
+            }
             fab.hide();
+        }
     }
 
     @Override

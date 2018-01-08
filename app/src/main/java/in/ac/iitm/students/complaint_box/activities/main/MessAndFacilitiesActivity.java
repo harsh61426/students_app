@@ -51,7 +51,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mess_and_facilities_activity_mess_and_facilities);
+        setContentView(R.layout.m_activity_mess_and_facilities);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

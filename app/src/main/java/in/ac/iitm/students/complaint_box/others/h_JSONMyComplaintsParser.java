@@ -118,8 +118,6 @@ public class h_JSONMyComplaintsParser {
                 hComplaint.setTag(reader.nextString());
             } else if (name.equals("comments")) {
                 hComplaint.setComments(Integer.parseInt(reader.nextString()));
-            } else if (name.equals("more_rooms") && reader.peek() != JsonToken.NULL) {
-                hComplaint.setMoreRooms(reader.nextString());
             } else if (name.equals("image_url") && reader.peek() != JsonToken.NULL) {
                 hComplaint.setImageUrl(reader.nextString());
             } else if (name.equals("custom")) {

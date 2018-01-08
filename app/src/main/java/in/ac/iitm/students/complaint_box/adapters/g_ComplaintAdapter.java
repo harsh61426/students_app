@@ -210,8 +210,10 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         makeSnackbar("Error up-voting the complaint");
                                     }
                                 } else if (name.equals("error")) {
-                                    reader.nextString();
-                                    makeSnackbar("Error up-voting the complaint");
+                                    if (!reader.nextString().equals("Same vote")) {
+                                        makeSnackbar("Error up-voting the complaint");
+
+                                    }
                                 } else {
                                     reader.skipValue();
                                 }
@@ -304,8 +306,10 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         makeSnackbar("Error down-voting the complaint");
                                     }
                                 } else if (name.equals("error")) {
-                                    reader.nextString();
-                                    makeSnackbar("Error down-voting the complaint");
+                                    if (!reader.nextString().equals("Same vote")) {
+                                        makeSnackbar("Error down-voting the complaint");
+
+                                    }
                                 } else {
                                     reader.skipValue();
                                 }

@@ -201,7 +201,6 @@ public class h_CustomComplainFragment extends Fragment {
                             Map<String, String> params = new HashMap<>();
 
                             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                            String moreRooms = Utils.getprefString(UtilStrings.ROOM, getActivity()) + ",";
 
                             params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, getActivity()));
                             params.put("NAME", Utils.getprefString(UtilStrings.NAME, getActivity()));
@@ -219,7 +218,6 @@ public class h_CustomComplainFragment extends Fragment {
                             params.put("DATETIME", date);
                             params.put("COMMENTS", "0");
                             params.put("IMAGEURL", finalImageUrl);
-                            params.put("MORE_ROOMS", moreRooms);
                             params.put("CUSTOM", "1");
                             return params;
                         }
@@ -304,7 +302,7 @@ public class h_CustomComplainFragment extends Fragment {
     private void makeSnackbar(String msg) {
 
         Snackbar snackbar = Snackbar
-                .make(getActivity().findViewById(R.id.rl_custm_cmplnt), msg, Snackbar.LENGTH_LONG);
+                .make(getActivity().findViewById(R.id.ll_custom_complaints), msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 }

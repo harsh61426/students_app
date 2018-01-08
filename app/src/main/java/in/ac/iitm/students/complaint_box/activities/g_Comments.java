@@ -235,7 +235,7 @@ public class g_Comments extends AppCompatActivity {
                                                 cmtObj.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                                                 mAdapter.addComment(cmtObj);
 
-                                                int cmnts = hComplaint.getComments() + 1;
+                                                int cmnts = Integer.parseInt(comment.getText().toString()) + 1;
                                                 comment.setText(cmnts + "");
                                             } else {
                                                 makeSnackbar("Error commenting");
