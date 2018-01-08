@@ -1230,6 +1230,7 @@ public class CourseTimetableFragment extends Fragment {
                     courseid.setError(slot.getText().toString()+" slot already has a different course. If you want to change the course of this slot, use Edit Courses from top right corner menu.");
                     return;
                 }
+
                 if(courseid.getText().toString().length()!=6){
                     courseid.setError("Please enter a valid Course ID");
                     return;

@@ -270,14 +270,14 @@ public class HomeActivity extends AppCompatActivity
 ////                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
 ////        }
 
-        //TODO @omkar remove
+        /*//TODO @omkar remove
         Utils.saveprefString(UtilStrings.NAME, "Omkar Patil", getBaseContext());
         Utils.saveprefString(UtilStrings.HOSTEl, "narmada", getBaseContext());
         Utils.saveprefString(UtilStrings.ROOM, "1004", getBaseContext());
         Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt("1"), getBaseContext());
         Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt("1"), getBaseContext());
         Utils.saveprefString(UtilStrings.ROLLNO, "ME15B123", getBaseContext());
-        Utils.saveprefBool(UtilStrings.LOGEDIN, true, this);
+        Utils.saveprefBool(UtilStrings.LOGEDIN, true, this);*/
 
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);

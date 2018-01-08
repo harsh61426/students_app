@@ -79,14 +79,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title1"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f1" />
+                        android:paddingStart="5dp"                         android:layout_toEndOf="@id/t1description1"  android:layout_toStartOf="@id/t1f1" />
 
 
                     <TextView
                         android:id="@+id/t1description2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description1"
+                        android:layout_below="@id/t1p1"
                         android:text="Check water error" />
 
 
@@ -96,20 +96,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description1" />
+                        android:layout_below="@id/t1p1" />
 
                     <TextView
                         android:id="@+id/t1p2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description1"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f2" />
+                        android:layout_below="@id/t1p1"
+                        android:paddingStart="5dp"                         android:layout_toEndOf="@id/t1description2"  android:layout_toStartOf="@id/t1f2" />
 
                     <TextView
                         android:id="@+id/t1description3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description2"
+                        android:layout_below="@id/t1p2"
                         android:text="Water outlet problem" />
 
 
@@ -119,20 +119,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description2" />
+                        android:layout_below="@id/t1p2" />
 
                     <TextView
                         android:id="@+id/t1p3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description2"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f3" />
+                        android:layout_below="@id/t1p2"
+                        android:paddingStart="5dp"                         android:layout_toEndOf="@id/t1description3"  android:layout_toStartOf="@id/t1f3" />
 
                     <TextView
                         android:id="@+id/t1description4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description3"
+                        android:layout_below="@id/t1p3"
                         android:text="Dryer not functional" />
 
                     <TextView
@@ -140,21 +140,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description3" />
+                        android:layout_below="@id/t1p3" />
 
                     <TextView
                         android:id="@+id/t1p4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description3"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f3" />
+                        android:layout_below="@id/t1p3"
+                        android:paddingStart="5dp"                         android:layout_toEndOf="@id/t1description4"  android:layout_toStartOf="@id/t1f4" />
 
 
                     <TextView
                         android:id="@+id/t1description5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description4"
+                        android:layout_below="@id/t1p4"
                         android:text="Not even starting wash cycle" />
 
 
@@ -163,21 +163,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description4" />
+                        android:layout_below="@id/t1p4" />
 
                     <TextView
                         android:id="@+id/t1p5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description4"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f5" />
+                        android:layout_below="@id/t1p4"
+                        android:paddingStart="5dp"                         android:layout_toEndOf="@id/t1description5"  android:layout_toStartOf="@id/t1f5" />
 
 
                     <TextView
                         android:id="@+id/t1description6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description5"
+                        android:layout_below="@id/t1p5"
                         android:text="Others" />
 
 
@@ -186,19 +186,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description5" />
+                        android:layout_below="@id/t1p5" />
 
                     <TextView
                         android:id="@+id/t1p6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/t1description5"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f6" />
+                        android:layout_below="@id/t1p5"
+                        android:paddingStart="5dp"                         android:layout_toEndOf="@id/t1description6"  android:layout_toStartOf="@id/t1f6" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_below="@id/t1description6"
+                        android:layout_below="@id/t1p6"
                         android:background="@android:color/darker_gray" />
 
 
@@ -207,14 +207,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_below="@id/t1description6"
+                        android:layout_below="@id/t1p6"
                         android:text="" />
 
                     <Button
                         android:id="@+id/bn_comment1"
                         android:layout_width="24dp"
                         android:layout_height="20dp"
-                        android:layout_below="@id/t1description6"
+                        android:layout_below="@id/t1p6"
                         android:layout_gravity="center_vertical"
                         android:layout_toStartOf="@id/tv_comment1"
                         android:background="@drawable/ic_comment_black_24dp" />
