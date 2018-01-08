@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +19,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +40,8 @@ import in.ac.iitm.students.others.Utils;
 public class g_CustomComplaintActivity extends AppCompatActivity {
 
     private CoordinatorLayout coordinatorLayout;
+    private InputStream stream;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +76,52 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+
+                            stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                            JsonReader reader = null;
                             try {
+                                reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                                reader.setLenient(true);
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                reader.beginObject();
+                                while (reader.hasNext()) {
+                                    String name = reader.nextName();
+                                    Log.e("name", name);
+                                    if (name.equals("status")) {
+                                        String status = reader.nextString();
+                                        if (status.equals("1")) {
+                                            makeSnackbar("Complaint registered");
+                                            Intent intent = new Intent(g_CustomComplaintActivity.this, GeneralComplaintsActivity.class);
+                                            startActivity(intent);
+                                        } else if (status.equals("0")) {
+                                            makeSnackbar("Error registering complaint");
+                                        }
+                                    } else if (name.equals("error")) {
+                                        reader.nextString();
+                                        makeSnackbar("Error registering complaint");
+                                    } else {
+                                        reader.skipValue();
+                                    }
+                                }
+                                reader.endObject();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                makeSnackbar("Error registering complaint");
+                            } finally {
+                                try {
+                                    reader.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    makeSnackbar("Error registering complaint");
+                                }
+                            }
+
+                            /*try {
                                 Log.e("response", response);
                                 JSONObject jsObject = new JSONObject(response);
                                 String status = jsObject.getString("status");
@@ -87,7 +138,7 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 makeSnackbar("Error registering complaint");
-                            }
+                            }*/
 
 
                         }
@@ -112,6 +163,7 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
                             params.put("UPVOTES", "0");
                             params.put("DOWNVOTES", "0");
                             params.put("UUID", mUUID);
+                            params.put("DATE", date);
                             params.put("TAGS", tags);
                             params.put("DATETIME", date);
                             params.put("COMMENTS", "0");

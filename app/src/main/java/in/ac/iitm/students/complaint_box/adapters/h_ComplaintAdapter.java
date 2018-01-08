@@ -28,9 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +40,7 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.h_Comments;
+import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -375,7 +373,69 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
                 StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                        JsonReader reader = null;
                         try {
+                            reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                            reader.setLenient(true);
+
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            reader.beginObject();
+                            while (reader.hasNext()) {
+                                String name = reader.nextName();
+                                Log.e("name", name);
+                                if (name.equals("status")) {
+                                    String status = reader.nextString();
+                                    if (status.equals("1")) {
+                                        notifyItemChanged(holder.getAdapterPosition());
+
+                                        Snackbar snackbar = Snackbar
+                                                .make(coordinatorLayout, "Complaint is resolved", Snackbar.LENGTH_LONG)
+                                                .setAction("UNDO", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Code this", Snackbar.LENGTH_SHORT);
+                                                        snackbar1.show();
+                                                    }
+                                                });
+
+                                        snackbar.show();
+
+                                        Intent intent = new Intent(activity, HostelComplaintsActivity.class);
+                                        activity.startActivity(intent);
+
+                                    } else if (status.equals("0")) {
+                                        Snackbar snackbar = Snackbar
+                                                .make(coordinatorLayout, "Error resolving the complaint", Snackbar.LENGTH_LONG);
+                                        snackbar.show();
+                                    }
+                                } else if (name.equals("error")) {
+                                    reader.nextString();
+                                    Snackbar snackbar = Snackbar
+                                            .make(coordinatorLayout, "Error resolving the complaint", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+                                } else {
+                                    reader.skipValue();
+                                }
+                            }
+                            reader.endObject();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            makeSnackbar("Error resolving the complaint");
+                        } finally {
+                            try {
+                                reader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                makeSnackbar("Error resolving the complaint");
+                            }
+                        }
+                        /*try {
                             JSONObject jsObject = new JSONObject(response);
                             if (jsObject.has("error")) {
 
@@ -412,7 +472,7 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
+                        }*/
                     }
 
                 }, new Response.ErrorListener() {

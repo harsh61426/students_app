@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
 import in.ac.iitm.students.complaint_box.objects.CommentObj;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
@@ -100,6 +101,7 @@ public class g_Comments extends AppCompatActivity {
         TextView trending = (TextView) findViewById(R.id.tv_trending);
         TextView title = (TextView) findViewById(R.id.comment_tv_title);
         TextView description = (TextView) findViewById(R.id.comment_tv_description);
+        TextView date = (TextView) findViewById(R.id.comment_date);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
         final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
         TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
@@ -124,6 +126,7 @@ public class g_Comments extends AppCompatActivity {
         upvote.setText("" + hComplaint.getUpvotes());
         downvote.setText("" + hComplaint.getDownvotes());
         comment.setText("" + hComplaint.getComments());
+        date.setText(hComplaint.getDate());
         final String mUUID = hComplaint.getUid();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_comments);
@@ -311,14 +314,12 @@ public class g_Comments extends AppCompatActivity {
         snackbar.show();
     }
 
-    /*
     @Override
     public void onBackPressed(){
-        int pos = Integer.parseInt(hComplaint.getTrending())-1;
-        Intent intent = new Intent();
-        intent.putExtra("pos", pos);
-        setResult(RESULT_OK, intent);
+
+        Intent intent = new Intent(this, GeneralComplaintsActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
     }
-    */
 
 }

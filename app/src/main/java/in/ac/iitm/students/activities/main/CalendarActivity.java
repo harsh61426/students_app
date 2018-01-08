@@ -1,13 +1,20 @@
 package in.ac.iitm.students.activities.main;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -61,15 +68,18 @@ import in.ac.iitm.students.others.Utils;
 public class CalendarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+    static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 99;
+    static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 23;
     public static int monthForRecyclerView = Calendar.getInstance().get(Calendar.MONTH), yearForRecyclerView = 2018; // this data is used for displaying dayviews when cards are clicked, so be careful before changing these.
     public static int currentlyDisplayedMonth;
-
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ViewPager viewPager;
     private Menu menu;
     private NavigationView navigationView;
     private ProgressDialog progressDialog;
+    private boolean permit = true;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,128 +88,29 @@ public class CalendarActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//
-//        //Checking the permission for writing calendar
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.WRITE_CALENDAR)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-//                    Manifest.permission.WRITE_CALENDAR)) {
-//
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//
-//                Snackbar snackbar = Snackbar
-//                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_LONG);
-//                snackbar.show();
-//
-//                ActivityCompat.requestPermissions(this,
-//                        new String[]{Manifest.permission.WRITE_CALENDAR},
-//                        HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-//
-//            } else {
-//
-//                // No explanation needed, we can request the permission.
-//
-//                ActivityCompat.requestPermissions(this,
-//                        new String[]{Manifest.permission.WRITE_CALENDAR},
-//                        HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-//
-//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-//                // app-defined int constant. The callback method gets the
-//                // result of the request.
-//            }
-//        }
-//        else{
-////            getLoaderManager().initLoader(0, null,this);
-//        }
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.cl_calendar);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading Calendar....");
-        progressDialog.show();
+        //Checking the permission for reading calendar
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
-        if(currentlyDisplayedMonth>=6)
-            currentlyDisplayedMonth -= 6;
-        //monthForRecyclerView = currentMonth;
-        // Find the view pager that will allow the user to swipe between fragments
+            permit = false;
 
-        String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_CALENDAR)) {
 
-            @Override
-            public void onResponse(String response) {
-                Log.d("kaka", response);
-                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-
-                JsonReader reader = null;
-                try {
-                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-                    reader.setLenient(true);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    try {
-                        Log.d("kaka", "holigaga1");
-                        ArrayList<ArrayList<Calendar_Event>> cal_events = InstiCalendar.readMonthObject(reader, CalendarActivity.this);
-                        Log.d("kaka", "holigaga2");
-                        // Create an adapter that knows which fragment should be shown on each page
-                        MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
-                        adapter.setCal_events(cal_events);
-                        // Set the adapter onto the view pager
-                        progressDialog.dismiss();
-                        viewPager.setAdapter(adapter);
-                        viewPager.setCurrentItem(currentlyDisplayedMonth);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } finally {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
+                makeSnackbar("Granting this permission will allow the app to integrate your personal calendar into the institute's official calendar.");
             }
 
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VolleyError", error.toString());
-                Snackbar snackbar = Snackbar
-                        .make(drawer,"No internet connection", Snackbar.LENGTH_LONG);
-                snackbar.show();
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CALENDAR},
+                    MY_PERMISSIONS_REQUEST_READ_CALENDAR);
+        }
 
-            }
-        });
-        MySingleton.getInstance(CalendarActivity.this).addToRequestQueue(stringRequest);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                int current = position % 6;
-                monthForRecyclerView = current + 6;
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        if(permit) {
+            instantiate_calendar();
+        }
 
         //  recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         //layoutManager = new LinearLayoutManager(this);
@@ -241,36 +152,86 @@ public class CalendarActivity extends AppCompatActivity
 
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           String permissions[], int[] grantResults) {
-//        switch (requestCode) {
-//            case HomeActivity.MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    // permission was granted, yay! Do the
-//                    // contacts-related task you need to do.
-//                    new InstiCalendar(CalendarActivity.this).fetchCalData(1);
-//
-//
-//                } else {
-//
-//                    // permission denied, boo! Disable the
-//                    // functionality that depends on this permission.
-//                    Intent intent = new Intent(CalendarActivity.this,HomeActivity.class);
-//                    startActivity(intent);
-//                }
-//                return;
-//
-//            }
-//
-//            // other 'case' lines to check for other
-//            // permissions this app might request
-//        }
-//        return;
-//    }
+    public Boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
+    }
+
+    private void instantiate_calendar()
+    {
+
+        //TODO: Try checking if internet is available before loading
+        // implemented above, though won't be useful as volley handles it
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading Calendar...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        currentlyDisplayedMonth = Calendar.getInstance().get(Calendar.MONTH);
+        if (currentlyDisplayedMonth >= 6)
+            currentlyDisplayedMonth -= 6;
+        //monthForRecyclerView = currentMonth;
+        // Find the view pager that will allow the user to swipe between fragments
+
+        String urlForCalendarData = "https://students.iitm.ac.in/studentsapp/calendar/calendar_php.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlForCalendarData, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("kaka", response);
+                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                JsonReader reader = null;
+                try {
+
+                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                    reader.setLenient(true);
+                    new DDLTask().execute(reader);
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VolleyError", error.toString());
+                Snackbar snackbar = Snackbar
+                        .make(drawer, "No internet connection", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+            }
+        });
+
+        MySingleton.getInstance(CalendarActivity.this).addToRequestQueue(stringRequest);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                int current = position % 6;
+                monthForRecyclerView = current + 6;
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
 
 
     @Override
@@ -319,27 +280,81 @@ public class CalendarActivity extends AppCompatActivity
             LogOutAlertClass lg = new LogOutAlertClass();
             lg.isSure(CalendarActivity.this);
             return true;
-        }
-//        else if(id == R.id.calendar_sync){
-//            InstiCalendar instiCalendar = new InstiCalendar(this);
-//            if(Utils.getprefInt("CalStat",this)==1){
-//                InstiCalendar.deleteCalendarTest(this, toString().valueOf(InstiCalendar.getCalendarId(this)));
-//                item.setTitle("Insert Calendar");
-//            }else{
-////                InstiCalendar.CalID =new InstiCalendar(CalendarActivity.this).insertCalendar(this);
-//
-//                Utils.saveprefLong("CalID", CalID, this);
-//                //Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
-//                instiCalendar.deleteallevents();
-//                InstiCalendar.sendJsonRequest(this, 0);
-//                Utils.saveprefString("Cal_Ver", new InstiCalendar(CalendarActivity.this).getVersion(), this);
-//
-//                item.setTitle("Remove Calendar");
-//            }
-//            return true;
-//        }
+        } else if (id == R.id.sync_calendar) {
 
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_CALENDAR)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.WRITE_CALENDAR)) {
+
+                    makeSnackbar("Granting this permission will allow the app to sync the official institute calendar into your Google calendar.");
+                }
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+            } else new InstiCalendar(this).getAllEvents(this);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+/*
+    else if(id == R.id.calendar_sync){
+        InstiCalendar instiCalendar = new InstiCalendar(this);
+        if(Utils.getprefInt("CalStat",this)==1){
+            InstiCalendar.deleteCalendarTest(this, toString().valueOf(InstiCalendar.getCalendarId(this)));
+            item.setTitle("Insert Calendar");
+        }else{
+              InstiCalendar.CalID =new InstiCalendar(CalendarActivity.this).insertCalendar(this);
+
+            Utils.saveprefLong("CalID", CalID, this);
+            //Toast.makeText(this, "Updating Calendar", Toast.LENGTH_SHORT).show();
+            instiCalendar.deleteallevents();
+            InstiCalendar.sendJsonRequest(this, 0);
+            Utils.saveprefString("Cal_Ver", new InstiCalendar(CalendarActivity.this).getVersion(), this);
+
+            item.setTitle("Remove Calendar");
+        }
+        return true;
+    }
+*/
+
+    private void makeSnackbar(String msg) {
+
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    new InstiCalendar(this).getAllEvents(this);
+                } else {
+                    makeSnackbar("Unable to sync calendar: Permission denied");
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+
+            case MY_PERMISSIONS_REQUEST_READ_CALENDAR: {
+                instantiate_calendar();
+                return;
+            }
+            default: {
+                makeSnackbar("Please reconsider your calendar permissions for full functionality of the app.");
+            }
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -456,6 +471,38 @@ public class CalendarActivity extends AppCompatActivity
         }
         return true;
 
+    }
+
+    public class DDLTask extends AsyncTask<JsonReader, Integer, ArrayList<ArrayList<Calendar_Event>>>
+    {
+        @Override
+        protected ArrayList<ArrayList<Calendar_Event>> doInBackground(JsonReader... jsonReaders) {
+            try {
+                ArrayList<ArrayList<Calendar_Event>> events = InstiCalendar.readMonthObject(jsonReaders[0], CalendarActivity.this);
+                jsonReaders[0].close();
+                return events;
+                // Create an adapter that knows which fragment should be shown on each page
+            }
+            catch (IOException io)
+            {
+                io.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ArrayList<Calendar_Event>> cal_events) {
+            MonthFmAdapter adapter = new MonthFmAdapter(getSupportFragmentManager());
+            adapter.setCal_events(cal_events);
+            progressDialog.dismiss();
+            viewPager.setAdapter(adapter);
+            viewPager.setCurrentItem(currentlyDisplayedMonth);
+        }
     }
 
 

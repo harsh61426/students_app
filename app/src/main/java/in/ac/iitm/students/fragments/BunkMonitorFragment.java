@@ -2,11 +2,8 @@ package in.ac.iitm.students.fragments;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +11,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.adapters.BunksAdapter;
 import in.ac.iitm.students.objects.Bunks;
 import in.ac.iitm.students.others.UtilStrings;

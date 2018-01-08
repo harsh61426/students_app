@@ -89,6 +89,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_subscriptions">Subscriptions</string>
     <string name="title_activity_calendar">Calendar</string>
+    <string name="title_sync_calendar">Sync Calendar</string>
 
     <string name="update_message">Some Important Features Have Been Added.</string>
     <string name="update">Update</string>

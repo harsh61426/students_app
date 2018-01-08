@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +14,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +47,7 @@ public class h_NewcomplaintFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mUUID;
+    private InputStream stream;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -222,15 +226,67 @@ public class h_NewcomplaintFragment extends Fragment {
                 final String proximity = prox.getText().toString();
                 mUUID = UUID.randomUUID().toString();
 
-
-                if(title != "" && description !="") {
+                if (title.equals("") || description.equals("")) makeSnackbar("Empty field");
+                else {
 
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Log.d("panc", "response: " + response);
+
+                            stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+                            JsonReader reader = null;
                             try {
+                                reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+                                reader.setLenient(true);
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                reader.beginObject();
+                                while (reader.hasNext()) {
+                                    String name = reader.nextName();
+                                    Log.e("name", name);
+                                    if (name.equals("status")) {
+                                        String status = reader.nextString();
+                                        if (status.equals("1")) {
+                                            Log.d("panc", "succ");
+                                            Intent intent = new Intent(getContext(), HostelComplaintsActivity.class);
+                                            startActivity(intent);
+
+                                            Snackbar snackbar = Snackbar
+                                                    .make(getActivity().findViewById(R.id.cl_new_comp), "Complaint registered successfully", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+                                        } else if (status.equals("0")) {
+                                            Log.d("panc", "fail");
+                                            Snackbar snackbar = Snackbar
+                                                    .make(getActivity().findViewById(R.id.cl_new_comp), "Error registering Complaint", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+                                        }
+                                    } else if (name.equals("error")) {
+                                        reader.nextString();
+                                        makeSnackbar("Error registering complaint");
+                                    } else {
+                                        reader.skipValue();
+                                    }
+                                }
+                                reader.endObject();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                makeSnackbar("Error registering complaint");
+                            } finally {
+                                try {
+                                    reader.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    makeSnackbar("Error registering complaint");
+                                }
+                            }
+
+                            /*try {
                                 JSONObject jsObject = new JSONObject(response);
                                 String status = jsObject.getString("status");
                                 if (status.equals("1")) {
@@ -255,7 +311,7 @@ public class h_NewcomplaintFragment extends Fragment {
                                 Snackbar snackbar = Snackbar
                                         .make(getActivity().findViewById(R.id.cl_new_comp), "Error registering Complaint", Snackbar.LENGTH_LONG);
                                 snackbar.show();
-                            }
+                            }*/
 
 
                         }
@@ -297,12 +353,17 @@ public class h_NewcomplaintFragment extends Fragment {
                     };
                     MySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
 
-                } else {
-                    Toast.makeText(getContext(), "select appropriate title and description from the drop down menu", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
         return view;
+    }
+
+    private void makeSnackbar(String msg) {
+
+        Snackbar snackbar = Snackbar
+                .make(getActivity().findViewById(R.id.rl_new_cmplnt), msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }

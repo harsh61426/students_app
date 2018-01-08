@@ -10,12 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +86,72 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
 
     }
 
+    public static String getlongtoago(String createdAt) {
+
+        SimpleDateFormat fb_dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZZZZZ", Locale.getDefault());
+        Long crdate1 = null;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZZZZZ");
+
+        try {
+            crdate1 = fb_dateFormat.parse(createdAt).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // get current date time with Calendar()
+        Calendar cal = Calendar.getInstance();
+        String currenttime = dateFormat.format(cal.getTime());
+
+        Date CreatedAt = null;
+        Date current = null;
+        try {
+            if (crdate1 != null)
+                CreatedAt = (new Date(crdate1));
+            current = dateFormat.parse(currenttime);
+        } catch (java.text.ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        String time = null;
+        // Get msec from each, and subtract.
+        if (current != null && CreatedAt != null) {
+            long diff = current.getTime() - CreatedAt.getTime();
+            long diffSeconds = diff / 1000;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays > 0) {
+                if (diffDays == 1) {
+                    time = diffDays + " day ago";
+                } else {
+                    time = diffDays + " days ago ";
+                }
+            } else {
+                if (diffHours > 0) {
+                    if (diffHours == 1) {
+                        time = diffHours + " hour ago";
+                    } else {
+                        time = diffHours + " hours ago";
+                    }
+                } else {
+                    if (diffMinutes > 0) {
+                        if (diffMinutes == 1) {
+                            time = diffMinutes + " minute ago";
+                        } else {
+                            time = diffMinutes + " minutes ago";
+                        }
+                    } else {
+                        if (diffSeconds > 0) {
+                            time = diffSeconds + " seconds ago";
+                        }
+                    }
+
+                }
+            }
+        }
+        return time;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -635,7 +699,6 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
            }
     }
 
-
     private Void  setImage(ImageView image,String url){
         Glide.with(context).
                 load(url)
@@ -669,7 +732,6 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
         return null;
 
     }
-
 
     private Void hideview2(View view1,View view2, int count){
         if(count==0){
@@ -711,7 +773,6 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
         return position;
     }
 
-
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -721,75 +782,6 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
     public int getItemCount() {
         return Postlist.size();
     }
-
-
-    public static String getlongtoago(String createdAt) {
-
-        SimpleDateFormat fb_dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZZZZZ",Locale.getDefault());
-        Long crdate1 = null;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZZZZZ");
-        
-        try {
-            crdate1 = fb_dateFormat.parse(createdAt).getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        // get current date time with Calendar()
-        Calendar cal = Calendar.getInstance();
-        String currenttime = dateFormat.format(cal.getTime());
-
-        Date CreatedAt = null;
-        Date current = null;
-        try {
-            if(crdate1!=null)
-                CreatedAt = (new Date(crdate1));
-            current = dateFormat.parse(currenttime);
-        } catch (java.text.ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        String time = null;
-        // Get msec from each, and subtract.
-        if(current!=null && CreatedAt!=null) {
-            long diff = current.getTime() - CreatedAt.getTime();
-            long diffSeconds = diff / 1000;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-
-            if (diffDays > 0) {
-                if (diffDays == 1) {
-                    time = diffDays + " day ago";
-                } else {
-                    time = diffDays + " days ago ";
-                }
-            } else {
-                if (diffHours > 0) {
-                    if (diffHours == 1) {
-                        time = diffHours + " hour ago";
-                    } else {
-                        time = diffHours + " hours ago";
-                    }
-                } else {
-                    if (diffMinutes > 0) {
-                        if (diffMinutes == 1) {
-                            time = diffMinutes + " minute ago";
-                        } else {
-                            time = diffMinutes + " minutes ago";
-                        }
-                    } else {
-                        if (diffSeconds > 0) {
-                            time = diffSeconds + " seconds ago";
-                        }
-                    }
-
-                }
-            }
-        }
-        return time;
-    }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tv_post_des, tv_org;
@@ -813,7 +805,7 @@ public class PostApapter extends RecyclerView.Adapter <PostApapter.ViewHolder>  
             tv_post_des = (TextView) itemView.findViewById(R.id.tv_post_des);
             tv_org = (TextView) itemView.findViewById(R.id.tv_org);
             rv_reactions = (RelativeLayout)itemView.findViewById(R.id.rv_reactions);
-            reaction_divider = (View)itemView.findViewById(R.id.v_bottom);
+            reaction_divider = itemView.findViewById(R.id.v_bottom);
             cv_popup = (CardView)itemView.findViewById(R.id.cv_popup);
             cv_post = (CardView) itemView.findViewById(R.id.cv_post);
             iv_org = (ImageView) itemView.findViewById(R.id.iv_org_profilepic);
