@@ -14,15 +14,23 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
@@ -35,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView profilePicImage;
     EditText et_email, et_phone;
-    TextView tv_name, tv_roll, tv_hostel, tv_room, tv_phone, tv_email;
+    TextView tv_name, tv_roll, tv_hostel, tv_room, tv_phone, tv_email, tv_mess;
 
     public static String reverse(String input) {
         char[] in = input.toCharArray();
@@ -71,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         tv_room = (TextView) findViewById(R.id.p_room);
         tv_phone = (TextView) findViewById(R.id.p_mobile);
         tv_email = (TextView) findViewById(R.id.p_email);
+        tv_mess = (TextView) findViewById(R.id.p_mess);
 
         et_email = (EditText) findViewById(R.id.p_edit_email);
         et_phone = (EditText) findViewById(R.id.p_edit_mobile);
@@ -83,12 +92,16 @@ public class ProfileActivity extends AppCompatActivity {
         String room = Utils.getprefString(UtilStrings.ROOM, this);
         String mobile = Utils.getprefString(UtilStrings.MOBILE,this);
         String email = Utils.getprefString(UtilStrings.MAIL,this);
+        String mess = Utils.getprefString(UtilStrings.MESS, this);
 
         tv_name.setText(name);
         tv_roll.setText(roll_no.toUpperCase());
         tv_hostel.setText("Hostel: "+hostel.toUpperCase());
         tv_room.setText("Room: "+room);
         tv_phone.setText("Contact No: "+mobile);
+        tv_mess.setText("Mess: "+mess);
+        getMess(roll_no.toUpperCase(),mess);
+
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
@@ -100,9 +113,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
-            tv_email.setText(acct.getEmail());
+            tv_email.setText("Email ID: "+acct.getEmail());
         }else {
-            tv_email.setText(email);
+            tv_email.setText("Email ID: "+email);
         }
 
         tv_phone.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +238,37 @@ public class ProfileActivity extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getMess(final String roll, final String mess)
+    {
+
+        String url_mess = "https://students.iitm.ac.in/studentsapp/mess_reg/extract.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url_mess, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                tv_mess.setText("Mess: "+response);
+                if(!mess.equalsIgnoreCase(response))
+                {
+                    Utils.saveprefString(UtilStrings.MESS,response,ProfileActivity.this);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("Error","Unable to fetch");
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("rollno",roll);
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(this).addToRequestQueue(request);
     }
 
     private boolean isPhonenoValid(String s) {
