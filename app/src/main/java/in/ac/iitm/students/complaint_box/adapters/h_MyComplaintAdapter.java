@@ -196,6 +196,10 @@ public class h_MyComplaintAdapter extends RecyclerView.Adapter<h_MyComplaintAdap
             bn_resolve.setText("");
             bn_resolve.setBackgroundColor(ContextCompat.getColor(context, R.color.resolved_colour));
             bn_resolve.setClickable(false);
+        } else {
+            bn_resolve.setText("Resolve");
+            bn_resolve.setBackgroundColor(ContextCompat.getColor(context, R.color.unresolved_colour));
+            bn_resolve.setClickable(true);
         }
 
         if (hComplaint.getName().equals("Institute MobOps")) {

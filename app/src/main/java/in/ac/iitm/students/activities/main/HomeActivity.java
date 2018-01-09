@@ -131,65 +131,6 @@ public class HomeActivity extends AppCompatActivity
     private String rollNO;
 
 
-//    public static void showAlert(Activity activity, String title, String message) {
-//
-//        Drawable dialog_icon;
-//        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//        builder.setIcon(dialog_icon);
-//        builder.setTitle(title);
-//        builder.setMessage(message)
-//                .setNeutralButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // User cancelled the dialog
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-//
-//    public static void showAlert(final Activity activity, String title, String message, final String link) {
-//
-//        Drawable dialog_icon;
-//        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//        builder.setIcon(dialog_icon);
-//        builder.setTitle(title);
-//        builder.setMessage(message)
-//                .setNegativeButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // User cancelled the dialog
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .setPositiveButton(R.string.go_to_link, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//                        openWebPage(link, activity);
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-//
-//    private static void openWebPage(String url, Activity activity) {
-//        Toast.makeText(activity, "Getting data...", Toast.LENGTH_SHORT).show();
-//        Uri webpage = Uri.parse(url);
-//        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        if (intent.resolveActivity(activity.getPackageManager()) != null) {
-//            activity.startActivity(intent);
-//        } else {
-//            Toast.makeText(activity, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
 
     @Override
     protected void onResume() {
@@ -336,7 +277,7 @@ public class HomeActivity extends AppCompatActivity
 
         Uri.Builder builder = new Uri.Builder();
 
-        builder.scheme("http")//https://students.iitm.ac.in/studentsapp/map/get_location.php?
+        builder.scheme("http")
                 .authority("students.iitm.ac.in")
                 .appendPath("Android")
                 .appendPath("includes")

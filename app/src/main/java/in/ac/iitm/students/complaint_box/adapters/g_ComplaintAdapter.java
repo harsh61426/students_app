@@ -189,7 +189,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         int upvotes = mDataset.get(pos).getUpvotes();
                                         mDataset.get(pos).setUpvotes(upvotes + 1);
                                         notifyItemChanged(pos);
-                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equalsIgnoreCase(gComplaint.getRollNo())) {
                                             DATA_CHANGED = 1;
                                         }
 
@@ -202,7 +202,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         mDataset.get(pos).setUpvotes(upvotes + 1);
                                         mDataset.get(pos).setDownvotes(downvotes - 1);
                                         notifyItemChanged(pos);
-                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equalsIgnoreCase(gComplaint.getRollNo())) {
                                             DATA_CHANGED = 1;
                                         }
 
@@ -286,7 +286,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         int downvotes = mDataset.get(pos).getDownvotes();
                                         mDataset.get(pos).setDownvotes(downvotes + 1);
                                         notifyItemChanged(pos);
-                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equalsIgnoreCase(gComplaint.getRollNo())) {
                                             DATA_CHANGED = 1;
                                         }
 
@@ -296,7 +296,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         mDataset.get(pos).setUpvotes(upvotes - 1);
                                         mDataset.get(pos).setDownvotes(downvotes + 1);
                                         notifyItemChanged(pos);
-                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equalsIgnoreCase(gComplaint.getRollNo())) {
                                             DATA_CHANGED = 1;
                                         }
 

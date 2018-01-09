@@ -4,10 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -54,15 +52,15 @@ import in.ac.iitm.students.others.Utils;
  * Created by sai_praneeth7777 on 03-Sep-16.
  */
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "SIGNINTag";
+    public GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progress,progress3;
     EditText username, password;
     Button login;
     private Class<?> cls;
-    public GoogleSignInClient mGoogleSignInClient;
     private Boolean isSignedIn = false;
     private int  RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
-    private static final String TAG = "SIGNINTag";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,8 +176,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
-                Toast.makeText(this,"Google sign in failed",Toast.LENGTH_LONG);
+                Log.w("panz", "signInResult:failed code=" + e.getStatusCode());
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_LONG).show();
                 updateUI(null);
             }
         }
@@ -259,7 +257,7 @@ public class LoginActivity extends AppCompatActivity {
     private void hideProgressDialog(){
         if(progress!=null)
             progress.dismiss();
-    };
+    }
 
     public void updateUI(FirebaseUser account){
         if(account!=null){

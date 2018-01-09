@@ -152,7 +152,7 @@
         <Button
             android:id="@+id/bn_resolve"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:background="@color/unresolved_colour"
             android:text="Resolve" />
 

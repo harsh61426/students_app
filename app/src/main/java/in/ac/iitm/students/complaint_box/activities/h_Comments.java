@@ -165,7 +165,7 @@ public class h_Comments extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 //get hostel from prefs
                 //put some dummy for now
-                params.put("HOSTEL", "narmada");
+                params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, h_Comments.this));
                 params.put("UUID", mUUID);
                 return params;
             }
