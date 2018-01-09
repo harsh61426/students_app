@@ -397,11 +397,11 @@ public class HomeActivity extends AppCompatActivity
                         Utils.saveprefString(UtilStrings.MAIL,email, getBaseContext());
                     }
 
-                    pbar.setVisibility(View.GONE);
+//                    pbar.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    pbar.setVisibility(View.GONE);
+//                    pbar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(),
                             "Error: " + e.getMessage(),
                             Toast.LENGTH_LONG).show();
