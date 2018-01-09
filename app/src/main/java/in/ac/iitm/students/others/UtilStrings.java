@@ -1,5 +1,7 @@
 package in.ac.iitm.students.others;
 
+import com.android.volley.toolbox.StringRequest;
+
 /**
  * Created by sai_praneeth7777 on 03-Sep-16.
  */
@@ -9,6 +11,7 @@ public class    UtilStrings {
     public static String HOSTEl = "hostel";
     public static String ROOM = "room";
     public static String MOBILE = "mobile";
+    public static String MESS = "mess";
     public static String MAIL = "mail";
     public static String REVEAL_PLACE = "reveal_place";
     public static String REVEAL_PHOTO = "reveal_photo";

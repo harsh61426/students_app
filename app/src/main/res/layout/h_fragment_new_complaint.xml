@@ -75,7 +75,9 @@
             android:layout_below="@+id/textView_complaint_proximity"
             android:ems="10"
             android:inputType="number"
-            android:hint="@string/room_number" />
+            android:maxLength="4"
+            android:hint="@string/room_number"
+            android:textColorHint="@color/gray"/>
 
         <Button
             android:id="@+id/button_save"
