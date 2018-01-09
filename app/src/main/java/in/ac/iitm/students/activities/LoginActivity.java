@@ -32,6 +32,11 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,16 +54,16 @@ import in.ac.iitm.students.others.Utils;
  * Created by sai_praneeth7777 on 03-Sep-16.
  */
 public class LoginActivity extends AppCompatActivity {
-    public GoogleSignInClient mGoogleSignInClient;
-    ProgressDialog progress,progress2,progress3;
+    ProgressDialog progress,progress3;
     EditText username, password;
     Button login;
     private Class<?> cls;
+    public GoogleSignInClient mGoogleSignInClient;
     private Boolean isSignedIn = false;
-    private int  RC_SIGN_IN = 1;
-    private String TAG = "SIGNINTag";
+    private int  RC_SIGN_IN = 9001;
+    private FirebaseAuth mAuth;
+    private static final String TAG = "SIGNINTag";
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -84,11 +89,14 @@ public class LoginActivity extends AppCompatActivity {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.webServerId))
                 .requestEmail()
                 .build();
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mAuth = FirebaseAuth.getInstance();
+
         // Set the dimensions of the sign-in button.
         final SignInButton signInButton = (SignInButton)this.findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
@@ -109,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
                         username.setVisibility(View.GONE);
                         password.setVisibility(View.GONE);
                         login.setVisibility(View.GONE);
-                Log.d("alcy", "signIn called");
                         signIn();
                 }
         });
@@ -132,126 +139,133 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (username.getText().toString().trim().length() > 0 && password.getText().toString().trim().length() > 0) {
                     if (Utils.isNetworkAvailable(getBaseContext())) {
-                        progress3 = new ProgressDialog(LoginActivity.this);
-                        progress3.setCancelable(false);
-                        progress3.setMessage("Logging in...");
-                        progress3.show();
+                        showProgressDialog("Logging in...");
                         PlacementLdaplogin(getBaseContext());
                     } else {
                         MakeSnSnackbar("No internet connection");
                     }
-
                 } else {
                     MakeSnSnackbar("Enter your username and password");
                 }
-
             }
         });
-
     }
-
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    protected void setGoogleSigninButtonText(SignInButton signInButton, String buttonText) {
-//        // Find the TextView that is inside of the SignInButton and set its text
-////        signInButton.getBackground().setVisible(false,true);
-//        signInButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-//        for (int i = 0; i < signInButton.getChildCount(); i++) {
-//            View v = signInButton.getChildAt(i);
-//
-//            if (v instanceof TextView) {
-//                TextView tv = (TextView) v;
-//                tv.setText(buttonText);
-//            }
-//            if(v instanceof ImageView){
-//                ImageView iv = (ImageView) v;
-//                iv.setVisibility(View.GONE);
-//            }
-//            if(v instanceof ImageButton){
-//                ImageButton ib = (ImageButton) v;
-//                ib.setVisibility(View.GONE);
-//            }
-//        }
-//        return;
-//    }
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        Log.d("alcy", "intent called");
-        progress = new ProgressDialog(this);
-        progress.setCancelable(false);
-        progress.setMessage("Logging In...");
-        progress.show();
+        showProgressDialog("Loading...");
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        progress.dismiss();
+        hideProgressDialog();
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            Log.d("alcy", "onActivityResult called");
 
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-//            progress2 = new ProgressDialog(this);
-//            progress2.setCancelable(false);
-//            progress2.set("Signing in...");
-//            progress2.show();
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            Log.d("alcy", "task defined");
-            handleSignInResult(task);
-
+            try {
+                hideProgressDialog();
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if(account.getEmail().contains("smail.iitm.ac.in")){
+                    // Signed in successfully, show authenticated UI.
+                    firebaseAuthWithGoogle(account);
+                }else{
+                    signOut();
+                    Toast.makeText(this,"SignIn only with your Smail",Toast.LENGTH_LONG).show();
+                }
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+                Toast.makeText(this,"Google sign in failed",Toast.LENGTH_LONG);
+                updateUI(null);
+            }
         }
     }
 
     private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
+        // Firebase sign out
+        mAuth.signOut();
+        // Google sign out
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         updateUI(null);
-                        progress.dismiss();
                         Snackbar.make(findViewById(R.id.loginButton),"SignIn with your Smail",1);
                     }
                 });
     }
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        Log.d("alcy", "handleSignIn called");
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            if(account.getEmail().contains("smail.iitm.ac.in")){
-                // Signed in successfully, show authenticated UI.
-                updateUI(account);
-            }else{
-                signOut();
-                Toast.makeText(this,"SignIn only with your Smail",Toast.LENGTH_LONG).show();
-            }
 
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.d("alcy", "signInResult:failed code=" + e.getStatusCode());
-            Toast.makeText(this, "SignIn failed", Toast.LENGTH_LONG).show();
-            updateUI(null);
-        }
+    private void revokeAccess() {
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google revoke access
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI(null);
+                    }
+                });
     }
 
     @Override
     protected void onStart() {
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI(account);
         super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
 
-    public void updateUI(GoogleSignInAccount account){
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        showProgressDialog("Logging in...");
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Snackbar.make(findViewById(R.id.bt_ldap_login), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        hideProgressDialog();
+                    }
+                });
+    }
+
+
+    private void showProgressDialog(String message){
+        progress = new ProgressDialog(this);
+        progress.setCancelable(false);
+        progress.setMessage(message);
+        progress.show();
+    }
+
+    private void hideProgressDialog(){
+        if(progress!=null)
+            progress.dismiss();
+    };
+
+    public void updateUI(FirebaseUser account){
         if(account!=null){
             if(account.getEmail().contains("smail.iitm.ac.in")){
                 isSignedIn = true;
-                if(progress!=null)
-                    progress.dismiss();
+                hideProgressDialog();
                 Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
                 intent.putExtra("sigin",account.getEmail().split("@")[0]);
                 startActivity(intent);
@@ -333,7 +347,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("invalid login", response + "Error connecting to server !!");
                             Utils.clearpref(context);
                         }
-                        progress3.dismiss();
+                        hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override

@@ -4,16 +4,26 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.concurrent.Executor;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.LoginActivity;
+import in.ac.iitm.students.activities.main.HomeActivity;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -71,14 +81,18 @@ public class LogOutAlertClass {
     }
 
     private void signOut(final Context context){
+
+        FirebaseAuth.getInstance().signOut();
+//        Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+//        Utils.clearpref(context);
+//        Intent intent = new Intent(context, LoginActivity.class);
+//        context.startActivity(intent);
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
                         // ...
                         Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
-//                                        Intent i=new Intent(getApplicationContext(),LoginActivity.class);
-//                                        context.startActivity(i);
                         Utils.clearpref(context);
                         Intent intent = new Intent(context, LoginActivity.class);
                         context.startActivity(intent);
@@ -86,7 +100,4 @@ public class LogOutAlertClass {
                 });
 
     }
-//    private void signOut(final Context context) {
-//
-//    }
 }
