@@ -1,10 +1,7 @@
 package in.ac.iitm.students.activities.main;
 
 import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -14,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -42,7 +38,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -67,10 +62,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
@@ -90,11 +81,9 @@ import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
-import in.ac.iitm.students.activities.LoginActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
@@ -110,7 +99,6 @@ import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity

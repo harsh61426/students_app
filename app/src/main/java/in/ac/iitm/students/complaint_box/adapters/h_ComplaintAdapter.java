@@ -478,7 +478,12 @@ public class h_ComplaintAdapter extends RecyclerView.Adapter<h_ComplaintAdapter.
 
         } else {
             tv_tags.setText("Proximity: " + hComplaint.getProximity());
-            tv_tags.setText("Proximity: " + hComplaint.getProximity());
+            bn_comment.setVisibility(View.GONE);
+            tv_comment.setVisibility(View.GONE);
+            bn_upvote.setVisibility(View.GONE);
+            bn_downvote.setVisibility(View.GONE);
+            tv_upvote.setVisibility(View.GONE);
+            tv_downvote.setVisibility(View.GONE);
         }
 
         if (hComplaint.getName().equals("Institute MobOps")) {

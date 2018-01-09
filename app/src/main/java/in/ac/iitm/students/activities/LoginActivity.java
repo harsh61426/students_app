@@ -4,10 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
@@ -19,8 +17,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +38,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.main.HomeActivity;
@@ -54,11 +49,11 @@ import in.ac.iitm.students.others.Utils;
  * Created by sai_praneeth7777 on 03-Sep-16.
  */
 public class LoginActivity extends AppCompatActivity {
+    public GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progress,progress2,progress3;
     EditText username, password;
     Button login;
     private Class<?> cls;
-    public GoogleSignInClient mGoogleSignInClient;
     private Boolean isSignedIn = false;
     private int  RC_SIGN_IN = 1;
     private String TAG = "SIGNINTag";
@@ -114,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         username.setVisibility(View.GONE);
                         password.setVisibility(View.GONE);
                         login.setVisibility(View.GONE);
+                Log.d("alcy", "signIn called");
                         signIn();
                 }
         });
@@ -181,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        Log.d("alcy", "intent called");
         progress = new ProgressDialog(this);
         progress.setCancelable(false);
         progress.setMessage("Logging In...");
@@ -193,6 +190,8 @@ public class LoginActivity extends AppCompatActivity {
         progress.dismiss();
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
+            Log.d("alcy", "onActivityResult called");
+
             // The Task returned from this call is always completed, no need to attach
             // a listener.
 //            progress2 = new ProgressDialog(this);
@@ -200,6 +199,7 @@ public class LoginActivity extends AppCompatActivity {
 //            progress2.set("Signing in...");
 //            progress2.show();
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            Log.d("alcy", "task defined");
             handleSignInResult(task);
 
         }
@@ -217,6 +217,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        Log.d("alcy", "handleSignIn called");
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             if(account.getEmail().contains("smail.iitm.ac.in")){
@@ -230,8 +231,8 @@ public class LoginActivity extends AppCompatActivity {
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            Toast.makeText(this,"SignIn failed",Toast.LENGTH_LONG);
+            Log.d("alcy", "signInResult:failed code=" + e.getStatusCode());
+            Toast.makeText(this, "SignIn failed", Toast.LENGTH_LONG).show();
             updateUI(null);
         }
     }

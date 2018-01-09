@@ -56,7 +56,6 @@ import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.h_NewComplaintActivity;
 import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
-import in.ac.iitm.students.complaint_box.fragments.Updateable;
 import in.ac.iitm.students.complaint_box.fragments.h_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.h_MyComplaintFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
@@ -284,13 +283,14 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     public void onPageSelected(int position) {
         if (position == 0) {
             if (h_ComplaintAdapter.DATA_CHANGED == 1) {
+                Log.d("dera", "onPageSelected: 0");
                 adapter.notifyDataSetChanged();
                 h_ComplaintAdapter.DATA_CHANGED = 0;
             }
             fab.show();
         } else {
             if (h_ComplaintAdapter.DATA_CHANGED == 1) {
-                Log.d("jane", "call in else");
+                Log.d("dera", "onPageSelected: 1");
                 adapter.notifyDataSetChanged();
                 h_ComplaintAdapter.DATA_CHANGED = 0;
             }
@@ -485,6 +485,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             notifyDataSetChanged();
         }
 
+        /*
         @Override
         public int getItemPosition(Object object) {
             if (object instanceof Updateable) {
@@ -492,6 +493,11 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
                 ((Updateable) object).update(mGeneralString);
             }
             return super.getItemPosition(object);
+        }
+        */
+
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         public void addFragment(Fragment fragment, String title) {

@@ -71,15 +71,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:paddingStart="6dp"
-                        android:layout_below="@id/title1" />
+                        android:layout_below="@id/title1"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t1p1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title1"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f1" />
+                        android:layout_toStartOf="@id/t1f1"
+                        android:paddingStart="5dp" />
 
 
                     <TextView
@@ -95,15 +96,17 @@
                         android:id="@+id/t1f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description1" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description1"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t1p2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description1"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f2" />
+                        android:layout_toStartOf="@id/t1f2"
+                        android:paddingStart="5dp" />
 
                     <TextView
                         android:id="@+id/t1description3"
@@ -118,15 +121,17 @@
                         android:id="@+id/t1f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description2" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description2"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t1p3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description2"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f3" />
+                        android:layout_toStartOf="@id/t1f3"
+                        android:paddingStart="5dp" />
 
                     <TextView
                         android:id="@+id/t1description4"
@@ -139,15 +144,17 @@
                         android:id="@+id/t1f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description3" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description3"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t1p4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description3"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f3" />
+                        android:layout_toStartOf="@id/t1f3"
+                        android:paddingStart="5dp" />
 
 
                     <TextView
@@ -162,15 +169,17 @@
                         android:id="@+id/t1f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description4" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description4"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t1p5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description4"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f5" />
+                        android:layout_toStartOf="@id/t1f5"
+                        android:paddingStart="5dp" />
 
 
                     <TextView
@@ -185,15 +194,17 @@
                         android:id="@+id/t1f6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t1description5" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t1description5"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t1p6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t1description5"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t1f6" />
+                        android:layout_toStartOf="@id/t1f6"
+                        android:paddingStart="5dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -265,15 +276,17 @@
                         android:id="@+id/t2f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/title2"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/title2"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t2p1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title2"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f1" />
+                        android:layout_toStartOf="@id/t2f1"
+                        android:paddingStart="5dp" />
 
 
                     <TextView
@@ -289,15 +302,17 @@
                         android:id="@+id/t2f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t2d1"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t2d1"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t2p2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t2d1"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f2" />
+                        android:layout_toStartOf="@id/t2f2"
+                        android:paddingStart="5dp" />
 
 
                     <TextView
@@ -312,15 +327,17 @@
                         android:id="@+id/t2f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t2d2" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t2d2"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t2p3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t2d2"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f3"/>
+                        android:layout_toStartOf="@id/t2f3"
+                        android:paddingStart="5dp" />
 
 
                     <TextView
@@ -336,15 +353,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:paddingStart="6dp"
-                        android:layout_below="@id/t2d3" />
+                        android:layout_below="@id/t2d3"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t2p4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t2d3"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f4"
+                        android:layout_toStartOf="@id/t2f4"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -360,15 +378,17 @@
                         android:id="@+id/t2f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t2d4" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t2d4"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t2p5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t2d4"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t2f5"/>
+                        android:layout_toStartOf="@id/t2f5"
+                        android:paddingStart="5dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -440,8 +460,9 @@
                         android:id="@+id/t3f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/title3"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -449,7 +470,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title3"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f1"
+                        android:layout_toStartOf="@id/t3f1"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -465,8 +487,9 @@
                         android:id="@+id/t3f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t3d1"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -474,7 +497,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d1"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f2"
+                        android:layout_toStartOf="@id/t3f2"
+                        android:paddingStart="5dp"
                         />
 
                     <TextView
@@ -489,8 +513,9 @@
                         android:id="@+id/t3f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t3d2"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -498,7 +523,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d2"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f3"
+                        android:layout_toStartOf="@id/t3f3"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -513,8 +539,9 @@
                         android:id="@+id/t3f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t3d3"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -522,7 +549,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d3"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f4"
+                        android:layout_toStartOf="@id/t3f4"
+                        android:paddingStart="5dp"
                         />
 
                     <TextView
@@ -536,8 +564,9 @@
                         android:id="@+id/t3f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t3d4"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -545,7 +574,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d4"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f5"
+                        android:layout_toStartOf="@id/t3f5"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -560,8 +590,9 @@
                         android:id="@+id/t3f6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t3d5"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -569,7 +600,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d5"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f6"
+                        android:layout_toStartOf="@id/t3f6"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -584,15 +616,17 @@
                         android:id="@+id/t3f7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t3d6"
+                        android:paddingStart="6dp"
                         />
                     <TextView
                         android:id="@+id/t3p7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d6"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f7"
+                        android:layout_toStartOf="@id/t3f7"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -606,15 +640,17 @@
                         android:id="@+id/t3f8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t3d7"
+                        android:paddingStart="6dp"
                         />
                     <TextView
                         android:id="@+id/t3p8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t3d7"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t3f8"
+                        android:layout_toStartOf="@id/t3f8"
+                        android:paddingStart="5dp"
                         />
 
                     <View
@@ -682,15 +718,17 @@
                         android:id="@+id/t4f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/title4"
+                        android:paddingStart="6dp"
                         />
                     <TextView
                         android:id="@+id/t4p1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title4"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f1"
+                        android:layout_toStartOf="@id/t4f1"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -705,15 +743,17 @@
                         android:id="@+id/t4f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t4d1"
+                        android:paddingStart="6dp"
                         />
                     <TextView
                         android:id="@+id/t4p2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t4d1"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f2"
+                        android:layout_toStartOf="@id/t4f2"
+                        android:paddingStart="5dp"
                         />
 
                     <TextView
@@ -727,15 +767,17 @@
                         android:id="@+id/t4f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t4d2"
+                        android:paddingStart="6dp"
                         />
                     <TextView
                         android:id="@+id/t4p3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t4d2"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f3"
+                        android:layout_toStartOf="@id/t4f3"
+                        android:paddingStart="5dp"
                         />
 
                     <TextView
@@ -749,8 +791,9 @@
                         android:id="@+id/t4f4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t4d3"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -758,7 +801,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t4d3"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f4"
+                        android:layout_toStartOf="@id/t4f4"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -772,8 +816,9 @@
                         android:id="@+id/t4f5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t4d4"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -781,7 +826,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t4d4"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t4f5" />
+                        android:layout_toStartOf="@id/t4f5"
+                        android:paddingStart="5dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -849,8 +895,9 @@
                         android:id="@+id/t5f1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/title5"
+                        android:paddingStart="6dp"
                         />
 
                     <TextView
@@ -858,7 +905,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/title5"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f1"
+                        android:layout_toStartOf="@id/t5f1"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -873,15 +921,17 @@
                         android:id="@+id/t5f2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t5d1"
+                        android:paddingStart="6dp"
                         />
                     <TextView
                         android:id="@+id/t5p2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t5d1"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f2"
+                        android:layout_toStartOf="@id/t5f2"
+                        android:paddingStart="5dp"
                         />
 
                     <TextView
@@ -895,15 +945,17 @@
                         android:id="@+id/t5f3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/t5d2"
+                        android:paddingStart="6dp"
                         />
                     <TextView
                         android:id="@+id/t5p3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t5d2"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f3"
+                        android:layout_toStartOf="@id/t5f3"
+                        android:paddingStart="5dp"
 
                         />
 
@@ -919,15 +971,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t5d3" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d3"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t5p4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/t5d3"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f4"
+                        android:layout_toStartOf="@id/t5f4"
+                        android:paddingStart="5dp"
                         />
 
 
@@ -942,15 +996,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t5d4" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d4"
+                        android:paddingStart="6dp" />
                     <TextView
                         android:id="@+id/t5p5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
                         android:layout_below="@id/t5d4"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f5"/>
+                        android:layout_toStartOf="@id/t5f5"
+                        android:paddingStart="5dp" />
 
                     <TextView
                         android:id="@+id/t5d6"
@@ -963,8 +1019,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t5d5" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d5"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t5p6"
@@ -972,7 +1029,8 @@
                         android:layout_height="wrap_content"
 
                         android:layout_below="@id/t5d5"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f6"/>
+                        android:layout_toStartOf="@id/t5f6"
+                        android:paddingStart="5dp" />
 
                     <TextView
                         android:id="@+id/t5d7"
@@ -985,8 +1043,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t5d6" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d6"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t5p7"
@@ -994,7 +1053,8 @@
                         android:layout_height="wrap_content"
 
                         android:layout_below="@id/t5d6"
-                        android:paddingStart="5dp"                         android:layout_toStartOf="@id/t5f7"/>
+                        android:layout_toStartOf="@id/t5f7"
+                        android:paddingStart="5dp" />
 
                     <TextView
                         android:id="@+id/t5d8"
@@ -1007,8 +1067,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_alignParentEnd="true"                         android:paddingStart="6dp"
-                        android:layout_below="@id/t5d7" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/t5d7"
+                        android:paddingStart="6dp" />
 
                     <TextView
                         android:id="@+id/t5p8"
@@ -1016,8 +1077,8 @@
                         android:layout_height="wrap_content"
 
                         android:layout_below="@id/t5d7"
-                        android:paddingStart="5dp"
-                        android:layout_toStartOf="@id/t5f8"/>
+                        android:layout_toStartOf="@id/t5f8"
+                        android:paddingStart="5dp" />
 
 
                     <View
@@ -1047,12 +1108,6 @@
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_margin="8dp"
-                android:background="@android:color/darker_gray" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/latest_thread_recycler"

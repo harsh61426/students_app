@@ -301,6 +301,13 @@ public class g_Comments extends AppCompatActivity {
 
     }
 
+    private void makeSnackbar(String msg) {
+
+        Snackbar snackbar = Snackbar
+                .make(relativeLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -309,13 +316,6 @@ public class g_Comments extends AppCompatActivity {
                 return true;
         }
         return true;
-    }
-
-    private void makeSnackbar(String msg) {
-
-        Snackbar snackbar = Snackbar
-                .make(relativeLayout, msg, Snackbar.LENGTH_LONG);
-        snackbar.show();
     }
 
     @Override
