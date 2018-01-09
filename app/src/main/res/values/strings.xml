@@ -13,6 +13,7 @@
     <string name="hcomplaints_guide">Hostel complaints can be registered through this portal, which will be displayed here. Generic complaints are displayed with their proximities(closest room number to the place of issue) and number of complaints displayed with them. </string>
 
 
+
     <string name="even_year1">Jan-May 2016</string>
     <string name="odd_year1">Jul-Nov 2016</string>
     <string name="even_year2">Jan-May 2017</string>
@@ -139,7 +140,7 @@
     <string name="userid">"1834695056756669"</string>
     <string name="reaction_query">"reactions.type(LIKE).summary(total_count).limit(0).as(like),reactions.type(LOVE).summary(total_count).limit(0).as(love),reactions.type(WOW).summary(total_count).limit(0).as(wow),reactions.type(HAHA).summary(total_count).limit(0).as(haha),reactions.type(SAD).summary(total_count).limit(0).as(sad),reactions.type(ANGRY).summary(total_count).limit(0).as(angry)"</string>
     <string name="mediaclubchannelid">"UCL54SxfvU26y-niXyi1VY9A"</string>
-
+    <string name="webServerId">"80167994513-utbn9q0t64evvv51krn4rl9e5o9t4ut8.apps.googleusercontent.com"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
