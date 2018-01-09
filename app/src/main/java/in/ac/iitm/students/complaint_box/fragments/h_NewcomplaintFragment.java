@@ -175,6 +175,7 @@ public class h_NewcomplaintFragment extends Fragment {
         description5.add(getString(R.string.piw_5));
         description5.add(getString(R.string.piw_6));
         description5.add(getString(R.string.piw_7));
+        description5.add(getString(R.string.piw_8));
 
 
         final ArrayAdapter<String> dataAdapter_description5 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, description5);

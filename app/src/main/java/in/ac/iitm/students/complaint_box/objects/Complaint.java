@@ -37,7 +37,7 @@ public class Complaint implements Serializable {
         hComplaint.setCustom(true);
         hComplaint.setHostel("IIT Madras");
         hComplaint.setTag("#instimobops");
-        hComplaint.setTitle("Error getting complaints!");
+        hComplaint.setTitle("Unable to show complaints!");
         hComplaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
         return hComplaint;
     }

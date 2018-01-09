@@ -141,68 +141,8 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp"
             android:paddingTop="2dp"
-            android:text="Tags"
+            android:text=""
             android:textSize="15sp" />
-
-        <LinearLayout
-            android:id="@+id/ll_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <Button
-                android:id="@+id/bn_upvote"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/ic_keyboard_arrow_up_black_24dp" />
-
-            <TextView
-                android:id="@+id/tv_upvote"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:padding="8dp"
-                android:text="upvote" />
-
-            <Button
-                android:id="@+id/bn_downvote"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/ic_keyboard_arrow_down_black_24dp" />
-
-            <TextView
-                android:id="@+id/tv_downvote"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:padding="8dp"
-                android:text="downvote" />
-
-            <Button
-                android:id="@+id/bn_comment"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/ic_comment_black_24dp" />
-
-            <TextView
-                android:id="@+id/tv_comment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:padding="8dp"
-                android:text="comment" />
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -212,7 +152,7 @@
         <Button
             android:id="@+id/bn_resolve"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:background="@color/unresolved_colour"
             android:text="Resolve" />
 
