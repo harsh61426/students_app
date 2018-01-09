@@ -113,9 +113,7 @@
     <string name="instrucions">Guide for using the timetable:\n\n
         Long click on a cell for registering a bunk.\n
         Double click on a cell(can be vacant too) for editing it.\n
-        On running into any issues, remove all courses from the Edit Courses menu and add them back again.\n
-        A slot will turn red in the bunk monitor when you need to pay more attention about bunking more of that course.\n
-        You can edit the number of bunks done manually by clicking on the corresponding course in the bunk monitor.
+        On running into any issues, remove all courses from the Edit Courses menu and add them back again.
     </string>
     <string name="inst">Long click on a cell for registering a bunk.\n
         Double click on a cell(can be vacant too) for editing it.\n
