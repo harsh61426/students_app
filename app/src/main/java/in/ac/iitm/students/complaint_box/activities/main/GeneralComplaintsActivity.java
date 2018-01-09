@@ -213,7 +213,6 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
         String url = builder.build().toString();*/
 
-        //String url="https://rockstarharshitha.000webhostapp.com/general_complaints/Search.php";
         String url ="https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/search.php";
 
         StringRequest jsonObjReq = new StringRequest(Request.Method.POST,
@@ -221,14 +220,14 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
             @Override
             public void onResponse(String response) {
-                Log.d("complaintSearch",response);
+                Log.d("zoop", "response: " + response);
 
                 try {
                     JSONObject jsonObject=new JSONObject(response);
 
                     if (jsonObject.has("error")) {
                         makeSnackbar("Error Searching");
-                        Log.d("data error", jsonObject.getString("error"));
+                        Log.d("zoop", "error:" + jsonObject.getString("error"));
                     } else if (jsonObject.has("status")) {
                         String status = jsonObject.getString("status");
 
@@ -248,7 +247,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                                 JSONObject tag = array.getJSONObject(i);
                                 suggestions[i] = tag.getString("tags");
                                 //arrayList.add(tag.getString("tags"));
-                                Log.d("suggestions", suggestions[i]);
+                                Log.d("zoop", "sugg: " + suggestions[i]);
                             }
                             //suggestions = arrayList.toArray(new String[list.size()]);
                             searchView.addSuggestions(suggestions);

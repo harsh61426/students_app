@@ -122,6 +122,10 @@ public class h_CustomComplainFragment extends Fragment {
 
                 if (title.equals("") || description.equals("")) makeSnackbar("Empty field");
                 else {
+                    progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setMessage("Registering Complaints....");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
@@ -145,15 +149,18 @@ public class h_CustomComplainFragment extends Fragment {
                                     if (name.equals("status")) {
                                         String status = reader.nextString();
                                         if (status.equals("1")) {
-                                            //getActivity().finish();
+                                            progressDialog.dismiss();
                                             makeSnackbar("Complaint registered");
                                             Intent intent = new Intent(getContext(), HostelComplaintsActivity.class);
                                             startActivity(intent);
+
                                         } else if (status.equals("0")) {
+                                            progressDialog.dismiss();
                                             makeSnackbar("Error registering complaint");
-                                            //Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+
                                         }    } else if (name.equals("error")) {
                                         reader.nextString();
+                                        progressDialog.dismiss();
                                         makeSnackbar("Error registering complaint");
                                     } else {
                                         reader.skipValue();
@@ -162,12 +169,14 @@ public class h_CustomComplainFragment extends Fragment {
                                 reader.endObject();
                             } catch (IOException e) {
                                 e.printStackTrace();
+                                progressDialog.dismiss();
                                 makeSnackbar("Error registering complaint");
                             } finally {
                                 try {
                                     reader.close();
                                 } catch (IOException e) {
                                     e.printStackTrace();
+                                    progressDialog.dismiss();
                                     makeSnackbar("Error registering complaint");
                                 }
                             }
@@ -193,7 +202,8 @@ public class h_CustomComplainFragment extends Fragment {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
+                            progressDialog.dismiss();
+                            makeSnackbar("Error registering complaint");
                         }
                     }) {
                         @Override

@@ -18,7 +18,7 @@
     <string name="odd_year1">Jul-Nov 2016</string>
     <string name="even_year2">Jan-May 2017</string>
     <string name="odd_year2">Jul-Nov 2017</string>
-    <string name="about_us">This app is developed by Institute Mobops Team 2017–18. All rights are reserved</string>
+    <string name="about_us">This app is developed by Institute MobOps Team. All rights are reserved</string>
     <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this Complaint.</string>
 
     <string name="error_connection">Couldn\'t connect to the server.</string>
@@ -280,6 +280,52 @@
 
     <string name="tag_phone">phone</string>
     <string name="tag_mail">mail</string>
+
+
+    <!-- Generic complaint strings-->
+
+    <string name="type_wm">Washing Machine</string>
+    <string name="wm_1">Power supply not proper</string>
+    <string name="wm_2">Check water error</string>
+    <string name="wm_3">Water outlet problem</string>
+    <string name="wm_4">Dryer not functional</string>
+    <string name="wm_5">Not even starting wash cycle</string>
+    <string name="wm_6">Others</string>
+
+    <string name="type_wd">Water Dispenser</string>
+    <string name="wd_1">Power supply not proper</string>
+    <string name="wd_2">Heating or cooling not working</string>
+    <string name="wd_3">Monkey drank from the dispenser</string>
+    <string name="wd_4">Algae is growing</string>
+    <string name="wd_5">Others</string>
+
+    <string name="type_wash">Washroom</string>
+    <string name="wash_1">Power supply not proper</string>
+    <string name="wash_2">Taps not properly working</string>
+    <string name="wash_3">Showers not properly working</string>
+    <string name="wash_4">Towel Hangers not present</string>
+    <string name="wash_5">Washroom doors not closing properly</string>
+    <string name="wash_6">Flush tanks not working</string>
+    <string name="wash_7">Pipes leaking</string>
+    <string name="wash_8">Others</string>
+
+    <string name="type_pir">Problems in your room</string>
+    <string name="pir_1">Electrical work</string>
+    <string name="pir_2">Civil work</string>
+    <string name="pir_3">Furniture broken</string>
+    <string name="pir_4">Internet problem (LAN port repair)</string>
+    <string name="pir_5">Others</string>
+
+    <string name="type_piw">Problems in your wing</string>
+    <string name="piw_1">Electrical work</string>
+    <string name="piw_2">Civil work</string>
+    <string name="piw_3">Furniture broken</string>
+    <string name="piw_4">Internet problem</string>
+    <string name="piw_5">Wing not cleaned regularly</string>
+    <string name="piw_6">Does not have a dustbin</string>
+    <string name="piw_7">Cloth wires not proper</string>
+    <string name="piw_8">Others</string>
+
 
     <string-array name="query_suggestions">
         <item>furniture</item>
