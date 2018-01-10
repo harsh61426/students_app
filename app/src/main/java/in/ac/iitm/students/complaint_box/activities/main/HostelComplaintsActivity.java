@@ -69,7 +69,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     public String mGeneralString;
     MaterialSearchView searchView;
     String[] suggestions;
-    public ViewPagerAdapter adapter;
+    HostelComplaintsActivity.ViewPagerAdapter adapter;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -96,8 +96,9 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(0);
-        actionBar.setTitle(R.string.title_activity_complaint_hostel);
-//        searchViewCode();
+        String Hostel = String.valueOf(hostel.charAt(0)).toUpperCase() + hostel.substring(1, hostel.length());
+        actionBar.setTitle(Hostel + " Complaints");
+        searchViewCode();
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
@@ -178,7 +179,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Do something when the suggestion list is clicked.
                 String suggestion = searchView.getSuggestionAtPosition(position);
-                searchView.setQuery(suggestion, true);
+                searchView.setQuery(suggestion, false);
             }
         });
 
@@ -250,6 +251,8 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         };
 
         MySingleton.getInstance(HostelComplaintsActivity.this).addToRequestQueue(jsonObjReq);
+
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -263,34 +266,28 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     @Override
     public void onBackPressed() {
 
-//        if(searchView.isOpen()){
-//            searchView.closeSearch();
-//        }else{
+        if(searchView.isOpen()){
+            searchView.closeSearch();
+        }else{
             Intent intent = new Intent(HostelComplaintsActivity.this, HomeActivity.class);
             startActivity(intent);
-//        }
+        }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (position == 0) {
+        if (position == 0)
             fab.show();
-//            searchView.setVisibility(View.VISIBLE);
-        }
-        else {
+        else
             fab.hide();
-//            searchView.setVisibility(View.GONE);
-        }
     }
 
     @Override
     public void onPageSelected(int position) {
         if (position == 0) {
             fab.show();
-//            searchView.setVisibility(View.VISIBLE);
         } else {
             fab.hide();
-//            searchView.setVisibility(View.GONE);
         }
     }
 
@@ -310,7 +307,6 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search_item,menu);
-
         return true;
     }
 
@@ -334,7 +330,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             onBackPressed();
             return true;
         }else if(id==R.id.action_search){
-//            searchView.openSearch();
+            searchView.openSearch();
             return true;
 
         }
@@ -482,19 +478,15 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             notifyDataSetChanged();
         }
 
+
+        @Override
         public int getItemPosition(Object object) {
-            return POSITION_NONE;
+            if (object instanceof Updateable) {
+                //sent to FirstFragment and SecondFragment
+                ((Updateable) object).update(mGeneralString);
+            }
+            return super.getItemPosition(object);
         }
-
-
-//        @Override
-//        public int getItemPosition(Object object) {
-//            if (object instanceof Updateable) {
-//                //sent to FirstFragment and SecondFragment
-//                ((Updateable) object).update(mGeneralString);
-//            }
-//            return super.getItemPosition(object);
-//        }
 
 
         public void addFragment(Fragment fragment, String title) {

@@ -104,7 +104,7 @@ public class h_LatThCompAdapter extends RecyclerView.Adapter<h_LatThCompAdapter.
 
 
         tv_name.setText(hComplaint.getName());
-        tv_hostel.setText(hComplaint.getHostel());
+        tv_hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, context));
         tv_resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         tv_title.setText(hComplaint.getTitle());
         tv_description.setText(hComplaint.getDescription());
