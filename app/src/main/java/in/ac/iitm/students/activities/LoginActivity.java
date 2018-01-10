@@ -220,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         showProgressDialog("Logging in...");
 
@@ -231,12 +231,12 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+                            //Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Snackbar.make(findViewById(R.id.bt_ldap_login), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -338,11 +338,11 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else if (success[0] == 0) {
                             MakeSnSnackbar(message[0]);
-                            Log.d("invalid login", response + "Error connecting to server !!");
+                            //Log.d("invalid login", response + "Error connecting to server !!");
                             Utils.clearpref(context);
                         } else {
                             MakeSnSnackbar(getString(R.string.error_connection));
-                            Log.d("invalid login", response + "Error connecting to server !!");
+                            //Log.d("invalid login", response + "Error connecting to server !!");
                             Utils.clearpref(context);
                         }
                         hideProgressDialog();
@@ -351,9 +351,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 MakeSnSnackbar(getString(R.string.error_connection));
-                Log.d("invalid login: ", error.toString() + "; Error connecting to server!");
+                //Log.d("invalid login: ", error.toString() + "; Error connecting to server!");
                 Utils.clearpref(context);
-                Log.d("brr", "onError");
+                //Log.d("brr", "onError");
                 progress.dismiss();
             }
         }) {
