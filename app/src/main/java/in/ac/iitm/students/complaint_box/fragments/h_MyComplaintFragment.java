@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
+import in.ac.iitm.students.complaint_box.adapters.h_MyComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.h_JSONMyComplaintsParser;
 import in.ac.iitm.students.others.MySingleton;
@@ -35,7 +35,6 @@ import in.ac.iitm.students.others.Utils;
 
 
 public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private final String hostel = "narmada";
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
 
@@ -95,11 +94,11 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                     hComplaintList.add(Complaint.getErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_ComplaintAdapter(hComplaintList,getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new h_MyComplaintAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintList,getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_MyComplaintAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
 
@@ -117,7 +116,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                 hComplaintArray.add(Complaint.getErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_MyComplaintAdapter(hComplaintArray, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
             }
         }) {

@@ -1,10 +1,7 @@
 package in.ac.iitm.students.activities.main;
 
 import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -14,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -42,7 +38,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -67,10 +62,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
@@ -90,11 +81,9 @@ import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
-import in.ac.iitm.students.activities.LoginActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
@@ -110,7 +99,6 @@ import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity
@@ -142,65 +130,6 @@ public class HomeActivity extends AppCompatActivity
     private String url_roll = "https://students.iitm.ac.in/studentsapp/studentlist/search_by_roll.php";
     private String rollNO;
 
-
-//    public static void showAlert(Activity activity, String title, String message) {
-//
-//        Drawable dialog_icon;
-//        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//        builder.setIcon(dialog_icon);
-//        builder.setTitle(title);
-//        builder.setMessage(message)
-//                .setNeutralButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // User cancelled the dialog
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-//
-//    public static void showAlert(final Activity activity, String title, String message, final String link) {
-//
-//        Drawable dialog_icon;
-//        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//        builder.setIcon(dialog_icon);
-//        builder.setTitle(title);
-//        builder.setMessage(message)
-//                .setNegativeButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // User cancelled the dialog
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .setPositiveButton(R.string.go_to_link, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//                        openWebPage(link, activity);
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-//
-//    private static void openWebPage(String url, Activity activity) {
-//        Toast.makeText(activity, "Getting data...", Toast.LENGTH_SHORT).show();
-//        Uri webpage = Uri.parse(url);
-//        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        if (intent.resolveActivity(activity.getPackageManager()) != null) {
-//            activity.startActivity(intent);
-//        } else {
-//            Toast.makeText(activity, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
 
     @Override
@@ -348,7 +277,7 @@ public class HomeActivity extends AppCompatActivity
 
         Uri.Builder builder = new Uri.Builder();
 
-        builder.scheme("http")//https://students.iitm.ac.in/studentsapp/map/get_location.php?
+        builder.scheme("http")
                 .authority("students.iitm.ac.in")
                 .appendPath("Android")
                 .appendPath("includes")
@@ -1012,7 +941,6 @@ public class HomeActivity extends AppCompatActivity
             final SpannableString content = new SpannableString(link);
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
             holder.tv_link.setText(content);
-
 
             if(notifObjectList.get(holder.getAdapterPosition()).date!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
                 holder.tv_date.setText(notifObjectList.get(holder.getAdapterPosition()).date);

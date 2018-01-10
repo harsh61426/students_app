@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -34,9 +36,11 @@ public class h_NewComplaintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.h_activity_new_complaint);
 
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setElevation(0);
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -60,6 +64,16 @@ public class h_NewComplaintActivity extends AppCompatActivity {
         adapter.addFragment(new h_NewcomplaintFragment(), "New Complaint");
         adapter.addFragment(new h_CustomComplainFragment(), "Custom Complaint");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return true;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

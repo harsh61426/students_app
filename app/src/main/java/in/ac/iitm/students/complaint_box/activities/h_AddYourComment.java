@@ -56,7 +56,6 @@ public class h_AddYourComment extends AppCompatActivity {
         Button save = (Button) findViewById(R.id.bn_save);
 
         name.setText(hComplaint.getName());
-        //todo change narmad
         hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, this));
         resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         title.setText(hComplaint.getTitle());
@@ -111,8 +110,8 @@ public class h_AddYourComment extends AppCompatActivity {
                         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
                         params.put("HOSTEL", hostel_name);
-                        params.put("NAME", "Omkar Patil");
-                        params.put("ROLL_NO", "me15b123");
+                        params.put("NAME", Utils.getprefString(UtilStrings.NAME, h_AddYourComment.this));
+                        params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, h_AddYourComment.this));
                         params.put("ROOM_NO", room);
                         params.put("COMMENT", cmntDescStr);
                         params.put("UUID", mUUID);

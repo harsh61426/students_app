@@ -53,14 +53,14 @@ public class ChatAdapter extends ArrayAdapter {
             final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this.getContext());
             //Toast.makeText(this.getContext(),"1:"+content.getUser()+"::2:"+roll_no,Toast.LENGTH_LONG).show();
             if (content.getUser().equals(roll_no)) {
-                row = layoutInflater.inflate(R.layout.message_item_right, parent, false);
+                row = layoutInflater.inflate(R.layout.m_message_item_right, parent, false);
                 contentHolder = new contentHolder();
                 contentHolder.txbody = (TextView) row.findViewById(R.id.txtMsg);
                 contentHolder.txuser = (TextView) row.findViewById(R.id.lblMsgYou);
                 contentHolder.txtime = (TextView) row.findViewById(R.id.lblMsgDateright);
                 row.setTag(contentHolder);
             } else {
-                row = layoutInflater.inflate(R.layout.message_item_left, parent, false);
+                row = layoutInflater.inflate(R.layout.m_message_item_left, parent, false);
                 contentHolder = new contentHolder();
                 contentHolder.txbody = (TextView) row.findViewById(R.id.txtMsg);
                 contentHolder.txuser = (TextView) row.findViewById(R.id.lblMsgFrom);

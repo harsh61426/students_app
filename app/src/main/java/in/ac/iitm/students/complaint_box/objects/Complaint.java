@@ -21,7 +21,6 @@ public class Complaint implements Serializable {
     private String uid;
     private int comments;
     private String hostel = "IIT Madras";
-    private String moreRooms;
     private String imageUrl;
     private boolean custom;
     private String trending;
@@ -35,10 +34,10 @@ public class Complaint implements Serializable {
         hComplaint.setComments(0);
         hComplaint.setDate("00-00-0000");
         hComplaint.setResolved(true);
-        //hComplaint.setCustom(true);
+        hComplaint.setCustom(true);
         hComplaint.setHostel("IIT Madras");
         hComplaint.setTag("#instimobops");
-        hComplaint.setTitle("Error getting complaints!");
+        hComplaint.setTitle("Unable to show complaints!");
         hComplaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
         return hComplaint;
     }
@@ -177,9 +176,6 @@ public class Complaint implements Serializable {
         this.hostel = hostel;
     }
 
-    public String getMoreRooms() { return moreRooms;}
-
-    public void setMoreRooms(String moreRooms){this.moreRooms = moreRooms;}
 
     /*public boolean isCustom() {
         return custom;

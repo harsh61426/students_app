@@ -1,6 +1,5 @@
 package in.ac.iitm.students.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;

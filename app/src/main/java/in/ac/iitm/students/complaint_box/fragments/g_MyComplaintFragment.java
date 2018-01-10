@@ -37,7 +37,6 @@ import in.ac.iitm.students.others.Utils;
 
 public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private final String hostel = "narmada";
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
 
