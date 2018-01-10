@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.adapters.h_LatThCompAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
@@ -197,22 +198,25 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
         bn_comments4.setVisibility(View.INVISIBLE);
         bn_comments5.setVisibility(View.INVISIBLE);
 
+        HostelComplaintsActivity hostelComplaintsActivity = (HostelComplaintsActivity)getActivity();
+
         //Log.d("dork",hwm.getT1details()[0][0]);
+//        getAllComplaints();
+        //Log.d("dork",hwm.getT1details()[0][0]);
+///        String frag_content = hostelComplaintsActivity.mGeneralString;
+//        if(frag_content!=null && frag_content.length()>0){
+//            update(frag_content);
+//        }else {
         getAllComplaints();
-        //Log.d("dork",hwm.getT1details()[0][0]);
-
-
 
         return view;
     }
 
-    @Override
     public void update(String string) {
-        String searchResponse =string;
 
-        if(searchResponse!=null){
-            Log.d("searchResponse",searchResponse);
-            g_JSONComplaintParser gJsonComplaintParser = new g_JSONComplaintParser(searchResponse, getActivity());
+        if(string !=null && string.length()>0){
+            Log.d("searchResponse", string);
+            g_JSONComplaintParser gJsonComplaintParser = new g_JSONComplaintParser(string, getActivity());
             ArrayList<Complaint> hComplaintArray = null;
             try {
                 hComplaintArray = gJsonComplaintParser.pleasePleaseParseMyData();
