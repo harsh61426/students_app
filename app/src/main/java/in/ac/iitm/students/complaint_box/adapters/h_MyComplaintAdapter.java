@@ -97,7 +97,7 @@ public class h_MyComplaintAdapter extends RecyclerView.Adapter<h_MyComplaintAdap
 
 
         tv_name.setText(hComplaint.getName());
-        tv_hostel.setText(hComplaint.getHostel());
+        tv_hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, context));
         tv_resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         tv_title.setText(hComplaint.getTitle());
         tv_description.setText(hComplaint.getDescription());

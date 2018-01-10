@@ -24,10 +24,7 @@ public class    UtilStrings {
     public static String COURSE_FLAG = "crsflag";
     public static String BUNKS_TOTAL = "bunktot";
     public static String BUNKS_DONE = "bunkdone";
-    public static String ROWCOLS_NUM = "rcnum";
-    public static String ROWCOLS_COUNT = "rccount";
-    public static String ROW = "row";
-    public static String COLUMN = "col";
+    public static String FIRST = "first_homeActivity_run";
 
     public static String CAL_ADDED = "cal_added";
 
