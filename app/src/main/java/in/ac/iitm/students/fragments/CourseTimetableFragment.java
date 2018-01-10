@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -187,7 +188,7 @@ public class CourseTimetableFragment extends Fragment {
         getcoursemap();
         for (Bunks c : bunks) {
             mapslots(c.getSlot(), c.getDays());
-            //.d("map","Each time this comes, a slot is mapped");
+            Log.d("map","Each time this comes, a slot is mapped");
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -524,7 +525,7 @@ public class CourseTimetableFragment extends Fragment {
                     for(int j=0;j<9;j++) {
                         if (days % prime[i][j] == 0)
                             slots[i][j] = 'K';
-                        if (slots[i][j] == 'A' && days % prime[i][j] != 0)
+                        if (slots[i][j] == 'K' && days % prime[i][j] != 0)
                             slots[i][j] = 'X';
                     }
                 /*slots[2][6] = (days%2==0)?'K':'X';
@@ -548,7 +549,7 @@ public class CourseTimetableFragment extends Fragment {
                     for(int j=0;j<9;j++) {
                         if (days % prime[i][j] == 0)
                             slots[i][j] = 'M';
-                        if (slots[i][j] == 'A' && days % prime[i][j] != 0)
+                        if (slots[i][j] == 'M' && days % prime[i][j] != 0)
                             slots[i][j] = 'X';
                     }
                 /*slots[0][6] = (days%2==0)?'M':'X';
@@ -1203,7 +1204,7 @@ public class CourseTimetableFragment extends Fragment {
                     char b=Character.toUpperCase(slot.getText().charAt(0));
                     String s=courseid.getText().toString();
                     s=s.substring(0,2).toUpperCase()+s.substring(2);
-                    boolean flag=false;
+                    boolean flag=false;//if a course is already present
                     int pos_final=-1;
                     int pos_init=-1;
                     for(int i=0;i<number;i++){
@@ -1228,26 +1229,34 @@ public class CourseTimetableFragment extends Fragment {
 
                     }
                     else{
-                        Utils.saveprefInt(UtilStrings.COURSES_COUNT,number+1,getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM+number+UtilStrings.BUNKS_TOTAL,2,getActivity());
-                        //edit below
-                        Utils.saveprefString(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_ID,s,getActivity());
-                        Utils.saveprefString(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_SLOT,Character.toString(b),getActivity());
-
+                        //if(ch!='X') {
+                            Utils.saveprefInt(UtilStrings.COURSES_COUNT, number + 1, getActivity());
+                            Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
+                            Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
+                            Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.BUNKS_TOTAL, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.BUNKS_TOTAL, getActivity()) - 2, getActivity());
+                            Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.BUNKS_TOTAL, 2, getActivity());
+                            //edit below
+                            Utils.saveprefString(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_ID, s, getActivity());
+                            Utils.saveprefString(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_SLOT, Character.toString(b), getActivity());
+                        //}
+                        //else{
+                        //    Utils.saveprefInt(UtilStrings.COURSES_COUNT, number + 1, getActivity());
+                         //   Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
+                         //   Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.BUNKS_TOTAL, 2, getActivity());
+                        //    Utils.saveprefString(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_ID, s, getActivity());
+                        //    Utils.saveprefString(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_SLOT, Character.toString(b), getActivity());
+                        //}
 
 
                     }
                 }
                 courseAdapter.notifyDataSetChanged();
 
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays());
-                    //.d("map","Each time this comes, a slot is mapped");
+                    Log.d("map","Each time this comes, a slot is mapped");
                 }
                 for(int i=0;i<5;i++) {
                     for (int j = 0; j < 9; j++) {
@@ -1262,6 +1271,7 @@ public class CourseTimetableFragment extends Fragment {
                     }
                 }
                 //recreate();
+                */
                 ((TimetableActivity) getActivity()).returnadapter().notifyDataSetChanged();
 
                 dialog.dismiss();
@@ -1281,11 +1291,11 @@ public class CourseTimetableFragment extends Fragment {
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
                 Utils.saveprefBool("state" + 9 * x + y, false, getActivity());
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays());
-                    //.d("map","Each time this comes, a slot is mapped");
+                    Log.d("map","Each time this comes, a slot is mapped");
                 }
                 for(int i=0;i<5;i++) {
                     for (int j = 0; j < 9; j++) {
@@ -1298,7 +1308,7 @@ public class CourseTimetableFragment extends Fragment {
                             tvs[i][j].setVisibility(View.INVISIBLE);
                         }
                     }
-                }
+                }*/
                 dialog.dismiss();
                 courseAdapter.notifyDataSetChanged();
                 ((TimetableActivity) getActivity()).returnadapter().notifyDataSetChanged();

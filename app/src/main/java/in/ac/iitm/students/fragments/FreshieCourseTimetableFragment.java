@@ -1347,7 +1347,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 }
                 courseAdapter.notifyDataSetChanged();
 
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays(),c.getFlag1());
@@ -1366,6 +1366,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                     }
                 }
                 //recreate();
+                */
                 ((TimetableActivity) getActivity()).freshiereturnadapter().notifyDataSetChanged();
 
                 dialog.dismiss();
@@ -1386,7 +1387,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_FLAG,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_FLAG,getActivity()),getActivity());
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
                 Utils.saveprefBool("state" + 10 * x + y, false, getActivity());
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays(),c.getFlag1());
@@ -1403,7 +1404,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             tvs[i][j].setVisibility(View.INVISIBLE);
                         }
                     }
-                }
+                }*/
                 dialog.dismiss();
                 courseAdapter.notifyDataSetChanged();
                 ((TimetableActivity) getActivity()).freshiereturnadapter().notifyDataSetChanged();

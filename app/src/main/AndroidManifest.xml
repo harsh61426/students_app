@@ -134,7 +134,8 @@
             android:name=".activities.main.TimetableActivity"
             android:label="@string/title_activity_timetable"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.AboutUsActivity"
             android:label="@string/title_activity_about_us"

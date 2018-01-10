@@ -59,14 +59,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="M"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/day2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="T"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/day3"
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="W"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/day4"
@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Th"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/day5"
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="F"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/day6"
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="F"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/day7"
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="F"
-        android:visibility="invisible" />
+        android:visibility="gone" />
     </LinearLayout>
 
 
