@@ -17,6 +17,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.concurrent.Executor;
 
@@ -80,14 +81,18 @@ public class LogOutAlertClass {
     }
 
     private void signOut(final Context context){
+
+        FirebaseAuth.getInstance().signOut();
+//        Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+//        Utils.clearpref(context);
+//        Intent intent = new Intent(context, LoginActivity.class);
+//        context.startActivity(intent);
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
                         // ...
                         Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
-//                                        Intent i=new Intent(getApplicationContext(),LoginActivity.class);
-//                                        context.startActivity(i);
                         Utils.clearpref(context);
                         Intent intent = new Intent(context, LoginActivity.class);
                         context.startActivity(intent);
@@ -95,7 +100,4 @@ public class LogOutAlertClass {
                 });
 
     }
-//    private void signOut(final Context context) {
-//
-//    }
 }

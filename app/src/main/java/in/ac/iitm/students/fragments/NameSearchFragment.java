@@ -192,7 +192,7 @@ public class NameSearchFragment extends Fragment {
 
                     for (i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
-                        Log.i("JSON",jsonObject.toString());
+                        //Log.i("JSON",jsonObject.toString());
                         student = new Student();
                         student.setName(jsonObject.getString("fullname"));
                         student.setRollno(jsonObject.getString("username"));
@@ -242,7 +242,7 @@ public class NameSearchFragment extends Fragment {
             public Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("name", etSearch.getText().toString());
-                Log.i("name",etSearch.getText().toString());
+                //Log.i("name",etSearch.getText().toString());
                 return params;
             }
         };

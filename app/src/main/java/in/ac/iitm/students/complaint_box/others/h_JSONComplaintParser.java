@@ -133,8 +133,6 @@ public class h_JSONComplaintParser {
                 hComplaint.setTag(reader.nextString());
             } else if (name.equals("comments")) {
                 hComplaint.setComments(Integer.parseInt(reader.nextString()));
-            } else if (name.equals("more_rooms") && reader.peek() != JsonToken.NULL) {
-                hComplaint.setMoreRooms(reader.nextString());
             } else if (name.equals("image_url") && reader.peek() != JsonToken.NULL) {
                 hComplaint.setImageUrl(reader.nextString());
             } else if (name.equals("custom")) {
@@ -144,68 +142,68 @@ public class h_JSONComplaintParser {
                         if(hComplaint.getDescription().equals("Power supply not proper")&&!hComplaint.isResolved()){
                             h_wm.setComments(hComplaint.getComments());
                             h_wm.setImageUrl(hComplaint.getImageUrl());
-                            h_wm.setT1details((h_wm.getT1details()[0][0].equals(""))?hComplaint.getProximity():h_wm.getT1details()[0][0]+","+hComplaint.getProximity(),0,0);
+                            h_wm.setT1details((h_wm.getT1details()[0][0].equals(""))?hComplaint.getProximity():isPresent(h_wm.getT1details()[0][0],hComplaint.getProximity())?h_wm.getT1details()[0][0]:h_wm.getT1details()[0][0]+","+hComplaint.getProximity(),0,0);
                             h_wm.setT1details((h_wm.getT1details()[0][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wm.getT1details()[0][1])+1),0,1);
                         }
                         if(hComplaint.getDescription().equals("Check water error")&&!hComplaint.isResolved()){
                             h_wm.setComments(hComplaint.getComments());
                             h_wm.setImageUrl(hComplaint.getImageUrl());
-                            h_wm.setT1details((h_wm.getT1details()[1][0].equals(""))?hComplaint.getProximity():h_wm.getT1details()[1][0]+","+hComplaint.getProximity(),1,0);
+                            h_wm.setT1details((h_wm.getT1details()[1][0].equals(""))?hComplaint.getProximity():isPresent(h_wm.getT1details()[1][0],hComplaint.getProximity())?h_wm.getT1details()[1][0]:h_wm.getT1details()[1][0]+","+hComplaint.getProximity(),1,0);
                             h_wm.setT1details((h_wm.getT1details()[1][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wm.getT1details()[1][1])+1),1,1);
                         }
                         if(hComplaint.getDescription().equals("Water outlet problem")&&!hComplaint.isResolved()){
                             h_wm.setComments(hComplaint.getComments());
                             h_wm.setImageUrl(hComplaint.getImageUrl());
-                            h_wm.setT1details((h_wm.getT1details()[2][0].equals(""))?hComplaint.getProximity():h_wm.getT1details()[2][0]+","+hComplaint.getProximity(),2,0);
+                            h_wm.setT1details((h_wm.getT1details()[2][0].equals(""))?hComplaint.getProximity():isPresent(h_wm.getT1details()[2][0],hComplaint.getProximity())?h_wm.getT1details()[2][0]:h_wm.getT1details()[2][0]+","+hComplaint.getProximity(),2,0);
                             h_wm.setT1details((h_wm.getT1details()[2][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wm.getT1details()[2][1])+1),2,1);
                         }
                         if(hComplaint.getDescription().equals("Dryer not functional")&&!hComplaint.isResolved()){
                             h_wm.setComments(hComplaint.getComments());
                             h_wm.setImageUrl(hComplaint.getImageUrl());
-                            h_wm.setT1details((h_wm.getT1details()[3][0].equals(""))?hComplaint.getProximity():h_wm.getT1details()[3][0]+","+hComplaint.getProximity(),3,0);
+                            h_wm.setT1details((h_wm.getT1details()[3][0].equals(""))?hComplaint.getProximity():isPresent(h_wm.getT1details()[3][0],hComplaint.getProximity())?h_wm.getT1details()[3][0]:h_wm.getT1details()[3][0]+","+hComplaint.getProximity(),3,0);
                             h_wm.setT1details((h_wm.getT1details()[3][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wm.getT1details()[3][1])+1),3,1);
                         }
                         if(hComplaint.getDescription().equals("Not even starting wash cycle")&&!hComplaint.isResolved()){
                             h_wm.setComments(hComplaint.getComments());
                             h_wm.setImageUrl(hComplaint.getImageUrl());
-                            h_wm.setT1details((h_wm.getT1details()[4][0].equals(""))?hComplaint.getProximity():h_wm.getT1details()[4][0]+","+hComplaint.getProximity(),4,0);
+                            h_wm.setT1details((h_wm.getT1details()[4][0].equals(""))?hComplaint.getProximity():isPresent(h_wm.getT1details()[4][0],hComplaint.getProximity())?h_wm.getT1details()[4][0]:h_wm.getT1details()[4][0]+","+hComplaint.getProximity(),4,0);
                             h_wm.setT1details((h_wm.getT1details()[4][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wm.getT1details()[4][1])+1),4,1);
                         }
                         if(hComplaint.getDescription().equals("Others")&&!hComplaint.isResolved()){
                             h_wm.setComments(hComplaint.getComments());
                             h_wm.setImageUrl(hComplaint.getImageUrl());
-                            h_wm.setT1details((h_wm.getT1details()[5][0].equals(""))?hComplaint.getProximity():h_wm.getT1details()[5][0]+","+hComplaint.getProximity(),5,0);
+                            h_wm.setT1details((h_wm.getT1details()[5][0].equals(""))?hComplaint.getProximity():isPresent(h_wm.getT1details()[5][0],hComplaint.getProximity())?h_wm.getT1details()[5][0]:h_wm.getT1details()[5][0]+","+hComplaint.getProximity(),5,0);
                             h_wm.setT1details((h_wm.getT1details()[5][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wm.getT1details()[5][1])+1),5,1);
                         }
                     } else if(hComplaint.getTitle().equals("Water Dispenser")){
                         if(hComplaint.getDescription().equals("Power supply not proper")&&!hComplaint.isResolved()){
                             h_wd.setComments(hComplaint.getComments());
                             h_wd.setImageUrl(hComplaint.getImageUrl());
-                            h_wd.setT2details((h_wd.getT2details()[0][0].equals(""))?hComplaint.getProximity():h_wd.getT2details()[0][0]+","+hComplaint.getProximity(),0,0);
+                            h_wd.setT2details((h_wd.getT2details()[0][0].equals(""))?hComplaint.getProximity():isPresent(h_wd.getT2details()[0][0],hComplaint.getProximity())?h_wd.getT2details()[0][0]:h_wd.getT2details()[0][0]+","+hComplaint.getProximity(),0,0);
                             h_wd.setT2details((h_wd.getT2details()[0][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wd.getT2details()[0][1])+1),0,1);
                         }
                         if(hComplaint.getDescription().equals("Heating or cooling not working")&&!hComplaint.isResolved()){
                             h_wd.setComments(hComplaint.getComments());
                             h_wd.setImageUrl(hComplaint.getImageUrl());
-                            h_wd.setT2details((h_wd.getT2details()[1][0].equals(""))?hComplaint.getProximity():h_wd.getT2details()[1][0]+","+hComplaint.getProximity(),1,0);
+                            h_wd.setT2details((h_wd.getT2details()[1][0].equals(""))?hComplaint.getProximity():isPresent(h_wd.getT2details()[1][0],hComplaint.getProximity())?h_wd.getT2details()[1][0]:h_wd.getT2details()[1][0]+","+hComplaint.getProximity(),1,0);
                             h_wd.setT2details((h_wd.getT2details()[1][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wd.getT2details()[1][1])+1),1,1);
                         }
                         if(hComplaint.getDescription().equals("Monkey drank from the dispenser")&&!hComplaint.isResolved()){
                             h_wd.setComments(hComplaint.getComments());
                             h_wd.setImageUrl(hComplaint.getImageUrl());
-                            h_wd.setT2details((h_wd.getT2details()[2][0].equals(""))?hComplaint.getProximity():h_wd.getT2details()[2][0]+","+hComplaint.getProximity(),2,0);
+                            h_wd.setT2details((h_wd.getT2details()[2][0].equals(""))?hComplaint.getProximity():isPresent(h_wd.getT2details()[2][0],hComplaint.getProximity())?h_wd.getT2details()[2][0]:h_wd.getT2details()[2][0]+","+hComplaint.getProximity(),2,0);
                             h_wd.setT2details((h_wd.getT2details()[2][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wd.getT2details()[2][1])+1),2,1);
                         }
                         if(hComplaint.getDescription().equals("Algae is growing")&&!hComplaint.isResolved()){
                             h_wd.setComments(hComplaint.getComments());
                             h_wd.setImageUrl(hComplaint.getImageUrl());
-                            h_wd.setT2details((h_wd.getT2details()[3][0].equals(""))?hComplaint.getProximity():h_wd.getT2details()[3][0]+","+hComplaint.getProximity(),3,0);
+                            h_wd.setT2details((h_wd.getT2details()[3][0].equals(""))?hComplaint.getProximity():isPresent(h_wd.getT2details()[3][0],hComplaint.getProximity())?h_wd.getT2details()[3][0]:h_wd.getT2details()[3][0]+","+hComplaint.getProximity(),3,0);
                             h_wd.setT2details((h_wd.getT2details()[3][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wd.getT2details()[3][1])+1),3,1);
                         }
                         if(hComplaint.getDescription().equals("Others")&&!hComplaint.isResolved()){
                             h_wd.setComments(hComplaint.getComments());
                             h_wd.setImageUrl(hComplaint.getImageUrl());
-                            h_wd.setT2details((h_wd.getT2details()[4][0].equals(""))?hComplaint.getProximity():h_wd.getT2details()[4][0]+","+hComplaint.getProximity(),4,0);
+                            h_wd.setT2details((h_wd.getT2details()[4][0].equals(""))?hComplaint.getProximity():isPresent(h_wd.getT2details()[4][0],hComplaint.getProximity())?h_wd.getT2details()[4][0]:h_wd.getT2details()[4][0]+","+hComplaint.getProximity(),4,0);
                             h_wd.setT2details((h_wd.getT2details()[4][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_wd.getT2details()[4][1])+1),4,1);
                         }
 
@@ -213,49 +211,49 @@ public class h_JSONComplaintParser {
                         if(hComplaint.getDescription().equals("Power supply not proper")){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
-                            h_w.setT3details((h_w.getT3details()[0][0].equals(""))?hComplaint.getProximity():h_w.getT3details()[0][0]+","+hComplaint.getProximity(),0,0);
+                            h_w.setT3details((h_w.getT3details()[0][0].equals(""))?hComplaint.getProximity():isPresent(h_w.getT3details()[0][0],hComplaint.getProximity())?h_w.getT3details()[0][0]:h_w.getT3details()[0][0]+","+hComplaint.getProximity(),0,0);
                             h_w.setT3details((h_w.getT3details()[0][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[0][1])+1),0,1);
                         }
                         if(hComplaint.getDescription().equals("Taps not properly working")&&!hComplaint.isResolved()){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
-                            h_w.setT3details((h_w.getT3details()[1][0].equals(""))?hComplaint.getProximity():h_w.getT3details()[1][0]+","+hComplaint.getProximity(),1,0);
+                            h_w.setT3details((h_w.getT3details()[1][0].equals(""))?hComplaint.getProximity():isPresent(h_w.getT3details()[1][0],hComplaint.getProximity())?h_w.getT3details()[1][0]:h_w.getT3details()[1][0]+","+hComplaint.getProximity(),1,0);
                             h_w.setT3details((h_w.getT3details()[1][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[1][1])+1),1,1);
                         }
                         if(hComplaint.getDescription().equals("Showers not properly working")&&!hComplaint.isResolved()){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
-                            h_w.setT3details((h_w.getT3details()[2][0].equals(""))?hComplaint.getProximity():h_w.getT3details()[2][0]+","+hComplaint.getProximity(),2,0);
+                            h_w.setT3details((h_w.getT3details()[2][0].equals(""))?hComplaint.getProximity():isPresent(h_w.getT3details()[2][0],hComplaint.getProximity())?h_w.getT3details()[2][0]:h_w.getT3details()[2][0]+","+hComplaint.getProximity(),2,0);
                             h_w.setT3details((h_w.getT3details()[2][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[2][1])+1),2,1);
                         }
                         if(hComplaint.getDescription().equals("Towel Hangers not present")&&!hComplaint.isResolved()){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
-                            h_w.setT3details((h_w.getT3details()[3][0].equals(""))?hComplaint.getProximity():h_w.getT3details()[3][0]+","+hComplaint.getProximity(),3,0);
+                            h_w.setT3details((h_w.getT3details()[3][0].equals(""))?hComplaint.getProximity():isPresent(h_w.getT3details()[3][0],hComplaint.getProximity())?h_w.getT3details()[3][0]:h_w.getT3details()[3][0]+","+hComplaint.getProximity(),3,0);
                             h_w.setT3details((h_w.getT3details()[3][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[3][1])+1),3,1);
                         }
                         if(hComplaint.getDescription().equals("Washroom doors not closing properly")&&!hComplaint.isResolved()){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
-                            h_w.setT3details((h_w.getT3details()[4][0].equals(""))?hComplaint.getProximity():h_w.getT3details()[4][0]+","+hComplaint.getProximity(),4,0);
+                            h_w.setT3details((h_w.getT3details()[4][0].equals(""))?hComplaint.getProximity():isPresent(h_w.getT3details()[4][0],hComplaint.getProximity())?h_w.getT3details()[4][0]:h_w.getT3details()[4][0]+","+hComplaint.getProximity(),4,0);
                             h_w.setT3details((h_w.getT3details()[4][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[4][1])+1),4,1);
                         }
                         if(hComplaint.getDescription().equals("Flush tanks not working")&&!hComplaint.isResolved()){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
-                            h_w.setT3details((h_w.getT3details()[5][0].equals(""))?hComplaint.getProximity():h_w.getT3details()[5][0]+","+hComplaint.getProximity(),5,0);
+                            h_w.setT3details((h_w.getT3details()[5][0].equals(""))?hComplaint.getProximity():isPresent(h_w.getT3details()[5][0],hComplaint.getProximity())?h_w.getT3details()[5][0]:h_w.getT3details()[5][0]+","+hComplaint.getProximity(),5,0);
                             h_w.setT3details((h_w.getT3details()[5][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[5][1])+1),5,1);
                         }
                         if(hComplaint.getDescription().equals("Pipes leaking")&&!hComplaint.isResolved()){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
-                            h_w.setT3details((h_w.getT3details()[6][0].equals(""))?hComplaint.getProximity():h_w.getT3details()[6][0]+","+hComplaint.getProximity(),6,0);
+                            h_w.setT3details((h_w.getT3details()[6][0].equals(""))?hComplaint.getProximity():isPresent(h_w.getT3details()[6][0],hComplaint.getProximity())?h_w.getT3details()[6][0]:h_w.getT3details()[6][0]+","+hComplaint.getProximity(),6,0);
                             h_w.setT3details((h_w.getT3details()[6][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[6][1])+1),6,1);
                         }
                         if(hComplaint.getDescription().equals("Others")&&!hComplaint.isResolved()){
                             h_w.setComments(hComplaint.getComments());
                             h_w.setImageUrl(hComplaint.getImageUrl());
-                            h_w.setT3details((h_w.getT3details()[7][0].equals(""))?hComplaint.getProximity():h_w.getT3details()[7][0]+","+hComplaint.getProximity(),7,0);
+                            h_w.setT3details((h_w.getT3details()[7][0].equals(""))?hComplaint.getProximity():isPresent(h_w.getT3details()[7][0],hComplaint.getProximity())?h_w.getT3details()[7][0]:h_w.getT3details()[7][0]+","+hComplaint.getProximity(),7,0);
                             h_w.setT3details((h_w.getT3details()[7][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_w.getT3details()[7][1])+1),7,1);
                         }
                     } else if(hComplaint.getTitle().equals("Problems in your room")){
@@ -263,31 +261,31 @@ public class h_JSONComplaintParser {
                         if(hComplaint.getDescription().equals("Electrical work")&&!hComplaint.isResolved()){
                             h_pr.setComments(hComplaint.getComments());
                             h_pr.setImageUrl(hComplaint.getImageUrl());
-                            h_pr.setT4details((h_pr.getT4details()[0][0].equals(""))?hComplaint.getProximity():h_pr.getT4details()[0][0]+","+hComplaint.getProximity(),0,0);
+                            h_pr.setT4details((h_pr.getT4details()[0][0].equals(""))?hComplaint.getProximity():isPresent(h_pr.getT4details()[0][0],hComplaint.getProximity())?h_pr.getT4details()[0][0]:h_pr.getT4details()[0][0]+","+hComplaint.getProximity(),0,0);
                             h_pr.setT4details((h_pr.getT4details()[0][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pr.getT4details()[0][1])+1),0,1);
                         }
                         if(hComplaint.getDescription().equals("Civil work")&&!hComplaint.isResolved()){
                             h_pr.setComments(hComplaint.getComments());
                             h_pr.setImageUrl(hComplaint.getImageUrl());
-                            h_pr.setT4details((h_pr.getT4details()[1][0].equals(""))?hComplaint.getProximity():h_pr.getT4details()[1][0]+","+hComplaint.getProximity(),1,0);
+                            h_pr.setT4details((h_pr.getT4details()[1][0].equals(""))?hComplaint.getProximity():isPresent(h_pr.getT4details()[1][0],hComplaint.getProximity())?h_pr.getT4details()[1][0]:h_pr.getT4details()[1][0]+","+hComplaint.getProximity(),1,0);
                             h_pr.setT4details((h_pr.getT4details()[1][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pr.getT4details()[1][1])+1),1,1);
                         }
                         if(hComplaint.getDescription().equals("Furniture broken")&&!hComplaint.isResolved()){
                             h_pr.setComments(hComplaint.getComments());
                             h_pr.setImageUrl(hComplaint.getImageUrl());
-                            h_pr.setT4details((h_pr.getT4details()[2][0].equals(""))?hComplaint.getProximity():h_pr.getT4details()[2][0]+","+hComplaint.getProximity(),2,0);
+                            h_pr.setT4details((h_pr.getT4details()[2][0].equals(""))?hComplaint.getProximity():isPresent(h_pr.getT4details()[2][0],hComplaint.getProximity())?h_pr.getT4details()[2][0]:h_pr.getT4details()[2][0]+","+hComplaint.getProximity(),2,0);
                             h_pr.setT4details((h_pr.getT4details()[2][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pr.getT4details()[2][1])+1),2,1);
                         }
                         if(hComplaint.getDescription().equals("Internet problem (LAN port repair)")&&!hComplaint.isResolved()){
                             h_pr.setComments(hComplaint.getComments());
                             h_pr.setImageUrl(hComplaint.getImageUrl());
-                            h_pr.setT4details((h_pr.getT4details()[3][0].equals(""))?hComplaint.getProximity():h_pr.getT4details()[3][0]+","+hComplaint.getProximity(),3,0);
+                            h_pr.setT4details((h_pr.getT4details()[3][0].equals(""))?hComplaint.getProximity():isPresent(h_pr.getT4details()[3][0],hComplaint.getProximity())?h_pr.getT4details()[3][0]:h_pr.getT4details()[3][0]+","+hComplaint.getProximity(),3,0);
                             h_pr.setT4details((h_pr.getT4details()[3][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pr.getT4details()[3][1])+1),3,1);
                         }
                         if(hComplaint.getDescription().equals("Others")&&!hComplaint.isResolved()){
                             h_pr.setComments(hComplaint.getComments());
                             h_pr.setImageUrl(hComplaint.getImageUrl());
-                            h_pr.setT4details((h_pr.getT4details()[4][0].equals(""))?hComplaint.getProximity():h_pr.getT4details()[4][0]+","+hComplaint.getProximity(),4,0);
+                            h_pr.setT4details((h_pr.getT4details()[4][0].equals(""))?hComplaint.getProximity():isPresent(h_pr.getT4details()[4][0],hComplaint.getProximity())?h_pr.getT4details()[4][0]:h_pr.getT4details()[4][0]+","+hComplaint.getProximity(),4,0);
                             h_pr.setT4details((h_pr.getT4details()[4][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pr.getT4details()[4][1])+1),4,1);
                         }
 
@@ -296,49 +294,49 @@ public class h_JSONComplaintParser {
                         if(hComplaint.getDescription().equals("Electrical work")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
-                            h_pw.setT5details((h_pw.getT5details()[0][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[0][0]+","+hComplaint.getProximity(),0,0);
+                            h_pw.setT5details((h_pw.getT5details()[0][0].equals(""))?hComplaint.getProximity():isPresent(h_pw.getT5details()[0][0],hComplaint.getProximity())?h_pw.getT5details()[0][0]:h_pw.getT5details()[0][0]+","+hComplaint.getProximity(),0,0);
                             h_pw.setT5details((h_pw.getT5details()[0][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[0][1])+1),0,1);
                         }
                         if(hComplaint.getDescription().equals("Civil work")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
-                            h_pw.setT5details((h_pw.getT5details()[1][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[1][0]+","+hComplaint.getProximity(),1,0);
+                            h_pw.setT5details((h_pw.getT5details()[1][0].equals(""))?hComplaint.getProximity():isPresent(h_pw.getT5details()[1][0],hComplaint.getProximity())?h_pw.getT5details()[1][0]:h_pw.getT5details()[1][0]+","+hComplaint.getProximity(),1,0);
                             h_pw.setT5details((h_pw.getT5details()[1][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[1][1])+1),1,1);
                         }
                         if(hComplaint.getDescription().equals("Furniture broken")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
-                            h_pw.setT5details((h_pw.getT5details()[2][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[2][0]+","+hComplaint.getProximity(),2,0);
+                            h_pw.setT5details((h_pw.getT5details()[2][0].equals(""))?hComplaint.getProximity():isPresent(h_pw.getT5details()[2][0],hComplaint.getProximity())?h_pw.getT5details()[2][0]:h_pw.getT5details()[2][0]+","+hComplaint.getProximity(),2,0);
                             h_pw.setT5details((h_pw.getT5details()[2][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[2][1])+1),2,1);
                         }
                         if(hComplaint.getDescription().equals("Internet problem")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
-                            h_pw.setT5details((h_pw.getT5details()[3][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[3][0]+","+hComplaint.getProximity(),3,0);
+                            h_pw.setT5details((h_pw.getT5details()[3][0].equals(""))?hComplaint.getProximity():isPresent(h_pw.getT5details()[3][0],hComplaint.getProximity())?h_pw.getT5details()[3][0]:h_pw.getT5details()[3][0]+","+hComplaint.getProximity(),3,0);
                             h_pw.setT5details((h_pw.getT5details()[3][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[3][1])+1),3,1);
                         }
                         if(hComplaint.getDescription().equals("Wing not cleaned regularly")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
-                            h_pw.setT5details((h_pw.getT5details()[4][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[4][0]+","+hComplaint.getProximity(),4,0);
+                            h_pw.setT5details((h_pw.getT5details()[4][0].equals(""))?hComplaint.getProximity():isPresent(h_pw.getT5details()[4][0],hComplaint.getProximity())?h_pw.getT5details()[4][0]:h_pw.getT5details()[4][0]+","+hComplaint.getProximity(),4,0);
                             h_pw.setT5details((h_pw.getT5details()[4][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[4][1])+1),4,1);
                         }
                         if(hComplaint.getDescription().equals("Does not have a dustbin")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
-                            h_pw.setT5details((h_pw.getT5details()[5][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[5][0]+","+hComplaint.getProximity(),5,0);
+                            h_pw.setT5details((h_pw.getT5details()[5][0].equals(""))?hComplaint.getProximity():isPresent(h_pw.getT5details()[5][0],hComplaint.getProximity())?h_pw.getT5details()[5][0]:h_pw.getT5details()[5][0]+","+hComplaint.getProximity(),5,0);
                             h_pw.setT5details((h_pw.getT5details()[5][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[5][1])+1),5,1);
                         }
                         if(hComplaint.getDescription().equals("Cloth wires not proper")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
-                            h_pw.setT5details((h_pw.getT5details()[6][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[6][0]+","+hComplaint.getProximity(),6,0);
+                            h_pw.setT5details((h_pw.getT5details()[6][0].equals(""))?hComplaint.getProximity():isPresent(h_pw.getT5details()[6][0],hComplaint.getProximity())?h_pw.getT5details()[6][0]:h_pw.getT5details()[6][0]+","+hComplaint.getProximity(),6,0);
                             h_pw.setT5details((h_pw.getT5details()[6][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[6][1])+1),6,1);
                         }
                         if(hComplaint.getDescription().equals("Others")&&!hComplaint.isResolved()){
                             h_pw.setComments(hComplaint.getComments());
                             h_pw.setImageUrl(hComplaint.getImageUrl());
-                            h_pw.setT5details((h_pw.getT5details()[7][0].equals(""))?hComplaint.getProximity():h_pw.getT5details()[7][0]+","+hComplaint.getProximity(),7,0);
+                            h_pw.setT5details((h_pw.getT5details()[7][0].equals(""))?hComplaint.getProximity():isPresent(h_pw.getT5details()[7][0],hComplaint.getProximity())?h_pw.getT5details()[7][0]:h_pw.getT5details()[7][0]+","+hComplaint.getProximity(),7,0);
                             h_pw.setT5details((h_pw.getT5details()[7][1].equals(""))?"1":String.valueOf(Integer.parseInt(h_pw.getT5details()[7][1])+1),7,1);
                         }
 
@@ -352,7 +350,7 @@ public class h_JSONComplaintParser {
                 reader.nextString();
                 reader.endObject();
 
-                return Complaint.getErrorComplaintObject();
+                return Complaint.getHostelErrorComplaintObject();
             } else {
                 reader.skipValue();
             }
@@ -384,5 +382,14 @@ public class h_JSONComplaintParser {
 
     public h_WaterDispenser getH_wd() {
         return h_wd;
+    }
+
+    private boolean isPresent(String s,String p){
+        for(int i=0;i<s.length()-p.length()+1;i++){
+            if(s.substring(i,i+p.length()).equals(p)){
+                return true;
+            }
+        }
+        return false;
     }
 }

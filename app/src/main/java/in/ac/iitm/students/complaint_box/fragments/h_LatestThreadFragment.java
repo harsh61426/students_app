@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
-import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
+import in.ac.iitm.students.complaint_box.adapters.h_LatThCompAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.objects.h_PinRoom;
 import in.ac.iitm.students.complaint_box.objects.h_PinWing;
@@ -68,6 +69,13 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
     int t3dids[]={R.id.t3d1,R.id.t3d2,R.id.t3d3,R.id.t3d4,R.id.t3d5,R.id.t3d6,R.id.t3d7,R.id.t3d8};
     int t4dids[]={R.id.t4d1,R.id.t4d2,R.id.t4d3,R.id.t4d4,R.id.t4d5};
     int t5dids[]={R.id.t5d1,R.id.t5d2,R.id.t5d3,R.id.t5d4,R.id.t5d5,R.id.t5d6,R.id.t5d7,R.id.t5d8};
+
+    int ll1ids[] = {R.id.ll1_1, R.id.ll1_2, R.id.ll1_3, R.id.ll1_4, R.id.ll1_5, R.id.ll1_6};
+    int ll2ids[] = {R.id.ll2_1, R.id.ll2_2, R.id.ll2_3, R.id.ll2_4, R.id.ll2_5};
+    int ll3ids[] = {R.id.ll3_1, R.id.ll3_2, R.id.ll3_3, R.id.ll3_4, R.id.ll3_5, R.id.ll3_6, R.id.ll3_7, R.id.ll3_8};
+    int ll4ids[] = {R.id.ll4_1, R.id.ll4_2, R.id.ll4_3, R.id.ll4_4, R.id.ll4_5};
+    int ll5ids[] = {R.id.ll5_1, R.id.ll5_2, R.id.ll5_3, R.id.ll5_4, R.id.ll5_5, R.id.ll5_6, R.id.ll5_7, R.id.ll5_8};
+
     TextView tvst1[][]=new TextView[6][2];
     TextView tvst2[][]=new TextView[5][2];
     TextView tvst3[][]=new TextView[8][2];
@@ -78,6 +86,13 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
     TextView tvst3d[]=new TextView[8];
     TextView tvst4d[]=new TextView[5];
     TextView tvst5d[]=new TextView[8];
+
+    LinearLayout ll1[] = new LinearLayout[6];
+    LinearLayout ll2[] = new LinearLayout[5];
+    LinearLayout ll3[] = new LinearLayout[8];
+    LinearLayout ll4[] = new LinearLayout[5];
+    LinearLayout ll5[] = new LinearLayout[8];
+
     CardView t1;
     CardView t2;
     CardView t3;
@@ -141,18 +156,23 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
         }
         for(int i=0;i<6;i++){
             tvst1d[i]=(TextView)(view.findViewById(t1dids[i]));
+            ll1[i] = (LinearLayout) (view.findViewById(ll1ids[i]));
         }
         for(int i=0;i<5;i++){
             tvst2d[i]=(TextView)(view.findViewById(t2dids[i]));
+            ll2[i] = (LinearLayout) (view.findViewById(ll2ids[i]));
         }
         for(int i=0;i<8;i++){
             tvst3d[i]=(TextView)(view.findViewById(t3dids[i]));
+            ll3[i] = (LinearLayout) (view.findViewById(ll3ids[i]));
         }
         for(int i=0;i<5;i++){
             tvst4d[i]=(TextView)(view.findViewById(t4dids[i]));
+            ll4[i] = (LinearLayout) (view.findViewById(ll4ids[i]));
         }
         for(int i=0;i<8;i++){
             tvst5d[i]=(TextView)(view.findViewById(t5dids[i]));
+            ll5[i] = (LinearLayout) (view.findViewById(ll5ids[i]));
         }
 
         t1=(CardView)view.findViewById(R.id.WashingMachine);
@@ -170,20 +190,16 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
         Button bn_comments3=(Button)view.findViewById(R.id.bn_comment3);
         Button bn_comments4=(Button)view.findViewById(R.id.bn_comment4);
         Button bn_comments5=(Button)view.findViewById(R.id.bn_comment5);
+
         bn_comments1.setVisibility(View.INVISIBLE);
         bn_comments2.setVisibility(View.INVISIBLE);
         bn_comments3.setVisibility(View.INVISIBLE);
         bn_comments4.setVisibility(View.INVISIBLE);
         bn_comments5.setVisibility(View.INVISIBLE);
+
         //Log.d("dork",hwm.getT1details()[0][0]);
         getAllComplaints();
         //Log.d("dork",hwm.getT1details()[0][0]);
-
-
-
-
-
-
 
 
 
@@ -251,8 +267,10 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                                 tvst1[i][j].setText(hwm.getT1details()[i][j]);
                             }
                         }
-                        if(hwm.getT1details()[i][0].isEmpty()&&hwm.getT1details()[i][1].isEmpty())
+                        if (hwm.getT1details()[i][0].isEmpty() && hwm.getT1details()[i][1].isEmpty()) {
                             tvst1d[i].setVisibility(View.GONE);
+                            ll1[i].setVisibility(View.GONE);
+                        }
                     }
                     if(tvst1d[0].getVisibility()==View.GONE&&tvst1d[1].getVisibility()==View.GONE&&tvst1d[2].getVisibility()==View.GONE&&tvst1d[3].getVisibility()==View.GONE&&tvst1d[4].getVisibility()==View.GONE&&tvst1d[5].getVisibility()==View.GONE)
                         t1.setVisibility(View.GONE);
@@ -263,8 +281,10 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                                 tvst2[i][j].setText(hwd.getT2details()[i][j]);
                             }
                         }
-                        if(hwd.getT2details()[i][0].isEmpty()&&hwd.getT2details()[i][1].isEmpty())
+                        if (hwd.getT2details()[i][0].isEmpty() && hwd.getT2details()[i][1].isEmpty()) {
                             tvst2d[i].setVisibility(View.GONE);
+                            ll2[i].setVisibility(View.GONE);
+                        }
                     }
                     if(tvst2d[0].getVisibility()==View.GONE&&tvst2d[1].getVisibility()==View.GONE&&tvst2d[2].getVisibility()==View.GONE&&tvst2d[3].getVisibility()==View.GONE&&tvst2d[4].getVisibility()==View.GONE)
                         t2.setVisibility(View.GONE);
@@ -274,8 +294,10 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                                 tvst3[i][j].setText(hw.getT3details()[i][j]);
                             }
                         }
-                        if(hw.getT3details()[i][0].isEmpty()&&hw.getT3details()[i][1].isEmpty())
+                        if (hw.getT3details()[i][0].isEmpty() && hw.getT3details()[i][1].isEmpty()) {
                             tvst3d[i].setVisibility(View.GONE);
+                            ll3[i].setVisibility(View.GONE);
+                        }
                     }
                     if(tvst3d[0].getVisibility()==View.GONE&&tvst3d[1].getVisibility()==View.GONE&&tvst3d[2].getVisibility()==View.GONE&&tvst3d[3].getVisibility()==View.GONE&&tvst3d[4].getVisibility()==View.GONE&&tvst3d[5].getVisibility()==View.GONE&&tvst3d[6].getVisibility()==View.GONE&&tvst3d[7].getVisibility()==View.GONE)
                         t3.setVisibility(View.GONE);
@@ -286,8 +308,11 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                                 Log.d("dork",hpr.getT4details()[0][0]);
                             }
                         }
-                        if(hpr.getT4details()[i][0].isEmpty()&&hpr.getT4details()[i][1].isEmpty())
+                        if (hpr.getT4details()[i][0].isEmpty() && hpr.getT4details()[i][1].isEmpty()) {
+                            ll4[i].setVisibility(View.GONE);
                             tvst4d[i].setVisibility(View.GONE);
+                        }
+
                     }
                     if(tvst4d[0].getVisibility()==View.GONE&&tvst4d[1].getVisibility()==View.GONE&&tvst4d[2].getVisibility()==View.GONE&&tvst4d[3].getVisibility()==View.GONE&&tvst4d[4].getVisibility()==View.GONE)
                         t4.setVisibility(View.GONE);
@@ -297,8 +322,10 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                                 tvst5[i][j].setText(hpw.getT5details()[i][j]);
                             }
                         }
-                        if(hpw.getT5details()[i][0].isEmpty()&&hpw.getT5details()[i][1].isEmpty())
+                        if (hpw.getT5details()[i][0].isEmpty() && hpw.getT5details()[i][1].isEmpty()) {
                             tvst5d[i].setVisibility(View.GONE);
+                            ll5[i].setVisibility(View.GONE);
+                        }
                     }
                     if(tvst5d[0].getVisibility()==View.GONE&&tvst5d[1].getVisibility()==View.GONE&&tvst5d[2].getVisibility()==View.GONE&&tvst5d[3].getVisibility()==View.GONE&&tvst5d[4].getVisibility()==View.GONE&&tvst5d[5].getVisibility()==View.GONE&&tvst5d[6].getVisibility()==View.GONE&&tvst5d[7].getVisibility()==View.GONE)
                         t5.setVisibility(View.GONE);
@@ -316,11 +343,11 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
 
                     //hComplaintArray = new ArrayList<>();
-                    hComplaintList.add(Complaint.getErrorComplaintObject());
+                    hComplaintList.add(Complaint.getHostelErrorComplaintObject());
 
                     progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), false, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new h_LatThCompAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
@@ -328,7 +355,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     Log.d("pip", "onResponse: " + hComplaintList.get(0).getName());
                     progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_ComplaintAdapter(hComplaintList, getActivity(), getContext(), true, (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new h_LatThCompAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                     mRecyclerView.setNestedScrollingEnabled(false);
                 }
@@ -345,11 +372,11 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 snackbar.show();
 
                 ArrayList<Complaint> hComplaintArray = new ArrayList<>();
-                hComplaintArray.add(Complaint.getErrorComplaintObject());
+                hComplaintArray.add(Complaint.getHostelErrorComplaintObject());
 
                 progressDialog.dismiss();
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_ComplaintAdapter(hComplaintArray, getActivity(), getContext(), true, (CoordinatorLayout)getActivity().findViewById(R.id.main_content));
+                mAdapter = new h_LatThCompAdapter(hComplaintArray, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
             }

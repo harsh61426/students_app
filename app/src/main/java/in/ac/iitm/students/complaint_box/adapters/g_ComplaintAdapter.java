@@ -139,20 +139,20 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
         final String mUUID = gComplaint.getUid();
 
-        if (gComplaint.getRollNo() == context.getString(R.string.acaf_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.resaf_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.sgs_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.cocas_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.has_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.culsec_lit_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.culsec_arts_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.iar_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.speaker_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.sports_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.mitr_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.cfi_roll)) {
+        if (gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.acaf_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.resaf_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.sgs_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.cocas_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.has_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.culsec_lit_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.culsec_arts_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.iar_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.speaker_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.sports_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.mitr_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.cfi_roll))) {
 
-            relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.red_background));
+            relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorLightGreen));
         }
 
         linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.unresolved_colour));
@@ -189,7 +189,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         int upvotes = mDataset.get(pos).getUpvotes();
                                         mDataset.get(pos).setUpvotes(upvotes + 1);
                                         notifyItemChanged(pos);
-                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equalsIgnoreCase(gComplaint.getRollNo())) {
                                             DATA_CHANGED = 1;
                                         }
 
@@ -202,7 +202,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         mDataset.get(pos).setUpvotes(upvotes + 1);
                                         mDataset.get(pos).setDownvotes(downvotes - 1);
                                         notifyItemChanged(pos);
-                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equalsIgnoreCase(gComplaint.getRollNo())) {
                                             DATA_CHANGED = 1;
                                         }
 
@@ -210,8 +210,10 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         makeSnackbar("Error up-voting the complaint");
                                     }
                                 } else if (name.equals("error")) {
-                                    reader.nextString();
-                                    makeSnackbar("Error up-voting the complaint");
+                                    if (!reader.nextString().equals("Same vote")) {
+                                        makeSnackbar("Error up-voting the complaint");
+
+                                    }
                                 } else {
                                     reader.skipValue();
                                 }
@@ -284,7 +286,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         int downvotes = mDataset.get(pos).getDownvotes();
                                         mDataset.get(pos).setDownvotes(downvotes + 1);
                                         notifyItemChanged(pos);
-                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equalsIgnoreCase(gComplaint.getRollNo())) {
                                             DATA_CHANGED = 1;
                                         }
 
@@ -294,7 +296,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         mDataset.get(pos).setUpvotes(upvotes - 1);
                                         mDataset.get(pos).setDownvotes(downvotes + 1);
                                         notifyItemChanged(pos);
-                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equals(gComplaint.getRollNo())) {
+                                        if (Utils.getprefString(UtilStrings.ROLLNO, context).equalsIgnoreCase(gComplaint.getRollNo())) {
                                             DATA_CHANGED = 1;
                                         }
 
@@ -304,8 +306,10 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                                         makeSnackbar("Error down-voting the complaint");
                                     }
                                 } else if (name.equals("error")) {
-                                    reader.nextString();
-                                    makeSnackbar("Error down-voting the complaint");
+                                    if (!reader.nextString().equals("Same vote")) {
+                                        makeSnackbar("Error down-voting the complaint");
+
+                                    }
                                 } else {
                                     reader.skipValue();
                                 }

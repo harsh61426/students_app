@@ -63,6 +63,7 @@ public class g_Comments extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private InputStream stream;
     private Complaint hComplaint;
+    private TextView comment;
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -104,7 +105,7 @@ public class g_Comments extends AppCompatActivity {
         TextView date = (TextView) findViewById(R.id.comment_date);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
         final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
-        TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
+        comment = (TextView) findViewById(R.id.comment_tv_comment);
         final EditText CmntDesc = (EditText) findViewById(R.id.editText);
         Button save = (Button) findViewById(R.id.bn_save);
         ImageView iv_pro = (ImageView) findViewById(R.id.imgProfilePicture);
@@ -136,7 +137,7 @@ public class g_Comments extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Comment response",response);
+                //Log.e("Comment response",response);
 
                 h_CmntDataParser hCmntDataParser = new h_CmntDataParser(response, getApplicationContext());
                 ArrayList<CommentObj> commentArray = null;
@@ -172,7 +173,7 @@ public class g_Comments extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 //get hostel from prefs
                 //put some dummy for now
-                params.put("HOSTEL", "narmada");
+                params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
                 params.put("UUID", mUUID);
                 return params;
             }
@@ -199,12 +200,12 @@ public class g_Comments extends AppCompatActivity {
                     final String mUUID = hComplaint.getUid();
 
 
-                    Log.d("buiz", "hello");
+                    //Log.d("buiz", "hello");
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, add_url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
-                            Log.d("buiz", "hello from heere");
+                            //Log.d("buiz", "hello from heere");
 
                             stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
                             JsonReader reader = null;
@@ -221,7 +222,7 @@ public class g_Comments extends AppCompatActivity {
                                     reader.beginObject();
                                     while (reader.hasNext()) {
                                         String name = reader.nextName();
-                                        Log.e("name", name);
+                                        //Log.e("name", name);
                                         if (name.equals("status")) {
                                             if (reader.nextString().equals("1")) {
                                                 CmntDesc.setText("");
@@ -233,6 +234,9 @@ public class g_Comments extends AppCompatActivity {
                                                 cmtObj.setCommentStr(cmntDescStr);
                                                 cmtObj.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                                                 mAdapter.addComment(cmtObj);
+
+                                                int cmnts = Integer.parseInt(comment.getText().toString()) + 1;
+                                                comment.setText(cmnts + "");
                                             } else {
                                                 makeSnackbar("Error commenting");
                                                 hideKeyboard(g_Comments.this);
@@ -297,6 +301,13 @@ public class g_Comments extends AppCompatActivity {
 
     }
 
+    private void makeSnackbar(String msg) {
+
+        Snackbar snackbar = Snackbar
+                .make(relativeLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -305,13 +316,6 @@ public class g_Comments extends AppCompatActivity {
                 return true;
         }
         return true;
-    }
-
-    private void makeSnackbar(String msg) {
-
-        Snackbar snackbar = Snackbar
-                .make(relativeLayout, msg, Snackbar.LENGTH_LONG);
-        snackbar.show();
     }
 
     @Override

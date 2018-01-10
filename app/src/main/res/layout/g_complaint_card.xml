@@ -40,9 +40,9 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/imgProfilePicture"
-                android:layout_toLeftOf="@+id/rl_resolve"
+                android:layout_toLeftOf="@+id/ll_resolve"
                 android:layout_toRightOf="@id/imgProfilePicture"
-                android:layout_toStartOf="@+id/rl_resolve"
+                android:layout_toStartOf="@+id/ll_resolve"
                 android:orientation="vertical">
 
                 <TextView
@@ -69,7 +69,7 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_resolve"
+                android:id="@+id/ll_resolve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

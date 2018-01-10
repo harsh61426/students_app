@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
 import in.ac.iitm.students.complaint_box.objects.CommentObj;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
@@ -58,6 +59,7 @@ public class h_Comments extends AppCompatActivity {
     private InputStream stream;
     private RelativeLayout relativeLayout;
     private Complaint hComplaint;
+    private TextView comment;
     private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/searchComment.php";
     //private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/searchComment.php";
 
@@ -96,7 +98,7 @@ public class h_Comments extends AppCompatActivity {
         TextView description = (TextView) findViewById(R.id.comment_tv_description);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
         final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
-        TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
+        comment = (TextView) findViewById(R.id.comment_tv_comment);
         final EditText CmntDesc = (EditText) findViewById(R.id.editText);
         Button save = (Button) findViewById(R.id.bn_save);
         ImageView iv_pro = (ImageView) findViewById(R.id.imgProfilePicture);
@@ -163,7 +165,7 @@ public class h_Comments extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 //get hostel from prefs
                 //put some dummy for now
-                params.put("HOSTEL", "narmada");
+                params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, h_Comments.this));
                 params.put("UUID", mUUID);
                 return params;
             }
@@ -230,6 +232,9 @@ public class h_Comments extends AppCompatActivity {
                                                 cmtObj.setCommentStr(cmntDescStr);
                                                 cmtObj.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                                                 mAdapter.addComment(cmtObj);
+
+                                                int cmnts = Integer.parseInt(comment.getText().toString()) + 1;
+                                                comment.setText(cmnts + "");
                                             } else {
                                                 makeSnackbar("Error commenting");
                                                 hideKeyboard(h_Comments.this);
@@ -310,6 +315,14 @@ public class h_Comments extends AppCompatActivity {
         Snackbar snackbar = Snackbar
                 .make(relativeLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(this, HostelComplaintsActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
     }
 
 }

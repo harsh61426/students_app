@@ -86,9 +86,9 @@ public class BunkMonitorFragment extends Fragment {
         minus.setText("-1");
 
         final EditText slot = (EditText) dialog.findViewById(R.id.slot);
-        slot.setVisibility(View.INVISIBLE);
+        slot.setVisibility(View.GONE);
         final EditText courseid = (EditText) dialog.findViewById(R.id.course_id);
-        courseid.setVisibility(View.INVISIBLE);
+        courseid.setVisibility(View.GONE);
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

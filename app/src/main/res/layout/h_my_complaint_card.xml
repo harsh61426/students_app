@@ -39,9 +39,9 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/imgProfilePicture"
-                android:layout_toLeftOf="@+id/rl_resolve"
+                android:layout_toLeftOf="@+id/ll_resolve"
                 android:layout_toRightOf="@id/imgProfilePicture"
-                android:layout_toStartOf="@+id/rl_resolve"
+                android:layout_toStartOf="@+id/ll_resolve"
                 android:orientation="vertical">
 
                 <TextView
@@ -66,51 +66,36 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_resolve"
+            <LinearLayout
+                android:id="@+id/ll_resolve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp">
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/more_rooms"
+
+                <TextView
+                    android:id="@+id/tv_is_resolved"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:background="@color/transparent"
                     android:padding="4dp"
-                    android:src="@drawable/ic_group_black_24dp" />
+                    android:text="TextView" />
 
-                <LinearLayout
+
+                <TextView
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/more_rooms"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_is_resolved"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="TextView" />
+                    android:layout_gravity="center_horizontal"
+                    android:padding="4dp"
+                    android:text="3-7-17" />
 
 
-                    <TextView
-                        android:id="@+id/date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:padding="4dp"
-                        android:text="3-7-17" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
 
 
@@ -146,11 +131,6 @@
             android:text="Description"
             android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
         <TextView
             android:id="@+id/tv_tags"
             android:layout_width="match_parent"
@@ -161,69 +141,8 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp"
             android:paddingTop="2dp"
-            android:text="Tags"
+            android:text=""
             android:textSize="15sp" />
-
-        <LinearLayout
-            android:id="@+id/ll_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="2dp">
-
-
-            <Button
-                android:id="@+id/bn_upvote"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/ic_keyboard_arrow_up_black_24dp" />
-
-            <TextView
-                android:id="@+id/tv_upvote"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:padding="8dp"
-                android:text="upvote" />
-
-            <Button
-                android:id="@+id/bn_downvote"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/ic_keyboard_arrow_down_black_24dp" />
-
-            <TextView
-                android:id="@+id/tv_downvote"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:padding="8dp"
-                android:text="downvote" />
-
-            <Button
-                android:id="@+id/bn_comment"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@drawable/ic_comment_black_24dp" />
-
-            <TextView
-                android:id="@+id/tv_comment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:padding="8dp"
-                android:text="comment" />
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

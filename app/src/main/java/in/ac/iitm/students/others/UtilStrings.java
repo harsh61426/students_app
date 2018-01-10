@@ -9,6 +9,7 @@ public class    UtilStrings {
     public static String HOSTEl = "hostel";
     public static String ROOM = "room";
     public static String MOBILE = "mobile";
+    public static String MESS = "mess";
     public static String MAIL = "mail";
     public static String REVEAL_PLACE = "reveal_place";
     public static String REVEAL_PHOTO = "reveal_photo";
