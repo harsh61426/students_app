@@ -61,7 +61,7 @@ public class MessageChatActivity extends AppCompatActivity {
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.cl_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar6);
         toolbar.setTitle(subject);
-        Log.d("chatMessage", "Subject = " + subject);
+        //Log.d("chatMessage", "Subject = " + subject);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -127,7 +127,7 @@ public class MessageChatActivity extends AppCompatActivity {
                             public void onResponse(String response) {
                                 // Display the first 500 characters of the response string.
 //                                Toast.makeText(MessageChatActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                                Log.d("complaint", response);
+                                //Log.d("complaint", response);
                                 Intent intent = new Intent(MessageChatActivity.this, MyComplaintsActivity.class);
                                 startActivity(intent);
                             }

@@ -97,7 +97,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
 //        FirebaseInstanceId.getInstance().getToken();
 //        FirebaseMessaging.getInstance().subscribeToTopic("test");
         String firebaseToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d("Firebase::", "Id" + firebaseToken);
+        //Log.d("Firebase::", "Id" + firebaseToken);
 
         header_name.setText("Logged in as " + name);
 

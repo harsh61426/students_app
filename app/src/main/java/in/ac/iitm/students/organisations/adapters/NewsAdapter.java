@@ -129,7 +129,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 context.startActivity(intent);
             }
         });
-        Log.d("t5eimage", imgUrl + ", " + news.getTitle());
+        //Log.d("t5eimage", imgUrl + ", " + news.getTitle());
         try {
             Picasso.with(context)
                     .load(news.getImageerl())

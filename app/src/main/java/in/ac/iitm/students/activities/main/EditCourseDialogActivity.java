@@ -59,7 +59,7 @@ public class EditCourseDialogActivity extends Dialog implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("dialog","created");
+        //Log.d("dialog","created");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -132,7 +132,7 @@ public class EditCourseDialogActivity extends Dialog implements
 
             }
         });
-        //Log.d("dialog","created");
+        ////Log.d("dialog","created");
 
 
 

@@ -136,7 +136,7 @@ public class g_Comments extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Comment response",response);
+                //Log.e("Comment response",response);
 
                 h_CmntDataParser hCmntDataParser = new h_CmntDataParser(response, getApplicationContext());
                 ArrayList<CommentObj> commentArray = null;
@@ -199,12 +199,12 @@ public class g_Comments extends AppCompatActivity {
                     final String mUUID = hComplaint.getUid();
 
 
-                    Log.d("buiz", "hello");
+                    //Log.d("buiz", "hello");
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, add_url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
-                            Log.d("buiz", "hello from heere");
+                            //Log.d("buiz", "hello from heere");
 
                             stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
                             JsonReader reader = null;
@@ -221,7 +221,7 @@ public class g_Comments extends AppCompatActivity {
                                     reader.beginObject();
                                     while (reader.hasNext()) {
                                         String name = reader.nextName();
-                                        Log.e("name", name);
+                                        //Log.e("name", name);
                                         if (name.equals("status")) {
                                             if (reader.nextString().equals("1")) {
                                                 CmntDesc.setText("");

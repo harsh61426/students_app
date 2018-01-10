@@ -146,7 +146,7 @@ public class InstiCalendar {
         Cursor cur = null;
         ContentResolver cr = context.getContentResolver();
 
-        Log.d("kaka", "3");
+        //Log.d("kaka", "3");
         // TODO @Sameer, holigaga1:pre-alpha not being called
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 
@@ -161,7 +161,7 @@ public class InstiCalendar {
             if(j==2) break;
             if(j==0 && cur.getString(0).length()>0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")){
                 event.eventDisplay1 = cur.getString(0);
-                Log.i("InstiCalendar",begin+"-"+end+"  "+cur.getString(2)+"-"+cur.getString(3)+"--"+cur.getString(0));
+                //Log.i("InstiCalendar",begin+"-"+end+"  "+cur.getString(2)+"-"+cur.getString(3)+"--"+cur.getString(0));
                 j++;
             }
             if(j==1 && cur.getString(0).length()>0 && !cur.getString(1).equalsIgnoreCase("IITM Calendar")){
@@ -257,7 +257,7 @@ public class InstiCalendar {
                     context.getContentResolver().
                             insert(CalendarContract.Events.CONTENT_URI, values);
             long eventId = new Long(uri.getLastPathSegment());
-            Log.i("EventID", eventId + "");
+            //Log.i("EventID", eventId + "");
         }
     }
 
@@ -289,7 +289,7 @@ public class InstiCalendar {
             }
             catch (NullPointerException np)
             {
-                Log.i("NullPointer",np.toString());
+                //Log.i("NullPointer",np.toString());
             }
             return exists;
         }
@@ -359,7 +359,7 @@ public class InstiCalendar {
 
             @Override
             public void onResponse(String response) {
-                Log.d("kaka", response);
+                //Log.d("kaka", response);
                 InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
 
                 JsonReader reader = null;
@@ -387,7 +387,7 @@ public class InstiCalendar {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VolleyError", error.toString());
+                //Log.e("VolleyError", error.toString());
                 //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
             }
         });
@@ -426,7 +426,7 @@ public class InstiCalendar {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VolleyError", error.toString());
+                //Log.e("VolleyError", error.toString());
                 //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
             }
         });
@@ -456,7 +456,7 @@ public class InstiCalendar {
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
                 .build();
         Uri result = context.getContentResolver().insert(calUri, cv);
-        Log.i("Result", result.toString());
+        //Log.i("Result", result.toString());
         //Toast.makeText(context,"IITM Calendar integrated",Toast.LENGTH_SHORT).show();
         Utils.saveprefBool(UtilStrings.CAL_ADDED,true,context);
         return getCalendarId(context);
@@ -588,7 +588,7 @@ public class InstiCalendar {
 
     private void sync_calendar(ArrayList<ArrayList<Calendar_Event>> events, final Activity activity)
     {
-        Log.i("Calendar","Syncing");
+        //Log.i("Calendar","Syncing");
         long calId = -1;
         if(!Utils.getprefBool(UtilStrings.CAL_ADDED,context))
         {
@@ -598,8 +598,8 @@ public class InstiCalendar {
         {
             calId = getCalendarId(context);
         }
-        Log.i("CalendarID",Long.toString(calId));
-        Log.i("Calendar","Size "+events.size());
+        //Log.i("CalendarID",Long.toString(calId));
+        //Log.i("Calendar","Size "+events.size());
         for(ArrayList<Calendar_Event> calendar_events: events)
         {
             for(Calendar_Event event: calendar_events)

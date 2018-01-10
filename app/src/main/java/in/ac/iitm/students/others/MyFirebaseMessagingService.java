@@ -45,17 +45,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        //Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d("taka", "Message data payload: " + remoteMessage.getData().get("activity"));
+            //Log.d("taka", "Message data payload: " + remoteMessage.getData().get("activity"));
 
         }
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), remoteMessage.getData().get("activity"));
         }
 
@@ -76,11 +76,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         try {
             Class<?> act = Class.forName(click_action);
             intent = new Intent(this, act);
-            Log.d("taka", "from try " + click_action);
-            Log.d("taka", "from try " + act.toString());
+            //Log.d("taka", "from try " + click_action);
+            //Log.d("taka", "from try " + act.toString());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            Log.d("taka", click_action);
+            //Log.d("taka", click_action);
         }
 
 
