@@ -91,7 +91,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                     snackbar.show();
 
                     //hComplaintArray = new ArrayList<>();
-                    hComplaintList.add(Complaint.getErrorComplaintObject());
+                    hComplaintList.add(Complaint.getHostelErrorComplaintObject());
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mAdapter = new h_MyComplaintAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
@@ -113,7 +113,7 @@ public class h_MyComplaintFragment extends Fragment implements SwipeRefreshLayou
                 snackbar.show();
 
                 ArrayList<Complaint> hComplaintArray = new ArrayList<>();
-                hComplaintArray.add(Complaint.getErrorComplaintObject());
+                hComplaintArray.add(Complaint.getHostelErrorComplaintObject());
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new h_MyComplaintAdapter(hComplaintArray, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));

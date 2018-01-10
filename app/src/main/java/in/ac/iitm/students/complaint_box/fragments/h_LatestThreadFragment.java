@@ -343,7 +343,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     //Toast.makeText(getActivity(), "IOException", Toast.LENGTH_SHORT).show();
 
                     //hComplaintArray = new ArrayList<>();
-                    hComplaintList.add(Complaint.getErrorComplaintObject());
+                    hComplaintList.add(Complaint.getHostelErrorComplaintObject());
 
                     progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
@@ -372,7 +372,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                 snackbar.show();
 
                 ArrayList<Complaint> hComplaintArray = new ArrayList<>();
-                hComplaintArray.add(Complaint.getErrorComplaintObject());
+                hComplaintArray.add(Complaint.getHostelErrorComplaintObject());
 
                 progressDialog.dismiss();
                 mRecyclerView.setLayoutManager(mLayoutManager);

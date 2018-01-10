@@ -350,7 +350,7 @@ public class h_JSONComplaintParser {
                 reader.nextString();
                 reader.endObject();
 
-                return Complaint.getErrorComplaintObject();
+                return Complaint.getHostelErrorComplaintObject();
             } else {
                 reader.skipValue();
             }
