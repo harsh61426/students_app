@@ -200,7 +200,6 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
         HostelComplaintsActivity hostelComplaintsActivity = (HostelComplaintsActivity)getActivity();
 
-        //Log.d("dork",hwm.getT1details()[0][0]);
 //        getAllComplaints();
         //Log.d("dork",hwm.getT1details()[0][0]);
 ///        String frag_content = hostelComplaintsActivity.mGeneralString;
