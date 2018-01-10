@@ -184,7 +184,7 @@ public class CalendarActivity extends AppCompatActivity
 
             @Override
             public void onResponse(String response) {
-                Log.d("kaka", response);
+                //Log.d("kaka", response);
                 InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
                 JsonReader reader = null;
                 try {
@@ -202,7 +202,7 @@ public class CalendarActivity extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VolleyError", error.toString());
+                //Log.e("VolleyError", error.toString());
                 Snackbar snackbar = Snackbar
                         .make(drawer, "No internet connection", Snackbar.LENGTH_LONG);
                 snackbar.show();

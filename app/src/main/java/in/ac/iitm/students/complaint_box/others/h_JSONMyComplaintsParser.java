@@ -133,7 +133,7 @@ public class h_JSONMyComplaintsParser {
                 reader.nextString();
                 reader.endObject();
 
-                return Complaint.getErrorComplaintObject();
+                return Complaint.getHostelErrorComplaintObject();
             } else {
                 reader.skipValue();
             }

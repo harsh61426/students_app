@@ -16,6 +16,7 @@ public class CommentObj {
         CommentObj hCommentObj = new CommentObj();
         hCommentObj.setName("Institute MobOps");
         hCommentObj.setRoomNo("IIT Madras");
+        hCommentObj.setRollNo("mobops");
         hCommentObj.setCommentStr("No comments :|");
         return hCommentObj;
     }

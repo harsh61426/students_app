@@ -399,7 +399,7 @@ public class HomeActivity extends AppCompatActivity
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     response = jsonArray.toString();
-                    Log.d("response", "home " + response);
+                    //Log.d("response", "home " + response);
                     Utils.saveprefString(UtilStrings.homeData, response, getBaseContext());
                     goToAdapter(response);
 
@@ -909,7 +909,7 @@ public class HomeActivity extends AppCompatActivity
             url = url.trim();
 
             if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                Log.i("LINKXX",url);
+                //Log.i("LINKXX",url);
                 webpage = Uri.parse("http://" + url);
             }else {
                 webpage = Uri.parse(url);

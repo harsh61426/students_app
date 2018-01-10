@@ -138,10 +138,10 @@ public class ProfileActivity extends AppCompatActivity {
         et_email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                Log.i("Event",Integer.toString(actionId));
+                //Log.i("Event",Integer.toString(actionId));
                 if(actionId== EditorInfo.IME_ACTION_DONE) {
                     String mail = et_email.getText().toString();
-                    Log.i("Mail",mail);
+                    //Log.i("Mail",mail);
                     if (!isEmailValid(mail)) {
                         final AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
                         builder.setMessage("Email is invalid.")
@@ -255,7 +255,7 @@ public class ProfileActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("Error","Unable to fetch");
+                //Log.i("Error","Unable to fetch");
             }
         })
         {

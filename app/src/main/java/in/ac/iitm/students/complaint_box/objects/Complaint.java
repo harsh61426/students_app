@@ -36,11 +36,34 @@ public class Complaint implements Serializable {
         hComplaint.setResolved(true);
         hComplaint.setCustom(true);
         hComplaint.setHostel("IIT Madras");
-        hComplaint.setTag("#instimobops");
-        hComplaint.setTitle("Unable to show complaints!");
-        hComplaint.setDescription("This could be due to:\nNo internet :/\nno complaints :)\nbut not server error ;)");
+        hComplaint.setTag("#instimobops#gencomp");
+        hComplaint.setTitle("Post insti-wide issues here!");
+        hComplaint.setDescription("Your chance raise new issues, comment and vote on things which matter to you and the institute, has arrived. Get direct reply's from the Executive Wing members, only on General Complaints, Students App!");
         return hComplaint;
     }
+
+    public static Complaint getHostelErrorComplaintObject() {
+        Complaint hComplaint = new Complaint();
+        hComplaint.setName("Institute MobOps");
+        hComplaint.setRollNo("X");
+        hComplaint.setUpvotes(42);
+        hComplaint.setDownvotes(0);
+        hComplaint.setComments(0);
+        hComplaint.setDate("00-00-0000");
+        hComplaint.setResolved(true);
+        hComplaint.setCustom(true);
+        hComplaint.setHostel("IIT Madras");
+        hComplaint.setTag("#instimobops#hostelcomp");
+        hComplaint.setTitle("Post hostel issues here!");
+        hComplaint.setDescription("From your LAN port not working to the washing machine flooding the bathroom, this portal takes it all and organises it. Your complaints can be resolved by you and the hostel secretaries.");
+        return hComplaint;
+    }
+
+    /*This could be due to:
+    No internet :/
+    no complaints :)
+    but not server error ;)
+    */
 
     public String getTrending() {
         return trending;

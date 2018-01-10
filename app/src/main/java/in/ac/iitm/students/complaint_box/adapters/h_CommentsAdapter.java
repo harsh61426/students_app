@@ -64,18 +64,17 @@ public class h_CommentsAdapter extends RecyclerView.Adapter<h_CommentsAdapter.Vi
         date.setText(hCommentObj.getDate());
         comStr.setText(hCommentObj.getCommentStr());
 
-        if(hCommentObj.getRollNo()== context.getString(R.string.acaf_roll) ||
-                hCommentObj.getRollNo()==context.getString(R.string.resaf_roll)||
-                hCommentObj.getRollNo()== context.getString(R.string.sgs_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.cocas_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.has_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.culsec_lit_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.culsec_arts_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.iar_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.speaker_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.sports_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.mitr_roll) ||
-                hCommentObj.getRollNo()== context.getString(R.string.cfi_roll) ) {
+        if (hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.resaf_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.sgs_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.cocas_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.has_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.culsec_lit_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.culsec_arts_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.iar_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.speaker_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.sports_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.mitr_roll)) ||
+                hCommentObj.getRollNo().equalsIgnoreCase(context.getString(R.string.cfi_roll))) {
 
             linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorLightGreen));
         }

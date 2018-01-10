@@ -139,20 +139,20 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
         final String mUUID = gComplaint.getUid();
 
-        if (gComplaint.getRollNo() == context.getString(R.string.acaf_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.resaf_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.sgs_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.cocas_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.has_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.culsec_lit_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.culsec_arts_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.iar_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.speaker_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.sports_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.mitr_roll) ||
-                gComplaint.getRollNo() == context.getString(R.string.cfi_roll)) {
+        if (gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.acaf_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.resaf_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.sgs_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.cocas_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.has_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.culsec_lit_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.culsec_arts_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.iar_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.speaker_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.sports_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.mitr_roll)) ||
+                gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.cfi_roll))) {
 
-            relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.red_background));
+            relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorLightGreen));
         }
 
         linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.unresolved_colour));
