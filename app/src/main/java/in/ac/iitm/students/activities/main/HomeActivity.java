@@ -31,7 +31,6 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.JsonReader;
 import android.util.JsonToken;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -185,43 +184,6 @@ public class HomeActivity extends AppCompatActivity
 
         layout1 = inflater.inflate(R.layout.multimagepopup, (ViewGroup) findViewById(R.id.rl_multipopup));
 
-//        // Here, thisActivity is the current activity
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.WRITE_CALENDAR)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-////            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-////                    Manifest.permission.WRITE_CALENDAR)) {
-////
-////                // Show an explanation to the user *asynchronously* -- don't block
-////                // this thread waiting for the user's response! After the user
-////                // sees the explanation, try again to request the permission.
-////
-////                Snackbar snackbar = Snackbar
-////                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_INDEFINITE);
-////                snackbar.show();
-////
-////                ActivityCompat.requestPermissions(this,
-////                        new String[]{Manifest.permission.WRITE_CALENDAR},
-////                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-////
-////            } else {
-////
-////                // No explanation needed, we can request the permission.
-////
-////                ActivityCompat.requestPermissions(this,
-////                        new String[]{Manifest.permission.WRITE_CALENDAR},
-////                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-////
-////                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-////                // app-defined int constant. The callback method gets the
-////                // result of the request.
-////            }
-////        } else {
-////                if(Utils.getprefInt("CalStat",this)==1)
-////                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
-////        }
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
@@ -235,10 +197,13 @@ public class HomeActivity extends AppCompatActivity
             Utils.saveprefBool(UtilStrings.LOGEDIN, true, this);
             getMyDetails();
         }
+        if (Utils.getprefString(UtilStrings.FIRST, getBaseContext()).equalsIgnoreCase("")) {
+            getMyDetails();
+            Utils.saveprefString(UtilStrings.FIRST, "tango_charlie", getBaseContext());
+        }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
-
         String firebaseToken = FirebaseInstanceId.getInstance().getToken();
         sendRegistrationToServer(firebaseToken, name, roll_no);
 

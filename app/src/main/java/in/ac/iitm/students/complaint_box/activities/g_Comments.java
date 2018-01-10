@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.JsonReader;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -101,6 +100,7 @@ public class g_Comments extends AppCompatActivity {
         TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);
         TextView trending = (TextView) findViewById(R.id.tv_trending);
         TextView title = (TextView) findViewById(R.id.comment_tv_title);
+        TextView tags = (TextView) findViewById(R.id.tv_tags);
         TextView description = (TextView) findViewById(R.id.comment_tv_description);
         TextView date = (TextView) findViewById(R.id.comment_date);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
@@ -120,9 +120,10 @@ public class g_Comments extends AppCompatActivity {
                 .into(iv_pro);
 
         name.setText(hComplaint.getName());
-        hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
+        hostel.setText(hComplaint.getHostel());
         trending.setText(hComplaint.getTrending());
         title.setText(hComplaint.getTitle());
+        tags.setText(hComplaint.getTag());
         description.setText(hComplaint.getDescription());
         upvote.setText("" + hComplaint.getUpvotes());
         downvote.setText("" + hComplaint.getDownvotes());

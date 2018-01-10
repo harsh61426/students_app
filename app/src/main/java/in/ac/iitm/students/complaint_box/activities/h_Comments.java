@@ -113,7 +113,7 @@ public class h_Comments extends AppCompatActivity {
                 .into(iv_pro);
 
         name.setText(hComplaint.getName());
-        hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, h_Comments.this));
+        hostel.setText(hComplaint.getHostel());
         resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         title.setText(hComplaint.getTitle());
         description.setText(hComplaint.getDescription());
