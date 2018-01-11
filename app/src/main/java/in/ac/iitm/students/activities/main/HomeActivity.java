@@ -262,7 +262,6 @@ public class HomeActivity extends AppCompatActivity
                             phone = "Phone no. here",
                             about = "About student";
 
-//                    pDialog.dismiss();
                     JSONArray baseArray = new JSONArray(response);
                     for (int i = 0; i < baseArray.length(); i++) {
                         JSONObject baseObject = baseArray.getJSONObject(i);

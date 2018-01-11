@@ -64,214 +64,214 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 if(courses.get(position).getDays()%prime[0][0]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
 
                 if(courses.get(position).getDays()%prime[1][5]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][3]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][8]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][2]==0)
                     holder.c5.setVisibility(View.VISIBLE);
                 else
-                    holder.c5.setVisibility(View.INVISIBLE);
+                    holder.c5.setVisibility(View.GONE);
                 break;
             case 'B':
                 if(courses.get(position).getDays()%prime[0][1]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[0][6]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][0]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][5]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][3]==0)
                     holder.c5.setVisibility(View.VISIBLE);
                 else
-                    holder.c5.setVisibility(View.INVISIBLE);
+                    holder.c5.setVisibility(View.GONE);
                 break;
             case 'C':
                 if(courses.get(position).getDays()%prime[0][2]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[0][7]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][1]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][6]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][0]==0)
                     holder.c5.setVisibility(View.VISIBLE);
                 else
-                    holder.c5.setVisibility(View.INVISIBLE);
+                    holder.c5.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][5]==0)
                     holder.c6.setVisibility(View.VISIBLE);
                 else
-                    holder.c6.setVisibility(View.INVISIBLE);
+                    holder.c6.setVisibility(View.GONE);
                 break;
             case 'D':
                 if(courses.get(position).getDays()%prime[0][3]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[0][8]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][2]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][7]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][1]==0)
                     holder.c5.setVisibility(View.VISIBLE);
                 else
-                    holder.c5.setVisibility(View.INVISIBLE);
+                    holder.c5.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][6]==0)
                     holder.c6.setVisibility(View.VISIBLE);
                 else
-                    holder.c6.setVisibility(View.INVISIBLE);
+                    holder.c6.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][5]==0)
                     holder.c7.setVisibility(View.VISIBLE);
                 else
-                    holder.c7.setVisibility(View.INVISIBLE);
+                    holder.c7.setVisibility(View.GONE);
                 break;
             case 'E':
                 if(courses.get(position).getDays()%prime[0][5]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][3]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][8]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][2]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][7]==0)
                     holder.c5.setVisibility(View.VISIBLE);
                 else
-                    holder.c5.setVisibility(View.INVISIBLE);
+                    holder.c5.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][0]==0)
                     holder.c6.setVisibility(View.VISIBLE);
                 else
-                    holder.c6.setVisibility(View.INVISIBLE);
+                    holder.c6.setVisibility(View.GONE);
                 break;
             case 'F':
                 if(courses.get(position).getDays()%prime[2][3]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][8]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][1]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][6]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][0]==0)
                     holder.c5.setVisibility(View.VISIBLE);
                 else
-                    holder.c5.setVisibility(View.INVISIBLE);
+                    holder.c5.setVisibility(View.GONE);
                 break;
             case 'G':
                 if(courses.get(position).getDays()%prime[3][2]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][7]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][1]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 break;
             case 'P':
                 if(courses.get(position).getFlag1()==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getFlag1()==1)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 break;
             case 'Q':
                 if(courses.get(position).getFlag1()==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getFlag1()==1)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 break;
             case 'R':
                 if(courses.get(position).getFlag1()==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getFlag1()==1)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 break;
             case 'S':
                 if(courses.get(position).getFlag1()==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getFlag1()==1)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 break;
             case 'T':
                 if(courses.get(position).getFlag1()==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getFlag1()==1)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 break;
             default:
                 break;
@@ -460,8 +460,8 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 c3.setVisibility(View.VISIBLE);
                 c4.setVisibility(View.VISIBLE);
                 c5.setVisibility(View.VISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("M");
                 c2.setText("T");
                 c3.setText("Th FN");
@@ -476,8 +476,8 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 c3.setVisibility(View.VISIBLE);
                 c4.setVisibility(View.VISIBLE);
                 c5.setVisibility(View.VISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("M FN");
                 c2.setText("M AN");
                 c3.setText("Tue");
@@ -493,7 +493,7 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 c4.setVisibility(View.VISIBLE);
                 c5.setVisibility(View.VISIBLE);
                 c6.setVisibility(View.VISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c7.setVisibility(View.GONE);
                 c1.setText("M FN");
                 c2.setText("M AN");
                 c3.setText("Tue FN");
@@ -528,7 +528,7 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 c4.setVisibility(View.VISIBLE);
                 c5.setVisibility(View.VISIBLE);
                 c6.setVisibility(View.VISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c7.setVisibility(View.GONE);
                 c1.setText("M");
                 c2.setText("T FN");
                 c3.setText("T AN");
@@ -544,8 +544,8 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 c3.setVisibility(View.VISIBLE);
                 c4.setVisibility(View.VISIBLE);
                 c5.setVisibility(View.VISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("W FN");
                 c2.setText("W AN");
                 c3.setText("Th FN");
@@ -558,10 +558,10 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 c1.setVisibility(View.VISIBLE);
                 c2.setVisibility(View.VISIBLE);
                 c3.setVisibility(View.VISIBLE);
-                c4.setVisibility(View.INVISIBLE);
-                c5.setVisibility(View.INVISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c4.setVisibility(View.GONE);
+                c5.setVisibility(View.GONE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("Th FN");
                 c2.setText("Th AN");
                 c3.setText("F");
@@ -572,11 +572,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 days.setVisibility(View.VISIBLE);
                 c1.setVisibility(View.VISIBLE);
                 c2.setVisibility(View.VISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
-                c5.setVisibility(View.INVISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
+                c5.setVisibility(View.GONE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("M FN");
                 c2.setText("M AN");
                 break;
@@ -585,11 +585,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 days.setVisibility(View.VISIBLE);
                 c1.setVisibility(View.VISIBLE);
                 c2.setVisibility(View.VISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
-                c5.setVisibility(View.INVISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
+                c5.setVisibility(View.GONE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("T FN");
                 c2.setText("T AN");
                 break;
@@ -598,11 +598,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 days.setVisibility(View.VISIBLE);
                 c1.setVisibility(View.VISIBLE);
                 c2.setVisibility(View.VISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
-                c5.setVisibility(View.INVISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
+                c5.setVisibility(View.GONE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("W FN");
                 c2.setText("W AN");
                 break;
@@ -611,11 +611,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 days.setVisibility(View.VISIBLE);
                 c1.setVisibility(View.VISIBLE);
                 c2.setVisibility(View.VISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
-                c5.setVisibility(View.INVISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
+                c5.setVisibility(View.GONE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("Th FN");
                 c2.setText("Th AN");
                 break;
@@ -624,25 +624,25 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 days.setVisibility(View.VISIBLE);
                 c1.setVisibility(View.VISIBLE);
                 c2.setVisibility(View.VISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
-                c5.setVisibility(View.INVISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
+                c5.setVisibility(View.GONE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
                 c1.setText("F FN");
                 c2.setText("F AN");
                 break;
             }
             default: {
                 slot.setError("Invalid slot");
-                days.setVisibility(View.INVISIBLE);
-                c1.setVisibility(View.INVISIBLE);
-                c2.setVisibility(View.INVISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
-                c5.setVisibility(View.INVISIBLE);
-                c6.setVisibility(View.INVISIBLE);
-                c7.setVisibility(View.INVISIBLE);
+                days.setVisibility(View.GONE);
+                c1.setVisibility(View.GONE);
+                c2.setVisibility(View.GONE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
+                c5.setVisibility(View.GONE);
+                c6.setVisibility(View.GONE);
+                c7.setVisibility(View.GONE);
 
             }
         }
@@ -668,8 +668,8 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M");
                             c2.setText("T");
                             c3.setText("Th FN");
@@ -684,8 +684,8 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             c3.setText("Tue");
@@ -700,8 +700,8 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             c3.setText("Tue FN");
@@ -735,7 +735,7 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
                             c6.setVisibility(View.VISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M");
                             c2.setText("T FN");
                             c3.setText("T AN");
@@ -751,8 +751,8 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("W FN");
                             c2.setText("W AN");
                             c3.setText("Th FN");
@@ -765,10 +765,10 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
                             c3.setVisibility(View.VISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("Th FN");
                             c2.setText("Th AN");
                             c3.setText("F");
@@ -779,11 +779,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             break;
@@ -792,11 +792,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("T FN");
                             c2.setText("T AN");
                             break;
@@ -805,11 +805,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("W FN");
                             c2.setText("W AN");
                             break;
@@ -818,11 +818,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("Th FN");
                             c2.setText("Th AN");
                             break;
@@ -831,25 +831,25 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("F FN");
                             c2.setText("F AN");
                             break;
                         }
                         default: {
                             slot.setError("Invalid slot");
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
 
                         }
                     }
@@ -857,11 +857,11 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
                 else
                 {
                     slot.setError("Invalid slot");
-                    days.setVisibility(View.INVISIBLE);
-                    c1.setVisibility(View.INVISIBLE);
-                    c2.setVisibility(View.INVISIBLE);
-                    c3.setVisibility(View.INVISIBLE);
-                    c4.setVisibility(View.INVISIBLE);
+                    days.setVisibility(View.GONE);
+                    c1.setVisibility(View.GONE);
+                    c2.setVisibility(View.GONE);
+                    c3.setVisibility(View.GONE);
+                    c4.setVisibility(View.GONE);
                 }
             }
 
@@ -1560,17 +1560,17 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
             days = (TextView) view.findViewById(R.id.textView3);
             c1 = (TextView) view.findViewById(R.id.day1);
             c2 = (TextView) view.findViewById(R.id.day2);
-            c2.setVisibility(View.INVISIBLE);
+            c2.setVisibility(View.GONE);
             c3 = (TextView) view.findViewById(R.id.day3);
-            c3.setVisibility(View.INVISIBLE);
+            c3.setVisibility(View.GONE);
             c4 = (TextView) view.findViewById(R.id.day4);
-            c4.setVisibility(View.INVISIBLE);
+            c4.setVisibility(View.GONE);
             c5 = (TextView) view.findViewById(R.id.day5);
-            c5.setVisibility(View.INVISIBLE);
+            c5.setVisibility(View.GONE);
             c6 = (TextView) view.findViewById(R.id.day6);
-            c6.setVisibility(View.INVISIBLE);
+            c6.setVisibility(View.GONE);
             c7 = (TextView) view.findViewById(R.id.day7);
-            c7.setVisibility(View.INVISIBLE);
+            c7.setVisibility(View.GONE);
             slot = (TextView) view.findViewById(R.id.slot);
             courseid = (TextView) view.findViewById(R.id.course_id);
         }

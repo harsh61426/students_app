@@ -524,7 +524,7 @@ public class GradCourseTimetableFragment extends Fragment {
                     for(int j=0;j<9;j++) {
                         if (days % prime[i][j] == 0)
                             slots[i][j] = 'K';
-                        if (slots[i][j] == 'A' && days % prime[i][j] != 0)
+                        if (slots[i][j] == 'K' && days % prime[i][j] != 0)
                             slots[i][j] = 'X';
                     }
                 /*slots[2][6] = (days%2==0)?'K':'X';
@@ -548,7 +548,7 @@ public class GradCourseTimetableFragment extends Fragment {
                     for(int j=0;j<9;j++) {
                         if (days % prime[i][j] == 0)
                             slots[i][j] = 'M';
-                        if (slots[i][j] == 'A' && days % prime[i][j] != 0)
+                        if (slots[i][j] == 'M' && days % prime[i][j] != 0)
                             slots[i][j] = 'X';
                     }
                 /*slots[0][6] = (days%2==0)?'M':'X';
@@ -1242,7 +1242,7 @@ public class GradCourseTimetableFragment extends Fragment {
                 }
                 courseAdapter.notifyDataSetChanged();
 
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays());
@@ -1261,6 +1261,7 @@ public class GradCourseTimetableFragment extends Fragment {
                     }
                 }
                 //recreate();
+                */
                 ((TimetableActivity) getActivity()).gradreturnadapter().notifyDataSetChanged();
 
                 dialog.dismiss();
@@ -1280,7 +1281,7 @@ public class GradCourseTimetableFragment extends Fragment {
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
                 Utils.saveprefBool("state" + 9 * x + y, false, getActivity());
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays());
@@ -1298,6 +1299,7 @@ public class GradCourseTimetableFragment extends Fragment {
                         }
                     }
                 }
+                */
                 dialog.dismiss();
                 courseAdapter.notifyDataSetChanged();
                 ((TimetableActivity) getActivity()).gradreturnadapter().notifyDataSetChanged();

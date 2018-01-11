@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 
 /**
@@ -26,8 +27,8 @@ public class g_JSONComplaintParser {
     private ArrayList<Complaint> gComplaintArray;
 
     public g_JSONComplaintParser(String string, Activity activity) {
-        stream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
-        gComplaintArray = new ArrayList<>();
+        this.stream = new ByteArrayInputStream(string.getBytes(Charset.forName("UTF-8")));
+        this.gComplaintArray = new ArrayList<>();
         this.activity = activity;
     }
 
@@ -44,9 +45,7 @@ public class g_JSONComplaintParser {
             Log.d("Read complaints array", reader + "");
             return readComplaintsArray(reader);
         } finally {
-
             reader.close();
-
         }
 
     }
@@ -60,10 +59,9 @@ public class g_JSONComplaintParser {
             gComplaints.add(readComplaint(reader));
         }
         reader.endArray();
+
         return gComplaints;
-
     }
-
 
     public Complaint readComplaint(JsonReader reader) throws IOException {
 

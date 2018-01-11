@@ -66,5 +66,6 @@
         android:layout_height="match_parent"
         android:elevation="10dp"
         app:elevation="10dp"
+        android:visibility="gone"
         style="@style/MaterialSearchViewStyle"/>
 </android.support.design.widget.CoordinatorLayout>
