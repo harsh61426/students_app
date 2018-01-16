@@ -168,7 +168,6 @@ public class CourseTimetableFragment extends Fragment {
                 {
                     //tvs[i][j].setBackgroundResource(R.drawable.back);
                     tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
-
                     //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
                 else
