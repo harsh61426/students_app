@@ -299,7 +299,7 @@ public class ImpContactsActivity extends AppCompatActivity
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
                 return new ImpContactsFragment();
-            } else return new ExecutiveWingFragment();
+            } else return new EWFragment();//ExecutiveWingFragment();
         }
 
         @Override

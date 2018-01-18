@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.squareup.picasso.Picasso;
@@ -47,7 +48,7 @@ public class EWFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ew, container, false);
-        GridView gridView = (GridView)view.findViewById(R.id.ew_grid);
+        ListView listView = (ListView)view.findViewById(R.id.ew_list);
 
         context = getActivity();
 
@@ -125,7 +126,7 @@ public class EWFragment extends Fragment {
                 context.getResources().getString(R.string.cfi_phone),
                 "CFI, Students' Head"));
 
-        gridView.setAdapter(new EWAdapter(context,members));
+        listView.setAdapter(new EWAdapter(context,members));
 
         return view;
     }

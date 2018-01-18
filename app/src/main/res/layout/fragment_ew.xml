@@ -6,12 +6,13 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <GridView
-        android:id="@+id/ew_grid"
+    <ListView
+        android:id="@+id/ew_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp"
-        android:horizontalSpacing="1dp"
-        android:numColumns="2"
-        android:verticalSpacing="1dp" />
+        android:layout_marginBottom="56dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp" />
+
 </FrameLayout>
