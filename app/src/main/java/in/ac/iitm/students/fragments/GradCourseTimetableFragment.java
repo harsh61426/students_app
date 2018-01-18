@@ -166,13 +166,13 @@ public class GradCourseTimetableFragment extends Fragment {
                 if(bunk[i][j])
                 {
                     //tvs[i][j].setBackgroundResource(R.drawable.back);
-                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getContext().getApplicationContext(),R.color.lightRed));
 
                     //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
                 else
                 {
-                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getContext().getApplicationContext(),R.color.white));
                     //tvs[i][j].setBackgroundResource(R.drawable.back);
                     //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
