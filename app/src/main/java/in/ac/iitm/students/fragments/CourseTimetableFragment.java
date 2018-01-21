@@ -41,7 +41,7 @@ public class CourseTimetableFragment extends Fragment {
     Dialog dialog;
     boolean check[]={false, false,false,false};
     //int prime[][]={{2, 3, 5, 7, 11, 13, 17, 19},{23, 29, 31, 37, 41, 43, 47, 53},{59, 61, 67, 71, 73, 79, 83, 89},{97, 101, 103, 107, 109, 113, 127, 131},{137, 139, 149, 151, 157, 163, 167, 173}};
-    int prime[][]={{2, 3, 5, 7, 11, 13, 17, 19,23},{29, 31, 37, 41, 43, 47, 53,59,61},{ 67, 71, 73, 79, 83, 89,97,101,103},{ 107, 109, 113, 127, 131,137,139,149,151},{ 157, 163, 167,173,179,181,191,193,197}};
+    long prime[][]={{2, 3, 5, 7, 11, 13, 17, 19,23},{29, 31, 37, 41, 43, 47, 53,59,61},{ 67, 71, 73, 79, 83, 89,97,101,103},{ 107, 109, 113, 127, 131,137,139,149,151},{ 157, 163, 167,173,179,181,191,193,197}};
     // ids representing each cell in the grid in timetable.
     // The initial character is for the day and the integer is for the slot sequence
     int ids[][] = {{R.id.m1,R.id.m2,R.id.m3,R.id.m4,R.id.m5,R.id.m6,R.id.m7,R.id.m8,R.id.m9},
@@ -323,7 +323,7 @@ public class CourseTimetableFragment extends Fragment {
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
-            course.setDays(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
+            course.setDays(Utils.getprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
             courses.add(course);
         }
     }
@@ -379,14 +379,14 @@ public class CourseTimetableFragment extends Fragment {
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
-            course.setDays(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
+            course.setDays(Utils.getprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
             course.setBunk_tot(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,getActivity()));
             course.setBunk_done(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,getActivity()));
             bunks.add(course);
         }
     }
 
-    private void mapslots(char c, int days)
+    private void mapslots(char c, long days)
     {
         switch(c)
         {
@@ -642,7 +642,7 @@ public class CourseTimetableFragment extends Fragment {
         int i=0;
         for(Course c: courses)
         {
-            Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
+            Utils.saveprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,c.getCourse_id(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,Character.toString(c.getSlot()),getActivity());
             Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,c.getSlot()>='P'&&c.getSlot()<='T'?2:getbunks(c.getDays()),getActivity());
@@ -652,7 +652,7 @@ public class CourseTimetableFragment extends Fragment {
     }
 
     //fix this
-    private int getbunks(int number)
+    private int getbunks(long number)
     {
         int bunks = 0;
         for(int i=0;i<5;i++)
@@ -1173,6 +1173,24 @@ public class CourseTimetableFragment extends Fragment {
         remove.setVisibility(View.VISIBLE);
         add.setText("UPDATE");
         final int number = Utils.getprefInt(UtilStrings.COURSES_COUNT,getActivity());
+        slot.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                for(int i=0;i<number&&s.length()==1;i++){
+                    if((Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity())).charAt(0)==(slot.getText().charAt(0))&&slot.getText().charAt(0)<'P') {
+                        courseid.setText(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
+                        break;
+                    }
+                }
+            }
+        });
 
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -1205,10 +1223,10 @@ public class CourseTimetableFragment extends Fragment {
                     String s=courseid.getText().toString();
                     s=s.substring(0,2).toUpperCase()+s.substring(2);
                     boolean flag=false;//if a course is already present
-                    int pos_final=-1;
-                    int pos_init=-1;
+                    long pos_final=-1;
+                    long pos_init=-1;
                     for(int i=0;i<number;i++){
-                        if((Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity())).equals(s)) {
+                        if((Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity())).equals(s)&&(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity())).charAt(0)<='P') {
 
                             flag = true;
                             pos_final = i;
@@ -1222,17 +1240,34 @@ public class CourseTimetableFragment extends Fragment {
                         }
                     }
                     if(flag){
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()) * prime[x][y], getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,getActivity())+2,getActivity());
-
+                        /*Log.d("annoyinggg1","ddd"+Utils.getprefString(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_SLOT, getActivity()));
+                        Log.d("annoyinggg2","ddd"+Utils.getprefString(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_ID, getActivity()));
+                        Log.d("annoyinggg3","ddd"+Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.BUNKS_TOTAL, getActivity()));
+                        Log.d("annoyinggg3.1","ddd"+Utils.getprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()));
+                        Log.d("annoyinggg4","ddd"+Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_SLOT, getActivity()));
+                        Log.d("annoyinggg5","ddd"+Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_ID, getActivity()));
+                        Log.d("annoyinggg6","ddd"+Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.BUNKS_TOTAL, getActivity()));
+                        Log.d("annoyinggg6.1","ddd"+Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()));
+                        */
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()) * prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS,((Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y])), getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.BUNKS_TOTAL, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.BUNKS_TOTAL, getActivity()) - 2, getActivity());
+                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.BUNKS_TOTAL, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.BUNKS_TOTAL, getActivity()) + 2, getActivity());
+                        /*Log.d("annoyinggg7","ddd"+Utils.getprefString(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_SLOT, getActivity()));
+                        Log.d("annoyinggg8","ddd"+Utils.getprefString(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_ID, getActivity()));
+                        Log.d("annoyinggg9","ddd"+Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.BUNKS_TOTAL, getActivity()));
+                        Log.d("annoyinggg9.1","ddd"+Utils.getprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()));
+                        Log.d("annoyinggg10","ddd"+Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_SLOT, getActivity()));
+                        Log.d("annoyinggg11","ddd"+Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_ID, getActivity()));
+                        Log.d("annoyinggg12","ddd"+Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.BUNKS_TOTAL, getActivity()));
+                        Log.d("annoyinggg12.1","ddd"+Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()));
+                        */
                     }
                     else{
                         //if(ch!='X') {
                             Utils.saveprefInt(UtilStrings.COURSES_COUNT, number + 1, getActivity());
-                            Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
-                            Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
+                            Utils.saveprefLong(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
+                            Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
                             Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.BUNKS_TOTAL, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.BUNKS_TOTAL, getActivity()) - 2, getActivity());
                             Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.BUNKS_TOTAL, 2, getActivity());
                             //edit below
@@ -1241,7 +1276,7 @@ public class CourseTimetableFragment extends Fragment {
                         //}
                         //else{
                         //    Utils.saveprefInt(UtilStrings.COURSES_COUNT, number + 1, getActivity());
-                         //   Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
+                         //   Utils.saveprefLong(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
                          //   Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.BUNKS_TOTAL, 2, getActivity());
                         //    Utils.saveprefString(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_ID, s, getActivity());
                         //    Utils.saveprefString(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_SLOT, Character.toString(b), getActivity());
@@ -1288,7 +1323,7 @@ public class CourseTimetableFragment extends Fragment {
                         break;
                     }
                 }
-                Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
+                Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
                 Utils.saveprefBool("state" + 9 * x + y, false, getActivity());
                 /*getbunks();

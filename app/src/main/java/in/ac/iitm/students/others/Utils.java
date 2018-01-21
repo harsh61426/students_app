@@ -66,7 +66,7 @@ public class Utils {
     public static long getprefLong(String key, Context context) {
         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
-        return pref.getLong(key, -1);
+        return pref.getLong(key, 0);
     }
 
     public static void clearpref(Context context) {
