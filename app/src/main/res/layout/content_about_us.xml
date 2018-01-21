@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Students App IITM 3.0.0"
+        android:text="Students App IITM 3.1.0"
         android:textColor="#FFFFFF"
         android:textSize="24sp" />
 

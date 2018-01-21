@@ -317,16 +317,22 @@ public class InstiCalendar {
                                 CalendarContract.Calendars.VISIBLE + " = 1",
                                 null,
                                 CalendarContract.Calendars._ID + " ASC");
-        if (calCursor.moveToFirst()) {
-            do {
-                long id = calCursor.getLong(0);
-                String displayName = calCursor.getString(1);
-                if (displayName.equals("IITM Calendar") && calCursor.getString(2).equals("students.iitm")) {
-                    //InstiCalendar.CalID = id;
-                    return  id;
-                }
+        try {
+            if (calCursor.moveToFirst()) {
+                do {
+                    long id = calCursor.getLong(0);
+                    String displayName = calCursor.getString(1);
+                    if (displayName.equals("IITM Calendar") && calCursor.getString(2).equals("students.iitm")) {
+                        //InstiCalendar.CalID = id;
+                        return id;
+                    }
 
-            } while (calCursor.moveToNext());
+                } while (calCursor.moveToNext());
+            }
+        }
+        catch (NullPointerException np)
+        {
+            return -1;
         }
         //InstiCalendar.CalID=-1;
         return -1;

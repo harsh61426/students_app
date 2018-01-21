@@ -45,8 +45,15 @@ public class StudentSearchAdapter extends ArrayAdapter {
         else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.rollno.setText(students.get(position).getRollno());
-        holder.name.setText(students.get(position).getName());
+        if(position<students.size()) {
+            holder.rollno.setText(students.get(position).getRollno());
+            holder.name.setText(students.get(position).getName());
+        }
+        else
+        {
+            holder.name.setText("N/A");
+            holder.rollno.setText("N/A");
+        }
         return convertView;
     }
 

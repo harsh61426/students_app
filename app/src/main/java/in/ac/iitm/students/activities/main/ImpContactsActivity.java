@@ -31,6 +31,7 @@ import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
+import in.ac.iitm.students.fragments.EWFragment;
 import in.ac.iitm.students.fragments.ExecutiveWingFragment;
 import in.ac.iitm.students.fragments.ImpContactsFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
@@ -298,7 +299,7 @@ public class ImpContactsActivity extends AppCompatActivity
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
                 return new ImpContactsFragment();
-            } else return new ExecutiveWingFragment();
+            } else return new EWFragment();//ExecutiveWingFragment();
         }
 
         @Override
