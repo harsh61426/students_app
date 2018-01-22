@@ -1,75 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
     android:background="@color/white"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="12dp">
+
+    <TextView
+        android:id="@+id/left"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:text="0/8"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"
-        android:orientation="vertical"
-        android:paddingBottom="2dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="2dp">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/courseid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             android:background="@color/white"
-            android:padding="4dp"
             android:text="XX0000"
-            android:textAlignment="center" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/slot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             android:background="@color/white"
-            android:padding="4dp"
+            android:paddingTop="2dp"
             android:text="X slot"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"
-        android:orientation="vertical"
-        android:paddingBottom="2dp"
-        android:paddingRight="2dp"
-        android:paddingTop="2dp">
-
-        <TextView
-            android:id="@+id/bunks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:background="@color/white"
-            android:padding="4dp"
-            android:text="Bunks"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/left"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:background="@color/white"
-            android:padding="4dp"
-            android:text="0/8"
-            android:textAlignment="center"
-            android:textSize="24sp"
             android:textStyle="bold" />
 
     </LinearLayout>

@@ -106,11 +106,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.noAnimation" />
         <activity
-            android:name=".activities.StudentDetailsActivity"
-            android:label="@string/title_activity_student_details"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".complaint_box.activities.MyComplaintsActivity"
             android:label="@string/title_activity_thread"
             android:screenOrientation="portrait"

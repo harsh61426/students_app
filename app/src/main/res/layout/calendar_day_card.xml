@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="Sun"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorSecondaryText"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/guideline2"
@@ -92,7 +92,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:visibility="gone"
-                app:cardBackgroundColor="@color/colorLightGreen"
+                app:cardBackgroundColor="@color/colorSecondaryLight"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline2"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_description">
