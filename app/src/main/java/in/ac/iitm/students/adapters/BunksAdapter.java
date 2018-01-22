@@ -42,15 +42,14 @@ public class BunksAdapter extends ArrayAdapter {
             holder = new ViewHolder();
             holder.slot = (TextView)convertView.findViewById(R.id.slot);
             holder.course = (TextView)convertView.findViewById(R.id.courseid);
-            holder.totalbunks = (TextView)convertView.findViewById(R.id.bunks);
             holder.bunkcount = (TextView)convertView.findViewById(R.id.left);
             convertView.setTag(holder);
         }
         else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.slot.setText("Slot "+Character.toString(bunks.get(position).getSlot()));
-        holder.course.setText("Course: "+bunks.get(position).getCourse_id());
+        holder.slot.setText(Character.toString(bunks.get(position).getSlot())+" slot");
+        holder.course.setText(bunks.get(position).getCourse_id());
         holder.bunkcount.setText(bunks.get(position).getBunk_done()+"/"+bunks.get(position).getBunk_tot());
         if(bunks.get(position).getBunk_done()*2>=bunks.get(position).getBunk_tot())
         {
@@ -64,7 +63,6 @@ public class BunksAdapter extends ArrayAdapter {
     {
         TextView slot;
         TextView course;
-        TextView totalbunks;
         TextView bunkcount;
     }
 }

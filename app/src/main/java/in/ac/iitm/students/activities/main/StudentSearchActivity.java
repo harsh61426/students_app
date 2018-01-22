@@ -147,16 +147,16 @@ public class StudentSearchActivity extends AppCompatActivity
                 //goToDetails(name);
             }
         });
-
-        profilePic_ = (CircleImageView) findViewById(R.id.profile_pic);
-        name_ = (TextView) findViewById(R.id.name_overview);
-        rollno_ = (TextView) findViewById(R.id.rollno_overview);
-        hostel_ = (TextView) findViewById(R.id.hostel_overview);
-        room_ = (TextView) findViewById(R.id.room_overview);
-        email_ = (TextView) findViewById(R.id.email_info);
-        phoneno_ = (TextView) findViewById(R.id.phone_info);
-        abtyourself_ = (TextView) findViewById(R.id.aboutyourself);
-        sc_=(ScrollView) findViewById(R.id.scroll_view);
+//
+//        profilePic_ = (CircleImageView) findViewById(R.id.profile_pic);
+//        name_ = (TextView) findViewById(R.id.name_overview);
+//        rollno_ = (TextView) findViewById(R.id.rollno_overview);
+//        hostel_ = (TextView) findViewById(R.id.hostel_overview);
+//        room_ = (TextView) findViewById(R.id.room_overview);
+//        email_ = (TextView) findViewById(R.id.email_info);
+//        phoneno_ = (TextView) findViewById(R.id.phone_info);
+//        abtyourself_ = (TextView) findViewById(R.id.aboutyourself);
+//        sc_=(ScrollView) findViewById(R.id.scroll_view);
 
 
         etSearch.addTextChangedListener(new TextWatcher() {

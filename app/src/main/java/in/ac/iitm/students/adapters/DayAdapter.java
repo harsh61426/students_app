@@ -8,11 +8,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,7 +44,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_day_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_calendar_day, parent, false);
 
         return new ViewHolder(view);
     }
@@ -82,24 +85,18 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
 
         if (month_events.get(position).isHoliday()){
-            holder.cardView.setBackgroundColor(Color.parseColor("#607D8B"));
-            holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
-            holder.tv_day.setTextColor(Color.BLACK);
-        }else{
-            holder.cardView.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-            holder.tv_date.setTextColor(Color.parseColor("#2196F3"));
-            holder.tv_day.setTextColor(Color.parseColor("#3F51B5"));
+            holder.ll_day.setBackgroundColor(ContextCompat.getColor(context.getApplicationContext(),R.color.colorPrimaryLight));
         }
-
+        else
+        {
+            holder.ll_day.setBackgroundColor(ContextCompat.getColor(context.getApplicationContext(),R.color.cardview_light_background));
+        }
         if(Objects.equals(month_events.get(position).eventDisplay1, "")){
-            holder.reminderCardView.setVisibility(View.GONE);
+            holder.tv_reminder.setVisibility(View.INVISIBLE);
         }
         if(!Objects.equals(month_events.get(position).eventDisplay1, "")){
-            holder.reminderCardView.setVisibility(View.VISIBLE);
-            holder.reminderText.setText(month_events.get(position).eventDisplay1);
-        }
-        if(!Objects.equals(month_events.get(position).eventDisplay2, "")){
-            holder.reminerDots.setVisibility(View.VISIBLE);
+            holder.tv_reminder.setVisibility(View.VISIBLE);
+            holder.tv_reminder.setText(month_events.get(position).eventDisplay1);
         }
 
         Calendar beginTime=Calendar.getInstance();
@@ -109,7 +106,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         // A date-time specified in milliseconds since the epoch.
         final long  begin= beginTime.getTimeInMillis();
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.ll_day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -126,22 +123,20 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
+        Log.d("DEBXXa", String.valueOf(month_events.size()));
         return month_events.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_day, tv_date, tv_desc,reminderText,reminerDots;
-        CardView cardView,reminderCardView;
-
+        TextView tv_day, tv_date, tv_desc, tv_reminder;
+        LinearLayout ll_day;
         ViewHolder(View itemView) {
             super(itemView);
             tv_day = (TextView) itemView.findViewById(R.id.tv_day);
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_desc = (TextView) itemView.findViewById(R.id.tv_description);
-            cardView = (CardView) itemView.findViewById(R.id.card_view);
-            reminderCardView = (CardView) itemView.findViewById(R.id.reminder_cardview);
-            reminderText = (TextView) itemView.findViewById(R.id.reminders_textview);
-            reminerDots = (TextView) itemView.findViewById(R.id.reminders_dots);
+            tv_reminder = (TextView) itemView.findViewById(R.id.tv_reminder);
+            ll_day = (LinearLayout) itemView.findViewById(R.id.ll_day);
         }
     }
 }

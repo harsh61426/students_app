@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorSecondary"
                     android:text="ADD"
                     android:textColor="@color/white" />
 
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorSecondary"
                     android:text="DONE"
                     android:textColor="@color/white" />
             </LinearLayout>
@@ -152,7 +152,7 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="08:00-\n08:50"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"
 
                     />
@@ -170,7 +170,7 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="09:00-\n09:50"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"/>
 
                 <TextView
@@ -184,7 +184,7 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="10:00-\n10:50"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"
                     />
 
@@ -199,7 +199,7 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="11:00-\n11:50"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"/>
 
                 <TextView
@@ -213,7 +213,7 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="12:00-\n12:50"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"/>
 
 
@@ -228,7 +228,7 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="13:00-\n13:50"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"/>
 
                 <TextView
@@ -243,7 +243,7 @@
                     android:gravity="center"
                     android:text="14:00-\n15:15"
                     android:visibility="visible"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"/>
 
                 <TextView
@@ -258,7 +258,7 @@
                     android:gravity="center"
                     android:text="15:25-\n16:40"
                     android:visibility="visible"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"/>
 
                 <TextView
@@ -272,7 +272,7 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="16:50-\n17:40"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="12sp"/>
 
 

@@ -16,11 +16,12 @@
         android:id="@+id/bunk_list"
         android:layout_width="wrap_content"
         android:layout_height="371dp"
+        android:layout_below="@+id/bm_inst"
         android:layout_gravity="center"
         android:layout_margin="4dp"
-        android:layout_below="@+id/bm_inst"
-        android:horizontalSpacing="8dp"
-        android:verticalSpacing="8dp"
+        android:horizontalSpacing="2dp"
+        android:numColumns="2"
+        android:verticalSpacing="2dp"
         android:visibility="visible" />
 
 </RelativeLayout>

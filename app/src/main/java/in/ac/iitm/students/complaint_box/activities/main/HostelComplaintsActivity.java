@@ -96,7 +96,10 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(0);
-        String Hostel = String.valueOf(hostel.charAt(0)).toUpperCase() + hostel.substring(1, hostel.length());
+        String Hostel="Hostel";
+        if(hostel.length()>1) {
+            Hostel = String.valueOf(hostel.charAt(0)).toUpperCase() + hostel.substring(1, hostel.length());
+        }
         actionBar.setTitle(Hostel + " Complaints");
         searchViewCode();
 
