@@ -121,22 +121,24 @@
 
         <Button
             android:id="@+id/add"
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:text="ADD"
             android:textColor="@color/white" />
 
         <Button
             android:id="@+id/remove"
-            android:layout_width="169dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:text="REMOVE"
-            android:textColor="@color/white" />
-
+            android:textColor="@color/white"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

@@ -672,6 +672,9 @@ public class FreshieCourseTimetableFragment extends Fragment {
         final EditText courseid = (EditText) dialog.findViewById(R.id.course_id);
         final LinearLayout days = (LinearLayout) dialog.findViewById(R.id.days);
         Button add = (Button) dialog.findViewById(R.id.add);
+
+        Button remove= (Button)dialog.findViewById(R.id.remove);
+        remove.setVisibility(View.GONE);
         final Course course = new Course();
         course.setDays(1);
         course.setSlot(' ');
