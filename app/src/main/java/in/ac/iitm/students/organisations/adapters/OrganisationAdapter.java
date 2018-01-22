@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class OrganisationAdapter extends RecyclerView.Adapter <OrganisationAdapt
             @Override
             public void onClick(View v) {
 
+                Log.d("ORGXXX",OrgList.get(holder.getAdapterPosition()).org_name);
                 Intent i = new Intent(context,PostActivity.class);
                 i.putExtra("isyoutube",OrgList.get(holder.getAdapterPosition()).isYoutube);
                 if(OrgList.get(holder.getAdapterPosition()).isYoutube){

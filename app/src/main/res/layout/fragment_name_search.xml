@@ -39,7 +39,7 @@
             android:drawableLeft="@drawable/ic_search_black_24dp"
             android:drawablePadding="4dp"
             android:drawableTint="@color/colorPrimaryDark"
-            android:hint="Search by name"
+            android:hint="Search by name or roll number"
             android:imeOptions="actionSearch"
             android:inputType="textPersonName|textCapWords"
             android:padding="8dp" />

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.objects.Course;
+import in.ac.iitm.students.others.UtilStrings;
 
 /**
  * Created by SAM10795 on 14-06-2017.
@@ -429,6 +430,11 @@ public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.Vi
                     dialog.dismiss();
                 }
                 else {
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_DAYS),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_ID),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_SLOT),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.BUNKS_TOTAL),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.BUNKS_DONE),0).edit().clear().apply();
                     courses.remove(position);
                     notifyDataSetChanged();
                     dialog.dismiss();

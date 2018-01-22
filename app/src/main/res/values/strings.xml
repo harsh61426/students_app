@@ -150,6 +150,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="Listofpagenames">
+        <item>"InstiMediaIITM/"</item>
         <item>"Mediaclubiitm/"</item>
         <item>"saarangiitm/"</item>
         <item>"Shaastra/"</item>
@@ -162,13 +163,13 @@
         <item>"iar.iitmadras/"</item>
         <item>"t5e.iitm/"</item>
         <item>"fineartsclubiitmadras/"</item>
-        <item>"152210554869211"</item>
-        <item>"362692757076050"</item>
         <item>"ECELLIITM/"</item>
         <item>"SLCIITMadras/"</item>
         <item>"nss.iitm/"</item>
         <item>"mitr.iitm/"</item>
         <item>"saathi.iitm/"</item>
+        <item>"152210554869211"</item>
+        <item>"362692757076050"</item>
 
     </string-array>
 
@@ -185,13 +186,14 @@
     </string-array>
 
     <string-array name="indexOfYoutubeOrg">
-        <item>"0|mediaclubiitm"</item>
-        <item>"3|ReachIITM"</item>
-        <item>"1|iitmsaarang"</item>
-        <item>"2|iitmshaastra"</item>
-        <item>"5|iitmtv"</item>
-        <item>"4|emliitm"</item>
+        <item>"1|mediaclubiitm"</item>
+        <item>"4|ReachIITM"</item>
+        <item>"2|iitmsaarang"</item>
+        <item>"3|iitmshaastra"</item>
+        <item>"6|iitmtv"</item>
+        <item>"5|emliitm"</item>
     </string-array>
+
     <string name="calendar_sync">Remove Calendar</string>
     <string name="ProfileDisclaimer">The following Information will be made public.</string>
 
