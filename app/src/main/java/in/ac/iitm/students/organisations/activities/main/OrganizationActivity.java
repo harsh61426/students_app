@@ -192,22 +192,22 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
 
                                 pd.dismiss();
                                 switch (finalI) {
-                                    case 0:
+                                    case 1:
                                         channelIDrequest(yt_username.get(0), org);
                                         break;
-                                    case 3:
+                                    case 4:
                                         channelIDrequest(yt_username.get(1), org);
                                         break;
-                                    case 1:
+                                    case 2:
                                         channelIDrequest(yt_username.get(2), org);
                                         break;
-                                    case 2:
+                                    case 3:
                                         channelIDrequest(yt_username.get(3), org);
                                         break;
-                                    case 5:
+                                    case 6:
                                         channelIDrequest(yt_username.get(4), org);
                                         break;
-                                    case 4:
+                                    case 5:
                                         channelIDrequest(yt_username.get(5), org);
                                         break;
                                     default:

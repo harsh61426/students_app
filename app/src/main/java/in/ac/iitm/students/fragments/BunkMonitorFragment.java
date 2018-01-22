@@ -131,7 +131,7 @@ public class BunkMonitorFragment extends Fragment {
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
-            course.setDays(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
+            course.setDays(Utils.getprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
             course.setBunk_tot(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,getActivity()));
             course.setBunk_done(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,getActivity()));
             course.setFlag1(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_FLAG,getActivity()));

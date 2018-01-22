@@ -147,16 +147,16 @@ public class EditCourseDialogActivity extends Dialog implements
                     //Utils.saveprefString(UtilStrings.COURSE_NUM+pos_final+UtilStrings.COURSE_ID,s,getOwnerActivity());
                     if(flag) {
 
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getOwnerActivity()) * prime[x][y], getOwnerActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getOwnerActivity()) / prime[x][y], getOwnerActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getOwnerActivity()) * prime[x][y], getOwnerActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getOwnerActivity()) / prime[x][y], getOwnerActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getOwnerActivity())-2,getOwnerActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,getOwnerActivity())+2,getOwnerActivity());
                         //notifyAll();
                     }
                     else{
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getOwnerActivity())/prime[x][y],getOwnerActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getOwnerActivity())/prime[x][y],getOwnerActivity());
                         Utils.saveprefInt(UtilStrings.COURSES_COUNT,number+1,getOwnerActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_DAYS,prime[x][y],getOwnerActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_DAYS,prime[x][y],getOwnerActivity());
                         Utils.saveprefString(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_ID,s,getOwnerActivity());
                         Utils.saveprefString(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_SLOT,Character.toString(b),getOwnerActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getOwnerActivity())-2,getOwnerActivity());
@@ -172,11 +172,11 @@ public class EditCourseDialogActivity extends Dialog implements
             case R.id.remove:
 
                 if(c1.isChecked()){
-                    Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,1,getOwnerActivity());
+                    Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,1,getOwnerActivity());
                     Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,0,getOwnerActivity());
                 }
                 else{
-                    Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getOwnerActivity())/prime[x][y],getOwnerActivity());
+                    Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getOwnerActivity())/prime[x][y],getOwnerActivity());
                     Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getOwnerActivity())-2,getOwnerActivity());
                 }
 

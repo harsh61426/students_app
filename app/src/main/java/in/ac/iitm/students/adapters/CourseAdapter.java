@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.objects.Course;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
@@ -60,188 +62,188 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 if(courses.get(position).getDays()%prime[0][0]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
 
                 if(courses.get(position).getDays()%prime[1][5]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][3]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][2]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 break;
             case 'B':
                 if(courses.get(position).getDays()%prime[0][1]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][0]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][5]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][3]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 break;
             case 'C':
                 if(courses.get(position).getDays()%prime[0][2]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][1]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][0]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][5]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 break;
             case 'D':
                 if(courses.get(position).getDays()%prime[0][3]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][2]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][1]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][5]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 break;
             case 'E':
                 if(courses.get(position).getDays()%prime[1][3]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][2]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][0]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][8]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 break;
             case 'F':
                 if(courses.get(position).getDays()%prime[1][8]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][3]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][1]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][0]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 break;
             case 'G':
                 if(courses.get(position).getDays()%prime[0][5]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][8]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][2]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][1]==0)
                     holder.c4.setVisibility(View.VISIBLE);
                 else
-                    holder.c4.setVisibility(View.INVISIBLE);
+                    holder.c4.setVisibility(View.GONE);
                 break;
             case 'H':
                 if(courses.get(position).getDays()%prime[0][6]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][7]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][8]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
 
                 break;
             case 'J':
                 if(courses.get(position).getDays()%prime[0][8]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[2][6]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[3][7]==0)
                     holder.c3.setVisibility(View.VISIBLE);
                 else
-                    holder.c3.setVisibility(View.INVISIBLE);
+                    holder.c3.setVisibility(View.GONE);
 
                 break;
             case 'K':
                 if(courses.get(position).getDays()%prime[2][7]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][6]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 break;
             case 'L':
                 if(courses.get(position).getDays()%prime[3][6]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[4][7]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 break;
             case 'M':
                 if(courses.get(position).getDays()%prime[0][7]==0)
                     holder.c1.setVisibility(View.VISIBLE);
                 else
-                    holder.c1.setVisibility(View.INVISIBLE);
+                    holder.c1.setVisibility(View.GONE);
                 if(courses.get(position).getDays()%prime[1][6]==0)
                     holder.c2.setVisibility(View.VISIBLE);
                 else
-                    holder.c2.setVisibility(View.INVISIBLE);
+                    holder.c2.setVisibility(View.GONE);
                 break;
             default:
                 break;
@@ -426,6 +428,20 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                     dialog.dismiss();
                 }
                 else {
+
+                    //remove prefs
+
+
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_DAYS),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_ID),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_SLOT),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.BUNKS_TOTAL),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.BUNKS_DONE),0).edit().clear().apply();
+                    /*Utils.saveprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
+                    Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,c.getCourse_id(),getActivity());
+                    Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,Character.toString(c.getSlot()),getActivity());
+                    Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,c.getSlot()>='P'&&c.getSlot()<='T'?2:getbunks(c.getDays()),getActivity());*/
+                    //Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,0,getActivity());
                     courses.remove(position);
                     notifyDataSetChanged();
                     dialog.dismiss();
@@ -527,7 +543,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 c1.setText("M");
                 c2.setText("T");
                 c3.setText("Th");
-                c4.setVisibility(View.INVISIBLE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'J': {
@@ -538,7 +554,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 c1.setText("M");
                 c2.setText("W");
                 c3.setText("Th");
-                c4.setVisibility(View.INVISIBLE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'K': {
@@ -547,8 +563,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 c2.setVisibility(View.VISIBLE);
                 c1.setText("W");
                 c2.setText("F");
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'L': {
@@ -557,8 +573,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 c2.setVisibility(View.VISIBLE);
                 c1.setText("Th");
                 c2.setText("F");
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'M': {
@@ -567,57 +583,57 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 c2.setVisibility(View.VISIBLE);
                 c1.setText("M");
                 c2.setText("T");
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'P': {
-                days.setVisibility(View.INVISIBLE);
-                c1.setVisibility(View.INVISIBLE);
-                c2.setVisibility(View.INVISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                days.setVisibility(View.GONE);
+                c1.setVisibility(View.GONE);
+                c2.setVisibility(View.GONE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'Q': {
-                days.setVisibility(View.INVISIBLE);
-                c1.setVisibility(View.INVISIBLE);
-                c2.setVisibility(View.INVISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                days.setVisibility(View.GONE);
+                c1.setVisibility(View.GONE);
+                c2.setVisibility(View.GONE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'R': {
-                days.setVisibility(View.INVISIBLE);
-                c1.setVisibility(View.INVISIBLE);
-                c2.setVisibility(View.INVISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                days.setVisibility(View.GONE);
+                c1.setVisibility(View.GONE);
+                c2.setVisibility(View.GONE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'S': {
-                days.setVisibility(View.INVISIBLE);
-                c1.setVisibility(View.INVISIBLE);
-                c2.setVisibility(View.INVISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                days.setVisibility(View.GONE);
+                c1.setVisibility(View.GONE);
+                c2.setVisibility(View.GONE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             case 'T': {
-                days.setVisibility(View.INVISIBLE);
-                c1.setVisibility(View.INVISIBLE);
-                c2.setVisibility(View.INVISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                days.setVisibility(View.GONE);
+                c1.setVisibility(View.GONE);
+                c2.setVisibility(View.GONE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
                 break;
             }
             default: {
                 slot.setError("Invalid slot");
-                days.setVisibility(View.INVISIBLE);
-                c1.setVisibility(View.INVISIBLE);
-                c2.setVisibility(View.INVISIBLE);
-                c3.setVisibility(View.INVISIBLE);
-                c4.setVisibility(View.INVISIBLE);
+                days.setVisibility(View.GONE);
+                c1.setVisibility(View.GONE);
+                c2.setVisibility(View.GONE);
+                c3.setVisibility(View.GONE);
+                c4.setVisibility(View.GONE);
             }
         }
 
@@ -727,7 +743,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             c1.setText("M");
                             c2.setText("T");
                             c3.setText("Th");
-                            c4.setVisibility(View.INVISIBLE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'J': {
@@ -738,7 +754,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             c1.setText("M");
                             c2.setText("W");
                             c3.setText("Th");
-                            c4.setVisibility(View.INVISIBLE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'K': {
@@ -747,8 +763,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             c2.setVisibility(View.VISIBLE);
                             c1.setText("W");
                             c2.setText("F");
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'L': {
@@ -757,8 +773,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             c2.setVisibility(View.VISIBLE);
                             c1.setText("Th");
                             c2.setText("F");
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'M': {
@@ -767,68 +783,68 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                             c2.setVisibility(View.VISIBLE);
                             c1.setText("M");
                             c2.setText("T");
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'P': {
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'Q': {
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'R': {
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'S': {
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         case 'T': {
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                             break;
                         }
                         default: {
                             slot.setError("Invalid slot");
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
                         }
                     }
                 }
                 else
                 {
                     slot.setError("Invalid slot");
-                    days.setVisibility(View.INVISIBLE);
-                    c1.setVisibility(View.INVISIBLE);
-                    c2.setVisibility(View.INVISIBLE);
-                    c3.setVisibility(View.INVISIBLE);
-                    c4.setVisibility(View.INVISIBLE);
+                    days.setVisibility(View.GONE);
+                    c1.setVisibility(View.GONE);
+                    c2.setVisibility(View.GONE);
+                    c3.setVisibility(View.GONE);
+                    c4.setVisibility(View.GONE);
                 }
             }
 
@@ -1500,11 +1516,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             days = (TextView) view.findViewById(R.id.textView3);
             c1 = (TextView) view.findViewById(R.id.day1);
             c2 = (TextView) view.findViewById(R.id.day2);
-            c2.setVisibility(View.INVISIBLE);
+            c2.setVisibility(View.GONE);
             c3 = (TextView) view.findViewById(R.id.day3);
-            c3.setVisibility(View.INVISIBLE);
+            c3.setVisibility(View.GONE);
             c4 = (TextView) view.findViewById(R.id.day4);
-            c4.setVisibility(View.INVISIBLE);
+            c4.setVisibility(View.GONE);
             slot = (TextView) view.findViewById(R.id.slot);
             courseid = (TextView) view.findViewById(R.id.course_id);
         }
