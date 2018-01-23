@@ -558,7 +558,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'P': {
                 slots[0][6] = 'P';
                 ids[0][6] = R.id.mex;
-                tvs[0][6] = (TextView)view.findViewById(ids[0][4]);
+                tvs[0][6] = (TextView)view.findViewById(ids[0][6]);
                 tvs[0][6].setVisibility(View.VISIBLE);
                 if(bunk[0][6])
                 {
@@ -573,7 +573,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'Q': {
                 slots[1][6] = 'Q';
                 ids[1][6] = R.id.tex;
-                tvs[1][6] = (TextView)view.findViewById(ids[1][4]);
+                tvs[1][6] = (TextView)view.findViewById(ids[1][6]);
                 tvs[1][6].setVisibility(View.VISIBLE);
                 if(bunk[1][6])
                 {
@@ -588,7 +588,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'R': {
                 slots[2][6] = 'R';
                 ids[2][6] = R.id.wex;
-                tvs[2][6] = (TextView)view.findViewById(ids[2][4]);
+                tvs[2][6] = (TextView)view.findViewById(ids[2][6]);
                 tvs[2][6].setVisibility(View.VISIBLE);
                 if(bunk[2][6])
                 {
@@ -603,7 +603,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'S': {
                 slots[3][6] = 'S';
                 ids[3][6] = R.id.hex;
-                tvs[3][6] = (TextView)view.findViewById(ids[3][4]);
+                tvs[3][6] = (TextView)view.findViewById(ids[3][6]);
                 tvs[3][6].setVisibility(View.VISIBLE);
                 if(bunk[3][6])
                 {
@@ -618,7 +618,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'T': {
                 slots[4][6] = 'T';
                 ids[4][6] = R.id.fex;
-                tvs[4][6] = (TextView)view.findViewById(ids[4][4]);
+                tvs[4][6] = (TextView)view.findViewById(ids[4][6]);
                 tvs[4][6].setVisibility(View.VISIBLE);
                 if(bunk[4][6])
                 {
@@ -898,7 +898,7 @@ public class GradCourseTimetableFragment extends Fragment {
 
             }
         });
-        c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //course.setDays(course.getDays()*2);
@@ -928,6 +928,367 @@ public class GradCourseTimetableFragment extends Fragment {
                 //course.setDays(course.getDays()*7);
 //course.setDays(course.getDays()/7);
                 check[3] = isChecked;
+            }
+        });*/
+        c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[0][0]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[1][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[0][4]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[0][6]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[0][8]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()*prime[2][7]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()*prime[3][6]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()*prime[0][7]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[0][0]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[1][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[0][4]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[0][6]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[0][8]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()/prime[2][7]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()/prime[3][6]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()/prime[0][7]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
+                }
+            }
+        });
+        c2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[1][4]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[2][8]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[1][7]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[2][6]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()*prime[4][6]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()*prime[4][7]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()*prime[1][6]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()*3);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[1][4]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[2][8]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[1][7]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[2][6]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()/prime[4][6]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()/prime[4][7]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()/prime[1][6]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/3);
+                }
+            }
+        });
+        c3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[2][4]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[3][0]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[3][2]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[1][8]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[3][7]);
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*5);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[2][4]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[3][0]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[3][2]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[1][8]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[3][7]);
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/5);
+                }
+            }
+        });
+        c4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[4][2]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()*prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[4][4]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[3][4]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[4][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[4][0]);
+                            break;
+                        case 'G':
+                            break;
+                        case 'H':
+                            break;
+                        case 'J':
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*7);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[4][2]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[4][4]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[3][4]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[4][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[4][0]);
+                            break;
+                        case 'G':
+                            break;
+                        case 'H':
+                            break;
+                        case 'J':
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/7);
+                }
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
@@ -964,187 +1325,7 @@ public class GradCourseTimetableFragment extends Fragment {
                         slot.setError("There is a slot clash");
                         flag = false;
                     }
-                    for(int i=0;i<check.length;i++){
-                        if(check[i]) {
-                            switch(slt){
-                                case 'A':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][0]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][4]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][3]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][2]);
-                                            break;
-                                    }
-                                    break;
-                                case 'B':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][1]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][0]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[2][4]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][3]);
-                                            break;
-                                    }
-                                    break;
-                                case 'C':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][2]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][1]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[2][0]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][4]);
-                                            break;
-                                    }
-                                    break;
-                                case 'D':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][3]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][2]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[2][1]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[3][4]);
-                                            break;
-                                    }
-                                    break;
-                                case 'E':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[1][3]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[2][2]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][0]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][8]);
-                                            break;
-                                    }
-                                    break;
-                                case 'F':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[1][8]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[2][3]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][1]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][0]);
-                                            break;
-                                    }
-                                    break;
-                                case 'G':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][4]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[2][8]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][2]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][1]);
-                                            break;
-                                    }
-                                    break;
-                                case 'H':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][6]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][7]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][8]);
-                                            break;
 
-                                    }
-                                    break;
-                                case 'J':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][8]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[2][6]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][7]);
-                                            break;
-
-                                    }
-                                    break;
-                                case 'K':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[2][7]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[4][6]);
-                                            break;
-
-                                    }
-                                    break;
-                                case 'L':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[3][6]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[4][7]);
-                                            break;
-
-                                    }
-                                    break;
-                                case 'M':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][7]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][6]);
-                                            break;
-
-                                    }
-                                    break;
-
-                            }
-
-                        }
-                    }
                     if (flag) {
                         course.setCourse_id(coursed);
                         course.setSlot(Character.toUpperCase(slt));
