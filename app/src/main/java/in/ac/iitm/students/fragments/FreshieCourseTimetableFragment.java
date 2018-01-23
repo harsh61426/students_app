@@ -672,6 +672,9 @@ public class FreshieCourseTimetableFragment extends Fragment {
         final EditText courseid = (EditText) dialog.findViewById(R.id.course_id);
         final LinearLayout days = (LinearLayout) dialog.findViewById(R.id.days);
         Button add = (Button) dialog.findViewById(R.id.add);
+
+        Button remove= (Button)dialog.findViewById(R.id.remove);
+        remove.setVisibility(View.GONE);
         final Course course = new Course();
         course.setDays(1);
         course.setSlot(' ');
@@ -704,8 +707,8 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M");
                             c2.setText("T");
                             c3.setText("Th FN");
@@ -720,8 +723,8 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             c3.setText("Tue");
@@ -737,7 +740,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
                             c6.setVisibility(View.VISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             c3.setText("Tue FN");
@@ -772,7 +775,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
                             c6.setVisibility(View.VISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M");
                             c2.setText("T FN");
                             c3.setText("T AN");
@@ -788,8 +791,8 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("W FN");
                             c2.setText("W AN");
                             c3.setText("Th FN");
@@ -802,10 +805,10 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
                             c3.setVisibility(View.VISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("Th FN");
                             c2.setText("Th AN");
                             c3.setText("F");
@@ -816,11 +819,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             break;
@@ -829,11 +832,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("T FN");
                             c2.setText("T AN");
                             break;
@@ -842,11 +845,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("W FN");
                             c2.setText("W AN");
                             break;
@@ -855,11 +858,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("Th FN");
                             c2.setText("Th AN");
                             break;
@@ -868,25 +871,25 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("F FN");
                             c2.setText("F AN");
                             break;
                         }
                         default: {
                             slot.setError("Invalid slot");
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -897,7 +900,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
 
             }
         });
-        c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //course.setDays(course.getDays()*2);
@@ -952,6 +955,453 @@ public class FreshieCourseTimetableFragment extends Fragment {
 //course.setDays(course.getDays()/7);
                 check[6] = isChecked;
             }
+        });*/
+        c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[0][0]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()*prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[0][5]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[3][2]);
+                            break;
+                        case 'P':
+                            course.setFlag1(0);
+                            break;
+                        case 'Q':
+                            course.setFlag1(0);
+                            break;
+                        case 'R':
+                            course.setFlag1(0);
+                            break;
+                        case 'S':
+                            course.setFlag1(0);
+                            break;
+                        case 'T':
+                            course.setFlag1(0);
+                            break;
+
+
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[0][0]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[0][5]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[3][2]);
+                            break;
+                        case 'P':
+                            course.setFlag1(1);
+                            break;
+                        case 'Q':
+                            course.setFlag1(1);
+                            break;
+                        case 'R':
+                            course.setFlag1(1);
+                            break;
+                        case 'S':
+                            course.setFlag1(1);
+                            break;
+                        case 'T':
+                            course.setFlag1(1);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
+                }
+            }
+        });
+        c2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[1][5]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[0][6]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[0][7]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[0][8]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[2][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[3][7]);
+                            break;
+                        case 'P':
+                            course.setFlag1(1);
+                            break;
+                        case 'Q':
+                            course.setFlag1(1);
+                            break;
+                        case 'R':
+                            course.setFlag1(1);
+                            break;
+                        case 'S':
+                            course.setFlag1(1);
+                            break;
+                        case 'T':
+                            course.setFlag1(1);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()*3);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[1][5]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[0][6]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[0][7]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[0][8]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[2][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[3][7]);
+                            break;
+                        case 'P':
+                            course.setFlag1(0);
+                            break;
+                        case 'Q':
+                            course.setFlag1(0);
+                            break;
+                        case 'R':
+                            course.setFlag1(0);
+                            break;
+                        case 'S':
+                            course.setFlag1(0);
+                            break;
+                        case 'T':
+                            course.setFlag1(0);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/3);
+                }
+            }
+        });
+        c3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[1][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[4][1]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*5);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[1][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[4][1]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/5);
+                }
+            }
+        });
+        c4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[3][8]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()*prime[2][5]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[1][6]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[1][7]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[3][6]);
+                            break;
+                        case 'G':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*7);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[3][8]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[2][5]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[1][6]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[1][7]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[3][6]);
+                            break;
+                        case 'G':
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()/7);
+                }
+            }
+        });
+        c5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[4][2]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[2][7]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[4][0]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[4][2]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[2][7]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[4][0]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
+                }
+            }
+        });
+        c6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'C':
+                            course.setDays(course.getDays()*prime[4][5]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[2][6]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[3][0]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'C':
+                            course.setDays(course.getDays()/prime[4][5]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[2][6]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[3][0]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
+                }
+            }
+        });
+        c7.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'D':
+                            course.setDays(course.getDays()*prime[3][5]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
+                }
+                else
+                {
+                    switch(slot.getText().charAt(0)){
+                        case 'D':
+                            course.setDays(course.getDays()/prime[3][5]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
+                }
+            }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -987,7 +1437,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                         slot.setError("There is a slot clash");
                         flag = false;
                     }
-                    for(int i=0;i<check.length;i++){
+                    /*for(int i=0;i<check.length;i++){
                         if(check[i]) {
                             switch(slt){
                                 case 'A':
@@ -1133,21 +1583,13 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                     switch(i){
                                         case 0:
                                             //course.setDays(course.getDays()*prime[0][1]);
-                                            /*slots[0][1] = 'P';
-                                            ids[0][1] = R.id.mex1;
-                                            tvs[0][1] = (TextView)view.findViewById(ids[0][1]);
-                                            tvs[0][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
 
                                             break;
                                         case 1:
                                             //course.setDays(course.getDays()*prime[0][6]);
-                                            /*slots[0][6] = 'P';
-                                            ids[0][6] = R.id.mex2;
-                                            tvs[0][6] = (TextView)view.findViewById(ids[0][6]);
-                                            tvs[0][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(1);
 
                                             break;
@@ -1156,19 +1598,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                 case 'Q':
                                     switch(i){
                                         case 0:
-                                            /*slots[1][1] = 'Q';
-                                            ids[1][1] = R.id.tex1;
-                                            tvs[1][1] = (TextView)view.findViewById(ids[1][1]);
-                                            tvs[1][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
                                             break;
                                         case 1:
-                                            /*slots[1][6] = 'Q';
-                                            ids[1][6] = R.id.tex2;
-                                            tvs[1][6] = (TextView)view.findViewById(ids[1][6]);
-                                            tvs[1][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(1);
                                             break;
                                     }
@@ -1177,19 +1611,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                 case 'R':
                                     switch(i){
                                         case 0:
-                                            /*slots[2][1] = 'R';
-                                            ids[2][1] = R.id.wex1;
-                                            tvs[2][1] = (TextView)view.findViewById(ids[2][1]);
-                                            tvs[2][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
                                             break;
                                         case 1:
-                                            /*slots[2][6] = 'R';
-                                            ids[2][6] = R.id.wex2;
-                                            tvs[2][6] = (TextView)view.findViewById(ids[2][6]);
-                                            tvs[2][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
 
                                             course.setFlag1(1);
                                             break;
@@ -1199,19 +1625,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                 case 'S':
                                     switch(i){
                                         case 0:
-                                            /*slots[3][1] = 'S';
-                                            ids[3][1] = R.id.hex1;
-                                            tvs[3][1] = (TextView)view.findViewById(ids[3][1]);
-                                            tvs[3][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
                                             break;
                                         case 1:
-                                            /*slots[3][6] = 'S';
-                                            ids[3][6] = R.id.hex2;
-                                            tvs[3][6] = (TextView)view.findViewById(ids[3][6]);
-                                            tvs[3][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(1);
                                             break;
                                     }
@@ -1220,19 +1638,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                 case 'T':
                                     switch(i){
                                         case 0:
-                                            /*slots[4][1] = 'T';
-                                            ids[4][1] = R.id.fex1;
-                                            tvs[4][1] = (TextView)view.findViewById(ids[4][1]);
-                                            tvs[4][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
                                             break;
                                         case 1:
-                                            /*slots[4][6] = 'T';
-                                            ids[4][6] = R.id.fex2;
-                                            tvs[4][6] = (TextView)view.findViewById(ids[4][6]);
-                                            tvs[4][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(1);
                                             break;
                                     }
@@ -1242,7 +1652,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             }
 
                         }
-                    }
+                    }*/
                     if (flag) {
                         course.setCourse_id(coursed);
                         course.setSlot(Character.toUpperCase(slt));
@@ -1439,12 +1849,76 @@ public class FreshieCourseTimetableFragment extends Fragment {
         boolean flag = false;
         for(Course c:courses)
         {
+
             flag = flag||(c.getSlot()==slot);
-            flag = flag||((c.getSlot()=='P'));
-            flag = flag||((c.getSlot()=='Q'));
-            flag = flag||((c.getSlot()=='R'));
-            flag = flag||((c.getSlot()=='S'));
-            flag = flag||((c.getSlot()=='T'));
+
+            /*flag = flag||((c.getSlot()=='P')&&(slot=='H'||slot=='M'));
+            flag = flag||((c.getSlot()=='Q')&&(slot=='M'||slot=='H'));
+            flag = flag||((c.getSlot()=='R')&&(slot=='J'||slot=='K'));
+            flag= flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
+            flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));*/
+
+            if(c.getSlot()=='P'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='B'&&d.getDays()%prime[0][1]==0)||(d.getSlot()=='C'&&d.getDays()%prime[0][2]==0)||(d.getSlot()=='D'&&d.getDays()%prime[0][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='P'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='B'&&d.getDays()%prime[0][6]==0)||(d.getSlot()=='C'&&d.getDays()%prime[0][7]==0)||(d.getSlot()=='D'&&d.getDays()%prime[0][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='Q'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='C'&&d.getDays()%prime[1][1]==0)||(d.getSlot()=='D'&&d.getDays()%prime[1][2]==0)||(d.getSlot()=='E'&&d.getDays()%prime[1][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='Q'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='C'&&d.getDays()%prime[1][6]==0)||(d.getSlot()=='D'&&d.getDays()%prime[1][7]==0)||(d.getSlot()=='E'&&d.getDays()%prime[1][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='R'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='D'&&d.getDays()%prime[2][1]==0)||(d.getSlot()=='E'&&d.getDays()%prime[2][2]==0)||(d.getSlot()=='F'&&d.getDays()%prime[2][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='R'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='D'&&d.getDays()%prime[2][6]==0)||(d.getSlot()=='E'&&d.getDays()%prime[2][7]==0)||(d.getSlot()=='F'&&d.getDays()%prime[2][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='S'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='F'&&d.getDays()%prime[3][1]==0)||(d.getSlot()=='G'&&d.getDays()%prime[3][2]==0)||(d.getSlot()=='A'&&d.getDays()%prime[3][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='S'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='F'&&d.getDays()%prime[3][6]==0)||(d.getSlot()=='G'&&d.getDays()%prime[3][7]==0)||(d.getSlot()=='A'&&d.getDays()%prime[3][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='T'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='G'&&d.getDays()%prime[4][1]==0)||(d.getSlot()=='A'&&d.getDays()%prime[4][2]==0)||(d.getSlot()=='B'&&d.getDays()%prime[4][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='T'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='G'&&d.getDays()%prime[4][6]==0)||(d.getSlot()=='A'&&d.getDays()%prime[4][7]==0)||(d.getSlot()=='B'&&d.getDays()%prime[4][8]==0))
+                        flag=true;
+                }
+            }
+
         }
         return flag;
     }

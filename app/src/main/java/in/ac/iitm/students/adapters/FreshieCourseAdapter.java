@@ -1368,11 +1368,76 @@ public class FreshieCourseAdapter extends RecyclerView.Adapter<FreshieCourseAdap
         boolean flag = false;
         for(Course c:courses)
         {
-            flag = flag||((c.getSlot()=='P')&&(slot=='H'||slot=='M'));
+
+            //flag = flag||(c.getSlot()==slot);
+
+            /*flag = flag||((c.getSlot()=='P')&&(slot=='H'||slot=='M'));
             flag = flag||((c.getSlot()=='Q')&&(slot=='M'||slot=='H'));
             flag = flag||((c.getSlot()=='R')&&(slot=='J'||slot=='K'));
-            flag = flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
-            flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));
+            flag= flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
+            flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));*/
+
+            if(c.getSlot()=='P'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='B'&&d.getDays()%prime[0][1]==0)||(d.getSlot()=='C'&&d.getDays()%prime[0][2]==0)||(d.getSlot()=='D'&&d.getDays()%prime[0][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='P'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='B'&&d.getDays()%prime[0][6]==0)||(d.getSlot()=='C'&&d.getDays()%prime[0][7]==0)||(d.getSlot()=='D'&&d.getDays()%prime[0][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='Q'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='C'&&d.getDays()%prime[1][1]==0)||(d.getSlot()=='D'&&d.getDays()%prime[1][2]==0)||(d.getSlot()=='E'&&d.getDays()%prime[1][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='Q'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='C'&&d.getDays()%prime[1][6]==0)||(d.getSlot()=='D'&&d.getDays()%prime[1][7]==0)||(d.getSlot()=='E'&&d.getDays()%prime[1][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='R'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='D'&&d.getDays()%prime[2][1]==0)||(d.getSlot()=='E'&&d.getDays()%prime[2][2]==0)||(d.getSlot()=='F'&&d.getDays()%prime[2][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='R'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='D'&&d.getDays()%prime[2][6]==0)||(d.getSlot()=='E'&&d.getDays()%prime[2][7]==0)||(d.getSlot()=='F'&&d.getDays()%prime[2][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='S'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='F'&&d.getDays()%prime[3][1]==0)||(d.getSlot()=='G'&&d.getDays()%prime[3][2]==0)||(d.getSlot()=='A'&&d.getDays()%prime[3][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='S'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='F'&&d.getDays()%prime[3][6]==0)||(d.getSlot()=='G'&&d.getDays()%prime[3][7]==0)||(d.getSlot()=='A'&&d.getDays()%prime[3][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='T'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='G'&&d.getDays()%prime[4][1]==0)||(d.getSlot()=='A'&&d.getDays()%prime[4][2]==0)||(d.getSlot()=='B'&&d.getDays()%prime[4][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='T'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='G'&&d.getDays()%prime[4][6]==0)||(d.getSlot()=='A'&&d.getDays()%prime[4][7]==0)||(d.getSlot()=='B'&&d.getDays()%prime[4][8]==0))
+                        flag=true;
+                }
+            }
+
         }
         return flag;
     }
