@@ -16,15 +16,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="8dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="8dp">
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -68,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:paddingLeft="8dp"
                 android:text="TextView" />
 
             <TextView
@@ -75,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
+                android:paddingLeft="8dp"
                 android:paddingTop="8dp"
                 android:text="SHARE"
                 android:textColor="@color/colorPrimary" />
