@@ -73,14 +73,17 @@ public class TimetableActivity extends AppCompatActivity
         if(Utils.isGrad(this)){
             GradtimetablePagerAdapter = new GradTimetablePagerAdapter(getSupportFragmentManager());
             viewPager.setAdapter(GradtimetablePagerAdapter);
+
         }
         else if(!Utils.isFreshie(this)){//change
             timetablePagerAdapter = new TimetablePagerAdapter(getSupportFragmentManager());
             viewPager.setAdapter(timetablePagerAdapter);
+
         }
         else{
             FreshietimetablePagerAdapter = new FreshieTimetablePagerAdapter(getSupportFragmentManager());
             viewPager.setAdapter(FreshietimetablePagerAdapter);
+
 
         }
 
@@ -186,10 +189,12 @@ public class TimetableActivity extends AppCompatActivity
             Utils.saveprefInt("TT_Screen",0,this);
             if(Utils.isGrad(this))
                 GradtimetablePagerAdapter.notifyDataSetChanged();
+
             else if(Utils.isFreshie(this))
                 FreshietimetablePagerAdapter.notifyDataSetChanged();
             else
                 timetablePagerAdapter.notifyDataSetChanged();
+
             return true;
         }
 
