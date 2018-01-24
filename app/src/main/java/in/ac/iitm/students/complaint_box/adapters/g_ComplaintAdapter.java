@@ -31,7 +31,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +79,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         View v;
 
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.g_complaint_card, parent, false);
+                    .inflate(R.layout.g_item_complaint, parent, false);
 
 
         g_ComplaintAdapter.ViewHolder vh = new g_ComplaintAdapter.ViewHolder(v);
@@ -94,13 +98,13 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         TextView tv_upvote = (TextView) holder.view.findViewById(R.id.tv_upvote);
         TextView tv_downvote = (TextView) holder.view.findViewById(R.id.tv_downvote);
         TextView tv_comment = (TextView) holder.view.findViewById(R.id.tv_comment);
-        TextView tv_trending = (TextView) holder.view.findViewById(R.id.tv_trending);
+        //TextView tv_trending = (TextView) holder.view.findViewById(R.id.tv_trending);
         Button bn_upvote = (Button) holder.view.findViewById(R.id.bn_upvote);
         Button bn_downvote = (Button) holder.view.findViewById(R.id.bn_downvote);
         Button bn_comment = (Button) holder.view.findViewById(R.id.bn_comment);
         ImageView iv_profile = (ImageView) holder.view.findViewById(R.id.imgProfilePicture);
-        LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_comment);
-        RelativeLayout relativeLayout=(RelativeLayout)holder.view.findViewById(R.id.rl_name);
+        LinearLayout linearLayout = (LinearLayout) holder.view.findViewById(R.id.ll_title);
+        //RelativeLayout relativeLayout=(RelativeLayout)holder.view.findViewById(R.id.rl_name);
 
         final Complaint gComplaint = mDataset.get(position);
         if (!gComplaint.getRollNo().equals("X")) {
@@ -116,18 +120,34 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
 
         tv_name.setText(gComplaint.getName());
-        tv_hostel.setText(gComplaint.getHostel());
-        tv_date.setText(gComplaint.getDate());
+        if(gComplaint.getHostel().isEmpty())
+        {
+            tv_hostel.setText("(Unknown Hostel)");
+        }
+        else {
+            tv_hostel.setText(gComplaint.getHostel());
+        }
+        //TODO: Change date format
+        DateFormat df = new SimpleDateFormat("dd MMM yy");
+        DateFormat pf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            tv_date.setText(df.format(pf.parse(gComplaint.getDate())));
+        }
+        catch (ParseException pe)
+        {
+            Log.e("DateParse","Error parsing "+gComplaint.getDate());
+            tv_date.setText(gComplaint.getDate());
             Log.e("date",gComplaint.getDate());
+        }
         tv_title.setText(gComplaint.getTitle());
         tv_description.setText(gComplaint.getDescription());
-        tv_upvote.setText("" + gComplaint.getUpvotes());
-        tv_downvote.setText("" + gComplaint.getDownvotes());
-        tv_comment.setText("" + gComplaint.getComments());
+        tv_upvote.setText(Integer.toString(gComplaint.getUpvotes()));
+        tv_downvote.setText(Integer.toString(gComplaint.getDownvotes()));
+        tv_comment.setText(Integer.toString(gComplaint.getComments()));
         int p = position + 1;
         String trend = "#" + p;
         gComplaint.setTrending(trend);
-        tv_trending.setText(trend);
+        //tv_trending.setText(trend);
         //if (gComplaint.getTag() != null && gComplaint.getTag().equals("")) tv_tags.setVisibility(View.INVISIBLE);
         //else
         tv_tags.setText(gComplaint.getTag());
@@ -152,10 +172,12 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                 gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.mitr_roll)) ||
                 gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.cfi_roll))) {
 
-            relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorLightGreen));
+            linearLayout.setBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.colorLightGreen));
         }
-
-        linearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.unresolved_colour));
+        else
+        {
+            linearLayout.setBackgroundColor(ContextCompat.getColor(context.getApplicationContext(),R.color.cardview_light_background));
+        }
 
         bn_upvote.setOnClickListener(new View.OnClickListener() {
 

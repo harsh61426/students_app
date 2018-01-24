@@ -4,21 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="2dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSecondaryLight"
+            android:background="@color/cardview_light_background"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="8dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfilePicture"
@@ -33,46 +35,50 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="NAME"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tv_hostel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="HOSTEL"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
 
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
             android:text="TITLE"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
 
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="12-1-18"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -80,31 +86,32 @@
             android:text="Description" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/tv_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="Tags"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/colorSecondaryDark" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSecondaryLight"
+            android:background="@color/cardview_light_background"
             android:orientation="horizontal"
             android:padding="8dp">
 
-            <ImageView
-                android:id="@+id/imageView4"
+            <Button
+                android:id="@+id/bn_upvote"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginLeft="8dp"
-                app:srcCompat="@drawable/arrow_up" />
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/arrow_up" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/tv_upvote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -113,15 +120,15 @@
                 android:text="12"
                 android:textSize="12sp" />
 
-            <ImageView
-                android:id="@+id/imageView5"
+            <Button
+                android:id="@+id/bn_downvote"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginLeft="8dp"
-                app:srcCompat="@drawable/arrow_down" />
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/arrow_down" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/tv_downvote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -130,15 +137,15 @@
                 android:text="13"
                 android:textSize="12sp" />
 
-            <ImageView
-                android:id="@+id/imageView6"
+            <Button
+                android:id="@+id/bn_comment"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginLeft="8dp"
-                app:srcCompat="@drawable/comment" />
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/comment" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
