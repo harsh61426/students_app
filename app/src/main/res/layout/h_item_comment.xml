@@ -38,7 +38,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/cardview_light_background"
                 android:text="12-1-18"
-                android:textSize="10sp" />
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -50,7 +51,7 @@
         android:paddingBottom="8dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="8dp"
-        android:text="Description" />
+        android:text="Description"
+        android:textColor="@color/cardview_dark_background" />
 
 </LinearLayout>

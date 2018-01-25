@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
+import in.ac.iitm.students.complaint_box.adapters.g_commentsAdapter;
 import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
 import in.ac.iitm.students.complaint_box.objects.CommentObj;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
@@ -54,8 +56,8 @@ import in.ac.iitm.students.others.Utils;
 public class g_Comments extends AppCompatActivity {
 
     List<CommentObj> commentList = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private h_CommentsAdapter mAdapter;
+    private ListView mRecyclerView;
+    private g_commentsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/searchComments.php";
     //private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/searchComments.php";
@@ -131,8 +133,8 @@ public class g_Comments extends AppCompatActivity {
         date.setText(hComplaint.getDate());
         final String mUUID = hComplaint.getUid();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_comments);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView = (ListView) findViewById(R.id.rv_comments);
+        //mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -150,8 +152,8 @@ public class g_Comments extends AppCompatActivity {
                     //Toast.makeText(g_Comments.this, "IOException", Toast.LENGTH_SHORT).show();
                 }
 
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_CommentsAdapter(commentArray,getApplicationContext());
+                //mRecyclerView.setLayoutManager(mLayoutManager);
+                mAdapter = new g_commentsAdapter(getApplicationContext(),commentArray);//new h_CommentsAdapter(commentArray,getApplicationContext());
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.setNestedScrollingEnabled(false);
             }

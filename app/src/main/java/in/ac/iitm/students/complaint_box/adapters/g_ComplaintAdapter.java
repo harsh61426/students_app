@@ -90,7 +90,6 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
     public void onBindViewHolder(final ViewHolder holder, int position) {
 //        holder.mTextView.setText(mDataset[position]);
         TextView tv_name = (TextView) holder.view.findViewById(R.id.tv_name);
-        TextView tv_hostel = (TextView) holder.view.findViewById(R.id.tv_hostel);
         TextView tv_date =(TextView)holder.view.findViewById(R.id.date);
         TextView tv_title = (TextView) holder.view.findViewById(R.id.tv_title);
         TextView tv_tags = (TextView) holder.view.findViewById(R.id.tv_tags);
@@ -120,14 +119,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
 
         tv_name.setText(gComplaint.getName());
-        if(gComplaint.getHostel().isEmpty())
-        {
-            tv_hostel.setText("(Unknown Hostel)");
-        }
-        else {
-            tv_hostel.setText(gComplaint.getHostel());
-        }
-        //TODO: Change date format
+
         DateFormat df = new SimpleDateFormat("dd MMM yy");
         DateFormat pf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -154,7 +146,6 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
         if (gComplaint.getName() != null && gComplaint.getName().equals("Institute MobOps")) {
             iv_profile.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher));
-            tv_hostel.setText(gComplaint.getHostel());
         }
 
         final String mUUID = gComplaint.getUid();
@@ -172,11 +163,11 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
                 gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.mitr_roll)) ||
                 gComplaint.getRollNo().equalsIgnoreCase(context.getString(R.string.cfi_roll))) {
 
-            linearLayout.setBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.colorLightGreen));
+            tv_name.setTextColor(ContextCompat.getColor(context.getApplicationContext(), R.color.colorSecondaryDark));
         }
         else
         {
-            linearLayout.setBackgroundColor(ContextCompat.getColor(context.getApplicationContext(),R.color.cardview_light_background));
+            tv_name.setTextColor(ContextCompat.getColor(context.getApplicationContext(),R.color.colorPrimary));
         }
 
         bn_upvote.setOnClickListener(new View.OnClickListener() {
