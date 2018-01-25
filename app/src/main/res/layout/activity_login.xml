@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:baselineAligned="false"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -78,7 +79,7 @@
 
                 <com.google.android.gms.common.SignInButton
                     android:id="@+id/sign_in_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="8dp" />
@@ -92,7 +93,7 @@
 
                 <Button
                     android:id="@+id/bt_ldap_login"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/white"
@@ -106,37 +107,50 @@
 
             </LinearLayout>
 
-
-            <EditText
-                android:id="@+id/rollno"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/rollnowrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="48dp"
-                android:layout_marginRight="48dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif"
                 android:hint="Roll Number"
-                android:imeOptions="actionNext"
-                android:inputType="textVisiblePassword"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:visibility="gone" />
+                android:visibility="gone">
 
-            <EditText
-                android:id="@+id/password"
+                <EditText
+                    android:id="@+id/rollno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginRight="48dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif"
+                    android:imeOptions="actionNext"
+                    android:inputType="textVisiblePassword"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:visibility="visible" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/passwordwrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="48dp"
-                android:layout_marginRight="48dp"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif"
-                android:hint="Password"
-                android:imeOptions="actionGo"
-                android:inputType="textPassword"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:visibility="gone" />
+                android:layout_marginTop="20dp"
+                android:hint="LDAP Password"
+                android:visibility="gone">
 
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginRight="48dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif"
+                    android:imeOptions="actionGo"
+                    android:inputType="textPassword"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:visibility="visible" />
+            </android.support.design.widget.TextInputLayout>
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
