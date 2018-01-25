@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_comm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     tools:context="in.ac.iitm.students.complaint_box.activities.g_Comments">
 
 
@@ -23,6 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <ListView
+        android:id="@+id/comment_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
