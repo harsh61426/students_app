@@ -29,10 +29,7 @@ public class BunksAdapter extends ArrayAdapter {
 
     private ArrayList<Bunks> bunks;
     private Context context;
-    private TextView plus;
-    private TextView minus;
     private GridView gridView;
-    private TextView total;
     public BunksAdapter(Context context, ArrayList<Bunks> bunks, GridView g)
     {
         super(context, R.layout.item_bunk, bunks);
@@ -52,9 +49,8 @@ public class BunksAdapter extends ArrayAdapter {
             holder.slot = (TextView)convertView.findViewById(R.id.slot);
             holder.course = (TextView)convertView.findViewById(R.id.courseid);
             holder.bunkcount = (TextView)convertView.findViewById(R.id.left);
-            total = (TextView)convertView.findViewById(R.id.max);
-            plus = (TextView) convertView.findViewById(R.id.plus);
-            minus = (TextView) convertView.findViewById(R.id.minus);
+            holder.plus = (TextView) convertView.findViewById(R.id.plus);
+            holder.minus = (TextView) convertView.findViewById(R.id.minus);
             convertView.setTag(holder);
         }
         else {
@@ -63,7 +59,7 @@ public class BunksAdapter extends ArrayAdapter {
         holder.slot.setText(Character.toString(bunks.get(position).getSlot())+" slot");
         holder.course.setText(bunks.get(position).getCourse_id());
         holder.bunkcount.setText(bunks.get(position).getBunk_done()+"/"+bunks.get(position).getBunk_tot());
-        plus.setOnClickListener(new View.OnClickListener() {
+        holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Utils.getprefInt(UtilStrings.COURSE_NUM+position+UtilStrings.BUNKS_DONE,context)==bunks.get(position).getBunk_tot()){
@@ -77,7 +73,7 @@ public class BunksAdapter extends ArrayAdapter {
                 //Utils.saveprefInt(,Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,getActivity()),getActivity());
             }
         });
-        minus.setOnClickListener(new View.OnClickListener() {
+        holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Utils.getprefInt(UtilStrings.COURSE_NUM+position+UtilStrings.BUNKS_DONE,context)==0){
@@ -108,5 +104,7 @@ public class BunksAdapter extends ArrayAdapter {
         TextView slot;
         TextView course;
         TextView bunkcount;
+        TextView plus;
+        TextView minus;
     }
 }
