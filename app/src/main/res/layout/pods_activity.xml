@@ -18,6 +18,7 @@
         android:layout_height="64dp"
         android:background="@drawable/image_border"
         android:layout_margin="8dp" />
+
     <TextView
         android:id="@+id/tv_org"
         android:textSize="16dp"

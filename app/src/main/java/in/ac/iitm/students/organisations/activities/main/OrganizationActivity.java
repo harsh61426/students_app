@@ -116,7 +116,7 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
         username.setText(name);
         rollNumber.setText(roll_no);
         ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
-        String urlPic = "https://photos.iitm.ac.in//byroll.php?roll=" + roll_no;
+        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
                 .placeholder(R.mipmap.ic_launcher)

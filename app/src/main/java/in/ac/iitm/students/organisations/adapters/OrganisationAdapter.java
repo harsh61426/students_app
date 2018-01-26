@@ -63,7 +63,7 @@ public class OrganisationAdapter extends RecyclerView.Adapter <OrganisationAdapt
             public void onClick(View v) {
 
                 Log.d("ORGXXX",OrgList.get(holder.getAdapterPosition()).org_name);
-                Intent i = new Intent(context,PostActivity.class);
+                                                                                                                                                                                                                                                                                                                                                                                                                   Intent i = new Intent(context,PostActivity.class);
                 i.putExtra("isyoutube",OrgList.get(holder.getAdapterPosition()).isYoutube);
                 if(OrgList.get(holder.getAdapterPosition()).isYoutube){
                     i.putExtra("ChannelId",OrgList.get(holder.getAdapterPosition()).channelID);
