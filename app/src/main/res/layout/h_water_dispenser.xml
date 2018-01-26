@@ -19,7 +19,7 @@
             android:layout_height="40dp"
             android:gravity="center"
             android:text="@string/type_wd"
-            android:textColor="@color/colorPrimaryText" />
+            android:textColor="@color/colorSecondary" />
 
         <View
             android:layout_width="match_parent"
