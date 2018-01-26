@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class BunkMonitorFragment extends Fragment {
     GridView gridView;
     BunksAdapter bunksAdapter;
     ArrayList<Bunks> bunks;
-    Dialog dialog;
+    //Dialog dialog;
     //TODO: Add reminders for slots
 
     public BunkMonitorFragment() {
@@ -43,27 +45,18 @@ public class BunkMonitorFragment extends Fragment {
 
         getcourses();
 
-        bunksAdapter = new BunksAdapter(getActivity(), bunks);
-        gridView = (GridView)view.findViewById(R.id.bunk_list);
+        gridView = (GridView) view.findViewById(R.id.bunk_list);
 
+        bunksAdapter = new BunksAdapter(getActivity(), bunks,gridView);
         gridView.setAdapter(bunksAdapter);
         gridView.setNumColumns((getActivity().getResources().getConfiguration().orientation
                 ==Configuration.ORIENTATION_PORTRAIT)?2:3);  //3 if landscape
 
-        final int size = gridView.getChildCount();
-        final int firstVisiblePosition = gridView.getFirstVisiblePosition();
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                initdialog(position);
-                //dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.show();
-
-            }
-        });
+        /*final int size = gridView.getChildCount();
+        final int firstVisiblePosition = gridView.getFirstVisiblePosition();*/
         return view;
     }
+    /*
     private void initdialog(int pos){
         dialog = new Dialog(getActivity());
         final int position=pos;
@@ -119,7 +112,7 @@ public class BunkMonitorFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-    }
+    }*/
 
 
     public void getcourses()

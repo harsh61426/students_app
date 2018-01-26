@@ -4,46 +4,82 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
-    android:paddingBottom="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="12dp">
-
-    <TextView
-        android:id="@+id/left"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:lines="1"
-        android:text="10/18"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
+    android:paddingBottom="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/courseid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/left"
+            android:layout_width="30dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
             android:background="@color/white"
-            android:text="XX0000"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/slot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingTop="2dp"
-            android:text="X slot"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:text="10/18"
+            android:textAlignment="center"
+            android:textSize="18sp"
             android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/courseid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:text="XX0000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/slot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingTop="6dp"
+                android:text="X slot"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical">
+
+            <TextView
+            android:id="@+id/plus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:text="+"
+            android:textSize="18sp"
+            android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/minus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/lightGreen"
+                android:paddingTop="2dp"
+                android:text="-"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textAlignment="center"/>
+    </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
