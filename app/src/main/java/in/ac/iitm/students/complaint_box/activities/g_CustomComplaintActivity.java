@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -59,9 +60,13 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
 
 
         Button saveCustomCmplnt = (Button) findViewById(R.id.button_save);
-        final EditText tv_title = (EditText) findViewById(R.id.editText_complaint_title);
-        final EditText tv_description = (EditText) findViewById(R.id.editText_complaint_description);
-        final EditText tv_tags = (EditText) findViewById(R.id.editText_tags);
+        final TextInputLayout til_title= (TextInputLayout)findViewById(R.id.til_editText_complaint_title);
+        final TextInputLayout til_description= (TextInputLayout)findViewById(R.id.til_editText_complaint_description);
+        final TextInputLayout til_tags= (TextInputLayout)findViewById(R.id.til_editText_tags);
+
+        final EditText tv_title = til_title.getEditText();
+        final EditText tv_description = til_description.getEditText();
+        final EditText tv_tags = til_tags.getEditText();
 
         saveCustomCmplnt.setOnClickListener(new View.OnClickListener() {
             @Override

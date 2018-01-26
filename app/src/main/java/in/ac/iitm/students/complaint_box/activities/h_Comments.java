@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -88,6 +89,7 @@ public class h_Comments extends AppCompatActivity {
 
         final String add_url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/newComment.php";
 
+        final TextInputLayout til_editText = (TextInputLayout) findViewById(R.id.til_editText);
         Intent i = getIntent();
         hComplaint = (Complaint) i.getSerializableExtra("cardData");
 
@@ -99,7 +101,7 @@ public class h_Comments extends AppCompatActivity {
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
         final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
         comment = (TextView) findViewById(R.id.comment_tv_comment);
-        final EditText CmntDesc = (EditText) findViewById(R.id.editText);
+        final EditText CmntDesc = til_editText.getEditText();
         Button save = (Button) findViewById(R.id.bn_save);
         ImageView iv_pro = (ImageView) findViewById(R.id.imgProfilePicture);
 

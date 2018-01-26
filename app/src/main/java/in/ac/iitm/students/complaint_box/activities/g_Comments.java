@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -217,7 +218,8 @@ public class g_Comments extends AppCompatActivity {
 
         View footer = getLayoutInflater().inflate(R.layout.g_comment_add,null);
         Button post = (Button) footer.findViewById(R.id.post);
-        final EditText comm = (EditText) footer.findViewById(R.id.comment);
+        final TextInputLayout til_com=(TextInputLayout)footer.findViewById(R.id.til_comment);
+        final EditText comm = til_com.getEditText();
 
         post.setOnClickListener(new View.OnClickListener() {
             @Override
