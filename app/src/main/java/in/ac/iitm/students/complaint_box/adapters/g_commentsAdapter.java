@@ -74,6 +74,7 @@ public class g_commentsAdapter extends ArrayAdapter {
         }
         
         holder.tv_name.setText(mDataset.get(position).getName());
+        stu = new Student();
         stu.setName(mDataset.get(position).getName());
         stu.setRollno(mDataset.get(position).getRollNo());
         stu.setHostel(mDataset.get(position).getRoomNo());
