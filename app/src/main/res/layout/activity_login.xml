@@ -17,95 +17,97 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:baselineAligned="false"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView
-        android:id="@+id/scroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        tools:context=".Activities.LoginActivity">
 
-        <LinearLayout
-            android:id="@+id/container"
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="40dp">
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:text="Students App"
+            android:textColor="@color/colorPrimary"
+            android:textSize="32sp" />
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+
+            android:gravity="center_horizontal"
+            android:text="IIT Madras"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/app_logo" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center_horizontal"
-                android:text="Students App"
-                android:textColor="@color/colorPrimary"
-                android:textSize="32sp" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-
-                android:gravity="center_horizontal"
-                android:text="IIT Madras"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/app_logo" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
-                android:gravity="center">
+                android:layout_margin="8dp" />
 
-                <com.google.android.gms.common.SignInButton
-                    android:id="@+id/sign_in_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_margin="8dp" />
+            <!--<com.google.android.gms.common.SignInButton-->
+            <!--android:id="@+id/bt_ldap_login"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_margin="8dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_height="wrap_content" />-->
 
-                <!--<com.google.android.gms.common.SignInButton-->
-                    <!--android:id="@+id/bt_ldap_login"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_margin="8dp"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_height="wrap_content" />-->
+            <Button
+                android:id="@+id/bt_ldap_login"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="6dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/ic_input_black_24dp"
+                android:drawableTint="@color/colorPrimary"
+                android:gravity="center"
+                android:minWidth="88dp"
+                android:text="   LDAP Login"
+                android:textColor="@color/colorPrimary" />
 
-                <Button
-                    android:id="@+id/bt_ldap_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:backgroundTint="@color/white"
-                    android:drawableLeft="@drawable/ic_input_black_24dp"
-                    android:drawableTint="@color/colorPrimary"
-                    android:elevation="4dp"
-                    android:gravity="center"
-                    android:minWidth="88dp"
-                    android:text="   Ldap Login"
-                    android:textColor="@color/colorPrimary" />
+        </LinearLayout>
 
-            </LinearLayout>
-
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/rollnowrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Roll Number"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/rollno"
@@ -115,12 +117,19 @@
                 android:layout_marginRight="48dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif"
-                android:hint="Roll Number"
                 android:imeOptions="actionNext"
                 android:inputType="textVisiblePassword"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwordwrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="LDAP Password"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/password"
@@ -130,29 +139,27 @@
                 android:layout_marginRight="48dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif"
-                android:hint="Password"
                 android:imeOptions="actionGo"
                 android:inputType="textPassword"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
+        </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimary"
-                android:text="Login"
-                android:textColor="#FFFFFF"
-                android:visibility="gone" />
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
+            android:text="Login"
+            android:textColor="#FFFFFF"
+            android:visibility="gone" />
 
 
-        </LinearLayout>
-    </ScrollView>
-
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

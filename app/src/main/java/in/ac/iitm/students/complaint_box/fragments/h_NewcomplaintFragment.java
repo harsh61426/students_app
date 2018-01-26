@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.JsonReader;
 import android.util.Log;
@@ -94,7 +95,8 @@ public class h_NewcomplaintFragment extends Fragment {
         View view = inflater.inflate(R.layout.h_fragment_new_complaint, container, false);
 
         final String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/addComplaint.php";
-        final EditText prox = (EditText) view.findViewById(R.id.editText_room_number);
+        final TextInputLayout til_prox =(TextInputLayout)view.findViewById(R.id.til_editText_room_number);
+        final EditText prox = til_prox.getEditText();
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, getActivity());
         final String name = Utils.getprefString(UtilStrings.NAME, getActivity());
 

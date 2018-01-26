@@ -1,9 +1,11 @@
 package in.ac.iitm.students.complaint_box.adapters;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -16,14 +18,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,13 +41,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.g_Comments;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
+import in.ac.iitm.students.objects.Student;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -61,7 +68,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
     private Button bn_resolve;
     private CoordinatorLayout coordinatorLayout;
     private InputStream stream;
-
+    private Student stu;
 
     public g_ComplaintAdapter(ArrayList<Complaint> myDataset, Activity a, Context c, Boolean latest, CoordinatorLayout coordinatorLayout) {
         mDataset = myDataset;
@@ -81,7 +88,7 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.g_item_complaint, parent, false);
 
-
+        stu=new Student();
         g_ComplaintAdapter.ViewHolder vh = new g_ComplaintAdapter.ViewHolder(v);
         return vh;
     }
@@ -169,7 +176,16 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
         {
             tv_name.setTextColor(ContextCompat.getColor(context.getApplicationContext(),R.color.colorPrimary));
         }
-
+        tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stu.setHostel(gComplaint.getHostel());
+                stu.setName(gComplaint.getName());
+                stu.setRollno(gComplaint.getRollNo().toUpperCase());
+                stu.setGender('m');
+                viewDetails(stu);
+            }
+        });
         bn_upvote.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -414,5 +430,33 @@ public class g_ComplaintAdapter extends RecyclerView.Adapter<g_ComplaintAdapter.
 
 
         }
+    }
+    private void viewDetails(Student student)
+    {
+        Dialog dialog = new Dialog(context);
+        dialog.setTitle("Student details");
+        dialog.setContentView(R.layout.dialog_details);
+        TextView rollno = (TextView)dialog.findViewById(R.id.d_rollno);
+        rollno.setText(student.getRollno());
+        TextView name = (TextView)dialog.findViewById(R.id.d_name);
+        name.setText(student.getName());
+        TextView room = (TextView)dialog.findViewById(R.id.d_room);
+        room.setText(student.getHostel());
+        CircleImageView photo = (CircleImageView)dialog.findViewById(R.id.d_photo);Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("https")
+                .authority("photos.iitm.ac.in")
+                .appendPath("byroll.php")
+                .appendQueryParameter("roll", student.getRollno());
+
+        String url = builder.build().toString();
+
+        Picasso.with(context).load(url).
+                placeholder(R.drawable.dummypropic).
+                error(R.drawable.dummypropic).
+                fit().centerCrop().
+                into(photo);
+
+        dialog.show();
     }
 }

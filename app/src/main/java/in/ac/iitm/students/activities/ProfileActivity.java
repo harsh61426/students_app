@@ -1,5 +1,6 @@
 package in.ac.iitm.students.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -10,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -123,6 +125,12 @@ public class ProfileActivity extends AppCompatActivity {
                 tv_phone.setVisibility(View.GONE);
                 et_phone.setVisibility(View.VISIBLE);
                 et_phone.requestFocus();
+                String phone = tv_phone.getText().toString();
+                phone=phone.replace("Contact No: ","");
+                phone=phone.replace("Enter mobile number","");
+                et_phone.setText(phone);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             }
         });
 
@@ -132,6 +140,12 @@ public class ProfileActivity extends AppCompatActivity {
                 tv_email.setVisibility(View.GONE);
                 et_email.setVisibility(View.VISIBLE);
                 et_email.requestFocus();
+                String email = tv_email.getText().toString();
+                email=email.replace("Email ID: ","");
+                email=email.replace("Enter email","");
+                et_email.setText(email);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             }
         });
 
@@ -156,6 +170,8 @@ public class ProfileActivity extends AppCompatActivity {
                         tv_email.setText("Email ID: "+mail);
                         et_email.setVisibility(View.GONE);
                         tv_email.setVisibility(View.VISIBLE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
                         return true;
                     }
                 }
@@ -185,6 +201,8 @@ public class ProfileActivity extends AppCompatActivity {
                         tv_phone.setText("Contact No: "+phone);
                         et_phone.setVisibility(View.GONE);
                         tv_phone.setVisibility(View.VISIBLE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
                         return true;
                     }
                 }

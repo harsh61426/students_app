@@ -39,32 +39,35 @@
                 android:text="@string/custom_complaint"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/textView_complaint_title"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_editText_complaint_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/complaint_title" />
+                android:layout_marginTop="48dp">
 
-            <EditText
+            <android.support.design.widget.TextInputEditText
+                android:hint="Title"
                 android:id="@+id/editText_complaint_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                />
+                android:ems="10"/>
 
-            <TextView
-                android:id="@+id/textView_complaint_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/complaint_description" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editText_complaint_description"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_editText_complaint_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10" />
+                android:layout_marginTop="48dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:hint="@string/complaint_description"
+                    android:id="@+id/editText_complaint_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView_tags"
@@ -73,13 +76,21 @@
                 android:layout_marginTop="64dp"
                 android:text="@string/tag" />
 
-            <EditText
-                android:id="@+id/editText_tags"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_editText_tags"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="#secretary"
-                android:inputType="text" />
+                android:layout_marginTop="0dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/editText_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="#secretary"
+                    android:inputType="text"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/button_save"

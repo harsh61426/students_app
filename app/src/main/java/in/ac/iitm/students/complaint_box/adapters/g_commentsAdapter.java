@@ -1,6 +1,9 @@
 package in.ac.iitm.students.complaint_box.adapters;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.adapters.BunksAdapter;
 import in.ac.iitm.students.complaint_box.objects.CommentObj;
+import in.ac.iitm.students.objects.Student;
 
 /**
  * Created by sam10795 on 25/1/18.
@@ -31,12 +35,13 @@ public class g_commentsAdapter extends ArrayAdapter {
     
     private ArrayList<CommentObj> mDataset;
     private Context context;
-    
-    public g_commentsAdapter(Context context, ArrayList<CommentObj> commentObjs)
+    private Activity a;
+    public g_commentsAdapter(Context context, ArrayList<CommentObj> commentObjs, Activity a)
     {
         super(context, R.layout.h_item_comment, commentObjs);
         this.context = context;
         this.mDataset = commentObjs;
+        this.a = a;
     }
 
     public void addComment(CommentObj cmnt) {
@@ -71,7 +76,11 @@ public class g_commentsAdapter extends ArrayAdapter {
         }
         
         holder.tv_name.setText(mDataset.get(position).getName());
-
+        final Student stu = new Student();
+        stu.setName(mDataset.get(position).getName());
+        stu.setRollno(mDataset.get(position).getRollNo());
+        stu.setHostel(mDataset.get(position).getRoomNo());
+        stu.setGender('m');
         DateFormat df = new SimpleDateFormat("dd MMM yy");
         DateFormat pf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -83,7 +92,7 @@ public class g_commentsAdapter extends ArrayAdapter {
             holder.tv_date.setText(mDataset.get(position).getDate());
             Log.e("date",mDataset.get(position).getDate());
         }
-        
+
         holder.tv_description.setText(mDataset.get(position).getCommentStr());
 
         if (!mDataset.get(position).getRollNo().equals("X")) {
@@ -117,7 +126,13 @@ public class g_commentsAdapter extends ArrayAdapter {
         {
             holder.tv_name.setTextColor(ContextCompat.getColor(context.getApplicationContext(),R.color.colorPrimary));
         }
-        
+
+        holder.tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewDetails(stu);
+            }
+        });
         return convertView;
     }
 
@@ -131,5 +146,32 @@ public class g_commentsAdapter extends ArrayAdapter {
         TextView tv_name, tv_date, tv_description;
         CircleImageView dp;
     }
-    
+    private void viewDetails(Student student)
+    {
+        Dialog dialog = new Dialog(a);
+        dialog.setTitle("Student details");
+        dialog.setContentView(R.layout.dialog_details);
+        TextView rollno = (TextView)dialog.findViewById(R.id.d_rollno);
+        rollno.setText(student.getRollno());
+        TextView name = (TextView)dialog.findViewById(R.id.d_name);
+        name.setText(student.getName());
+        TextView room = (TextView)dialog.findViewById(R.id.d_room);
+        room.setText(student.getHostel());
+        CircleImageView photo = (CircleImageView)dialog.findViewById(R.id.d_photo);Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("https")
+                .authority("photos.iitm.ac.in")
+                .appendPath("byroll.php")
+                .appendQueryParameter("roll", student.getRollno());
+
+        String url = builder.build().toString();
+
+        Picasso.with(context).load(url).
+                placeholder(R.drawable.dummypropic).
+                error(R.drawable.dummypropic).
+                fit().centerCrop().
+                into(photo);
+
+        dialog.show();
+    }
 }

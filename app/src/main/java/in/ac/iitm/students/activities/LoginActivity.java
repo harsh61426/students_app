@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -61,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
     private Boolean isSignedIn = false;
     private int  RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
+    private TextInputLayout user;
+    private TextInputLayout pass;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +79,10 @@ public class LoginActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        user=(TextInputLayout) findViewById(R.id.rollnowrapper);
+        pass=(TextInputLayout) findViewById(R.id.passwordwrapper);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         Button ldap_login = (Button)this.findViewById(R.id.bt_ldap_login);
 //        ldap_login.setSize(SignInButton.SIZE_STANDARD);
 
@@ -103,8 +106,8 @@ public class LoginActivity extends AppCompatActivity {
         ldap_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username.setVisibility(View.VISIBLE);
-                password.setVisibility(View.VISIBLE);
+                user.setVisibility(View.VISIBLE);
+                pass.setVisibility(View.VISIBLE);
                 login.setVisibility(View.VISIBLE);
             }
         });
@@ -112,8 +115,8 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        username.setVisibility(View.GONE);
-                        password.setVisibility(View.GONE);
+                        user.setVisibility(View.GONE);
+                        pass.setVisibility(View.GONE);
                         login.setVisibility(View.GONE);
                         signIn();
                 }
