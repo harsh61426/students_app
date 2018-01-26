@@ -97,6 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:textColor="#212121"
                 android:text="Date: 26-11-18" />
 
             <TextView
@@ -106,6 +107,7 @@
                 android:layout_weight="1"
                 android:visibility="gone"
                 android:paddingLeft="8dp"
+                android:textColor="#212121"
                 android:text="at 2pm" />
 
         </LinearLayout>
@@ -117,6 +119,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="2dp"
             android:visibility="gone"
+            android:textColor="#212121"
             android:text="Venue: SAC" />
 
         <TextView
