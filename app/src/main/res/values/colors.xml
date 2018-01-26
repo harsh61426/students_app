@@ -34,6 +34,8 @@
 
     <color name="Imageback">#eceff1</color>
 
+    <color name="gray_light">#bdbdbd</color>
+
 
     <color name="polyline_blue">#D442A5F5</color>
     <color name="red_background">#ff616f</color>
