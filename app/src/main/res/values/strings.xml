@@ -19,7 +19,7 @@
     <string name="odd_year2">Jul-Nov 2017</string>
     <string name="about_us">This app is developed by Institute MobOps Team. All rights are reserved</string>
     <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this Complaint.</string>
-
+    <string name="bunker">10</string>
     <string name="error_connection">Couldn\'t connect to the server.</string>
     <string name="error_parsing">Error getting data, try again later…</string>
     <string name="error_no_result">No results found.</string>
