@@ -177,7 +177,7 @@ public class g_Comments extends AppCompatActivity {
                 }
 
                 //mRecyclerView.setLayoutManager(mLayoutManager);
-                adapter = new g_commentsAdapter(getApplicationContext(),commentArray);//new h_CommentsAdapter(commentArray,getApplicationContext());
+                adapter = new g_commentsAdapter(getApplicationContext(),commentArray,g_Comments.this);//new h_CommentsAdapter(commentArray,getApplicationContext());
                 listView.setAdapter(adapter);
             }
 

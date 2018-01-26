@@ -1,5 +1,6 @@
 package in.ac.iitm.students.complaint_box.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
@@ -34,12 +35,13 @@ public class g_commentsAdapter extends ArrayAdapter {
     
     private ArrayList<CommentObj> mDataset;
     private Context context;
-    private Student stu;
-    public g_commentsAdapter(Context context, ArrayList<CommentObj> commentObjs)
+    private Activity a;
+    public g_commentsAdapter(Context context, ArrayList<CommentObj> commentObjs, Activity a)
     {
         super(context, R.layout.h_item_comment, commentObjs);
         this.context = context;
         this.mDataset = commentObjs;
+        this.a = a;
     }
 
     public void addComment(CommentObj cmnt) {
@@ -74,6 +76,7 @@ public class g_commentsAdapter extends ArrayAdapter {
         }
         
         holder.tv_name.setText(mDataset.get(position).getName());
+        final Student stu = new Student();
         stu.setName(mDataset.get(position).getName());
         stu.setRollno(mDataset.get(position).getRollNo());
         stu.setHostel(mDataset.get(position).getRoomNo());
@@ -145,7 +148,7 @@ public class g_commentsAdapter extends ArrayAdapter {
     }
     private void viewDetails(Student student)
     {
-        Dialog dialog = new Dialog(context);
+        Dialog dialog = new Dialog(a);
         dialog.setTitle("Student details");
         dialog.setContentView(R.layout.dialog_details);
         TextView rollno = (TextView)dialog.findViewById(R.id.d_rollno);
