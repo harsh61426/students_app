@@ -31,6 +31,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -364,7 +365,7 @@ public class HomeActivity extends AppCompatActivity
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     response = jsonArray.toString();
-                    //Log.d("response", "home " + response);
+                    Log.d("responseXXX", "home " + response);
                     Utils.saveprefString(UtilStrings.homeData, response, getBaseContext());
                     goToAdapter(response);
 
@@ -814,6 +815,7 @@ public class HomeActivity extends AppCompatActivity
 
             HomeNotifObject notifObject = new HomeNotifObject();
             reader.beginObject();
+            Log.d("NAMEXX",reader.toString());
             while (reader.hasNext()) {
                 String name = reader.nextName();
                 if (name.equals("topic")) {
@@ -828,14 +830,15 @@ public class HomeActivity extends AppCompatActivity
                     notifObject.link = reader.nextString();
                 } else if (name.equals("location") && reader.peek() != JsonToken.NULL) {
                     notifObject.location = reader.nextString();
-                } else if (name.equals("image_urls") && reader.peek() != JsonToken.NULL) {
+                } else if (name.equals("image") && reader.peek() != JsonToken.NULL) {
                     //readImageUrlArray(reader);
-                    reader.beginArray();
-                    while (reader.hasNext()) {
-                        notifObject.image_urls.add(reader.nextString());
-                    }
-                    reader.endArray();
-                    // todo add image functionality @rohithram
+                    notifObject.image_urls = reader.nextString();
+                    Log.i("XXXXL",reader.nextString());
+//                    reader.beginArray();
+//                    while (reader.hasNext()) {
+////                        notifObject.image_urls.add(reader.nextString());
+//                    }
+//                    reader.endArray();
                 } else if (name.equals("date") && reader.peek() != JsonToken.NULL) {
                     notifObject.date = reader.nextString();
                 } else if (name.equals("time") && reader.peek() != JsonToken.NULL) {
@@ -897,7 +900,7 @@ public class HomeActivity extends AppCompatActivity
             final String topic = notifObjectList.get(holder.getAdapterPosition()).Topic;
             final String loc = notifObjectList.get(holder.getAdapterPosition()).location;
             final String space = "";
-            final ArrayList<String> image_urls = notifObjectList.get(holder.getAdapterPosition()).image_urls;
+            final String image_urls = notifObjectList.get(holder.getAdapterPosition()).image_urls;
 
             holder.tvTitle.setText(title);
             holder.tvDetails.setText(detail);
@@ -949,7 +952,16 @@ public class HomeActivity extends AppCompatActivity
             }
             );
 
-            new MyOnClickListener(holder,link,image_urls);
+            if(image_urls!=null && image_urls.length()>0){
+                Log.i("XXXX",image_urls);
+                Glide.with(context).
+                        load(image_urls)
+                        .placeholder(R.color.Imageback)
+                        .crossFade(500)
+                        .into(holder.iv_content);
+            }
+
+            new MyOnClickListener(holder,link);
 
 //            holder.bt_show.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -1399,7 +1411,7 @@ public class HomeActivity extends AppCompatActivity
             String link;
             ArrayList<String> image_urls;
 
-            public MyOnClickListener(ViewHolder holder,String link,ArrayList<String> image_urls) {
+            public MyOnClickListener(ViewHolder holder, String link) {
                 this.holder = holder;
                 this.link = link;
                 this.image_urls = image_urls;
@@ -1422,7 +1434,7 @@ public class HomeActivity extends AppCompatActivity
 //                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
 //                        holder.bt_not_going.setVisibility(View.VISIBLE);
 //                        holder.bt_going.setVisibility(View.VISIBLE);
-                            if(link!=null && !link.isEmpty() && !(link.compareToIgnoreCase("nada")==0)){
+                            if (link != null && !link.isEmpty() && !(link.compareToIgnoreCase("nada") == 0)) {
                                 holder.tv_link.setVisibility(View.VISIBLE);
                                 holder.ibt_link.setVisibility(View.VISIBLE);
                             }
@@ -1446,17 +1458,7 @@ public class HomeActivity extends AppCompatActivity
 //                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
 //
 //                        }
-                            if(image_urls!=null){
-                                if(image_urls.size()!=0) {
-
-                                    if (image_urls.size() == 1) {
-                                        Glide.with(context).
-                                                load(image_urls.get(0))
-                                                .placeholder(R.color.Imageback)
-                                                .crossFade(500)
-                                                .into(holder.iv_content);
-
-                                    }
+                        }
 //                                if(image_urls!=null && image_urls.size() >= 2){
 //
 //                                    holder.iv_content.setVisibility(View.INVISIBLE);
@@ -1718,9 +1720,7 @@ public class HomeActivity extends AppCompatActivity
 //                                });
 //                            }
 //                        }
-                                }
-                            }
-                        }
+
 //                        else {
 //                            // it's expanded - collapse it
 //                            holder.tvDetails.setVisibility(View.GONE);

@@ -10,7 +10,7 @@ public class HomeNotifObject {
 
     public String detail;
     public String id;
-    public ArrayList<String> image_urls;
+    public String image_urls;
     public String location = "IIT Madras";
     public String time = "12 am";
     public String date = "9/24/2017";
