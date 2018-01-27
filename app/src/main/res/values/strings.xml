@@ -13,7 +13,7 @@
     <string name="hcomplaints_guide">Hostel complaints can be registered through this portal, which will be displayed here. Generic complaints are displayed with their proximities(closest room number to the place of issue) and number of complaints displayed with them. </string>
 
 
-    <string name="even_year1">Jan-May 2016</string>
+    <string name="even_year1">Jan-May 2016</string>R
     <string name="odd_year1">Jul-Nov 2016</string>
     <string name="even_year2">Jan-May 2017</string>
     <string name="odd_year2">Jul-Nov 2017</string>
@@ -52,7 +52,7 @@
     <string name="url_fetch_list">https://students.iitm.ac.in/studentsapp/hasportal/fetch.php?type1=</string>
     <string name="fifthettateurl">http://www.t5eiitm.org/wp-json/wp/v2/posts</string>
     <string name="url_eml">https://students.iitm.ac.in/studentsapp/eml/lecs.php</string>
-    <string name="url_home">https://students.iitm.ac.in/studentsapp/general/getnotifs.php</string>
+    <string name="url_home">https://students.iitm.ac.in/studentsapp/general/get_notifs.php</string>
     <string name="url_eml_upcoming">https://students.iitm.ac.in/studentsapp/eml/upcoming_lecs.php</string>
     <string name="url_schroiter_updates">https://students.iitm.ac.in/studentsapp/schroeter/get_updates.php</string>
     <string name="url_schroiter_scores">https://students.iitm.ac.in/studentsapp/schroeter/get_links.php</string>
@@ -102,17 +102,18 @@
     <string name="team_17_18">Institute Mobile Operations 17-18</string>
     <string name="cores_17_18">Omkar Patil, Sameer Kulkarni</string>
     <string name="coords_17_18">Aebel Joe Shibu, Ankit Kumar, Gautam Krishna,\n
-        Harshitha S, Mohammad Ajmal, Mritunjoy Das,\n Om Shri Prasath, R Rohithram</string>
+        Harshitha S, Mohammad Ajmal, Mritunjoy Das,\n Om Shri Prasath, R Rohithram, Sarath Chandra</string>
     <string name="t2_c1">Omkar Patil</string>
     <string name="t2_c2">Sameer Kulkarni</string>
     <string name="t2_m1">Aebel Joe Shibu</string>
     <string name="t2_m2">Ankit Kumar</string>
-    <string name="t2_m3">Gautam Krishna</string>
-    <string name="t2_m4">Harshita S</string>
-    <string name="t2_m5">Joey</string>
-    <string name="t2_m6">Mohammed Ajmal</string>
+    <string name="t2_m3">Gautam Biju Krishna</string>
+    <string name="t2_m4">Harshitha S</string>
+    <string name="t2_m5">Mohammed Ajmal</string>
+    <string name="t2_m6">Mritunjoy das</string>
     <string name="t2_m7">Om Shree Prasant</string>
     <string name="t2_m8">R Rohithram</string>
+    <string name="t2_m9">Sarath Chandra</string>
 
     <string name="update_message">Some Important Features Have Been Added.</string>
     <string name="update">Update</string>
