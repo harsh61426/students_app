@@ -901,7 +901,7 @@ public class HomeActivity extends AppCompatActivity
 
             holder.tvTitle.setText(title);
             holder.tvDetails.setText(detail);
-            holder.tvorg.setText(topic);
+            holder.tvorg.setText(topic.substring(0,1).toUpperCase()+topic.substring(1));
 
             if(loc!=null && loc.length()>0){
 
