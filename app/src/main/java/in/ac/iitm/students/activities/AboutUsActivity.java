@@ -37,6 +37,15 @@ public class AboutUsActivity extends AppCompatActivity {
                 shareToGMail(addresses, "Complaints/suggestions");
             }
         });
+
+        TextView join = (TextView) findViewById(R.id.tv_contact_join);
+        join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String addresses[] = {"institutewebops@gmail.com"};
+                shareToGMail(addresses, "Joining the MobOps Team");
+            }
+        });
     }
 
     public void shareToGMail(String[] email, String subject) {
