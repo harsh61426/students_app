@@ -188,10 +188,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getSuggestions();
 
+
+
         searchField = (AutoCompleteTextView) findViewById(R.id.auto_comp_tv_search);
         searchBarPosX = searchField.getX();
         searchBarPosY = searchField.getY();
-        searchField.setVisibility(View.GONE);
+        searchField.setVisibility(View.VISIBLE);
 
         searchField.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -446,25 +448,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search_go_btn: {
-
-                if (isVisible) {
-                    animateSearchOut();
-                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
-                    mMap.getUiSettings().setCompassEnabled(true);
-                    removeSearchResult();
-                    isSearchResultShown = false;
-
-                } else {
-                    if (!isDownloaded) getSuggestions();
-                    animateSearchIn();
-                    searchField.setHint(R.string.search_hint);
-                    mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                    mMap.getUiSettings().setCompassEnabled(false);
-                }
-
-                return true;
-            }
+//            case R.id.search_go_btn: {
+//
+//                if (isVisible) {
+//                    animateSearchOut();
+//                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
+//                    mMap.getUiSettings().setCompassEnabled(true);
+//                    removeSearchResult();
+//                    isSearchResultShown = false;
+//
+//                } else {
+//                    if (!isDownloaded) getSuggestions();
+//                    animateSearchIn();
+//                    searchField.setHint(R.string.search_hint);
+//                    mMap.getUiSettings().setMyLocationButtonEnabled(false);
+//                    mMap.getUiSettings().setCompassEnabled(false);
+//                }
+//
+//                return true;
+//            }
             case R.id.action_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
