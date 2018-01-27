@@ -91,6 +91,24 @@
     <string name="title_activity_calendar">Calendar</string>
     <string name="title_sync_calendar">Sync Calendar</string>
 
+    <string name="team_16_17">Institute Mobile Operations 16-17</string>
+    <string name="t1_c1">Sai Praneeth</string>
+    <string name="t1_m1">Anurag Shrivastav</string>
+    <string name="t1_m2">Omkar Patil</string>
+    <string name="t1_m3">Sathwik Chadaga P</string>
+
+    <string name="team_17_18">Institute Mobile Operations 17-18</string>
+    <string name="t2_c1">Omkar Patil</string>
+    <string name="t2_c2">Sameer Kulkarni</string>
+    <string name="t2_m1">Aebel Joe Shibu</string>
+    <string name="t2_m2">Ankit Kumar</string>
+    <string name="t2_m3">Gautam Krishna</string>
+    <string name="t2_m4">Harshita S</string>
+    <string name="t2_m5">Joey</string>
+    <string name="t2_m6">Mohammed Ajmal</string>
+    <string name="t2_m7">Om Shree Prasant</string>
+    <string name="t2_m8">R Rohithram</string>
+
     <string name="update_message">Some Important Features Have Been Added.</string>
     <string name="update">Update</string>
     <string name="dont_update">No, Thanks</string>
