@@ -92,12 +92,17 @@
     <string name="title_sync_calendar">Sync Calendar</string>
 
     <string name="team_16_17">Institute Mobile Operations 16-17</string>
+    <string name="cores_16_17">Sai Praneeth</string>
+    <string name="coords_16_17">Anurag Shrivastav, Omkar Patil, Sathwik Chadaga P</string>
     <string name="t1_c1">Sai Praneeth</string>
     <string name="t1_m1">Anurag Shrivastav</string>
     <string name="t1_m2">Omkar Patil</string>
     <string name="t1_m3">Sathwik Chadaga P</string>
 
     <string name="team_17_18">Institute Mobile Operations 17-18</string>
+    <string name="cores_17_18">Omkar Patil, Sameer Kulkarni</string>
+    <string name="coords_17_18">Aebel Joe Shibu, Ankit Kumar, Gautam Krishna,\n
+        Harshitha S, Mohammad Ajmal, Mritunjoy Das,\n Om Shri Prasath, R Rohithram</string>
     <string name="t2_c1">Omkar Patil</string>
     <string name="t2_c2">Sameer Kulkarni</string>
     <string name="t2_m1">Aebel Joe Shibu</string>

@@ -66,7 +66,23 @@ public class Utils {
     public static long getprefLong(String key, Context context) {
         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
-        return pref.getLong(key, 0);
+        long l = 0;
+        try
+        {
+            l = pref.getLong(key,0);
+        }
+        catch (ClassCastException ce)
+        {
+            if(pref.contains(key))
+            {
+                l = (long)pref.getInt(key,0);
+                if (l<0) {
+                    l += 0x80000000L;
+                }
+                saveprefLong(key,l,context);
+            }
+        }
+        return l;
     }
 
     public static void clearpref(Context context) {
