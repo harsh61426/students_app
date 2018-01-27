@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
 <RelativeLayout
+    android:id="@+id/rl_home_feed"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/rl_home_feed"
 >
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
         android:id="@+id/cv_home_feed"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_centerHorizontal="true"
-        android:padding="8dp"
-        android:layout_marginTop="4dp" >
+        android:layout_marginTop="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="4dp">
 
             <ImageButton
-                android:layout_width="wrap_content"
                 android:id="@+id/bt_show"
-                android:src="@drawable/ic_expand_more_black_24dp"
-                android:background="#ffffff"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/v_top"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="18dp">
+                android:layout_marginEnd="18dp"
+                android:background="#ffffff"
+                android:src="@drawable/ic_expand_more_black_24dp">
             </ImageButton>
 
             <TextView
@@ -46,133 +45,135 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
+                android:text="Institute Mobops"
                 android:textColor="#000000"
-                android:textSize="14sp"
-                android:text="Institute Mobops" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
                 android:layout_below="@+id/v_top"
-                android:textColor="#000000"
                 android:layout_centerHorizontal="true"
-                android:text="Title of the event" />
+                android:layout_gravity="center"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Title of the event"
+                android:textColor="#000000"
+                android:textSize="20sp" />
 
             <ImageButton
+                android:id="@+id/bt_event"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/bt_event"
                 android:layout_below="@+id/tvTitle"
                 android:layout_margin="4dp"
-                android:visibility="gone"
                 android:background="@drawable/ic_event_note_black_24dp"
+                android:visibility="gone"
                 />
 
             <TextView
-                android:layout_width="wrap_content"
                 android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wed 14 Jun,2017"
-                android:layout_toRightOf="@+id/bt_event"
-                android:layout_toEndOf="@+id/bt_event"
                 android:layout_alignTop="@+id/bt_event"
-                android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
-                android:visibility="gone"
-                android:textSize="16dp"/>
+                android:layout_marginRight="10dp"
+                android:layout_toEndOf="@+id/bt_event"
+                android:layout_toRightOf="@+id/bt_event"
+                android:text="Wed 14 Jun,2017"
+                android:textSize="16dp"
+                android:visibility="gone" />
 
             <ImageButton
+                android:id="@+id/bt_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/bt_time"
                 android:layout_below="@+id/bt_event"
                 android:layout_margin="4dp"
-                android:visibility="gone"
                 android:background="@drawable/ic_access_alarms_black_24dp"
+                android:visibility="gone"
                 />
 
             <TextView
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_time"
-                android:text="10.00 AM"
-                android:layout_toRightOf="@+id/bt_time"
                 android:layout_alignTop="@+id/bt_time"
-                android:visibility="gone"
                 android:layout_marginRight="10dp"
-                android:textSize="16sp"/>
+                android:layout_toRightOf="@+id/bt_time"
+                android:text="10.00 AM"
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <ImageButton
+                android:id="@+id/bt_loc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/bt_loc"
                 android:layout_below="@+id/bt_time"
                 android:layout_margin="4dp"
-                android:visibility="gone"
                 android:background="@drawable/ic_location_on_black_24dp"
+                android:visibility="gone"
                 />
 
             <TextView
+                android:id="@+id/tv_loc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_loc"
-                android:visibility="gone"
-                android:text="CLT Hall"
-                android:layout_toRightOf="@+id/bt_loc"
                 android:layout_alignTop="@+id/bt_loc"
                 android:layout_marginRight="10dp"
-                android:textSize="16dp"/>
+                android:layout_toRightOf="@+id/bt_loc"
+                android:text="CLT Hall"
+                android:textSize="16dp"
+                android:visibility="gone" />
 
             <View
+                android:id="@+id/v_top"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:color="#000000"
                 android:layout_below="@+id/tv_org"
-                android:id="@+id/v_top" />
+                android:color="#000000" />
 
             <FrameLayout
+                android:id="@+id/fl_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foregroundGravity="center"
                 android:layout_below="@+id/bt_loc"
-                android:id="@+id/fl_images"
                 android:clickable="true"
+                android:foregroundGravity="center"
                 >
 
                 <ImageView
-                    android:layout_width="match_parent"
                     android:id="@+id/iv_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
-                    android:background="@drawable/image_border"
+                    android:layout_margin="2dp"
                     android:adjustViewBounds="true"
+                    android:background="@drawable/image_border"
                     android:clickable="true"
+                    android:focusable="true"
                     android:longClickable="true"
-                    android:layout_margin="2dp"/>
+                    android:scaleType="fitCenter" />
 
                 <LinearLayout
+                    android:id="@+id/rv_gridimages3"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rv_gridimages3"
-                    android:weightSum="2"
                     android:clickable="true"
-                    android:visibility="gone">
+                    android:focusable="true"
+                    android:visibility="gone"
+                    android:weightSum="2">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="280dp"
                         android:id="@+id/iv_image11"
+                        android:layout_width="0dp"
+                        android:layout_height="280dp"
                         android:layout_margin="2dp"
-                        android:scaleType="fitCenter"
+                        android:layout_weight="1"
                         android:background="@drawable/border"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/laugh"
                         />
 
@@ -182,71 +183,71 @@
                         android:layout_weight="1">
 
                         <ImageView
+                            android:id="@+id/iv_image12"
                             android:layout_width="match_parent"
                             android:layout_height="130dp"
-                            android:id="@+id/iv_image12"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginRight="2dp"
                             android:layout_marginBottom="2dp"
-                            android:scaleType="fitCenter"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginTop="2dp"
                             android:background="@drawable/border"
+                            android:scaleType="fitCenter"
                             android:src="@drawable/love"/>
 
                         <ImageView
+                            android:id="@+id/iv_image13"
                             android:layout_width="match_parent"
                             android:layout_height="148dp"
-                            android:id="@+id/iv_image13"
-                            android:visibility="visible"
-                            android:background="@drawable/border"
-                            android:layout_marginRight="2dp"
-                            android:scaleType="fitCenter"
                             android:layout_below="@+id/iv_image12"
-                            android:src="@drawable/love"/>
+                            android:layout_marginRight="2dp"
+                            android:background="@drawable/border"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/love"
+                            android:visibility="visible" />
 
                         <TextView
+                            android:id="@+id/tv_nofimages"
                             android:layout_width="200dp"
                             android:layout_height="140dp"
-                            android:id="@+id/tv_nofimages"
-                            android:gravity="center"
+                            android:layout_below="@+id/iv_image12"
+                            android:layout_centerHorizontal="true"
                             android:alpha="0.8"
-                            android:textSize="70sp"
-                            android:textColor="#eceff1"
+                            android:gravity="center"
                             android:shadowColor="#455a64"
                             android:shadowRadius="2"
-                            android:layout_centerHorizontal="true"
                             android:text="7+"
-                            android:layout_below="@+id/iv_image12"/>
+                            android:textColor="#eceff1"
+                            android:textSize="70sp" />
 
                     </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/rv_gridimages2"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rv_gridimages2"
-                    android:weightSum="2"
                     android:clickable="true"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:weightSum="2">
 
                     <ImageView
+                        android:id="@+id/iv_image21"
                         android:layout_width="0dp"
                         android:layout_height="280dp"
-                        android:id="@+id/iv_image21"
                         android:layout_margin="2dp"
-                        android:scaleType="fitCenter"
                         android:layout_weight="1"
                         android:background="@drawable/border"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/laugh"
                         />
 
                     <ImageView
+                        android:id="@+id/iv_image22"
                         android:layout_width="0dp"
                         android:layout_height="280dp"
-                        android:id="@+id/iv_image22"
-                        android:layout_weight="1"
                         android:layout_marginRight="2dp"
-                        android:scaleType="fitCenter"
+                        android:layout_weight="1"
                         android:background="@drawable/border"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/love"/>
 
                 </LinearLayout>
@@ -254,121 +255,121 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/tvDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvDetails"
-                android:layout_marginTop="4dp"
+                android:layout_below="@+id/fl_images"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="10dp"
-                android:visibility="gone"
-                android:layout_below="@+id/fl_images"
+                android:layout_marginTop="4dp"
                 android:text="Hello students"
+                android:textColor="#757575"
                 android:textSize="20sp"
-                android:textColor="#757575"/>
+                android:visibility="gone" />
 
             <ImageButton
+                android:id="@+id/ibt_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ibt_link"
-                android:visibility="gone"
-                android:layout_margin="4dp"
                 android:layout_below="@+id/tvDetails"
+                android:layout_margin="4dp"
+                android:background="@color/white"
                 android:src="@drawable/ic_link_black_24dp"
-                android:background="@color/white"/>
+                android:visibility="gone" />
 
             <TextView
+                android:id="@+id/tv_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_link"
+                android:layout_alignTop="@+id/ibt_link"
+                android:layout_toEndOf="@+id/ibt_link"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:clickable="true"
+                android:text="link click"
                 android:textColor="@color/com_facebook_blue"
                 android:textSize="16sp"
-                android:layout_margin="5dp"
-                android:visibility="gone"
-                android:maxLines="1"
-                android:ellipsize="marquee"
-                android:layout_toEndOf="@+id/ibt_link"
-                android:layout_alignTop="@+id/ibt_link"
-                android:text="link click"/>
+                android:visibility="gone" />
 
             <Button
-                android:minWidth="88dp"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:focusableInTouchMode="true"
-                android:shadowRadius="2"
-                android:shadowColor="@color/red_background"
-                android:layout_below="@id/ibt_link"
                 android:id="@+id/bt_not_going"
-                android:padding="8dp"
-                android:elevation="2dp"
-                android:text="NOT GOING"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_below="@id/ibt_link"
                 android:layout_marginTop="8dp"
-                android:textSize="13dp"
-                android:visibility="gone"
+                android:background="@color/red_background"
+                android:elevation="2dp"
+                android:focusableInTouchMode="true"
+                android:minWidth="88dp"
+                android:padding="8dp"
+                android:shadowColor="@color/red_background"
+                android:shadowRadius="2"
+                android:text="NOT GOING"
                 android:textColor="@color/white"
-                android:background="@color/red_background"/>
+                android:textSize="13dp"
+                android:visibility="gone" />
 
             <Button
-                android:layout_width="wrap_content"
-                android:minWidth="88dp"
-                android:layout_height="36dp"
-                android:focusableInTouchMode="true"
-                android:shadowRadius="2"
-                android:shadowColor="@color/com_facebook_button_background_color"
-                android:layout_below="@id/ibt_link"
-                android:layout_toEndOf="@+id/bt_not_going"
                 android:id="@+id/bt_going"
-                android:padding="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_below="@id/ibt_link"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@+id/bt_not_going"
+                android:background="@color/polyline_blue"
                 android:elevation="2dp"
-                android:textSize="13dp"
+                android:focusableInTouchMode="true"
+                android:minWidth="88dp"
+                android:padding="8dp"
+                android:shadowColor="@color/com_facebook_button_background_color"
+                android:shadowRadius="2"
                 android:text="GOING"
                 android:textColor="@color/white"
-                android:visibility="gone"
-                android:background="@color/polyline_blue"/>
+                android:textSize="13dp"
+                android:visibility="gone" />
 
             <View
-                android:layout_width="match_parent"
                 android:id="@+id/v_bottom"
+                android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="12dp"
-                android:layout_below="@+id/bt_going"/>
+                android:layout_below="@+id/bt_going"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp" />
 
             <ImageView
+                android:id="@+id/bt_fav"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:id="@+id/bt_fav"
-                android:layout_margin="10dp"
-                android:layout_below="@+id/v_bottom"
-                android:background="#ffffff"
-                android:visibility="gone"
-                android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:src="@drawable/love"/>
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/v_bottom"
+                android:layout_margin="4dp"
+                android:background="#ffffff"
+                android:src="@drawable/love"
+                android:visibility="gone" />
 
             <ImageButton
+                android:id="@+id/bt_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/bt_save"
-                android:layout_margin="10dp"
-                android:layout_below="@+id/v_bottom"
-                android:background="#ffffff"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/v_bottom"
+                android:layout_margin="4dp"
+                android:background="#ffffff"
                 android:src="@drawable/ic_save_black_24dp"/>
 
             <ImageButton
+                android:id="@+id/bt_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/bt_share"
-                android:background="#ffffff"
-                android:src="@drawable/ic_share_black_24dp"
-                android:layout_toLeftOf="@+id/bt_save"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="10dp"
-                android:layout_below="@+id/v_bottom"/>
+                android:layout_below="@+id/v_bottom"
+                android:layout_margin="4dp"
+                android:layout_toLeftOf="@+id/bt_save"
+                android:background="#ffffff"
+                android:src="@drawable/ic_share_black_24dp" />
 
 
 

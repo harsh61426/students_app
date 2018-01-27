@@ -1,16 +1,12 @@
 package in.ac.iitm.students.complaint_box.fragments;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +18,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -129,6 +122,10 @@ public class h_CustomComplainFragment extends Fragment {
 
                 if (title.equals("") || description.equals("")) makeSnackbar("Empty field");
                 else {
+                    progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setMessage("Registering Complaints....");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
@@ -152,15 +149,18 @@ public class h_CustomComplainFragment extends Fragment {
                                     if (name.equals("status")) {
                                         String status = reader.nextString();
                                         if (status.equals("1")) {
-                                            //getActivity().finish();
+                                            progressDialog.dismiss();
                                             makeSnackbar("Complaint registered");
                                             Intent intent = new Intent(getContext(), HostelComplaintsActivity.class);
                                             startActivity(intent);
+
                                         } else if (status.equals("0")) {
+                                            progressDialog.dismiss();
                                             makeSnackbar("Error registering complaint");
-                                            //Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+
                                         }    } else if (name.equals("error")) {
                                         reader.nextString();
+                                        progressDialog.dismiss();
                                         makeSnackbar("Error registering complaint");
                                     } else {
                                         reader.skipValue();
@@ -169,12 +169,14 @@ public class h_CustomComplainFragment extends Fragment {
                                 reader.endObject();
                             } catch (IOException e) {
                                 e.printStackTrace();
+                                progressDialog.dismiss();
                                 makeSnackbar("Error registering complaint");
                             } finally {
                                 try {
                                     reader.close();
                                 } catch (IOException e) {
                                     e.printStackTrace();
+                                    progressDialog.dismiss();
                                     makeSnackbar("Error registering complaint");
                                 }
                             }
@@ -200,7 +202,8 @@ public class h_CustomComplainFragment extends Fragment {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
+                            progressDialog.dismiss();
+                            makeSnackbar("Error registering complaint");
                         }
                     }) {
                         @Override
@@ -208,7 +211,6 @@ public class h_CustomComplainFragment extends Fragment {
                             Map<String, String> params = new HashMap<>();
 
                             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                            String moreRooms = Utils.getprefString(UtilStrings.ROOM, getActivity()) + ",";
 
                             params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, getActivity()));
                             params.put("NAME", Utils.getprefString(UtilStrings.NAME, getActivity()));
@@ -226,7 +228,6 @@ public class h_CustomComplainFragment extends Fragment {
                             params.put("DATETIME", date);
                             params.put("COMMENTS", "0");
                             params.put("IMAGEURL", finalImageUrl);
-                            params.put("MORE_ROOMS", moreRooms);
                             params.put("CUSTOM", "1");
                             return params;
                         }
@@ -239,6 +240,7 @@ public class h_CustomComplainFragment extends Fragment {
         });
 
 
+        /*
         FloatingActionButton addPhoto = (FloatingActionButton) view.findViewById(R.id.fab_addImage);
         addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,6 +283,7 @@ public class h_CustomComplainFragment extends Fragment {
 
             }
         });
+        */
         return view;
     }
 
@@ -309,7 +312,7 @@ public class h_CustomComplainFragment extends Fragment {
     private void makeSnackbar(String msg) {
 
         Snackbar snackbar = Snackbar
-                .make(getActivity().findViewById(R.id.rl_custm_cmplnt), msg, Snackbar.LENGTH_LONG);
+                .make(getActivity().findViewById(R.id.ll_custom_complaints), msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 }

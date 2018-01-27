@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -28,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 String cls = checkIntent(getIntent());
-                Intent i = new Intent(SplashActivity.this, HomeActivity.class);//LoginActivity.class);
+                Intent i = new Intent(SplashActivity.this,LoginActivity.class);//LoginActivity.class);
                 i.putExtra("class", cls);
                 startActivity(i);
 

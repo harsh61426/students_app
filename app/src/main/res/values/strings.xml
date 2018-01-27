@@ -13,13 +13,13 @@
     <string name="hcomplaints_guide">Hostel complaints can be registered through this portal, which will be displayed here. Generic complaints are displayed with their proximities(closest room number to the place of issue) and number of complaints displayed with them. </string>
 
 
-    <string name="even_year1">Jan-May 2016</string>
+    <string name="even_year1">Jan-May 2016</string>R
     <string name="odd_year1">Jul-Nov 2016</string>
     <string name="even_year2">Jan-May 2017</string>
     <string name="odd_year2">Jul-Nov 2017</string>
-    <string name="about_us">This app is developed by Institute Mobops Team 2017–18. All rights are reserved</string>
+    <string name="about_us">This app is developed by Institute MobOps Team. All rights are reserved</string>
     <string name="complaint_check_box_msg">I have already informed a mess/facilities managers prior to this Complaint.</string>
-
+    <string name="bunker">10</string>
     <string name="error_connection">Couldn\'t connect to the server.</string>
     <string name="error_parsing">Error getting data, try again later…</string>
     <string name="error_no_result">No results found.</string>
@@ -52,7 +52,7 @@
     <string name="url_fetch_list">https://students.iitm.ac.in/studentsapp/hasportal/fetch.php?type1=</string>
     <string name="fifthettateurl">http://www.t5eiitm.org/wp-json/wp/v2/posts</string>
     <string name="url_eml">https://students.iitm.ac.in/studentsapp/eml/lecs.php</string>
-    <string name="url_home">https://students.iitm.ac.in/studentsapp/general/getnotifs.php</string>
+    <string name="url_home">https://students.iitm.ac.in/studentsapp/general/get_notifs.php</string>
     <string name="url_eml_upcoming">https://students.iitm.ac.in/studentsapp/eml/upcoming_lecs.php</string>
     <string name="url_schroiter_updates">https://students.iitm.ac.in/studentsapp/schroeter/get_updates.php</string>
     <string name="url_schroiter_scores">https://students.iitm.ac.in/studentsapp/schroeter/get_links.php</string>
@@ -91,6 +91,30 @@
     <string name="title_activity_calendar">Calendar</string>
     <string name="title_sync_calendar">Sync Calendar</string>
 
+    <string name="team_16_17">Institute Mobile Operations 16-17</string>
+    <string name="cores_16_17">Sai Praneeth</string>
+    <string name="coords_16_17">Anurag Shrivastav, Omkar Patil, Sathwik Chadaga P</string>
+    <string name="t1_c1">Sai Praneeth</string>
+    <string name="t1_m1">Anurag Shrivastav</string>
+    <string name="t1_m2">Omkar Patil</string>
+    <string name="t1_m3">Sathwik Chadaga P</string>
+
+    <string name="team_17_18">Institute Mobile Operations 17-18</string>
+    <string name="cores_17_18">Omkar Patil, Sameer Kulkarni</string>
+    <string name="coords_17_18">Aebel Joe Shibu, Ankit Kumar, Gautam Krishna,\n
+        Harshitha S, Mohammad Ajmal, Mritunjoy Das,\n Om Shri Prasath, R Rohithram, Sarath Chandra</string>
+    <string name="t2_c1">Omkar Patil</string>
+    <string name="t2_c2">Sameer Kulkarni</string>
+    <string name="t2_m1">Aebel Joe Shibu</string>
+    <string name="t2_m2">Ankit Kumar</string>
+    <string name="t2_m3">Gautam Biju Krishna</string>
+    <string name="t2_m4">Harshitha S</string>
+    <string name="t2_m5">Mohammed Ajmal</string>
+    <string name="t2_m6">Mritunjoy das</string>
+    <string name="t2_m7">Om Shree Prasant</string>
+    <string name="t2_m8">R Rohithram</string>
+    <string name="t2_m9">Sarath Chandra</string>
+
     <string name="update_message">Some Important Features Have Been Added.</string>
     <string name="update">Update</string>
     <string name="dont_update">No, Thanks</string>
@@ -112,9 +136,14 @@
 
     <string name="instrucions">Guide for using the timetable:\n\n
         Long click on a cell for registering a bunk.\n
-        Double click on a cell(can be vacant too) for editing it.\n
+        Double click on a cell(can be vacant too) for editing it.\n\n
+        FN = forenoon, AN = afternoon\n\n
         On running into any issues, remove all courses from the Edit Courses menu and add them back again.
     </string>
+    <string name="inst">Long click on a cell for registering a bunk.\n
+        Double click on a cell(can be vacant too) for editing it.\n\n
+        FN = forenoon, AN = afternoon\n\n
+        On running into any issues, remove all courses from the Edit Courses menu and add them back again.</string>
     <string name="instructions">A slot will turn red in the bunk monitor when you need to pay more attention about bunking more of that course.\n
     You can edit the number of bunks done manually by clicking on the corresponding course in the bunk monitor.</string>
 
@@ -139,12 +168,13 @@
     <string name="userid">"1834695056756669"</string>
     <string name="reaction_query">"reactions.type(LIKE).summary(total_count).limit(0).as(like),reactions.type(LOVE).summary(total_count).limit(0).as(love),reactions.type(WOW).summary(total_count).limit(0).as(wow),reactions.type(HAHA).summary(total_count).limit(0).as(haha),reactions.type(SAD).summary(total_count).limit(0).as(sad),reactions.type(ANGRY).summary(total_count).limit(0).as(angry)"</string>
     <string name="mediaclubchannelid">"UCL54SxfvU26y-niXyi1VY9A"</string>
-
+    <string name="webServerId">"747155189394-9v8jbhmdk0r2v50hi7pev50sdv6pu10b.apps.googleusercontent.com"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="Listofpagenames">
+        <item>"InstiMediaIITM/"</item>
         <item>"Mediaclubiitm/"</item>
         <item>"saarangiitm/"</item>
         <item>"Shaastra/"</item>
@@ -157,13 +187,13 @@
         <item>"iar.iitmadras/"</item>
         <item>"t5e.iitm/"</item>
         <item>"fineartsclubiitmadras/"</item>
-        <item>"152210554869211"</item>
-        <item>"362692757076050"</item>
         <item>"ECELLIITM/"</item>
         <item>"SLCIITMadras/"</item>
         <item>"nss.iitm/"</item>
         <item>"mitr.iitm/"</item>
         <item>"saathi.iitm/"</item>
+        <item>"152210554869211"</item>
+        <item>"362692757076050"</item>
 
     </string-array>
 
@@ -180,13 +210,14 @@
     </string-array>
 
     <string-array name="indexOfYoutubeOrg">
-        <item>"0|mediaclubiitm"</item>
-        <item>"3|ReachIITM"</item>
-        <item>"1|iitmsaarang"</item>
-        <item>"2|iitmshaastra"</item>
-        <item>"5|iitmtv"</item>
-        <item>"4|emliitm"</item>
+        <item>"1|mediaclubiitm"</item>
+        <item>"4|ReachIITM"</item>
+        <item>"2|iitmsaarang"</item>
+        <item>"3|iitmshaastra"</item>
+        <item>"6|iitmtv"</item>
+        <item>"5|emliitm"</item>
     </string-array>
+
     <string name="calendar_sync">Remove Calendar</string>
     <string name="ProfileDisclaimer">The following Information will be made public.</string>
 
@@ -274,6 +305,52 @@
 
     <string name="tag_phone">phone</string>
     <string name="tag_mail">mail</string>
+
+
+    <!-- Generic complaint strings-->
+
+    <string name="type_wm">Washing Machine</string>
+    <string name="wm_1">Power supply not proper</string>
+    <string name="wm_2">Check water error</string>
+    <string name="wm_3">Water outlet problem</string>
+    <string name="wm_4">Dryer not functional</string>
+    <string name="wm_5">Not even starting wash cycle</string>
+    <string name="wm_6">Others</string>
+
+    <string name="type_wd">Water Dispenser</string>
+    <string name="wd_1">Power supply not proper</string>
+    <string name="wd_2">Heating or cooling not working</string>
+    <string name="wd_3">Monkey drank from the dispenser</string>
+    <string name="wd_4">Algae is growing</string>
+    <string name="wd_5">Others</string>
+
+    <string name="type_wash">Washroom</string>
+    <string name="wash_1">Power supply not proper</string>
+    <string name="wash_2">Taps not properly working</string>
+    <string name="wash_3">Showers not properly working</string>
+    <string name="wash_4">Towel Hangers not present</string>
+    <string name="wash_5">Washroom doors not closing properly</string>
+    <string name="wash_6">Flush tanks not working</string>
+    <string name="wash_7">Pipes leaking</string>
+    <string name="wash_8">Others</string>
+
+    <string name="type_pir">Problems in your room</string>
+    <string name="pir_1">Electrical work</string>
+    <string name="pir_2">Civil work</string>
+    <string name="pir_3">Furniture broken</string>
+    <string name="pir_4">Internet problem (LAN port repair)</string>
+    <string name="pir_5">Others</string>
+
+    <string name="type_piw">Problems in your wing</string>
+    <string name="piw_1">Electrical work</string>
+    <string name="piw_2">Civil work</string>
+    <string name="piw_3">Furniture broken</string>
+    <string name="piw_4">Internet problem</string>
+    <string name="piw_5">Wing not cleaned regularly</string>
+    <string name="piw_6">Does not have a dustbin</string>
+    <string name="piw_7">Cloth wires not proper</string>
+    <string name="piw_8">Others</string>
+
 
     <string-array name="query_suggestions">
         <item>furniture</item>

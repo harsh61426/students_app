@@ -14,11 +14,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import in.ac.iitm.students.complaint_box.objects.Complaint;
-import in.ac.iitm.students.complaint_box.objects.h_PinRoom;
-import in.ac.iitm.students.complaint_box.objects.h_PinWing;
-import in.ac.iitm.students.complaint_box.objects.h_WashingMachine;
-import in.ac.iitm.students.complaint_box.objects.h_Washroom;
-import in.ac.iitm.students.complaint_box.objects.h_WaterDispenser;
 
 /**
  * Created by DELL on 7/7/2017.
@@ -123,8 +118,6 @@ public class h_JSONMyComplaintsParser {
                 hComplaint.setTag(reader.nextString());
             } else if (name.equals("comments")) {
                 hComplaint.setComments(Integer.parseInt(reader.nextString()));
-            } else if (name.equals("more_rooms") && reader.peek() != JsonToken.NULL) {
-                hComplaint.setMoreRooms(reader.nextString());
             } else if (name.equals("image_url") && reader.peek() != JsonToken.NULL) {
                 hComplaint.setImageUrl(reader.nextString());
             } else if (name.equals("custom")) {
@@ -140,7 +133,7 @@ public class h_JSONMyComplaintsParser {
                 reader.nextString();
                 reader.endObject();
 
-                return Complaint.getErrorComplaintObject();
+                return Complaint.getHostelErrorComplaintObject();
             } else {
                 reader.skipValue();
             }

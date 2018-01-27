@@ -8,20 +8,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.fragments.CourseTimetableFragment;
-import in.ac.iitm.students.objects.Bunks;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
@@ -66,7 +59,7 @@ public class EditCourseDialogActivity extends Dialog implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("dialog","created");
+        //Log.d("dialog","created");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -139,7 +132,7 @@ public class EditCourseDialogActivity extends Dialog implements
 
             }
         });
-        //Log.d("dialog","created");
+        ////Log.d("dialog","created");
 
 
 
@@ -154,16 +147,16 @@ public class EditCourseDialogActivity extends Dialog implements
                     //Utils.saveprefString(UtilStrings.COURSE_NUM+pos_final+UtilStrings.COURSE_ID,s,getOwnerActivity());
                     if(flag) {
 
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getOwnerActivity()) * prime[x][y], getOwnerActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getOwnerActivity()) / prime[x][y], getOwnerActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getOwnerActivity()) * prime[x][y], getOwnerActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getOwnerActivity()) / prime[x][y], getOwnerActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getOwnerActivity())-2,getOwnerActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,getOwnerActivity())+2,getOwnerActivity());
                         //notifyAll();
                     }
                     else{
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getOwnerActivity())/prime[x][y],getOwnerActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getOwnerActivity())/prime[x][y],getOwnerActivity());
                         Utils.saveprefInt(UtilStrings.COURSES_COUNT,number+1,getOwnerActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_DAYS,prime[x][y],getOwnerActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_DAYS,prime[x][y],getOwnerActivity());
                         Utils.saveprefString(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_ID,s,getOwnerActivity());
                         Utils.saveprefString(UtilStrings.COURSE_NUM+number+UtilStrings.COURSE_SLOT,Character.toString(b),getOwnerActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getOwnerActivity())-2,getOwnerActivity());
@@ -179,11 +172,11 @@ public class EditCourseDialogActivity extends Dialog implements
             case R.id.remove:
 
                 if(c1.isChecked()){
-                    Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,1,getOwnerActivity());
+                    Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,1,getOwnerActivity());
                     Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,0,getOwnerActivity());
                 }
                 else{
-                    Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getOwnerActivity())/prime[x][y],getOwnerActivity());
+                    Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getOwnerActivity())/prime[x][y],getOwnerActivity());
                     Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getOwnerActivity())-2,getOwnerActivity());
                 }
 

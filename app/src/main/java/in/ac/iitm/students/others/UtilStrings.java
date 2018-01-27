@@ -9,6 +9,7 @@ public class    UtilStrings {
     public static String HOSTEl = "hostel";
     public static String ROOM = "room";
     public static String MOBILE = "mobile";
+    public static String MESS = "mess";
     public static String MAIL = "mail";
     public static String REVEAL_PLACE = "reveal_place";
     public static String REVEAL_PHOTO = "reveal_photo";
@@ -23,10 +24,7 @@ public class    UtilStrings {
     public static String COURSE_FLAG = "crsflag";
     public static String BUNKS_TOTAL = "bunktot";
     public static String BUNKS_DONE = "bunkdone";
-    public static String ROWCOLS_NUM = "rcnum";
-    public static String ROWCOLS_COUNT = "rccount";
-    public static String ROW = "row";
-    public static String COLUMN = "col";
+    public static String FIRST = "first_homeActivity_run";
 
     public static String CAL_ADDED = "cal_added";
 

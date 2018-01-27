@@ -1,19 +1,14 @@
 package in.ac.iitm.students.fragments;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
@@ -32,9 +25,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.EditCourseDialogActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
-import in.ac.iitm.students.adapters.CourseAdapter;
 import in.ac.iitm.students.adapters.GradCourseAdapter;
 import in.ac.iitm.students.objects.Bunks;
 import in.ac.iitm.students.objects.Course;
@@ -175,13 +166,13 @@ public class GradCourseTimetableFragment extends Fragment {
                 if(bunk[i][j])
                 {
                     //tvs[i][j].setBackgroundResource(R.drawable.back);
-                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getContext().getApplicationContext(),R.color.lightRed));
 
                     //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
                 else
                 {
-                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getContext().getApplicationContext(),R.color.white));
                     //tvs[i][j].setBackgroundResource(R.drawable.back);
                     //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
@@ -331,7 +322,7 @@ public class GradCourseTimetableFragment extends Fragment {
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
-            course.setDays(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
+            course.setDays(Utils.getprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
             courses.add(course);
         }
     }
@@ -387,14 +378,14 @@ public class GradCourseTimetableFragment extends Fragment {
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
-            course.setDays(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
+            course.setDays(Utils.getprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
             course.setBunk_tot(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,getActivity()));
             course.setBunk_done(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,getActivity()));
             bunks.add(course);
         }
     }
 
-    private void mapslots(char c, int days)
+    private void mapslots(char c, long days)
     {
         switch(c)
         {
@@ -533,7 +524,7 @@ public class GradCourseTimetableFragment extends Fragment {
                     for(int j=0;j<9;j++) {
                         if (days % prime[i][j] == 0)
                             slots[i][j] = 'K';
-                        if (slots[i][j] == 'A' && days % prime[i][j] != 0)
+                        if (slots[i][j] == 'K' && days % prime[i][j] != 0)
                             slots[i][j] = 'X';
                     }
                 /*slots[2][6] = (days%2==0)?'K':'X';
@@ -557,7 +548,7 @@ public class GradCourseTimetableFragment extends Fragment {
                     for(int j=0;j<9;j++) {
                         if (days % prime[i][j] == 0)
                             slots[i][j] = 'M';
-                        if (slots[i][j] == 'A' && days % prime[i][j] != 0)
+                        if (slots[i][j] == 'M' && days % prime[i][j] != 0)
                             slots[i][j] = 'X';
                     }
                 /*slots[0][6] = (days%2==0)?'M':'X';
@@ -567,7 +558,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'P': {
                 slots[0][6] = 'P';
                 ids[0][6] = R.id.mex;
-                tvs[0][6] = (TextView)view.findViewById(ids[0][4]);
+                tvs[0][6] = (TextView)view.findViewById(ids[0][6]);
                 tvs[0][6].setVisibility(View.VISIBLE);
                 if(bunk[0][6])
                 {
@@ -582,7 +573,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'Q': {
                 slots[1][6] = 'Q';
                 ids[1][6] = R.id.tex;
-                tvs[1][6] = (TextView)view.findViewById(ids[1][4]);
+                tvs[1][6] = (TextView)view.findViewById(ids[1][6]);
                 tvs[1][6].setVisibility(View.VISIBLE);
                 if(bunk[1][6])
                 {
@@ -597,7 +588,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'R': {
                 slots[2][6] = 'R';
                 ids[2][6] = R.id.wex;
-                tvs[2][6] = (TextView)view.findViewById(ids[2][4]);
+                tvs[2][6] = (TextView)view.findViewById(ids[2][6]);
                 tvs[2][6].setVisibility(View.VISIBLE);
                 if(bunk[2][6])
                 {
@@ -612,7 +603,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'S': {
                 slots[3][6] = 'S';
                 ids[3][6] = R.id.hex;
-                tvs[3][6] = (TextView)view.findViewById(ids[3][4]);
+                tvs[3][6] = (TextView)view.findViewById(ids[3][6]);
                 tvs[3][6].setVisibility(View.VISIBLE);
                 if(bunk[3][6])
                 {
@@ -627,7 +618,7 @@ public class GradCourseTimetableFragment extends Fragment {
             case 'T': {
                 slots[4][6] = 'T';
                 ids[4][6] = R.id.fex;
-                tvs[4][6] = (TextView)view.findViewById(ids[4][4]);
+                tvs[4][6] = (TextView)view.findViewById(ids[4][6]);
                 tvs[4][6].setVisibility(View.VISIBLE);
                 if(bunk[4][6])
                 {
@@ -650,7 +641,7 @@ public class GradCourseTimetableFragment extends Fragment {
         int i=0;
         for(Course c: courses)
         {
-            Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
+            Utils.saveprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,c.getCourse_id(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,Character.toString(c.getSlot()),getActivity());
             Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,c.getSlot()>='P'&&c.getSlot()<='T'?2:getbunks(c.getDays()),getActivity());
@@ -660,7 +651,7 @@ public class GradCourseTimetableFragment extends Fragment {
     }
 
     //fix this
-    private int getbunks(int number)
+    private int getbunks(long number)
     {
         int bunks = 0;
         for(int i=0;i<5;i++)
@@ -907,17 +898,130 @@ public class GradCourseTimetableFragment extends Fragment {
 
             }
         });
+        /*c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*2);
+//course.setDays(course.getDays()/2);
+                check[0] = isChecked;
+            }
+        });
+        c2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*3);
+//course.setDays(course.getDays()/3);
+                check[1] = isChecked;
+            }
+        });
+        c3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*5);
+//course.setDays(course.getDays()/5);
+                check[2] = isChecked;
+            }
+        });
+        c4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[3] = isChecked;
+            }
+        });*/
         c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[0]=true;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[0][0]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[1][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[0][4]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[0][6]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[0][8]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()*prime[2][7]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()*prime[3][6]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()*prime[0][7]);
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()*2);
                 }
                 else
                 {
-                    check[0]=false;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[0][0]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[1][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[0][4]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[0][6]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[0][8]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()/prime[2][7]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()/prime[3][6]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()/prime[0][7]);
+                            break;
+                        default:
+                            break;
+                    }
+
                     //course.setDays(course.getDays()/2);
                 }
             }
@@ -927,12 +1031,92 @@ public class GradCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[1]=true;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[1][4]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[2][8]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[1][7]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[2][6]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()*prime[4][6]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()*prime[4][7]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()*prime[1][6]);
+                            break;
+                        default:
+                            break;
+                    }
+
                     //course.setDays(course.getDays()*3);
                 }
                 else
                 {
-                    check[1]=false;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[1][4]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[2][8]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[1][7]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[2][6]);
+                            break;
+                        case 'K':
+                            course.setDays(course.getDays()/prime[4][6]);
+                            break;
+                        case 'L':
+                            course.setDays(course.getDays()/prime[4][7]);
+                            break;
+                        case 'M':
+                            course.setDays(course.getDays()/prime[1][6]);
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()/3);
                 }
             }
@@ -942,12 +1126,86 @@ public class GradCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[2]=true;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[2][4]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[3][0]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[3][2]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()*prime[1][8]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()*prime[3][7]);
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()*5);
                 }
                 else
                 {
-                    check[2]=false;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[2][4]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[3][0]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[3][2]);
+                            break;
+                        case 'H':
+                            course.setDays(course.getDays()/prime[1][8]);
+                            break;
+                        case 'J':
+                            course.setDays(course.getDays()/prime[3][7]);
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()/5);
                 }
             }
@@ -957,12 +1215,78 @@ public class GradCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[3]=true;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[4][2]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()*prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[4][4]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[3][4]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[4][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[4][0]);
+                            break;
+                        case 'G':
+                            break;
+                        case 'H':
+                            break;
+                        case 'J':
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()*7);
                 }
                 else
                 {
-                    check[3]=false;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[4][2]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[4][4]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[3][4]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[4][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[4][0]);
+                            break;
+                        case 'G':
+                            break;
+                        case 'H':
+                            break;
+                        case 'J':
+                            break;
+                        case 'K':
+                            break;
+                        case 'L':
+                            break;
+                        case 'M':
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()/7);
                 }
             }
@@ -1001,187 +1325,7 @@ public class GradCourseTimetableFragment extends Fragment {
                         slot.setError("There is a slot clash");
                         flag = false;
                     }
-                    for(int i=0;i<check.length;i++){
-                        if(check[i]) {
-                            switch(slt){
-                                case 'A':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][0]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][4]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][3]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][2]);
-                                            break;
-                                    }
-                                    break;
-                                case 'B':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][1]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][0]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[2][4]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][3]);
-                                            break;
-                                    }
-                                    break;
-                                case 'C':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][2]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][1]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[2][0]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][4]);
-                                            break;
-                                    }
-                                    break;
-                                case 'D':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][3]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][2]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[2][1]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[3][4]);
-                                            break;
-                                    }
-                                    break;
-                                case 'E':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[1][3]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[2][2]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][0]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][8]);
-                                            break;
-                                    }
-                                    break;
-                                case 'F':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[1][8]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[2][3]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][1]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][0]);
-                                            break;
-                                    }
-                                    break;
-                                case 'G':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][4]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[2][8]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][2]);
-                                            break;
-                                        case 3:
-                                            course.setDays(course.getDays()*prime[4][1]);
-                                            break;
-                                    }
-                                    break;
-                                case 'H':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][6]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][7]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][8]);
-                                            break;
 
-                                    }
-                                    break;
-                                case 'J':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][8]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[2][6]);
-                                            break;
-                                        case 2:
-                                            course.setDays(course.getDays()*prime[3][7]);
-                                            break;
-
-                                    }
-                                    break;
-                                case 'K':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[2][7]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[4][6]);
-                                            break;
-
-                                    }
-                                    break;
-                                case 'L':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[3][6]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[4][7]);
-                                            break;
-
-                                    }
-                                    break;
-                                case 'M':
-                                    switch(i){
-                                        case 0:
-                                            course.setDays(course.getDays()*prime[0][7]);
-                                            break;
-                                        case 1:
-                                            course.setDays(course.getDays()*prime[1][6]);
-                                            break;
-
-                                    }
-                                    break;
-
-                            }
-
-                        }
-                    }
                     if (flag) {
                         course.setCourse_id(coursed);
                         course.setSlot(Character.toUpperCase(slt));
@@ -1209,7 +1353,24 @@ public class GradCourseTimetableFragment extends Fragment {
         remove.setVisibility(View.VISIBLE);
         add.setText("UPDATE");
         final int number = Utils.getprefInt(UtilStrings.COURSES_COUNT,getActivity());
+        slot.addTextChangedListener(new TextWatcher() {
 
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                for(int i=0;i<number&&s.length()==1;i++){
+                    if((Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity())).charAt(0)==(slot.getText().charAt(0))&&slot.getText().charAt(0)<'P') {
+                        courseid.setText(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
+                        break;
+                    }
+                }
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1257,16 +1418,16 @@ public class GradCourseTimetableFragment extends Fragment {
                         }
                     }
                     if(flag){
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()) * prime[x][y], getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()) * prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_final+UtilStrings.BUNKS_TOTAL,getActivity())+2,getActivity());
 
                     }
                     else{
                         Utils.saveprefInt(UtilStrings.COURSES_COUNT,number+1,getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM+number+UtilStrings.BUNKS_TOTAL,2,getActivity());
                         //edit below
@@ -1279,7 +1440,7 @@ public class GradCourseTimetableFragment extends Fragment {
                 }
                 courseAdapter.notifyDataSetChanged();
 
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays());
@@ -1298,6 +1459,7 @@ public class GradCourseTimetableFragment extends Fragment {
                     }
                 }
                 //recreate();
+                */
                 ((TimetableActivity) getActivity()).gradreturnadapter().notifyDataSetChanged();
 
                 dialog.dismiss();
@@ -1314,10 +1476,10 @@ public class GradCourseTimetableFragment extends Fragment {
                         break;
                     }
                 }
-                Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
+                Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
                 Utils.saveprefBool("state" + 9 * x + y, false, getActivity());
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays());
@@ -1335,6 +1497,7 @@ public class GradCourseTimetableFragment extends Fragment {
                         }
                     }
                 }
+                */
                 dialog.dismiss();
                 courseAdapter.notifyDataSetChanged();
                 ((TimetableActivity) getActivity()).gradreturnadapter().notifyDataSetChanged();

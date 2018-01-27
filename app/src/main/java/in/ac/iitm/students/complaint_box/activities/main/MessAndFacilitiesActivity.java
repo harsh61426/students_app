@@ -51,7 +51,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mess_and_facilities_activity_mess_and_facilities);
+        setContentView(R.layout.m_activity_mess_and_facilities);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -97,7 +97,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
 //        FirebaseInstanceId.getInstance().getToken();
 //        FirebaseMessaging.getInstance().subscribeToTopic("test");
         String firebaseToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d("Firebase::", "Id" + firebaseToken);
+        //Log.d("Firebase::", "Id" + firebaseToken);
 
         header_name.setText("Logged in as " + name);
 
@@ -129,8 +129,12 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MessAndFacilitiesActivity.this, HomeActivity.class);
-        startActivity(intent);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            Intent intent = new Intent(MessAndFacilitiesActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

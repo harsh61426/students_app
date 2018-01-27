@@ -140,7 +140,6 @@
                 android:rowCount="10">
 
 
-
                 <TextView
                     android:id="@+id/time1"
                     android:layout_column="0"
@@ -152,11 +151,10 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="08:00-\n08:50"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
 
                     />
-
 
 
                 <TextView
@@ -170,8 +168,8 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="09:00-\n09:50"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/time3"
@@ -184,9 +182,8 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="10:00-\n10:50"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"
-                    />
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/time4"
@@ -199,8 +196,8 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="11:00-\n11:50"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/time5"
@@ -213,8 +210,8 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="12:00-\n12:50"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
 
                 <TextView
@@ -228,8 +225,8 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="13:00-\n13:50"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/time7"
@@ -242,9 +239,9 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="14:00-\n14:50"
-                    android:visibility="visible"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/time8"
@@ -257,9 +254,9 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="15:00-\n15:50"
-                    android:visibility="visible"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/time9"
@@ -272,8 +269,8 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="16:00-\n16:50"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/time10"
@@ -286,8 +283,8 @@
                     android:layout_rowWeight="1"
                     android:gravity="center"
                     android:text="17:00-\n17:50"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
 
 

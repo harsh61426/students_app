@@ -6,19 +6,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.JsonReader;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,6 +46,8 @@ import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
+import in.ac.iitm.students.complaint_box.adapters.g_commentsAdapter;
 import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
 import in.ac.iitm.students.complaint_box.objects.CommentObj;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
@@ -54,14 +59,14 @@ import in.ac.iitm.students.others.Utils;
 public class g_Comments extends AppCompatActivity {
 
     List<CommentObj> commentList = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private h_CommentsAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private ListView listView;
+    private g_commentsAdapter adapter;
     private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/searchComments.php";
     //private String url = "https://rockstarharshitha.000webhostapp.com/general_complaints/searchComments.php";
-    private RelativeLayout relativeLayout;
     private InputStream stream;
     private Complaint hComplaint;
+    private TextView comment;
+    private LinearLayout comment_layout;
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -77,15 +82,17 @@ public class g_Comments extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.g_activity_comments);
-        final SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        setContentView(R.layout.g_activity_comment);
 
-        relativeLayout = (RelativeLayout) findViewById(R.id.rl_comments);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(0);
+
+        comment_layout = (LinearLayout) findViewById(R.id.ll_comment);
+
+        listView = (ListView)findViewById(R.id.comment_list);
 
         final String add_url = "https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/newComment.php";
         //final String add_url = "https://rockstarharshitha.000webhostapp.com/general_complaints/newComment.php";
@@ -95,17 +102,21 @@ public class g_Comments extends AppCompatActivity {
         Intent i = getIntent();
         hComplaint = (Complaint) i.getSerializableExtra("cardData");
 
-        TextView name = (TextView) findViewById(R.id.comment_tv_name);
-        TextView hostel = (TextView) findViewById(R.id.comment_tv_hostel);
-        TextView trending = (TextView) findViewById(R.id.tv_trending);
-        TextView title = (TextView) findViewById(R.id.comment_tv_title);
-        TextView description = (TextView) findViewById(R.id.comment_tv_description);
-        final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
-        final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
-        TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
-        final EditText CmntDesc = (EditText) findViewById(R.id.editText);
-        Button save = (Button) findViewById(R.id.bn_save);
-        ImageView iv_pro = (ImageView) findViewById(R.id.imgProfilePicture);
+        View header = getLayoutInflater().inflate(R.layout.g_item_complaint,null);
+
+        TextView tv_name = (TextView) header.findViewById(R.id.tv_name);
+        TextView tv_date =(TextView)header.findViewById(R.id.date);
+        TextView tv_title = (TextView) header.findViewById(R.id.tv_title);
+        TextView tv_tags = (TextView) header.findViewById(R.id.tv_tags);
+        TextView tv_description = (TextView) header.findViewById(R.id.tv_description);
+        TextView tv_upvote = (TextView) header.findViewById(R.id.tv_upvote);
+        TextView tv_downvote = (TextView) header.findViewById(R.id.tv_downvote);
+        TextView tv_comment = (TextView) header.findViewById(R.id.tv_comment);
+        Button bn_upvote = (Button) header.findViewById(R.id.bn_upvote);
+        Button bn_downvote = (Button) header.findViewById(R.id.bn_downvote);
+        Button bn_comment = (Button) header.findViewById(R.id.bn_comment);
+        ImageView iv_profile = (ImageView) header.findViewById(R.id.imgProfilePicture);
+        LinearLayout linearLayout = (LinearLayout) header.findViewById(R.id.ll_title);
 
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + hComplaint.getRollNo().toUpperCase() + ".JPG";
         Picasso.with(this)
@@ -114,26 +125,46 @@ public class g_Comments extends AppCompatActivity {
                 .error(R.mipmap.ic_launcher)
                 .fit()
                 .centerCrop()
-                .into(iv_pro);
+                .into(iv_profile);
 
-        name.setText(hComplaint.getName());
-        hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
-        trending.setText(hComplaint.getTrending());
-        title.setText(hComplaint.getTitle());
-        description.setText(hComplaint.getDescription());
-        upvote.setText("" + hComplaint.getUpvotes());
-        downvote.setText("" + hComplaint.getDownvotes());
-        comment.setText("" + hComplaint.getComments());
+        tv_name.setText(hComplaint.getName());
+        if (hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.acaf_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.resaf_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.sgs_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.cocas_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.has_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.culsec_lit_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.culsec_arts_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.iar_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.speaker_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.sports_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.mitr_roll)) ||
+                hComplaint.getRollNo().equalsIgnoreCase(getString(R.string.cfi_roll))) {
+
+            tv_name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSecondaryDark));
+        }
+        else
+        {
+            tv_name.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+        }
+
+        tv_title.setText(hComplaint.getTitle());
+        tv_tags.setText(hComplaint.getTag());
+        tv_description.setText(hComplaint.getDescription());
+        tv_upvote.setText("" + hComplaint.getUpvotes());
+        tv_downvote.setText("" + hComplaint.getDownvotes());
+        tv_comment.setText("" + hComplaint.getComments());
+        tv_date.setText(hComplaint.getDate());
         final String mUUID = hComplaint.getUid();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_comments);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        listView.addHeaderView(header);
+
+        //mRecyclerView.setHasFixedSize(true);
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Comment response",response);
+                //Log.e("Comment response",response);
 
                 h_CmntDataParser hCmntDataParser = new h_CmntDataParser(response, getApplicationContext());
                 ArrayList<CommentObj> commentArray = null;
@@ -145,10 +176,9 @@ public class g_Comments extends AppCompatActivity {
                     //Toast.makeText(g_Comments.this, "IOException", Toast.LENGTH_SHORT).show();
                 }
 
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_CommentsAdapter(commentArray,getApplicationContext());
-                mRecyclerView.setAdapter(mAdapter);
-                mRecyclerView.setNestedScrollingEnabled(false);
+                //mRecyclerView.setLayoutManager(mLayoutManager);
+                adapter = new g_commentsAdapter(getApplicationContext(),commentArray,g_Comments.this);//new h_CommentsAdapter(commentArray,getApplicationContext());
+                listView.setAdapter(adapter);
             }
 
         }, new Response.ErrorListener() {
@@ -169,7 +199,7 @@ public class g_Comments extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 //get hostel from prefs
                 //put some dummy for now
-                params.put("HOSTEL", "narmada");
+                params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
                 params.put("UUID", mUUID);
                 return params;
             }
@@ -186,22 +216,27 @@ public class g_Comments extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        save.setOnClickListener(new View.OnClickListener() {
+        View footer = getLayoutInflater().inflate(R.layout.g_comment_add,null);
+        Button post = (Button) footer.findViewById(R.id.post);
+        final TextInputLayout til_com=(TextInputLayout)footer.findViewById(R.id.til_comment);
+        final EditText comm = til_com.getEditText();
+
+        post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String cmntDescStr = CmntDesc.getText().toString();
+                final String cmntDescStr = comm.getText().toString();
                 if (cmntDescStr.equals("")) makeSnackbar("Empty field");
                 else {
                     //write code here to send the comment description to the database, increase the number of comments in database by 1
                     final String mUUID = hComplaint.getUid();
 
 
-                    Log.d("buiz", "hello");
+                    //Log.d("buiz", "hello");
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, add_url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
-                            Log.d("buiz", "hello from heere");
+                            //Log.d("buiz", "hello from heere");
 
                             stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
                             JsonReader reader = null;
@@ -218,10 +253,10 @@ public class g_Comments extends AppCompatActivity {
                                     reader.beginObject();
                                     while (reader.hasNext()) {
                                         String name = reader.nextName();
-                                        Log.e("name", name);
+                                        //Log.e("name", name);
                                         if (name.equals("status")) {
                                             if (reader.nextString().equals("1")) {
-                                                CmntDesc.setText("");
+                                                comm.setHint("Enter comment here");
                                                 hideKeyboard(g_Comments.this);
                                                 CommentObj cmtObj = new CommentObj();
                                                 cmtObj.setName(Utils.getprefString(UtilStrings.NAME, g_Comments.this));
@@ -229,7 +264,10 @@ public class g_Comments extends AppCompatActivity {
                                                 cmtObj.setRoomNo(Utils.getprefString(UtilStrings.HOSTEl, g_Comments.this));
                                                 cmtObj.setCommentStr(cmntDescStr);
                                                 cmtObj.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                                                mAdapter.addComment(cmtObj);
+                                                adapter.addComment(cmtObj);
+
+                                                int cmnts = Integer.parseInt(comment.getText().toString()) + 1;
+                                                comment.setText(cmnts + "");
                                             } else {
                                                 makeSnackbar("Error commenting");
                                                 hideKeyboard(g_Comments.this);
@@ -291,7 +329,16 @@ public class g_Comments extends AppCompatActivity {
             }
         });
 
+        listView.addFooterView(footer);
 
+
+    }
+
+    private void makeSnackbar(String msg) {
+
+        Snackbar snackbar = Snackbar
+                .make(comment_layout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     @Override
@@ -304,21 +351,12 @@ public class g_Comments extends AppCompatActivity {
         return true;
     }
 
-    private void makeSnackbar(String msg) {
-
-        Snackbar snackbar = Snackbar
-                .make(relativeLayout, msg, Snackbar.LENGTH_LONG);
-        snackbar.show();
-    }
-
-    /*
     @Override
     public void onBackPressed(){
-        int pos = Integer.parseInt(hComplaint.getTrending())-1;
-        Intent intent = new Intent();
-        intent.putExtra("pos", pos);
-        setResult(RESULT_OK, intent);
+
+        Intent intent = new Intent(this, GeneralComplaintsActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
     }
-    */
 
 }

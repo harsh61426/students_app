@@ -372,7 +372,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (pDialog.isShowing()) pDialog.dismiss();
-                VolleyLog.d("VolleyResponseError", error);
+                //VolleyLog.d("VolleyResponseError", error);
                 Snackbar snackbar = Snackbar
                         .make(coordinatorLayout, "Couldn't connect to the server.", Snackbar.LENGTH_LONG);
                 snackbar.show();

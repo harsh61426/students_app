@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,29 +31,33 @@ import android.text.style.UnderlineSpan;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
@@ -75,7 +78,6 @@ import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 
-import in.ac.iitm.students.Manifest;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
@@ -87,20 +89,17 @@ import in.ac.iitm.students.fragments.ForceUpdateDialogFragment;
 import in.ac.iitm.students.fragments.OptionalUpdateDialogFragment;
 import in.ac.iitm.students.objects.HomeNotifObject;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
-import in.ac.iitm.students.others.InstiCalendar;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
-    static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 99;
-    static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 23;
+
     private static int optionalUpdateDialogCount = 0;
     public PopupWindow multipopup;
     public CardView containerLayout;
@@ -124,67 +123,10 @@ public class HomeActivity extends AppCompatActivity
     private ArrayList<HomeNotifObject> notifObjectList = new ArrayList<>();
     private Menu menu;
     private NavigationView navigationView;
+    private String url_roll = "https://students.iitm.ac.in/studentsapp/studentlist/search_by_roll.php";
+    private String rollNO;
 
-    /*
-    public static void showAlert(Activity activity, String title, String message) {
 
-        Drawable dialog_icon;
-        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setIcon(dialog_icon);
-        builder.setTitle(title);
-        builder.setMessage(message)
-                .setNeutralButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.dismiss();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    public static void showAlert(final Activity activity, String title, String message, final String link) {
-
-        Drawable dialog_icon;
-        dialog_icon = ContextCompat.getDrawable(activity, R.drawable.app_logo);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setIcon(dialog_icon);
-        builder.setTitle(title);
-        builder.setMessage(message)
-                .setNegativeButton(R.string.dismiss_home_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveButton(R.string.go_to_link, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        openWebPage(link, activity);
-                        dialog.dismiss();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    private static void openWebPage(String url, Activity activity) {
-        Toast.makeText(activity, "Getting data...", Toast.LENGTH_SHORT).show();
-        Uri webpage = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (intent.resolveActivity(activity.getPackageManager()) != null) {
-            activity.startActivity(intent);
-        } else {
-            Toast.makeText(activity, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
-        }
-    }
-    */
 
     @Override
     protected void onResume() {
@@ -210,6 +152,13 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         updatePreferences();
 
+        Intent i = getIntent();
+        if(i.getStringExtra("signin")!=null){
+            rollNO = i.getStringExtra("signin");
+        }else{
+            rollNO = null;
+        }
+
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefreshhome);
         swipeRefreshLayout.setOnRefreshListener(HomeActivity.this);
 
@@ -224,9 +173,6 @@ public class HomeActivity extends AppCompatActivity
         snackbar = Snackbar.make(drawer, R.string.error_connection, Snackbar.LENGTH_LONG);
         getData();
 
-
-
-
         containerLayout2 = (RelativeLayout) findViewById(R.id.rl_multipopup);
         multipopup = new PopupWindow(HomeActivity.this);
         multipopup.setContentView(containerLayout);
@@ -235,59 +181,27 @@ public class HomeActivity extends AppCompatActivity
 
         layout1 = inflater.inflate(R.layout.multimagepopup, (ViewGroup) findViewById(R.id.rl_multipopup));
 
-//        // Here, thisActivity is the current activity
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.WRITE_CALENDAR)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-////            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-////                    Manifest.permission.WRITE_CALENDAR)) {
-////
-////                // Show an explanation to the user *asynchronously* -- don't block
-////                // this thread waiting for the user's response! After the user
-////                // sees the explanation, try again to request the permission.
-////
-////                Snackbar snackbar = Snackbar
-////                        .make(drawer, "Granting this permission will allow the app to integrate official insti calendar with your personal calendar.", Snackbar.LENGTH_INDEFINITE);
-////                snackbar.show();
-////
-////                ActivityCompat.requestPermissions(this,
-////                        new String[]{Manifest.permission.WRITE_CALENDAR},
-////                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-////
-////            } else {
-////
-////                // No explanation needed, we can request the permission.
-////
-////                ActivityCompat.requestPermissions(this,
-////                        new String[]{Manifest.permission.WRITE_CALENDAR},
-////                        MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-////
-////                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-////                // app-defined int constant. The callback method gets the
-////                // result of the request.
-////            }
-////        } else {
-////                if(Utils.getprefInt("CalStat",this)==1)
-////                    new InstiCalendar(HomeActivity.this).fetchCalData(0);
-////        }
 
-        //TODO @omkar remove
-        Utils.saveprefString(UtilStrings.NAME, "Omkar Patil", getBaseContext());
-        Utils.saveprefString(UtilStrings.HOSTEl, "narmada", getBaseContext());
-        Utils.saveprefString(UtilStrings.ROOM, "1004", getBaseContext());
-        Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt("1"), getBaseContext());
-        Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt("1"), getBaseContext());
-        Utils.saveprefString(UtilStrings.ROLLNO, "ME15B123", getBaseContext());
-        Utils.saveprefBool(UtilStrings.LOGEDIN, true, this);
-
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            String personName = acct.getGivenName();
+            String personEmail = acct.getEmail();
+//            Uri personPhoto = acct.getPhotoUrl();
+            Utils.saveprefString(UtilStrings.NAME, personName, getBaseContext());
+            Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt("1"), getBaseContext());
+            Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt("1"), getBaseContext());
+            Utils.saveprefString(UtilStrings.ROLLNO, personEmail.split("@")[0], getBaseContext());
+            Utils.saveprefBool(UtilStrings.LOGEDIN, true, this);
+            getMyDetails();
+        }
+        if (Utils.getprefString(UtilStrings.FIRST, getBaseContext()).equalsIgnoreCase("")) {
+            getMyDetails();
+            Utils.saveprefString(UtilStrings.FIRST, "tango_charlie", getBaseContext());
+        }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
-
         String firebaseToken = FirebaseInstanceId.getInstance().getToken();
-        //Log.d("tada", firebaseToken.toString());
         sendRegistrationToServer(firebaseToken, name, roll_no);
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -297,12 +211,12 @@ public class HomeActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
 
-        TextView username = (TextView) header.findViewById(R.id.tv_username);
-        TextView userrollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+        TextView username = header.findViewById(R.id.tv_username);
+        TextView userrollNumber = header.findViewById(R.id.tv_roll_number);
 
         username.setText(name);
-        userrollNumber.setText(roll_no);
-        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
+        userrollNumber.setText(roll_no.toUpperCase());
+        ImageView imageView = header.findViewById(R.id.user_pic);
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
@@ -313,30 +227,106 @@ public class HomeActivity extends AppCompatActivity
                 .into(imageView);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    new InstiCalendar(this).getAllEvents(this);
-                } else {
-                    Toast.makeText(this,"Unable to sync calendar: Permission denied",Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-        return;
-    }
 
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
         refreshList();
+    }
+
+    private void getMyDetails() {
+
+        pbar.setVisibility(View.VISIBLE);
+
+        Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("http")
+                .authority("students.iitm.ac.in")
+                .appendPath("Android")
+                .appendPath("includes")
+                .appendPath("search_by_roll.php");
+
+        StringRequest stud_detail_via_roll_req = new StringRequest(Request.Method.POST, url_roll, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    String studName = "Name appears here",
+                            studRoll = "Roll number appears here",
+                            hostel = "Hostel",
+                            roomNo = "room number",
+                            email = "Email here",
+                            phone = "Phone no. here",
+                            about = "About student";
+
+                    JSONArray baseArray = new JSONArray(response);
+                    for (int i = 0; i < baseArray.length(); i++) {
+                        JSONObject baseObject = baseArray.getJSONObject(i);
+                        studName = baseObject.getString("fullname");
+                        hostel = baseObject.getString("hostel");
+                        roomNo = baseObject.getString("room");
+                        phone = baseObject.getString("phone_no");
+                        email = baseObject.getString("email");
+                    }
+
+                    Utils.saveprefString(UtilStrings.NAME,studName, getBaseContext());
+                    Utils.saveprefString(UtilStrings.HOSTEl, hostel, getBaseContext());
+                    Utils.saveprefString(UtilStrings.ROOM, roomNo, getBaseContext());
+                    Utils.saveprefInt(UtilStrings.REVEAL_PHOTO, Integer.parseInt("1"), getBaseContext());
+                    Utils.saveprefInt(UtilStrings.REVEAL_PLACE, Integer.parseInt("1"), getBaseContext());
+
+                    if(phone.equalsIgnoreCase("null")){
+                        Utils.saveprefString(UtilStrings.MOBILE,"Enter mobile number", getBaseContext());
+                    }else{
+                        Utils.saveprefString(UtilStrings.MOBILE, phone, getBaseContext());
+                    }
+
+                    if(email.equalsIgnoreCase("null")){
+                        Utils.saveprefString(UtilStrings.MAIL,"Enter email", getBaseContext());
+                    }else{
+                        Utils.saveprefString(UtilStrings.MAIL,email, getBaseContext());
+                    }
+
+//                    pbar.setVisibility(View.GONE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+//                    pbar.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(),
+                            "Error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                pDialog.dismiss();
+                String message = null;
+                if (error instanceof NetworkError) {
+                    message = "Cannot connect to Internet. Please check your connection!!";
+                } else if (error instanceof ServerError) {
+                    message = "Server down. Please try again after some time!!";
+                } else if (error instanceof AuthFailureError) {
+                    message = "Authentication error!!";
+                } else if (error instanceof ParseError) {
+                    message = "Parsing error! Please try again after some time!!";
+                } else if (error instanceof TimeoutError) {
+                    message = "Connection TimeOut! Please check your internet connection.";
+                }
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("roll" , Utils.getprefString(UtilStrings.ROLLNO,getApplicationContext()));
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stud_detail_via_roll_req);
     }
 
     public void refreshList() {
@@ -366,11 +356,12 @@ public class HomeActivity extends AppCompatActivity
 
             @Override
             public void onResponse(String response) {
+                Log.d("tanglop", response);
 
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     response = jsonArray.toString();
-                    Log.d("response", "home " + response);
+                    Log.d("responseXXX", "home " + response);
                     Utils.saveprefString(UtilStrings.homeData, response, getBaseContext());
                     goToAdapter(response);
 
@@ -564,9 +555,10 @@ public class HomeActivity extends AppCompatActivity
             lg.isSure(HomeActivity.this);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+
     }
+
 
     private void updatePreferences() {
         final ArrayList<HashMap<String, String>> database_topics = new ArrayList<>();
@@ -680,9 +672,6 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_calendar) {
             intent = new Intent(context, CalendarActivity.class);
             flag = true;
-        }
-        else if(id==R.id.nav_sync_calendar) {
-            sync_calendar();
         } else if (id == R.id.nav_timetable) {
             intent = new Intent(context, TimetableActivity.class);
             flag = true;
@@ -742,25 +731,6 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    private void sync_calendar()
-    {
-        //new Thread
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(checkSelfPermission(android.Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED)
-            {
-                new InstiCalendar(this).getAllEvents(this);
-            }
-            else
-            {
-                requestPermissions(new String[]{android.Manifest.permission.WRITE_CALENDAR},MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
-            }
-        }
-        else
-        {
-            new InstiCalendar(this).getAllEvents(this);
-        }
-    }
-
     public interface ItemTouchHelperAdapter {
 
         boolean onItemMove(int fromPosition, int toPosition);
@@ -770,10 +740,10 @@ public class HomeActivity extends AppCompatActivity
 
     public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
-        final HomeActivity obj = new HomeActivity();
+//        final HomeActivity obj = new HomeActivity();
         Context context;
-        PopupWindow multipopup;
-        View layout1;
+//        PopupWindow multipopup;
+//        View layout1;
 
 
         public HomeAdapter(String response, Context _context) {
@@ -810,7 +780,7 @@ public class HomeActivity extends AppCompatActivity
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_feed, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_feed_event_expanded, parent, false);
             return new ViewHolder(view);
         }
 
@@ -834,7 +804,6 @@ public class HomeActivity extends AppCompatActivity
                     }
                 } else notifObjectList.add(obj);
             }
-            //Log.d("taad",notifObjectList.toString());
             reader.endArray();
         }
 
@@ -842,6 +811,7 @@ public class HomeActivity extends AppCompatActivity
 
             HomeNotifObject notifObject = new HomeNotifObject();
             reader.beginObject();
+            Log.d("NAMEXX",reader.toString());
             while (reader.hasNext()) {
                 String name = reader.nextName();
                 if (name.equals("topic")) {
@@ -856,14 +826,14 @@ public class HomeActivity extends AppCompatActivity
                     notifObject.link = reader.nextString();
                 } else if (name.equals("location") && reader.peek() != JsonToken.NULL) {
                     notifObject.location = reader.nextString();
-                } else if (name.equals("image_urls") && reader.peek() != JsonToken.NULL) {
+                } else if (name.equals("image") && reader.peek() != JsonToken.NULL) {
                     //readImageUrlArray(reader);
-                    reader.beginArray();
-                    while (reader.hasNext()) {
-                        notifObject.image_urls.add(reader.nextString());
-                    }
-                    reader.endArray();
-                    // todo add image functionality @rohithram
+                    notifObject.image_urls = reader.nextString();
+//                    reader.beginArray();
+//                    while (reader.hasNext()) {
+////                        notifObject.image_urls.add(reader.nextString());
+//                    }
+//                    reader.endArray();
                 } else if (name.equals("date") && reader.peek() != JsonToken.NULL) {
                     notifObject.date = reader.nextString();
                 } else if (name.equals("time") && reader.peek() != JsonToken.NULL) {
@@ -896,6 +866,26 @@ public class HomeActivity extends AppCompatActivity
 
         }
 
+        private void openWebPage(String url) {
+            Uri webpage = null;
+            url = url.trim();
+
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                //Log.i("LINKXX",url);
+                webpage = Uri.parse("http://" + url);
+            }else {
+                webpage = Uri.parse(url);
+            }
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, "Error getting data, try again later...", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
@@ -903,733 +893,417 @@ public class HomeActivity extends AppCompatActivity
             final String detail = notifObjectList.get(holder.getAdapterPosition()).detail;
             final String link = notifObjectList.get(holder.getAdapterPosition()).link;
             final String topic = notifObjectList.get(holder.getAdapterPosition()).Topic;
+            final String loc = notifObjectList.get(holder.getAdapterPosition()).location;
             final String space = "";
-            final ArrayList<String> image_urls = notifObjectList.get(holder.getAdapterPosition()).image_urls;
+            final String image_urls = notifObjectList.get(holder.getAdapterPosition()).image_urls;
 
             holder.tvTitle.setText(title);
             holder.tvDetails.setText(detail);
-            holder.tvorg.setText(topic);
+            holder.tvorg.setText(topic.substring(0,1).toUpperCase()+topic.substring(1));
 
-            SpannableString content = new SpannableString(link);
+            if(loc!=null && loc.length()>0){
+
+                holder.tv_cag.setText("Event");
+                holder.bt_show.setVisibility(View.VISIBLE);
+
+                if(notifObjectList.get(holder.getAdapterPosition()).date!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
+                    holder.tv_date.setText("Date: "+notifObjectList.get(holder.getAdapterPosition()).date);
+//                holder.bt_date.setVisibility(View.VISIBLE);
+                    holder.tv_date.setVisibility(View.VISIBLE);
+                }
+
+                if(notifObjectList.get(holder.getAdapterPosition()).time!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
+                    holder.tv_time.setText("Time: "+notifObjectList.get(holder.getAdapterPosition()).time);
+//                holder.bt_time.setVisibility(View.VISIBLE);
+                    holder.tv_time.setVisibility(View.VISIBLE);
+                }
+
+                    holder.tv_location.setText("Venue: "+notifObjectList.get(holder.getAdapterPosition()).location);
+//                holder.bt_loc.setVisibility(View.VISIBLE);
+                    holder.tv_location.setVisibility(View.VISIBLE);
+
+
+            }else{
+                holder.tv_cag.setText("Notification");
+                holder.bt_show.setVisibility(View.GONE);
+                holder.tvDetails.setVisibility(View.VISIBLE);
+                holder.tv_date.setVisibility(View.GONE);
+                holder.tv_location.setVisibility(View.GONE);
+                holder.tv_time.setVisibility(View.GONE);
+
+            }
+
+            final SpannableString content = new SpannableString(link);
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
             holder.tv_link.setText(content);
-
-            if(notifObjectList.get(holder.getAdapterPosition()).date!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
-                holder.tv_date.setText(notifObjectList.get(holder.getAdapterPosition()).date);
-                holder.bt_date.setVisibility(View.VISIBLE);
-                holder.tv_date.setVisibility(View.VISIBLE);
-            }
-
-            if(notifObjectList.get(holder.getAdapterPosition()).time!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
-                holder.tv_time.setText(notifObjectList.get(holder.getAdapterPosition()).time);
-                holder.bt_time.setVisibility(View.VISIBLE);
-                holder.tv_time.setVisibility(View.VISIBLE);
-            }
-
-            if(notifObjectList.get(holder.getAdapterPosition()).location!=null && notifObjectList.get(holder.getAdapterPosition()).location.equalsIgnoreCase(space)){
-                holder.tv_location.setText(notifObjectList.get(holder.getAdapterPosition()).location);
-                holder.bt_loc.setVisibility(View.VISIBLE);
-                holder.tv_location.setVisibility(View.VISIBLE);
-            }
-
 
             holder.tv_link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(link!=null && !link.isEmpty()){
-                        Uri uri = Uri.parse(link);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
+                    if(link!=null && !link.isEmpty() && !(link.compareToIgnoreCase("nada")==0)){
+                        openWebPage(link);
                     }
-
                 }
-            });
+            }
+            );
 
-            holder.cvhome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.bt_date.getLayoutParams();
+            if(image_urls!=null && image_urls.length()>0){
+                Log.i("XXXX",image_urls);
+                Glide.with(context).
+                        load(image_urls)
+                        .placeholder(R.color.Imageback)
+                        .crossFade(500)
+                        .into(holder.iv_content);
+            }
 
-                    if (holder.tvDetails.getVisibility()==View.GONE && holder.rv_gridimages2.getVisibility()==View.GONE && holder.rv_gridimages.getVisibility()==View.GONE) {
-                        // it's collapsed - expand it
-                        holder.tvDetails.setVisibility(View.VISIBLE);
-                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
-                        holder.bt_not_going.setVisibility(View.VISIBLE);
-                        holder.bt_going.setVisibility(View.VISIBLE);
-                        holder.tv_link.setVisibility(View.VISIBLE);
-                        holder.ibt_link.setVisibility(View.VISIBLE);
+            new MyOnClickListener(holder,link);
 
-//                            lp.addRule(RelativeLayout.BELOW, holder.tvDetails.getId());
+//            holder.bt_show.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
 //
-//                        if(notifObjectList.get(holder.getAdapterPosition()).time!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
-//                            holder.tv_time.setText(notifObjectList.get(holder.getAdapterPosition()).time);
-//                            holder.bt_time.setVisibility(View.VISIBLE);
-//                            holder.tv_time.setVisibility(View.VISIBLE);
-//                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
-//
+//                    if (holder.tvDetails.getVisibility()==View.GONE && holder.bt_show.getVisibility()==View.VISIBLE) {
+//                        // it's collapsed - expand it
+//                        holder.tvDetails.setVisibility(View.VISIBLE);
+//                        holder.bt_going.setVisibility(View.VISIBLE);
+//                        holder.bt_show.setVisibility(View.GONE);
+//                        holder.bt_less.setVisibility(View.VISIBLE);
+////                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
+////                        holder.bt_not_going.setVisibility(View.VISIBLE);
+////                        holder.bt_going.setVisibility(View.VISIBLE);
+//                        if(link!=null && !link.isEmpty() && !(link.compareToIgnoreCase("nada")==0)){
+//                            holder.tv_link.setVisibility(View.VISIBLE);
+//                            holder.ibt_link.setVisibility(View.VISIBLE);
 //                        }
+////                        holder.tv_link.setVisibility(View.VISIBLE);
+////                        holder.ibt_link.setVisibility(View.VISIBLE);
 //
-//                        if(notifObjectList.get(holder.getAdapterPosition()).location!=null && notifObjectList.get(holder.getAdapterPosition()).location.equalsIgnoreCase(space)){
-//                            holder.tv_location.setText(notifObjectList.get(holder.getAdapterPosition()).location);
-//                            holder.bt_loc.setVisibility(View.VISIBLE);
-//                            holder.tv_location.setVisibility(View.VISIBLE);
-//                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
+////                            lp.addRule(RelativeLayout.BELOW, holder.tvDetails.getId());
+////
+////                        if(notifObjectList.get(holder.getAdapterPosition()).time!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
+////                            holder.tv_time.setText(notifObjectList.get(holder.getAdapterPosition()).time);
+////                            holder.bt_time.setVisibility(View.VISIBLE);
+////                            holder.tv_time.setVisibility(View.VISIBLE);
+////                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
+////
+////                        }
+////
+////                        if(notifObjectList.get(holder.getAdapterPosition()).location!=null && notifObjectList.get(holder.getAdapterPosition()).location.equalsIgnoreCase(space)){
+////                            holder.tv_location.setText(notifObjectList.get(holder.getAdapterPosition()).location);
+////                            holder.bt_loc.setVisibility(View.VISIBLE);
+////                            holder.tv_location.setVisibility(View.VISIBLE);
+////                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
+////
+////                        }
+//                        if(image_urls!=null){
+//                            if(image_urls.size()!=0) {
 //
+//                                if (image_urls.size() == 1) {
+//                                    Glide.with(context).
+//                                            load(image_urls.get(0))
+//                                            .placeholder(R.color.Imageback)
+//                                            .crossFade(500)
+//                                            .into(holder.iv_content);
+//
+//                                }
+////                                if(image_urls!=null && image_urls.size() >= 2){
+////
+////                                    holder.iv_content.setVisibility(View.INVISIBLE);
+////                                    holder.iv_content.getLayoutParams().height = 0;
+////                                    holder.iv_content.getLayoutParams().width = 0;
+////
+////                                    if(image_urls.size()>=3){
+////
+////                                        Glide.with(context).
+////                                                load(image_urls.get(0))
+////                                                .placeholder(R.color.Imageback)
+////                                                .crossFade(500)
+////                                                .centerCrop()
+////                                                .into(holder.iv_imag11);
+////                                        Glide.with(context).
+////                                                load(image_urls.get(1))
+////                                                .placeholder(R.color.Imageback)
+////                                                .crossFade(500)
+////                                                .into(holder.iv_image12);
+////
+////                                        Glide.with(context).
+////                                                load(image_urls.get(2))
+////                                                .placeholder(R.color.Imageback)
+////                                                .crossFade(500)
+////                                                .into(holder.iv_image13);
+////
+////                                        holder.rv_gridimages.setVisibility(View.VISIBLE);
+////
+////                                    }
+////
+////                                    if(image_urls.size()==2) {
+////
+////                                        Glide.with(context).
+////                                                load(image_urls.get(0))
+////                                                .placeholder(R.color.Imageback)
+////                                                .crossFade(500)
+////                                                .centerCrop()
+////                                                .into(holder.iv_image21);
+////                                        Glide.with(context).
+////                                                load(image_urls.get(1))
+////                                                .placeholder(R.color.Imageback)
+////                                                .crossFade(500)
+////                                                .centerCrop()
+////                                                .into(holder.iv_image22);
+////
+////                                        holder.rv_gridimages2.setVisibility(View.VISIBLE);
+////
+////
+////                                    }
+////
+////                                    if(image_urls.size()==3){
+////                                        holder.tv_nofimages.setVisibility(View.INVISIBLE);
+////
+////                                    }
+////                                    else if(image_urls.size()==2){
+////                                        holder.tv_nofimages.setVisibility(View.INVISIBLE);
+////                                        holder.iv_image12.getLayoutParams().height = 280;
+////
+////                                    }
+////                                    else if(image_urls.size() > 3) {
+////
+////                                        holder.tv_nofimages.setText(String.valueOf(image_urls.size() - 3) + "+");
+////                                    }
+////
+////                                }
+////
+////                                holder.rv_gridimages2.setOnClickListener(new View.OnClickListener() {
+////                                    @Override
+////                                    public void onClick(final View v) {
+////                                        try{
+////
+////                                            final int[] p = {0};
+////                                            multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
+////
+////                                            final ImageView iv_popupimage;
+////                                            ImageButton ibt_close,ibt_fwd,ibt_back;
+////
+////                                            iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
+////
+////                                            ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
+////                                            ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
+////                                            ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
+////
+////                                            Glide.with(context).
+////                                                    load(image_urls.get(p[0]))
+////                                                    .placeholder(R.color.Imageback)
+////                                                    .crossFade(500)
+////                                                    .into(iv_popupimage);
+////
+////                                            multipopup.setTouchable(true);
+////                                            multipopup.setFocusable(true);
+////                                            multipopup.setBackgroundDrawable(new ColorDrawable(
+////                                                    android.graphics.Color.TRANSPARENT));
+////                                            multipopup.setOutsideTouchable(false);
+////
+////
+////
+////                                            new Handler().postDelayed(new Runnable(){
+////                                                public void run() {
+////                                                    multipopup.showAtLocation(v, Gravity.CENTER,0,0);
+//////                                                obj.dim();
+////                                                }
+////
+////                                            }, 200L);
+////
+////
+////                                            ibt_back.setOnClickListener(new View.OnClickListener() {
+////                                                @Override
+////                                                public void onClick(View v) {
+////
+////                                                    if(p[0]==0){
+////                                                        Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
+////
+////                                                    }
+////                                                    if(p[0]!=0){
+////                                                        p[0] = p[0]-1;
+////                                                        setImage(iv_popupimage,image_urls.get(p[0]));
+////                                                    }
+////
+////                                                }
+////                                            });
+////
+////
+////                                            ibt_fwd.setOnClickListener(new View.OnClickListener() {
+////                                                @Override
+////                                                public void onClick(View v) {
+////                                                    if(p[0]==image_urls.size()-1){
+////                                                        Toast.makeText(context, "That's All Buddy!", Toast.LENGTH_SHORT).show();
+////
+////                                                    }
+////                                                    if(p[0]!=image_urls.size()-1){
+////                                                        p[0] = p[0] +1;
+////                                                        setImage(iv_popupimage,image_urls.get(p[0]));}
+////
+////                                                }
+////                                            });
+////
+////                                            ibt_close.setOnClickListener(new View.OnClickListener() {
+////                                                @Override
+////                                                public void onClick(View v) {
+////                                                    multipopup.dismiss();
+//////                                                obj.normal();
+////
+////                                                }
+////                                            });
+////
+////                                            multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+////                                                @Override
+////                                                public void onDismiss() {
+//////                                                obj.normal();
+////                                                }
+////                                            });
+////
+////                                        } catch (Exception e) {
+////                                            e.printStackTrace();
+////                                        }
+////
+////
+////                                    }
+////                                });
+////
+////                                holder.rv_gridimages.setOnClickListener(new View.OnClickListener() {
+////                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+////                                    @Override
+////                                    public void onClick(final View v) {
+////
+////                                        try{
+////
+////                                            final int[] p = {0};
+////                                            multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
+////
+////                                            final ImageView iv_popupimage;
+////                                            ImageButton ibt_close,ibt_fwd,ibt_back;
+////
+////                                            iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
+////
+////                                            ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
+////                                            ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
+////                                            ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
+////
+////                                            Glide.with(context).
+////                                                    load(image_urls.get(p[0]))
+////                                                    .placeholder(R.color.Imageback)
+////                                                    .crossFade(500)
+////                                                    .into(iv_popupimage);
+////
+////                                            multipopup.setTouchable(true);
+////                                            multipopup.setFocusable(true);
+////                                            multipopup.setElevation(32);
+////                                            multipopup.setBackgroundDrawable(new ColorDrawable(
+////                                                    android.graphics.Color.TRANSPARENT));
+////                                            multipopup.setOutsideTouchable(false);
+////
+////                                            new Handler().postDelayed(new Runnable(){
+////                                                public void run() {
+////                                                    multipopup.showAtLocation(v,Gravity.CENTER,0,0);
+//////                                                obj.dim();
+////                                                }
+////
+////                                            }, 200L);
+////
+////                                            ibt_back.setOnClickListener(new View.OnClickListener() {
+////                                                @Override
+////                                                public void onClick(View v) {
+////
+////                                                    if(p[0]==0){
+////                                                        Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
+////
+////                                                    }
+////                                                    if(p[0]!=0){
+////                                                        p[0] = p[0]-1;
+////                                                        setImage(iv_popupimage,image_urls.get(p[0]));
+////                                                    }
+////
+////                                                }
+////                                            });
+////
+////
+////                                            ibt_fwd.setOnClickListener(new View.OnClickListener() {
+////                                                @Override
+////                                                public void onClick(View v) {
+////
+////                                                    if(p[0]==image_urls.size()-1 ){
+////                                                        Toast.makeText(context, "That's All Buddy", Toast.LENGTH_SHORT).show();
+////                                                    }
+////                                                    if(p[0]!=image_urls.size()-1){
+////                                                        p[0] = p[0] +1;
+////                                                        if(p[0]==image_urls.size()-2){
+////
+////                                                        }
+////                                                        setImage(iv_popupimage,image_urls.get(p[0]));
+////                                                    }
+////
+////                                                }
+////                                            });
+////
+////                                            ibt_close.setOnClickListener(new View.OnClickListener() {
+////                                                @Override
+////                                                public void onClick(View v) {
+////                                                    multipopup.dismiss();
+//////                                                obj.normal();
+////
+////                                                }
+////                                            });
+////
+////                                            multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+////                                                @Override
+////                                                public void onDismiss() {
+//////                                                obj.normal();
+////                                                }
+////                                            });
+////
+////                                        } catch (Exception e) {
+////                                            e.printStackTrace();
+////                                        }
+////
+////
+////                                    }
+////                                });
+////                            }
+////                        }
+//                            }
 //                        }
-
-                        if(image_urls!=null){
-                            if(image_urls.size()!=0) {
-
-                            if(image_urls.size()==1){
-                                Glide.with(context).
-                                        load(image_urls.get(0))
-                                        .placeholder(R.color.Imageback)
-                                        .crossFade(500)
-                                        .into(holder.iv_content);
-
-                            }
-
-
-                            if(image_urls!=null && image_urls.size() >= 2){
-
-                                holder.iv_content.setVisibility(View.INVISIBLE);
-                                holder.iv_content.getLayoutParams().height = 0;
-                                holder.iv_content.getLayoutParams().width = 0;
-
-                                if(image_urls.size()>=3){
-
-                                    Glide.with(context).
-                                            load(image_urls.get(0))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .centerCrop()
-                                            .into(holder.iv_imag11);
-                                    Glide.with(context).
-                                            load(image_urls.get(1))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .into(holder.iv_image12);
-
-                                    Glide.with(context).
-                                            load(image_urls.get(2))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .into(holder.iv_image13);
-
-                                    holder.rv_gridimages.setVisibility(View.VISIBLE);
-
-                                }
-
-                                if(image_urls.size()==2) {
-
-                                    Glide.with(context).
-                                            load(image_urls.get(0))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .centerCrop()
-                                            .into(holder.iv_image21);
-                                    Glide.with(context).
-                                            load(image_urls.get(1))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .centerCrop()
-                                            .into(holder.iv_image22);
-
-                                    holder.rv_gridimages2.setVisibility(View.VISIBLE);
-
-
-                                }
-
-                                if(image_urls.size()==3){
-                                    holder.tv_nofimages.setVisibility(View.INVISIBLE);
-
-                                }
-                                else if(image_urls.size()==2){
-                                    holder.tv_nofimages.setVisibility(View.INVISIBLE);
-                                    holder.iv_image12.getLayoutParams().height = 280;
-
-                                }
-                                else if(image_urls.size() > 3) {
-
-                                    holder.tv_nofimages.setText(String.valueOf(image_urls.size() - 3) + "+");
-                                }
-
-                            }
-
-                            holder.rv_gridimages2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(final View v) {
-                                    try{
-
-                                        final int[] p = {0};
-                                        multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
-
-                                        final ImageView iv_popupimage;
-                                        ImageButton ibt_close,ibt_fwd,ibt_back;
-
-                                        iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
-
-                                        ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
-                                        ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
-                                        ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
-
-                                        Glide.with(context).
-                                                load(image_urls.get(p[0]))
-                                                .placeholder(R.color.Imageback)
-                                                .crossFade(500)
-                                                .into(iv_popupimage);
-
-                                        multipopup.setTouchable(true);
-                                        multipopup.setFocusable(true);
-                                        multipopup.setBackgroundDrawable(new ColorDrawable(
-                                                android.graphics.Color.TRANSPARENT));
-                                        multipopup.setOutsideTouchable(false);
-
-
-
-                                        new Handler().postDelayed(new Runnable(){
-                                            public void run() {
-                                                multipopup.showAtLocation(v, Gravity.CENTER,0,0);
-//                                                obj.dim();
-                                            }
-
-                                        }, 200L);
-
-
-                                        ibt_back.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                                if(p[0]==0){
-                                                    Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
-
-                                                }
-                                                if(p[0]!=0){
-                                                    p[0] = p[0]-1;
-                                                    setImage(iv_popupimage,image_urls.get(p[0]));
-                                                }
-
-                                            }
-                                        });
-
-
-                                        ibt_fwd.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                if(p[0]==image_urls.size()-1){
-                                                    Toast.makeText(context, "That's All Buddy!", Toast.LENGTH_SHORT).show();
-
-                                                }
-                                                if(p[0]!=image_urls.size()-1){
-                                                    p[0] = p[0] +1;
-                                                    setImage(iv_popupimage,image_urls.get(p[0]));}
-
-                                            }
-                                        });
-
-                                        ibt_close.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                multipopup.dismiss();
-//                                                obj.normal();
-
-                                            }
-                                        });
-
-                                        multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                                            @Override
-                                            public void onDismiss() {
-//                                                obj.normal();
-                                            }
-                                        });
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                }
-                            });
-
-                            holder.rv_gridimages.setOnClickListener(new View.OnClickListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                                @Override
-                                public void onClick(final View v) {
-
-                                    try{
-
-                                        final int[] p = {0};
-                                        multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
-
-                                        final ImageView iv_popupimage;
-                                        ImageButton ibt_close,ibt_fwd,ibt_back;
-
-                                        iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
-
-                                        ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
-                                        ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
-                                        ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
-
-                                        Glide.with(context).
-                                                load(image_urls.get(p[0]))
-                                                .placeholder(R.color.Imageback)
-                                                .crossFade(500)
-                                                .into(iv_popupimage);
-
-                                        multipopup.setTouchable(true);
-                                        multipopup.setFocusable(true);
-                                        multipopup.setElevation(32);
-                                        multipopup.setBackgroundDrawable(new ColorDrawable(
-                                                android.graphics.Color.TRANSPARENT));
-                                        multipopup.setOutsideTouchable(false);
-
-                                        new Handler().postDelayed(new Runnable(){
-                                            public void run() {
-                                                multipopup.showAtLocation(v,Gravity.CENTER,0,0);
-//                                                obj.dim();
-                                            }
-
-                                        }, 200L);
-
-                                        ibt_back.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                                if(p[0]==0){
-                                                    Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
-
-                                                }
-                                                if(p[0]!=0){
-                                                    p[0] = p[0]-1;
-                                                    setImage(iv_popupimage,image_urls.get(p[0]));
-                                                }
-
-                                            }
-                                        });
-
-
-                                        ibt_fwd.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                                if(p[0]==image_urls.size()-1 ){
-                                                    Toast.makeText(context, "That's All Buddy", Toast.LENGTH_SHORT).show();
-                                                }
-                                                if(p[0]!=image_urls.size()-1){
-                                                    p[0] = p[0] +1;
-                                                    if(p[0]==image_urls.size()-2){
-
-                                                    }
-                                                    setImage(iv_popupimage,image_urls.get(p[0]));
-                                                }
-
-                                            }
-                                        });
-
-                                        ibt_close.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                multipopup.dismiss();
-//                                                obj.normal();
-
-                                            }
-                                        });
-
-                                        multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                                            @Override
-                                            public void onDismiss() {
-//                                                obj.normal();
-                                            }
-                                        });
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                }
-                            });
-                        }
-
-//                        holder.v_bottom.setLayoutParams(lp);
-                    }
-
-                    }else {
-                        // it's expanded - collapse it
-                        holder.tvDetails.setVisibility(View.GONE);
-                        holder.tv_link.setVisibility(View.GONE);
-                        holder.bt_going.setVisibility(View.GONE);
-                        holder.bt_not_going.setVisibility(View.GONE);
-                        holder.ibt_link.setVisibility(View.GONE);
-                        holder.ibt_show.setImageResource(R.drawable.ic_expand_more_black_24dp);
-//                        lp.removeRule(RelativeLayout.BELOW);
-//                        lp.addRule(RelativeLayout.BELOW,holder.tvTitle.getId());
-
-//                        holder.bt_date.setVisibility(View.GONE);
-//                        holder.tv_date.setVisibility(View.GONE);
-//                        holder.bt_time.setVisibility(View.GONE);
-//                        holder.tv_time.setVisibility(View.GONE);
-//                        holder.bt_loc.setVisibility(View.GONE);
-//                        holder.tv_location.setVisibility(View.GONE);
-
-                        RelativeLayout.LayoutParams lp1 = (RelativeLayout.LayoutParams) holder.v_bottom.getLayoutParams();
-                        lp1.addRule(RelativeLayout.BELOW, holder.bt_going.getId());
-                        holder.v_bottom.setLayoutParams(lp1);
-                        holder.v_bottom.getLayoutParams().height = WRAP_CONTENT;
-
-                    }
-
-                    ObjectAnimator animation = ObjectAnimator.ofInt(holder.tvDetails, "maxLines",holder.tvDetails.getMaxLines());
-                    animation.setDuration(200).start();
-                }
-            });
-
-            holder.ibt_show.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.bt_date.getLayoutParams();
-
-                    if (holder.tvDetails.getVisibility()==View.GONE && holder.rv_gridimages2.getVisibility()==View.GONE && holder.rv_gridimages.getVisibility()==View.GONE) {
-                        // it's collapsed - expand it
-                        holder.tvDetails.setVisibility(View.VISIBLE);
-                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
-                        holder.bt_not_going.setVisibility(View.VISIBLE);
-                        holder.bt_going.setVisibility(View.VISIBLE);
-                        holder.tv_link.setVisibility(View.VISIBLE);
-                        holder.ibt_link.setVisibility(View.VISIBLE);
-
-//                            lp.addRule(RelativeLayout.BELOW, holder.tvDetails.getId());
+//                    }
+//                    else {
+//                        // it's expanded - collapse it
+//                        holder.tvDetails.setVisibility(View.GONE);
+//                        holder.tv_link.setVisibility(View.GONE);
+//                        holder.bt_going.setVisibility(View.GONE);
+//                        holder.ibt_link.setVisibility(View.GONE);
+//                        holder.bt_show.setVisibility(View.VISIBLE);
+//                        holder.bt_less.setVisibility(View.GONE);
+////                        holder.ibt_show.setImageResource(R.drawable.ic_expand_more_black_24dp);
+////                        lp.removeRule(RelativeLayout.BELOW);
+////                        lp.addRule(RelativeLayout.BELOW,holder.tvTitle.getId());
+////                        holder.bt_date.setVisibility(View.GONE);
+////                        holder.tv_date.setVisibility(View.GONE);
+////                        holder.bt_time.setVisibility(View.GONE);
+////                        holder.tv_time.setVisibility(View.GONE);
+////                        holder.bt_loc.setVisibility(View.GONE);
+////                        holder.tv_location.setVisibility(View.GONE);
 //
-//                        if(notifObjectList.get(holder.getAdapterPosition()).time!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
-//                            holder.tv_time.setText(notifObjectList.get(holder.getAdapterPosition()).time);
-//                            holder.bt_time.setVisibility(View.VISIBLE);
-//                            holder.tv_time.setVisibility(View.VISIBLE);
-//                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
+////                        RelativeLayout.LayoutParams lp1 = (RelativeLayout.LayoutParams) holder.v_bottom.getLayoutParams();
+////                        lp1.addRule(RelativeLayout.BELOW, holder.bt_going.getId());
+////                        holder.v_bottom.setLayoutParams(lp1);
+////                        holder.v_bottom.getLayoutParams().height = WRAP_CONTENT;
+//                    }
 //
-//                        }
-//
-//                        if(notifObjectList.get(holder.getAdapterPosition()).location!=null && notifObjectList.get(holder.getAdapterPosition()).location.equalsIgnoreCase(space)){
-//                            holder.tv_location.setText(notifObjectList.get(holder.getAdapterPosition()).location);
-//                            holder.bt_loc.setVisibility(View.VISIBLE);
-//                            holder.tv_location.setVisibility(View.VISIBLE);
-//                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
-//
-//                        }
-
-                        if(image_urls!=null){
-                            if(image_urls.size()!=0) {
-
-                                if(image_urls.size()==1){
-                                    Glide.with(context).
-                                            load(image_urls.get(0))
-                                            .placeholder(R.color.Imageback)
-                                            .crossFade(500)
-                                            .into(holder.iv_content);
-
-                                }
-
-
-                                if(image_urls!=null && image_urls.size() >= 2){
-
-                                    holder.iv_content.setVisibility(View.INVISIBLE);
-                                    holder.iv_content.getLayoutParams().height = 0;
-                                    holder.iv_content.getLayoutParams().width = 0;
-
-                                    if(image_urls.size()>=3){
-
-                                        Glide.with(context).
-                                                load(image_urls.get(0))
-                                                .placeholder(R.color.Imageback)
-                                                .crossFade(500)
-                                                .centerCrop()
-                                                .into(holder.iv_imag11);
-                                        Glide.with(context).
-                                                load(image_urls.get(1))
-                                                .placeholder(R.color.Imageback)
-                                                .crossFade(500)
-                                                .into(holder.iv_image12);
-
-                                        Glide.with(context).
-                                                load(image_urls.get(2))
-                                                .placeholder(R.color.Imageback)
-                                                .crossFade(500)
-                                                .into(holder.iv_image13);
-
-                                        holder.rv_gridimages.setVisibility(View.VISIBLE);
-
-                                    }
-
-                                    if(image_urls.size()==2) {
-
-                                        Glide.with(context).
-                                                load(image_urls.get(0))
-                                                .placeholder(R.color.Imageback)
-                                                .crossFade(500)
-                                                .centerCrop()
-                                                .into(holder.iv_image21);
-                                        Glide.with(context).
-                                                load(image_urls.get(1))
-                                                .placeholder(R.color.Imageback)
-                                                .crossFade(500)
-                                                .centerCrop()
-                                                .into(holder.iv_image22);
-
-                                        holder.rv_gridimages2.setVisibility(View.VISIBLE);
-
-
-                                    }
-
-                                    if(image_urls.size()==3){
-                                        holder.tv_nofimages.setVisibility(View.INVISIBLE);
-
-                                    }
-                                    else if(image_urls.size()==2){
-                                        holder.tv_nofimages.setVisibility(View.INVISIBLE);
-                                        holder.iv_image12.getLayoutParams().height = 280;
-
-                                    }
-                                    else if(image_urls.size() > 3) {
-
-                                        holder.tv_nofimages.setText(String.valueOf(image_urls.size() - 3) + "+");
-                                    }
-
-                                }
-
-                                holder.rv_gridimages2.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(final View v) {
-                                        try{
-
-                                            final int[] p = {0};
-                                            multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
-
-                                            final ImageView iv_popupimage;
-                                            ImageButton ibt_close,ibt_fwd,ibt_back;
-
-                                            iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
-
-                                            ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
-                                            ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
-                                            ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
-
-                                            Glide.with(context).
-                                                    load(image_urls.get(p[0]))
-                                                    .placeholder(R.color.Imageback)
-                                                    .crossFade(500)
-                                                    .into(iv_popupimage);
-
-                                            multipopup.setTouchable(true);
-                                            multipopup.setFocusable(true);
-                                            multipopup.setBackgroundDrawable(new ColorDrawable(
-                                                    android.graphics.Color.TRANSPARENT));
-                                            multipopup.setOutsideTouchable(false);
-
-
-
-                                            new Handler().postDelayed(new Runnable(){
-                                                public void run() {
-                                                    multipopup.showAtLocation(v, Gravity.CENTER,0,0);
-//                                                obj.dim();
-                                                }
-
-                                            }, 200L);
-
-
-                                            ibt_back.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-                                                    if(p[0]==0){
-                                                        Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
-
-                                                    }
-                                                    if(p[0]!=0){
-                                                        p[0] = p[0]-1;
-                                                        setImage(iv_popupimage,image_urls.get(p[0]));
-                                                    }
-
-                                                }
-                                            });
-
-
-                                            ibt_fwd.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    if(p[0]==image_urls.size()-1){
-                                                        Toast.makeText(context, "That's All Buddy!", Toast.LENGTH_SHORT).show();
-
-                                                    }
-                                                    if(p[0]!=image_urls.size()-1){
-                                                        p[0] = p[0] +1;
-                                                        setImage(iv_popupimage,image_urls.get(p[0]));}
-
-                                                }
-                                            });
-
-                                            ibt_close.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    multipopup.dismiss();
-//                                                obj.normal();
-
-                                                }
-                                            });
-
-                                            multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                                                @Override
-                                                public void onDismiss() {
-//                                                obj.normal();
-                                                }
-                                            });
-
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-
-
-                                    }
-                                });
-
-                                holder.rv_gridimages.setOnClickListener(new View.OnClickListener() {
-                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                                    @Override
-                                    public void onClick(final View v) {
-
-                                        try{
-
-                                            final int[] p = {0};
-                                            multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
-
-                                            final ImageView iv_popupimage;
-                                            ImageButton ibt_close,ibt_fwd,ibt_back;
-
-                                            iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
-
-                                            ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
-                                            ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
-                                            ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
-
-                                            Glide.with(context).
-                                                    load(image_urls.get(p[0]))
-                                                    .placeholder(R.color.Imageback)
-                                                    .crossFade(500)
-                                                    .into(iv_popupimage);
-
-                                            multipopup.setTouchable(true);
-                                            multipopup.setFocusable(true);
-                                            multipopup.setElevation(32);
-                                            multipopup.setBackgroundDrawable(new ColorDrawable(
-                                                    android.graphics.Color.TRANSPARENT));
-                                            multipopup.setOutsideTouchable(false);
-
-                                            new Handler().postDelayed(new Runnable(){
-                                                public void run() {
-                                                    multipopup.showAtLocation(v,Gravity.CENTER,0,0);
-//                                                obj.dim();
-                                                }
-
-                                            }, 200L);
-
-                                            ibt_back.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-                                                    if(p[0]==0){
-                                                        Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
-
-                                                    }
-                                                    if(p[0]!=0){
-                                                        p[0] = p[0]-1;
-                                                        setImage(iv_popupimage,image_urls.get(p[0]));
-                                                    }
-
-                                                }
-                                            });
-
-
-                                            ibt_fwd.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-                                                    if(p[0]==image_urls.size()-1 ){
-                                                        Toast.makeText(context, "That's All Buddy", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                    if(p[0]!=image_urls.size()-1){
-                                                        p[0] = p[0] +1;
-                                                        if(p[0]==image_urls.size()-2){
-
-                                                        }
-                                                        setImage(iv_popupimage,image_urls.get(p[0]));
-                                                    }
-
-                                                }
-                                            });
-
-                                            ibt_close.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    multipopup.dismiss();
-//                                                obj.normal();
-
-                                                }
-                                            });
-
-                                            multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                                                @Override
-                                                public void onDismiss() {
-//                                                obj.normal();
-                                                }
-                                            });
-
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-
-
-                                    }
-                                });
-                            }
-
-//                        holder.v_bottom.setLayoutParams(lp);
-                        }
-
-                    }else {
-                        // it's expanded - collapse it
-                        holder.tvDetails.setVisibility(View.GONE);
-                        holder.tv_link.setVisibility(View.GONE);
-                        holder.bt_going.setVisibility(View.GONE);
-                        holder.bt_not_going.setVisibility(View.GONE);
-                        holder.ibt_link.setVisibility(View.GONE);
-                        holder.ibt_show.setImageResource(R.drawable.ic_expand_more_black_24dp);
-//                        lp.removeRule(RelativeLayout.BELOW);
-//                        lp.addRule(RelativeLayout.BELOW,holder.tvTitle.getId());
-
-//                        holder.bt_date.setVisibility(View.GONE);
-//                        holder.tv_date.setVisibility(View.GONE);
-//                        holder.bt_time.setVisibility(View.GONE);
-//                        holder.tv_time.setVisibility(View.GONE);
-//                        holder.bt_loc.setVisibility(View.GONE);
-//                        holder.tv_location.setVisibility(View.GONE);
-
-                        RelativeLayout.LayoutParams lp1 = (RelativeLayout.LayoutParams) holder.v_bottom.getLayoutParams();
-                        lp1.addRule(RelativeLayout.BELOW, holder.bt_going.getId());
-                        holder.v_bottom.setLayoutParams(lp1);
-                        holder.v_bottom.getLayoutParams().height = WRAP_CONTENT;
-
-                    }
-
-                    ObjectAnimator animation = ObjectAnimator.ofInt(holder.tvDetails, "maxLines",holder.tvDetails.getMaxLines());
-                    animation.setDuration(200).start();
-                }
-            });
-
-
-            holder.ibt_share.setOnClickListener(new View.OnClickListener() {
+//                    ObjectAnimator animation = ObjectAnimator.ofInt(holder.tvDetails, "maxLines",holder.tvDetails.getMaxLines());
+//                    animation.setDuration(200).start();
+//                }
+//            });
+
+            holder.bt_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-//                    String shareBody = "Here is the share content body";
                     String shareBody = "#Students App\n"+holder.tvDetails.getText().toString();
                     sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, holder.tvTitle.getText());
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,shareBody);
@@ -1638,20 +1312,38 @@ public class HomeActivity extends AppCompatActivity
             });
 
             if(notifObjectList.get(holder.getAdapterPosition()).isfav){
-                holder.ibt_fav.setVisibility(View.VISIBLE);
+                holder.iv_fav.setImageResource(R.drawable.bookmarked);
+                holder.iv_fav.setTag("bookmarked");
+            }else {
+                holder.iv_fav.setImageResource(R.drawable.bookmark);
+                holder.iv_fav.setTag("bookmark");
             }
 
-            holder.ibt_save.setOnClickListener(new View.OnClickListener() {
+
+            holder.iv_fav.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
                 @Override
                 public void onClick(View v) {
-                    int pos = holder.getAdapterPosition();
-                   holder.ibt_fav.setVisibility(View.VISIBLE);
                     final SharedPreferences[] sharedprefs = {HomeActivity.this.getSharedPreferences(favPrefs, MODE_PRIVATE)};
                     final SharedPreferences.Editor editor = sharedprefs[0].edit();
-                    editor.putString(notifObjectList.get(holder.getAdapterPosition()).title,notifObjectList.get(holder.getAdapterPosition()).title
-                    );
-                    editor.apply();
+
+                    if(holder.iv_fav.getTag() == "bookmark"){
+
+                        holder.iv_fav.setImageResource(R.drawable.bookmarked);
+                        holder.iv_fav.setTag("bookmarked");
+                        editor.putString(notifObjectList.get(holder.getAdapterPosition()).title,notifObjectList.get(holder.getAdapterPosition()).title
+                        );
+                        editor.apply();
+
+                    }else{
+
+                        holder.iv_fav.setImageResource(R.drawable.bookmark);
+                        holder.iv_fav.setTag("bookmark");
+                        editor.remove(notifObjectList.get(holder.getAdapterPosition()).title);
+                        editor.apply();
+
+                    }
+
                 }
             });
 
@@ -1664,7 +1356,6 @@ public class HomeActivity extends AppCompatActivity
 //
 //                    }
 //                });
-
 
         }
 
@@ -1693,26 +1384,10 @@ public class HomeActivity extends AppCompatActivity
 
         }
 
-        private Void  setImage(ImageView image,String url){
-        Glide.with(context).
-                load(url)
-                .placeholder(R.color.Imageback)
-                .fitCenter()
-                .crossFade(500)
-                .into(image);
-        return null;
-        }
-
         @Override
         public long getItemId(int position) {
             return position;
         }
-
-//        public void setEmpty(View view){
-//            view.getLayoutParams().height = 0;
-//            view.getLayoutParams().width =0;
-//            view.setVisibility(View.INVISIBLE);
-//        }
 
         @Override
         public int getItemViewType(int position) {
@@ -1724,56 +1399,436 @@ public class HomeActivity extends AppCompatActivity
            return notifObjectList.size();
         }
 
+        public class MyOnClickListener implements View.OnClickListener
+        {
+
+            ViewHolder holder;
+            String link;
+            ArrayList<String> image_urls;
+
+            public MyOnClickListener(ViewHolder holder, String link) {
+                this.holder = holder;
+                this.link = link;
+                this.image_urls = image_urls;
+                holder.bt_show.setOnClickListener(this);
+                holder.ibt_less.setOnClickListener(this);
+            }
+
+
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+
+                    case R.id.bt_show:
+                        if (holder.tvDetails.getVisibility()==View.GONE && holder.bt_show.getVisibility()==View.VISIBLE) {
+                            // it's collapsed - expand it
+                            holder.tvDetails.setVisibility(View.VISIBLE);
+                            holder.bt_going.setVisibility(View.VISIBLE);
+                            holder.bt_show.setVisibility(View.GONE);
+                            holder.ibt_less.setVisibility(View.VISIBLE);
+//                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
+//                        holder.bt_not_going.setVisibility(View.VISIBLE);
+//                        holder.bt_going.setVisibility(View.VISIBLE);
+                            if (link != null && !link.isEmpty() && !(link.compareToIgnoreCase("nada") == 0)) {
+                                holder.tv_link.setVisibility(View.VISIBLE);
+                                holder.ibt_link.setVisibility(View.VISIBLE);
+                            }
+//                        holder.tv_link.setVisibility(View.VISIBLE);
+//                        holder.ibt_link.setVisibility(View.VISIBLE);
+
+//                            lp.addRule(RelativeLayout.BELOW, holder.tvDetails.getId());
+//
+//                        if(notifObjectList.get(holder.getAdapterPosition()).time!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
+//                            holder.tv_time.setText(notifObjectList.get(holder.getAdapterPosition()).time);
+//                            holder.bt_time.setVisibility(View.VISIBLE);
+//                            holder.tv_time.setVisibility(View.VISIBLE);
+//                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
+//
+//                        }
+//
+//                        if(notifObjectList.get(holder.getAdapterPosition()).location!=null && notifObjectList.get(holder.getAdapterPosition()).location.equalsIgnoreCase(space)){
+//                            holder.tv_location.setText(notifObjectList.get(holder.getAdapterPosition()).location);
+//                            holder.bt_loc.setVisibility(View.VISIBLE);
+//                            holder.tv_location.setVisibility(View.VISIBLE);
+//                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
+//
+//                        }
+                        }
+//                                if(image_urls!=null && image_urls.size() >= 2){
+//
+//                                    holder.iv_content.setVisibility(View.INVISIBLE);
+//                                    holder.iv_content.getLayoutParams().height = 0;
+//                                    holder.iv_content.getLayoutParams().width = 0;
+//
+//                                    if(image_urls.size()>=3){
+//
+//                                        Glide.with(context).
+//                                                load(image_urls.get(0))
+//                                                .placeholder(R.color.Imageback)
+//                                                .crossFade(500)
+//                                                .centerCrop()
+//                                                .into(holder.iv_imag11);
+//                                        Glide.with(context).
+//                                                load(image_urls.get(1))
+//                                                .placeholder(R.color.Imageback)
+//                                                .crossFade(500)
+//                                                .into(holder.iv_image12);
+//
+//                                        Glide.with(context).
+//                                                load(image_urls.get(2))
+//                                                .placeholder(R.color.Imageback)
+//                                                .crossFade(500)
+//                                                .into(holder.iv_image13);
+//
+//                                        holder.rv_gridimages.setVisibility(View.VISIBLE);
+//
+//                                    }
+//
+//                                    if(image_urls.size()==2) {
+//
+//                                        Glide.with(context).
+//                                                load(image_urls.get(0))
+//                                                .placeholder(R.color.Imageback)
+//                                                .crossFade(500)
+//                                                .centerCrop()
+//                                                .into(holder.iv_image21);
+//                                        Glide.with(context).
+//                                                load(image_urls.get(1))
+//                                                .placeholder(R.color.Imageback)
+//                                                .crossFade(500)
+//                                                .centerCrop()
+//                                                .into(holder.iv_image22);
+//
+//                                        holder.rv_gridimages2.setVisibility(View.VISIBLE);
+//
+//
+//                                    }
+//
+//                                    if(image_urls.size()==3){
+//                                        holder.tv_nofimages.setVisibility(View.INVISIBLE);
+//
+//                                    }
+//                                    else if(image_urls.size()==2){
+//                                        holder.tv_nofimages.setVisibility(View.INVISIBLE);
+//                                        holder.iv_image12.getLayoutParams().height = 280;
+//
+//                                    }
+//                                    else if(image_urls.size() > 3) {
+//
+//                                        holder.tv_nofimages.setText(String.valueOf(image_urls.size() - 3) + "+");
+//                                    }
+//
+//                                }
+//
+//                                holder.rv_gridimages2.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(final View v) {
+//                                        try{
+//
+//                                            final int[] p = {0};
+//                                            multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
+//
+//                                            final ImageView iv_popupimage;
+//                                            ImageButton ibt_close,ibt_fwd,ibt_back;
+//
+//                                            iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
+//
+//                                            ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
+//                                            ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
+//                                            ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
+//
+//                                            Glide.with(context).
+//                                                    load(image_urls.get(p[0]))
+//                                                    .placeholder(R.color.Imageback)
+//                                                    .crossFade(500)
+//                                                    .into(iv_popupimage);
+//
+//                                            multipopup.setTouchable(true);
+//                                            multipopup.setFocusable(true);
+//                                            multipopup.setBackgroundDrawable(new ColorDrawable(
+//                                                    android.graphics.Color.TRANSPARENT));
+//                                            multipopup.setOutsideTouchable(false);
+//
+//
+//
+//                                            new Handler().postDelayed(new Runnable(){
+//                                                public void run() {
+//                                                    multipopup.showAtLocation(v, Gravity.CENTER,0,0);
+////                                                obj.dim();
+//                                                }
+//
+//                                            }, 200L);
+//
+//
+//                                            ibt_back.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//
+//                                                    if(p[0]==0){
+//                                                        Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
+//
+//                                                    }
+//                                                    if(p[0]!=0){
+//                                                        p[0] = p[0]-1;
+//                                                        setImage(iv_popupimage,image_urls.get(p[0]));
+//                                                    }
+//
+//                                                }
+//                                            });
+//
+//
+//                                            ibt_fwd.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    if(p[0]==image_urls.size()-1){
+//                                                        Toast.makeText(context, "That's All Buddy!", Toast.LENGTH_SHORT).show();
+//
+//                                                    }
+//                                                    if(p[0]!=image_urls.size()-1){
+//                                                        p[0] = p[0] +1;
+//                                                        setImage(iv_popupimage,image_urls.get(p[0]));}
+//
+//                                                }
+//                                            });
+//
+//                                            ibt_close.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    multipopup.dismiss();
+////                                                obj.normal();
+//
+//                                                }
+//                                            });
+//
+//                                            multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//                                                @Override
+//                                                public void onDismiss() {
+////                                                obj.normal();
+//                                                }
+//                                            });
+//
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//
+//
+//                                    }
+//                                });
+//
+//                                holder.rv_gridimages.setOnClickListener(new View.OnClickListener() {
+//                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//                                    @Override
+//                                    public void onClick(final View v) {
+//
+//                                        try{
+//
+//                                            final int[] p = {0};
+//                                            multipopup = new PopupWindow(layout1,RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT,true);
+//
+//                                            final ImageView iv_popupimage;
+//                                            ImageButton ibt_close,ibt_fwd,ibt_back;
+//
+//                                            iv_popupimage = (ImageView)layout1.findViewById(R.id.iv_popupimage);
+//
+//                                            ibt_fwd = (ImageButton)layout1.findViewById(R.id.ibt_forward);
+//                                            ibt_close = (ImageButton)layout1.findViewById(R.id.ibt_close);
+//                                            ibt_back = (ImageButton)layout1.findViewById(R.id.ibt_backward);
+//
+//                                            Glide.with(context).
+//                                                    load(image_urls.get(p[0]))
+//                                                    .placeholder(R.color.Imageback)
+//                                                    .crossFade(500)
+//                                                    .into(iv_popupimage);
+//
+//                                            multipopup.setTouchable(true);
+//                                            multipopup.setFocusable(true);
+//                                            multipopup.setElevation(32);
+//                                            multipopup.setBackgroundDrawable(new ColorDrawable(
+//                                                    android.graphics.Color.TRANSPARENT));
+//                                            multipopup.setOutsideTouchable(false);
+//
+//                                            new Handler().postDelayed(new Runnable(){
+//                                                public void run() {
+//                                                    multipopup.showAtLocation(v,Gravity.CENTER,0,0);
+////                                                obj.dim();
+//                                                }
+//
+//                                            }, 200L);
+//
+//                                            ibt_back.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//
+//                                                    if(p[0]==0){
+//                                                        Toast.makeText(context, "Move Forward!", Toast.LENGTH_SHORT).show();
+//
+//                                                    }
+//                                                    if(p[0]!=0){
+//                                                        p[0] = p[0]-1;
+//                                                        setImage(iv_popupimage,image_urls.get(p[0]));
+//                                                    }
+//
+//                                                }
+//                                            });
+//
+//
+//                                            ibt_fwd.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//
+//                                                    if(p[0]==image_urls.size()-1 ){
+//                                                        Toast.makeText(context, "That's All Buddy", Toast.LENGTH_SHORT).show();
+//                                                    }
+//                                                    if(p[0]!=image_urls.size()-1){
+//                                                        p[0] = p[0] +1;
+//                                                        if(p[0]==image_urls.size()-2){
+//
+//                                                        }
+//                                                        setImage(iv_popupimage,image_urls.get(p[0]));
+//                                                    }
+//
+//                                                }
+//                                            });
+//
+//                                            ibt_close.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    multipopup.dismiss();
+////                                                obj.normal();
+//
+//                                                }
+//                                            });
+//
+//                                            multipopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//                                                @Override
+//                                                public void onDismiss() {
+////                                                obj.normal();
+//                                                }
+//                                            });
+//
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//
+//
+//                                    }
+//                                });
+//                            }
+//                        }
+
+//                        else {
+//                            // it's expanded - collapse it
+//                            holder.tvDetails.setVisibility(View.GONE);
+//                            holder.tv_link.setVisibility(View.GONE);
+//                            holder.bt_going.setVisibility(View.GONE);
+//                            holder.ibt_link.setVisibility(View.GONE);
+//                            holder.bt_show.setVisibility(View.VISIBLE);
+//                            holder.ibt_less.setVisibility(View.GONE);
+////                        holder.ibt_show.setImageResource(R.drawable.ic_expand_more_black_24dp);
+////                        lp.removeRule(RelativeLayout.BELOW);
+////                        lp.addRule(RelativeLayout.BELOW,holder.tvTitle.getId());
+////                        holder.bt_date.setVisibility(View.GONE);
+////                        holder.tv_date.setVisibility(View.GONE);
+////                        holder.bt_time.setVisibility(View.GONE);
+////                        holder.tv_time.setVisibility(View.GONE);
+////                        holder.bt_loc.setVisibility(View.GONE);
+////                        holder.tv_location.setVisibility(View.GONE);
+//
+////                        RelativeLayout.LayoutParams lp1 = (RelativeLayout.LayoutParams) holder.v_bottom.getLayoutParams();
+////                        lp1.addRule(RelativeLayout.BELOW, holder.bt_going.getId());
+////                        holder.v_bottom.setLayoutParams(lp1);
+////                        holder.v_bottom.getLayoutParams().height = WRAP_CONTENT;
+//                        }
+                        ObjectAnimator animation = ObjectAnimator.ofInt(holder.tvDetails, "maxLines",holder.tvDetails.getMaxLines());
+                        animation.setDuration(200).start();
+
+                        break;
+                    case R.id.bt_contract:
+                        // it's expanded - collapse it
+                        holder.tvDetails.setVisibility(View.GONE);
+                        holder.tv_link.setVisibility(View.GONE);
+                        holder.bt_going.setVisibility(View.GONE);
+                        holder.ibt_link.setVisibility(View.GONE);
+                        holder.bt_show.setVisibility(View.VISIBLE);
+                        holder.ibt_less.setVisibility(View.GONE);
+//                        holder.ibt_show.setImageResource(R.drawable.ic_expand_more_black_24dp);
+//                        lp.removeRule(RelativeLayout.BELOW);
+//                        lp.addRule(RelativeLayout.BELOW,holder.tvTitle.getId());
+//                        holder.bt_date.setVisibility(View.GONE);
+//                        holder.tv_date.setVisibility(View.GONE);
+//                        holder.bt_time.setVisibility(View.GONE);
+//                        holder.tv_time.setVisibility(View.GONE);
+//                        holder.bt_loc.setVisibility(View.GONE);
+//                        holder.tv_location.setVisibility(View.GONE);
+
+//                        RelativeLayout.LayoutParams lp1 = (RelativeLayout.LayoutParams) holder.v_bottom.getLayoutParams();
+//                        lp1.addRule(RelativeLayout.BELOW, holder.bt_going.getId());
+//                        holder.v_bottom.setLayoutParams(lp1);
+//                        holder.v_bottom.getLayoutParams().height = WRAP_CONTENT;
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView tvTitle, tvDetails ,tvorg ,tv_time, tv_date, tv_location,tv_nofimages,tv_link;
-            RelativeLayout rlHomeFeed;
-            CardView cvhome;
-            ImageButton ibt_show ,bt_loc,bt_date, bt_time;
-            ImageButton ibt_share,ibt_save,ibt_link;
-            ImageView ibt_fav,iv_content;
-            FrameLayout fl_images;
-            View v_bottom;
-            ImageView iv_imag11,iv_image12,iv_image13,iv_image21,iv_image22;
-            LinearLayout rv_gridimages;
-            LinearLayout rv_gridimages2;
-            Button bt_going,bt_not_going;
+            TextView tvTitle,tv_cag,tvDetails ,tvorg ,tv_time, tv_date, tv_location,tv_link;
+            ImageButton ibt_link;
+            Button bt_show,bt_share,bt_going;
+            ImageButton ibt_less;
+            ImageView iv_fav,iv_content,iv_org_logo;
+
+//            RelativeLayout rlHomeFeed;
+//            CardView cvhome;
+//            ImageButton ibt_show ,bt_loc,bt_date, bt_time;
+//            FrameLayout fl_images;
+//            View v_bottom;
+//            ImageView iv_imag11,iv_image12,iv_image13,iv_image21,iv_image22;
+//            LinearLayout rv_gridimages;
+//            LinearLayout rv_gridimages2;
+            //bt_not_going;
 
             ViewHolder(View itemView) {
                 super(itemView);
 
-                tvorg = (TextView)itemView.findViewById(R.id.tv_org);
-                tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-                tvDetails = (TextView) itemView.findViewById(R.id.tvDetails);
-                tv_location = (TextView) itemView.findViewById(R.id.tv_loc);
-                tv_date = (TextView) itemView.findViewById(R.id.tv_date);
-                tv_time = (TextView) itemView.findViewById(R.id.tv_time);
-                tv_link = (TextView)itemView.findViewById(R.id.tv_link);
-                ibt_show = (ImageButton) itemView.findViewById(R.id.bt_show);
-                ibt_share = (ImageButton) itemView.findViewById(R.id.bt_share);
-                ibt_save= (ImageButton) itemView.findViewById(R.id.bt_save);
-                ibt_fav= (ImageView) itemView.findViewById(R.id.bt_fav);
-                ibt_link = (ImageButton) itemView.findViewById(R.id.ibt_link);
-                iv_content = (ImageView) itemView.findViewById(R.id.iv_content);
-                fl_images = (FrameLayout)itemView.findViewById(R.id.fl_images);
-                bt_going = (Button)itemView.findViewById(R.id.bt_going);
-                bt_not_going = (Button) itemView.findViewById(R.id.bt_not_going);
+                tvorg = itemView.findViewById(R.id.tv_org);
+                tvTitle = itemView.findViewById(R.id.tvTitle);
+                tvDetails = itemView.findViewById(R.id.tvDetails);
+                tv_cag = itemView.findViewById(R.id.tv_category);
+                tv_location = itemView.findViewById(R.id.tv_loc);
+                tv_date = itemView.findViewById(R.id.tv_date);
+                tv_time = itemView.findViewById(R.id.tv_time);
+                tv_link = itemView.findViewById(R.id.tv_link);
+                bt_show = itemView.findViewById(R.id.bt_show);
+                bt_share = itemView.findViewById(R.id.bt_share);
+                iv_fav = itemView.findViewById(R.id.iv_fav);
+                ibt_link = itemView.findViewById(R.id.ibt_link);
+                iv_content = itemView.findViewById(R.id.iv_content);
+                iv_org_logo = itemView.findViewById(R.id.iv_org_logo);
+                bt_going = itemView.findViewById(R.id.bt_going);
+                ibt_less = itemView.findViewById(R.id.bt_contract);
 
-                rv_gridimages = (LinearLayout)itemView.findViewById(R.id.rv_gridimages3);
-                rv_gridimages2 = (LinearLayout)itemView.findViewById(R.id.rv_gridimages2);
-                tv_nofimages = (TextView)itemView.findViewById(R.id.tv_nofimages);
-                iv_imag11 = (ImageView)itemView.findViewById(R.id.iv_image11);
-                iv_image12 = (ImageView)itemView.findViewById(R.id.iv_image12);
-                iv_image13 = (ImageView)itemView.findViewById(R.id.iv_image13);
-                iv_image21 = (ImageView)itemView.findViewById(R.id.iv_image21);
-                iv_image22 = (ImageView)itemView.findViewById(R.id.iv_image22);
-
-                rlHomeFeed = (RelativeLayout) itemView.findViewById(R.id.rl_home_feed);
-                cvhome = (CardView) itemView.findViewById(R.id.cv_home_feed);
-                bt_loc = (ImageButton)itemView.findViewById(R.id.bt_loc);
-                bt_time = (ImageButton) itemView.findViewById(R.id.bt_time);
-                bt_date = (ImageButton)itemView.findViewById(R.id.bt_event);
-                v_bottom = itemView.findViewById(R.id.v_bottom);
+//                fl_images = (FrameLayout)itemView.findViewById(R.id.fl_images);
+//                iv_imag11 = (ImageView)itemView.findViewById(R.id.iv_image11);
+//                bt_not_going = (Button) itemView.findViewById(R.id.bt_not_going);
+//                ibt_save= (ImageButton) itemView.findViewById(R.id.bt_save);
+//                rv_gridimages = (LinearLayout)itemView.findViewById(R.id.rv_gridimages3);
+//                rv_gridimages2 = (LinearLayout)itemView.findViewById(R.id.rv_gridimages2);
+//                tv_nofimages = (TextView)itemView.findViewById(R.id.tv_nofimages);
+//                iv_image12 = (ImageView)itemView.findViewById(R.id.iv_image12);
+//                iv_image13 = (ImageView)itemView.findViewById(R.id.iv_image13);
+//                iv_image21 = (ImageView)itemView.findViewById(R.id.iv_image21);
+//                iv_image22 = (ImageView)itemView.findViewById(R.id.iv_image22);
+//                rlHomeFeed = (RelativeLayout) itemView.findViewById(R.id.rl_home_feed);
+//                cvhome = (CardView) itemView.findViewById(R.id.cv_home_feed);
+//                bt_loc = (ImageButton)itemView.findViewById(R.id.bt_loc);
+//                bt_time = (ImageButton) itemView.findViewById(R.id.bt_time);
+//                bt_date = (ImageButton)itemView.findViewById(R.id.bt_event);
+//                v_bottom = itemView.findViewById(R.id.v_bottom);
 
             }
 

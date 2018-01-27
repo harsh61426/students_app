@@ -52,7 +52,7 @@ public class MessageChatActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mess_and_facilities_activity_message_chat);
+        setContentView(R.layout.m_activity_message_chat);
 
         Intent i = getIntent();
         final String thread_id = i.getStringExtra("thread_id");
@@ -61,7 +61,7 @@ public class MessageChatActivity extends AppCompatActivity {
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.cl_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar6);
         toolbar.setTitle(subject);
-        Log.d("chatMessage", "Subject = " + subject);
+        //Log.d("chatMessage", "Subject = " + subject);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -127,7 +127,7 @@ public class MessageChatActivity extends AppCompatActivity {
                             public void onResponse(String response) {
                                 // Display the first 500 characters of the response string.
 //                                Toast.makeText(MessageChatActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                                Log.d("complaint", response);
+                                //Log.d("complaint", response);
                                 Intent intent = new Intent(MessageChatActivity.this, MyComplaintsActivity.class);
                                 startActivity(intent);
                             }
@@ -180,7 +180,7 @@ public class MessageChatActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
 //                        Toast.makeText(MessageChatActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                        content_adapter = new ChatAdapter(MessageChatActivity.this, R.layout.mess_and_facilities_activity_message_chat);
+                        content_adapter = new ChatAdapter(MessageChatActivity.this, R.layout.m_activity_message_chat);
                         listView = (ListView) findViewById(R.id.list_message);
                         //  listView.setOnItemClickListener(new ListAction());
                         listView.setAdapter(content_adapter);

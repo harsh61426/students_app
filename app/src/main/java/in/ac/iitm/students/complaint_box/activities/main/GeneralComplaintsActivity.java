@@ -2,15 +2,18 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -20,14 +23,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -44,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import br.com.mauker.materialsearchview.MaterialSearchView;
@@ -58,10 +63,13 @@ import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.complaint_box.activities.g_CustomComplaintActivity;
-import in.ac.iitm.students.complaint_box.fragments.Updateable;
+import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.fragments.g_LatestThreadFragment;
 import in.ac.iitm.students.complaint_box.fragments.g_MyComplaintFragment;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
+import in.ac.iitm.students.organisations.adapters.OrgPagerAdapter;
+import in.ac.iitm.students.organisations.fragments.Fbfragment;
+import in.ac.iitm.students.organisations.fragments.YoutubeFragment;
 import in.ac.iitm.students.others.LogOutAlertClass;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
@@ -70,8 +78,9 @@ import in.ac.iitm.students.others.Utils;
 public class GeneralComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
 
     public String mGeneralString;
-    GeneralComplaintsActivity.ViewPagerAdapter adapter;
+    public static ViewPagerAdapter adapter;
     MaterialSearchView searchView;
+    private MenuItem searchIcon;
     String[] suggestions;
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -82,9 +91,11 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     private NavigationView navigationView;
     private Menu menu;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<UUID> uuidArrayList = new ArrayList<>();
+    private CoordinatorLayout coordinatorLayout;
+    public g_LatestThreadFragment g_latestThreadFragment;
+    public g_MyComplaintFragment g_myComplaintFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +109,11 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(0);
         actionBar.setTitle(R.string.title_activity_complaint_general);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
         //toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        searchView =(MaterialSearchView)findViewById(R.id.search_view);
 
-       searchViewCode();
+        searchViewCode();
         //mRecyclerView = (RecyclerView) findViewById(R.id.latest_thread_recycler);
         //mRecyclerView.setHasFixedSize(true);
         //mLayoutManager = new LinearLayoutManager(this);
@@ -126,6 +139,8 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         TextView username = (TextView) header.findViewById(R.id.tv_username);
         TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
 
+
+
         username.setText(name);
         rollNumber.setText(roll_no);
         ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
@@ -142,6 +157,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -150,13 +166,12 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         fab.setOnClickListener(this);
     }
 
+
     private void searchViewCode(){
-        searchView =(MaterialSearchView)findViewById(R.id.search_view);
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
                 SearchQuery(query);
                 return false;
             }
@@ -167,6 +182,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 return false;
             }
         });
+
         searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewOpened() {
@@ -184,54 +200,43 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Do something when the suggestion list is clicked.
                 String suggestion = searchView.getSuggestionAtPosition(position);
-
-                searchView.setQuery(suggestion, false);
+                Log.d("SUGGXX",suggestion);
+                searchView.setQuery(suggestion, true);
             }
         });
+    }
 
 
+    private void makeSnackbar(String msg) {
 
-
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     private void SearchQuery(String s){
-        final String query =s;
-        //to get suggestions
+        final String query = s;
 
-        Uri.Builder builder = new Uri.Builder();
-
-       /* builder.scheme("https")//https://rockstarharshitha.000webhostapp.com/general_complaints/Search.php
-                .authority("students.iitm.ac.in")
-                .appendPath("studentsapp")
-                .appendPath("studentlist")
-                .appendPath("getresultbyname.php");
-                //.appendQueryParameter("name", query);
-
-        String url = builder.build().toString();*/
-
-        //String url="https://rockstarharshitha.000webhostapp.com/general_complaints/Search.php";
+        //to get suggestion
         String url ="https://students.iitm.ac.in/studentsapp/complaints_portal/gen_complaints/search.php";
 
         StringRequest jsonObjReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
-
             @Override
             public void onResponse(String response) {
-                Log.d("complaintSearch",response);
-
+                Log.d("zoop", "response: " + response);
                 try {
                     JSONObject jsonObject=new JSONObject(response);
 
                     if (jsonObject.has("error")) {
-                         Log.d("data error",jsonObject.getString("error"));
+//                        makeSnackbar("Error Searching");
+                        Log.d("zoop1", "error:" + jsonObject.getString("error"));
                     } else if (jsonObject.has("status")) {
                         String status = jsonObject.getString("status");
 
-                        if (status == "1") {
+                        if (Objects.equals(status, "1")) {
                             JSONArray jsonArray =jsonObject.getJSONArray("searchResult");
-
-                            //g_LatestThreadFragment fragment = new g_LatestThreadFragment();
-                            adapter.update(jsonArray.toString());
+                            Log.d("XXXX","entered: "+jsonArray);
 
                             JSONArray array =jsonObject.getJSONArray("suggestions");
                             suggestions = new String[array.length()];
@@ -243,10 +248,20 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                                 JSONObject tag = array.getJSONObject(i);
                                 suggestions[i] = tag.getString("tags");
                                 //arrayList.add(tag.getString("tags"));
-                                Log.d("suggestions", suggestions[i]);
+                                Log.d("zoop", "sugg: " + suggestions[i]);
                             }
                             //suggestions = arrayList.toArray(new String[list.size()]);
-                            searchView.addSuggestions(suggestions);
+                            if(suggestions.length>0)
+                                searchView.addSuggestions(suggestions);
+                            else
+                                searchView.addSuggestion("Not Found");
+
+                            if(jsonArray.length()>0)
+                                adapter.update(jsonArray.toString());
+                            else
+                                makeSnackbar("Not found");
+
+
                             //searchView.showSuggestions();
 
                             /*if(jsonArray!=null) {
@@ -273,11 +288,9 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                                 e.printStackTrace();
                                 Toast.makeText(GeneralComplaintsActivity.this, "IOException", Toast.LENGTH_SHORT).show();
                             }*/
-
-
-
                         } else {
-                            Toast.makeText(GeneralComplaintsActivity.this, jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                            makeSnackbar("Error Searching");
+                            //Toast.makeText(GeneralComplaintsActivity.this, jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
                         }
                     }
                     /*
@@ -288,15 +301,15 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                     }*/
 
                 } catch (JSONException e) {
+                    makeSnackbar("Error Searching");
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                makeSnackbar("Error Searching");
             }
         }){
             @Override
@@ -308,15 +321,18 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         };
 
         MySingleton.getInstance(GeneralComplaintsActivity.this).addToRequestQueue(jsonObjReq);
-
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
+
+        g_latestThreadFragment = new g_LatestThreadFragment();
+        g_myComplaintFragment = new g_MyComplaintFragment();
+
         adapter = new GeneralComplaintsActivity.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new g_LatestThreadFragment(), "Latest Thread");
-        adapter.addFragment(new g_MyComplaintFragment(), "My complaints");
+        adapter.addFragment(g_latestThreadFragment, "Latest Thread");
+        adapter.addFragment(g_myComplaintFragment, "My complaints");
         viewPager.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         viewPager.addOnPageChangeListener(this);
     }
 
@@ -335,19 +351,40 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (position == 0) {
             fab.show();
-
-        } else {
-            fab.hide();
+            if(searchIcon!=null)
+                searchIcon.setVisible(true);
+            searchView.setVisibility(View.VISIBLE);
         }
-
+        else {
+            fab.hide();
+            if(searchIcon!=null)
+                searchIcon.setVisible(false);
+            searchView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onPageSelected(int position) {
-        if (position == 0)
+        if (position == 0) {
+            if (g_ComplaintAdapter.DATA_CHANGED == 1) {
+                adapter.notifyDataSetChanged();
+                g_ComplaintAdapter.DATA_CHANGED = 0;
+            }
+            if(searchIcon!=null)
+                searchIcon.setVisible(true);
+            searchView.setVisibility(View.VISIBLE);
             fab.show();
-        else
+        } else {
+            if (g_ComplaintAdapter.DATA_CHANGED == 1) {
+                Log.d("jane", "call in else");
+                adapter.notifyDataSetChanged();
+                g_ComplaintAdapter.DATA_CHANGED = 0;
+            }
+            if(searchIcon!=null)
+                searchIcon.setVisible(false);
             fab.hide();
+            searchView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -357,7 +394,6 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-
         Intent intent = new Intent(GeneralComplaintsActivity.this, g_CustomComplaintActivity.class);
         startActivity(intent);
     }
@@ -367,6 +403,9 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         // Inflate the menu; this adds items to the action bar if it is present.
        // getMenuInflater().inflate(R.menu.main_menu, menu);
        getMenuInflater().inflate(R.menu.search_item,menu);
+       searchIcon = menu.findItem(R.id.action_search);
+       searchIcon.setVisible(true);
+
        //MenuItem item=menu.findItem(R.id.action_search);
        //searchView.setMenuItem(item);
         //SearchView searchView=(SearchView) MenuItemCompat.getActionView(item);
@@ -530,10 +569,9 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             );
         }
         return true;
-
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    public class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -557,6 +595,26 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             notifyDataSetChanged();
         }
 
+//        @Override
+//        public Object instantiateItem(ViewGroup container, int position) {
+//
+//            if (mFragmentList != null) {
+//
+//                if(mGeneralString!=null && mGeneralString.length()>0){
+//                    g_LatestThreadFragment g_latestThreadFragment1 = (g_LatestThreadFragment) mFragmentList.get(position);
+//                    Log.d("XGENRES",mGeneralString);
+//                    g_latestThreadFragment1.update(mGeneralString);
+//                    Log.i("ob1", "********instantiateItem position:" + position + " FragmentDataChanged");
+//                }
+//            } else {
+//                //No fragment instance available for this index, create a new fragment by calling getItem() and show the data.
+//                Log.i("ob2", "********instantiateItem position:" + position + " NewFragmentCreated");
+//            }
+//
+//            return super.instantiateItem(container, position);
+//        }
+
+        /*
         @Override
         public int getItemPosition(Object object) {
             if (object instanceof Updateable) {
@@ -564,6 +622,11 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 ((Updateable) object).update(mGeneralString);
             }
             return super.getItemPosition(object);
+        }
+        */
+
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         public void addFragment(Fragment fragment, String title) {
@@ -575,5 +638,16 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
+//        @Override
+//        public void finishUpdate(ViewGroup container) {
+//            try {
+//                super.finishUpdate(container);
+//            } catch (NullPointerException nullPointerException) {
+//                System.out.println("Catch the NullPointerException in FragmentPagerAdapter.finishUpdate");
+//            }
+//        }
     }
+
+
 }

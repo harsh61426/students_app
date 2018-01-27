@@ -2,7 +2,6 @@ package in.ac.iitm.students.complaint_box.activities.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -67,6 +66,10 @@ import in.ac.iitm.students.others.Utils;
 
 public class HostelComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
+    public String mGeneralString;
+    MaterialSearchView searchView;
+    String[] suggestions;
+    HostelComplaintsActivity.ViewPagerAdapter adapter;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -75,23 +78,29 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Menu menu;
-    MaterialSearchView searchView;
-    String[] suggestions;
-    public String mGeneralString;
-    HostelComplaintsActivity.ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.h_activity_hostel_complaints);
 
+        String hostel = Utils.getprefString(UtilStrings.HOSTEl, this);
+        String room = Utils.getprefString(UtilStrings.ROOM, this);
+        if (hostel.equals("") || room.equals("")) {
+            Toast.makeText(getApplicationContext(), "Unable to obtain required details from server", Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(0);
-        actionBar.setTitle(R.string.title_activity_complaint_hostel);
+        String Hostel="Hostel";
+        if(hostel.length()>1) {
+            Hostel = String.valueOf(hostel.charAt(0)).toUpperCase() + hostel.substring(1, hostel.length());
+        }
+        actionBar.setTitle(Hostel + " Complaints");
         searchViewCode();
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
@@ -136,6 +145,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
         fab.setOnClickListener(this);
+
     }
 
     private void searchViewCode(){
@@ -144,7 +154,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
                 SearchQuery(query);
                 return false;
             }
@@ -191,13 +201,13 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
 
             @Override
             public void onResponse(String response) {
-                Log.d("complaintSearch",response);
+                Log.d("zakr", response);
 
                 try {
                     JSONObject jsonObject=new JSONObject(response);
 
                     if (jsonObject.has("error")) {
-                        Log.d("data error",jsonObject.getString("error"));
+                        Log.d("zakr", jsonObject.getString("error"));
                     } else if (jsonObject.has("status")) {
                         String status = jsonObject.getString("status");
 
@@ -212,7 +222,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
                             for (int i=0;i <array.length(); i++) {
                                 JSONObject tag = array.getJSONObject(i);
                                 suggestions[i] = tag.getString("tags");
-                                Log.d("suggestions", suggestions[i]);
+                                Log.d("zakr", suggestions[i]);
                             }
 
                             searchView.addSuggestions(suggestions);
@@ -277,10 +287,11 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
 
     @Override
     public void onPageSelected(int position) {
-        if (position == 0)
+        if (position == 0) {
             fab.show();
-        else
+        } else {
             fab.hide();
+        }
     }
 
     @Override
@@ -470,6 +481,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             notifyDataSetChanged();
         }
 
+
         @Override
         public int getItemPosition(Object object) {
             if (object instanceof Updateable) {
@@ -478,6 +490,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             }
             return super.getItemPosition(object);
         }
+
 
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);

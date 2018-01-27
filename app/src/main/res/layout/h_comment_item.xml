@@ -21,7 +21,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingStart="8dp"
-            android:text="Omkar Patil" />
+            android:text="Jane Doe" />
 
 
         <TextView

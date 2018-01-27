@@ -1,24 +1,28 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="in.ac.iitm.students.fragments.BunkMonitorFragment">
 
     <TextView
+        android:id="@+id/bm_inst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/instructions"/>
+        android:layout_margin="8dp"
+        android:text="@string/instructions"
+        android:textSize="12sp" />
+
 
     <GridView
         android:id="@+id/bunk_list"
         android:layout_width="wrap_content"
         android:layout_height="371dp"
+        android:layout_below="@+id/bm_inst"
         android:layout_gravity="center"
         android:layout_margin="4dp"
-
-        android:horizontalSpacing="8dp"
-        android:verticalSpacing="8dp"
+        android:horizontalSpacing="2dp"
+        android:numColumns="2"
+        android:verticalSpacing="2dp"
         android:visibility="visible" />
 
-</FrameLayout>
+</RelativeLayout>

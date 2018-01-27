@@ -1,20 +1,14 @@
 package in.ac.iitm.students.fragments;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
@@ -34,9 +25,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.EditCourseDialogActivity;
 import in.ac.iitm.students.activities.main.TimetableActivity;
-import in.ac.iitm.students.adapters.CourseAdapter;
 import in.ac.iitm.students.adapters.FreshieCourseAdapter;
 import in.ac.iitm.students.objects.Bunks;
 import in.ac.iitm.students.objects.Course;
@@ -158,13 +147,13 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(bunk[i][j])
                 {
                     //tvs[i][j].setBackgroundResource(R.drawable.back);
-                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.lightRed));
+                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getContext().getApplicationContext(),R.color.lightRed));
 
                     //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
                 else
                 {
-                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+                    tvs[i][j].setBackgroundColor(ContextCompat.getColor(getContext().getApplicationContext(),R.color.white));
                     //tvs[i][j].setBackgroundResource(R.drawable.back);
                     //tvs[i][j].setBackgroundResource(R.drawable.cellborder);
                 }
@@ -318,7 +307,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
-            course.setDays(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
+            course.setDays(Utils.getprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
             course.setFlag1((Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_FLAG,getActivity())));
             courses.add(course);
         }
@@ -375,7 +364,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
-            course.setDays(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
+            course.setDays(Utils.getprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
             course.setFlag1(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_FLAG,getActivity()));
             course.setBunk_tot(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,getActivity()));
             course.setBunk_done(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,getActivity()));
@@ -383,7 +372,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
         }
     }
 
-    private void mapslots(char c, int days,int f)
+    private void mapslots(char c, long days,int f)
     {
         switch(c)
         {
@@ -510,7 +499,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                     slots[0][1] = 'P';
                     ids[0][1] = R.id.mex1;
                     tvs[0][1].setText("");
-                    if(tvs[0][1]!=(TextView)view.findViewById(ids[0][1]))tvs[0][1].setAlpha(0.0f);
+                    if (tvs[0][1] != view.findViewById(ids[0][1])) tvs[0][1].setAlpha(0.0f);
                     tvs[0][1] = (TextView)view.findViewById(ids[0][1]);
                     tvs[0][1].setVisibility(View.VISIBLE);
                     if(!bunk[0][1])
@@ -522,7 +511,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[0][6] = 'P';
                     ids[0][6] = R.id.mex2;
-                    if(tvs[0][6]!=(TextView)view.findViewById(ids[0][6]))tvs[0][6].setAlpha(0.0f);
+                    if (tvs[0][6] != view.findViewById(ids[0][6])) tvs[0][6].setAlpha(0.0f);
                     tvs[0][6] = (TextView)view.findViewById(ids[0][6]);
                     tvs[0][6].setVisibility(View.VISIBLE);
                     if(!bunk[0][6])
@@ -537,7 +526,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==0){
                     slots[1][1] = 'Q';
                     ids[1][1] = R.id.tex1;
-                    if(tvs[1][1]!=(TextView)view.findViewById(ids[1][1]))tvs[1][1].setAlpha(0.0f);
+                    if (tvs[1][1] != view.findViewById(ids[1][1])) tvs[1][1].setAlpha(0.0f);
                     tvs[1][1] = (TextView)view.findViewById(ids[1][1]);
                     tvs[1][1].setVisibility(View.VISIBLE);
                     if(!bunk[1][1])
@@ -548,7 +537,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[1][6] = 'Q';
                     ids[1][6] = R.id.mex2;
-                    if(tvs[1][6]!=(TextView)view.findViewById(ids[1][6]))tvs[1][6].setAlpha(0.0f);
+                    if (tvs[1][6] != view.findViewById(ids[1][6])) tvs[1][6].setAlpha(0.0f);
                     tvs[1][6] = (TextView)view.findViewById(ids[1][6]);
                     tvs[1][6].setVisibility(View.VISIBLE);
                     if(!bunk[1][6])
@@ -561,7 +550,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==0){
                     slots[2][1] = 'R';
                     ids[2][1] = R.id.wex1;
-                    if(tvs[2][1]!=(TextView)view.findViewById(ids[2][1]))tvs[2][1].setAlpha(0.0f);
+                    if (tvs[2][1] != view.findViewById(ids[2][1])) tvs[2][1].setAlpha(0.0f);
                     tvs[2][1] = (TextView)view.findViewById(ids[0][1]);
                     tvs[2][1].setVisibility(View.VISIBLE);
                     if(!bunk[2][1])
@@ -572,7 +561,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[2][6] = 'R';
                     ids[2][6] = R.id.wex2;
-                    if(tvs[2][6]!=(TextView)view.findViewById(ids[2][6]))tvs[2][6].setAlpha(0.0f);
+                    if (tvs[2][6] != view.findViewById(ids[2][6])) tvs[2][6].setAlpha(0.0f);
                     tvs[2][6] = (TextView)view.findViewById(ids[2][6]);
                     tvs[2][6].setVisibility(View.VISIBLE);
                     if(!bunk[2][6])
@@ -585,7 +574,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==0){
                     slots[3][1] = 'S';
                     ids[3][1] = R.id.hex1;
-                    if(tvs[3][1]!=(TextView)view.findViewById(ids[3][1]))tvs[3][1].setAlpha(0.0f);
+                    if (tvs[3][1] != view.findViewById(ids[3][1])) tvs[3][1].setAlpha(0.0f);
                     tvs[3][1] = (TextView)view.findViewById(ids[3][1]);
                     tvs[3][1].setVisibility(View.VISIBLE);
                     if(!bunk[3][1])
@@ -596,7 +585,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[3][6] = 'S';
                     ids[3][6] = R.id.hex2;
-                    if(tvs[3][6]!=(TextView)view.findViewById(ids[3][6]))tvs[3][6].setAlpha(0.0f);
+                    if (tvs[3][6] != view.findViewById(ids[3][6])) tvs[3][6].setAlpha(0.0f);
                     tvs[3][6] = (TextView)view.findViewById(ids[3][6]);
                     tvs[3][6].setVisibility(View.VISIBLE);
                     if(!bunk[3][6])
@@ -610,7 +599,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==0){
                     slots[4][1] = 'T';
                     ids[4][1] = R.id.fex1;
-                    if(tvs[4][1]!=(TextView)view.findViewById(ids[4][1]))tvs[4][1].setAlpha(0.0f);
+                    if (tvs[4][1] != view.findViewById(ids[4][1])) tvs[4][1].setAlpha(0.0f);
                     tvs[4][1] = (TextView)view.findViewById(ids[4][1]);
                     tvs[4][1].setVisibility(View.VISIBLE);
                     if(!bunk[4][1])
@@ -621,7 +610,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 if(f==1){
                     slots[4][6] = 'T';
                     ids[4][6] = R.id.fex2;
-                    if(tvs[4][6]!=(TextView)view.findViewById(ids[4][6]))tvs[4][6].setAlpha(0.0f);
+                    if (tvs[4][6] != view.findViewById(ids[4][6])) tvs[4][6].setAlpha(0.0f);
                     tvs[4][6] = (TextView)view.findViewById(ids[4][6]);
                     tvs[4][6].setVisibility(View.VISIBLE);
                     if(!bunk[4][6])
@@ -642,7 +631,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
         int i=0;
         for(Course c: courses)
         {
-            Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
+            Utils.saveprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,c.getDays(),getActivity());
             Utils.saveprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_FLAG,c.getFlag1(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,c.getCourse_id(),getActivity());
             Utils.saveprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,Character.toString(c.getSlot()),getActivity());
@@ -653,7 +642,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
     }
 
     //fix this
-    private int getbunks(int number)
+    private int getbunks(long number)
     {
         int bunks = 0;
         for(int i=0;i<5;i++)
@@ -683,6 +672,9 @@ public class FreshieCourseTimetableFragment extends Fragment {
         final EditText courseid = (EditText) dialog.findViewById(R.id.course_id);
         final LinearLayout days = (LinearLayout) dialog.findViewById(R.id.days);
         Button add = (Button) dialog.findViewById(R.id.add);
+
+        Button remove= (Button)dialog.findViewById(R.id.remove);
+        remove.setVisibility(View.GONE);
         final Course course = new Course();
         course.setDays(1);
         course.setSlot(' ');
@@ -715,8 +707,8 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M");
                             c2.setText("T");
                             c3.setText("Th FN");
@@ -731,8 +723,8 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             c3.setText("Tue");
@@ -748,7 +740,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
                             c6.setVisibility(View.VISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             c3.setText("Tue FN");
@@ -783,7 +775,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
                             c6.setVisibility(View.VISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M");
                             c2.setText("T FN");
                             c3.setText("T AN");
@@ -799,8 +791,8 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c3.setVisibility(View.VISIBLE);
                             c4.setVisibility(View.VISIBLE);
                             c5.setVisibility(View.VISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("W FN");
                             c2.setText("W AN");
                             c3.setText("Th FN");
@@ -813,10 +805,10 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
                             c3.setVisibility(View.VISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("Th FN");
                             c2.setText("Th AN");
                             c3.setText("F");
@@ -827,11 +819,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("M FN");
                             c2.setText("M AN");
                             break;
@@ -840,11 +832,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("T FN");
                             c2.setText("T AN");
                             break;
@@ -853,11 +845,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("W FN");
                             c2.setText("W AN");
                             break;
@@ -866,11 +858,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("Th FN");
                             c2.setText("Th AN");
                             break;
@@ -879,25 +871,25 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             days.setVisibility(View.VISIBLE);
                             c1.setVisibility(View.VISIBLE);
                             c2.setVisibility(View.VISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                             c1.setText("F FN");
                             c2.setText("F AN");
                             break;
                         }
                         default: {
                             slot.setError("Invalid slot");
-                            days.setVisibility(View.INVISIBLE);
-                            c1.setVisibility(View.INVISIBLE);
-                            c2.setVisibility(View.INVISIBLE);
-                            c3.setVisibility(View.INVISIBLE);
-                            c4.setVisibility(View.INVISIBLE);
-                            c5.setVisibility(View.INVISIBLE);
-                            c6.setVisibility(View.INVISIBLE);
-                            c7.setVisibility(View.INVISIBLE);
+                            days.setVisibility(View.GONE);
+                            c1.setVisibility(View.GONE);
+                            c2.setVisibility(View.GONE);
+                            c3.setVisibility(View.GONE);
+                            c4.setVisibility(View.GONE);
+                            c5.setVisibility(View.GONE);
+                            c6.setVisibility(View.GONE);
+                            c7.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -908,17 +900,154 @@ public class FreshieCourseTimetableFragment extends Fragment {
 
             }
         });
+        /*c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*2);
+//course.setDays(course.getDays()/2);
+                check[0] = isChecked;
+            }
+        });
+        c2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*3);
+//course.setDays(course.getDays()/3);
+                check[1] = isChecked;
+            }
+        });
+        c3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*5);
+//course.setDays(course.getDays()/5);
+                check[2] = isChecked;
+            }
+        });
+        c4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[3] = isChecked;
+            }
+        });
+        c5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[4] = isChecked;
+            }
+        });
+        c6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[5] = isChecked;
+            }
+        });
+        c7.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //course.setDays(course.getDays()*7);
+//course.setDays(course.getDays()/7);
+                check[6] = isChecked;
+            }
+        });*/
         c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[0]=true;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[0][0]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()*prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[0][5]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[3][2]);
+                            break;
+                        case 'P':
+                            course.setFlag1(0);
+                            break;
+                        case 'Q':
+                            course.setFlag1(0);
+                            break;
+                        case 'R':
+                            course.setFlag1(0);
+                            break;
+                        case 'S':
+                            course.setFlag1(0);
+                            break;
+                        case 'T':
+                            course.setFlag1(0);
+                            break;
+
+
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()*2);
                 }
                 else
                 {
-                    check[0]=false;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[0][0]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[0][1]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[0][2]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[0][3]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[0][5]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[2][3]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[3][2]);
+                            break;
+                        case 'P':
+                            course.setFlag1(1);
+                            break;
+                        case 'Q':
+                            course.setFlag1(1);
+                            break;
+                        case 'R':
+                            course.setFlag1(1);
+                            break;
+                        case 'S':
+                            course.setFlag1(1);
+                            break;
+                        case 'T':
+                            course.setFlag1(1);
+                            break;
+                        default:
+                            break;
+                    }
+
                     //course.setDays(course.getDays()/2);
                 }
             }
@@ -928,12 +1057,95 @@ public class FreshieCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[1]=true;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[1][5]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[0][6]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[0][7]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[0][8]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[2][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[3][7]);
+                            break;
+                        case 'P':
+                            course.setFlag1(1);
+                            break;
+                        case 'Q':
+                            course.setFlag1(1);
+                            break;
+                        case 'R':
+                            course.setFlag1(1);
+                            break;
+                        case 'S':
+                            course.setFlag1(1);
+                            break;
+                        case 'T':
+                            course.setFlag1(1);
+                            break;
+
+                        default:
+                            break;
+                    }
+
                     //course.setDays(course.getDays()*3);
                 }
                 else
                 {
-                    check[1]=false;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[1][5]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[0][6]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[0][7]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[0][8]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[1][3]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[2][8]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[3][7]);
+                            break;
+                        case 'P':
+                            course.setFlag1(0);
+                            break;
+                        case 'Q':
+                            course.setFlag1(0);
+                            break;
+                        case 'R':
+                            course.setFlag1(0);
+                            break;
+                        case 'S':
+                            course.setFlag1(0);
+                            break;
+                        case 'T':
+                            course.setFlag1(0);
+                            break;
+
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()/3);
                 }
             }
@@ -943,12 +1155,62 @@ public class FreshieCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[2]=true;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[1][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()*prime[4][1]);
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()*5);
                 }
                 else
                 {
-                    check[2]=false;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[3][3]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()/prime[1][0]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[1][1]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[1][2]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[1][8]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[3][1]);
+                            break;
+                        case 'G':
+                            course.setDays(course.getDays()/prime[4][1]);
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()/5);
                 }
             }
@@ -958,12 +1220,58 @@ public class FreshieCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[3]=true;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[3][8]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()*prime[2][5]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[1][6]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[1][7]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[3][6]);
+                            break;
+                        case 'G':
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()*7);
                 }
                 else
                 {
-                    check[3]=false;
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[3][8]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[2][5]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[1][6]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[1][7]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[2][2]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[3][6]);
+                            break;
+                        case 'G':
+                            break;
+                        default:
+                            break;
+                    }
                     //course.setDays(course.getDays()/7);
                 }
             }
@@ -973,13 +1281,57 @@ public class FreshieCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[4]=true;
-                    //course.setDays(course.getDays()*7);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()*prime[4][2]);
+                            break;
+                        case 'B':
+
+                            course.setDays(course.getDays()*prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()*prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[2][7]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()*prime[4][0]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
                 }
                 else
                 {
-                    check[4]=false;
-                    //course.setDays(course.getDays()/7);
+                    switch(slot.getText().charAt(0)){
+                        case 'A':
+                            course.setDays(course.getDays()/prime[4][2]);
+                            break;
+                        case 'B':
+                            course.setDays(course.getDays()/prime[4][3]);
+                            break;
+                        case 'C':
+                            course.setDays(course.getDays()/prime[2][0]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[2][1]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[2][7]);
+                            break;
+                        case 'F':
+                            course.setDays(course.getDays()/prime[4][0]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
                 }
             }
         });
@@ -988,13 +1340,38 @@ public class FreshieCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[5]=true;
-                    //course.setDays(course.getDays()*7);
+                    switch(slot.getText().charAt(0)){
+                        case 'C':
+                            course.setDays(course.getDays()*prime[4][5]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()*prime[2][6]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()*prime[3][0]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
                 }
                 else
                 {
-                    check[5]=false;
-                    //course.setDays(course.getDays()/7);
+                    switch(slot.getText().charAt(0)){
+                        case 'C':
+                            course.setDays(course.getDays()/prime[4][5]);
+                            break;
+                        case 'D':
+                            course.setDays(course.getDays()/prime[2][6]);
+                            break;
+                        case 'E':
+                            course.setDays(course.getDays()/prime[3][0]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
                 }
             }
         });
@@ -1003,13 +1380,26 @@ public class FreshieCourseTimetableFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    check[6]=true;
-                    //course.setDays(course.getDays()*7);
+                    switch(slot.getText().charAt(0)){
+                        case 'D':
+                            course.setDays(course.getDays()*prime[3][5]);
+                            break;
+                        default:
+                            break;
+                    }
+                    //course.setDays(course.getDays()*2);
                 }
                 else
                 {
-                    check[6]=false;
-                    //course.setDays(course.getDays()/7);
+                    switch(slot.getText().charAt(0)){
+                        case 'D':
+                            course.setDays(course.getDays()/prime[3][5]);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //course.setDays(course.getDays()/2);
                 }
             }
         });
@@ -1047,7 +1437,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                         slot.setError("There is a slot clash");
                         flag = false;
                     }
-                    for(int i=0;i<check.length;i++){
+                    /*for(int i=0;i<check.length;i++){
                         if(check[i]) {
                             switch(slt){
                                 case 'A':
@@ -1193,21 +1583,13 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                     switch(i){
                                         case 0:
                                             //course.setDays(course.getDays()*prime[0][1]);
-                                            /*slots[0][1] = 'P';
-                                            ids[0][1] = R.id.mex1;
-                                            tvs[0][1] = (TextView)view.findViewById(ids[0][1]);
-                                            tvs[0][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
 
                                             break;
                                         case 1:
                                             //course.setDays(course.getDays()*prime[0][6]);
-                                            /*slots[0][6] = 'P';
-                                            ids[0][6] = R.id.mex2;
-                                            tvs[0][6] = (TextView)view.findViewById(ids[0][6]);
-                                            tvs[0][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(1);
 
                                             break;
@@ -1216,19 +1598,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                 case 'Q':
                                     switch(i){
                                         case 0:
-                                            /*slots[1][1] = 'Q';
-                                            ids[1][1] = R.id.tex1;
-                                            tvs[1][1] = (TextView)view.findViewById(ids[1][1]);
-                                            tvs[1][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
                                             break;
                                         case 1:
-                                            /*slots[1][6] = 'Q';
-                                            ids[1][6] = R.id.tex2;
-                                            tvs[1][6] = (TextView)view.findViewById(ids[1][6]);
-                                            tvs[1][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(1);
                                             break;
                                     }
@@ -1237,19 +1611,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                 case 'R':
                                     switch(i){
                                         case 0:
-                                            /*slots[2][1] = 'R';
-                                            ids[2][1] = R.id.wex1;
-                                            tvs[2][1] = (TextView)view.findViewById(ids[2][1]);
-                                            tvs[2][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
                                             break;
                                         case 1:
-                                            /*slots[2][6] = 'R';
-                                            ids[2][6] = R.id.wex2;
-                                            tvs[2][6] = (TextView)view.findViewById(ids[2][6]);
-                                            tvs[2][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
 
                                             course.setFlag1(1);
                                             break;
@@ -1259,19 +1625,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                 case 'S':
                                     switch(i){
                                         case 0:
-                                            /*slots[3][1] = 'S';
-                                            ids[3][1] = R.id.hex1;
-                                            tvs[3][1] = (TextView)view.findViewById(ids[3][1]);
-                                            tvs[3][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
                                             break;
                                         case 1:
-                                            /*slots[3][6] = 'S';
-                                            ids[3][6] = R.id.hex2;
-                                            tvs[3][6] = (TextView)view.findViewById(ids[3][6]);
-                                            tvs[3][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(1);
                                             break;
                                     }
@@ -1280,19 +1638,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                                 case 'T':
                                     switch(i){
                                         case 0:
-                                            /*slots[4][1] = 'T';
-                                            ids[4][1] = R.id.fex1;
-                                            tvs[4][1] = (TextView)view.findViewById(ids[4][1]);
-                                            tvs[4][1].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(0);
                                             break;
                                         case 1:
-                                            /*slots[4][6] = 'T';
-                                            ids[4][6] = R.id.fex2;
-                                            tvs[4][6] = (TextView)view.findViewById(ids[4][6]);
-                                            tvs[4][6].setVisibility(View.VISIBLE);
-                                            break;*/
+
                                             course.setFlag1(1);
                                             break;
                                     }
@@ -1302,7 +1652,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             }
 
                         }
-                    }
+                    }*/
                     if (flag) {
                         course.setCourse_id(coursed);
                         course.setSlot(Character.toUpperCase(slt));
@@ -1331,7 +1681,24 @@ public class FreshieCourseTimetableFragment extends Fragment {
         remove.setVisibility(View.VISIBLE);
         add.setText("UPDATE");
         final int number = Utils.getprefInt(UtilStrings.COURSES_COUNT,getActivity());
+        slot.addTextChangedListener(new TextWatcher() {
 
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                for(int i=0;i<number&&s.length()==1;i++){
+                    if((Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity())).charAt(0)==(slot.getText().charAt(0))&&slot.getText().charAt(0)<'P') {
+                        courseid.setText(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
+                        break;
+                    }
+                }
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1379,8 +1746,8 @@ public class FreshieCourseTimetableFragment extends Fragment {
                         }
                     }
                     if(flag){
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()) * prime[x][y], getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_DAYS, getActivity()) * prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
                         //COURSE_FLAG is needed?
                         Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_final + UtilStrings.COURSE_FLAG, y<=4?0:1, getActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_FLAG, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_FLAG, getActivity()), getActivity());
@@ -1390,8 +1757,8 @@ public class FreshieCourseTimetableFragment extends Fragment {
                     }
                     else{
                         Utils.saveprefInt(UtilStrings.COURSES_COUNT,number+1,getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
-                        Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_DAYS, prime[x][y], getActivity());
+                        Utils.saveprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, Utils.getprefLong(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_DAYS, getActivity()) / prime[x][y], getActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM + number + UtilStrings.COURSE_FLAG, y<=4?0:1, getActivity());
                         Utils.saveprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_FLAG, Utils.getprefInt(UtilStrings.COURSE_NUM + pos_init + UtilStrings.COURSE_FLAG, getActivity()) , getActivity());
                         //COURSE_FLAG is needed?
@@ -1407,7 +1774,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                 }
                 courseAdapter.notifyDataSetChanged();
 
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays(),c.getFlag1());
@@ -1426,6 +1793,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                     }
                 }
                 //recreate();
+                */
                 ((TimetableActivity) getActivity()).freshiereturnadapter().notifyDataSetChanged();
 
                 dialog.dismiss();
@@ -1442,11 +1810,11 @@ public class FreshieCourseTimetableFragment extends Fragment {
                         break;
                     }
                 }
-                Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
+                Utils.saveprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,Utils.getprefLong(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_DAYS,getActivity())/prime[x][y],getActivity());
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_FLAG,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.COURSE_FLAG,getActivity()),getActivity());
                 Utils.saveprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,Utils.getprefInt(UtilStrings.COURSE_NUM+pos_init+UtilStrings.BUNKS_TOTAL,getActivity())-2,getActivity());
                 Utils.saveprefBool("state" + 10 * x + y, false, getActivity());
-                getbunks();
+                /*getbunks();
                 getcoursemap();
                 for (Bunks c : bunks) {
                     mapslots(c.getSlot(), c.getDays(),c.getFlag1());
@@ -1463,7 +1831,7 @@ public class FreshieCourseTimetableFragment extends Fragment {
                             tvs[i][j].setVisibility(View.INVISIBLE);
                         }
                     }
-                }
+                }*/
                 dialog.dismiss();
                 courseAdapter.notifyDataSetChanged();
                 ((TimetableActivity) getActivity()).freshiereturnadapter().notifyDataSetChanged();
@@ -1481,12 +1849,76 @@ public class FreshieCourseTimetableFragment extends Fragment {
         boolean flag = false;
         for(Course c:courses)
         {
+
             flag = flag||(c.getSlot()==slot);
-            flag = flag||((c.getSlot()=='P'));
-            flag = flag||((c.getSlot()=='Q'));
-            flag = flag||((c.getSlot()=='R'));
-            flag = flag||((c.getSlot()=='S'));
-            flag = flag||((c.getSlot()=='T'));
+
+            /*flag = flag||((c.getSlot()=='P')&&(slot=='H'||slot=='M'));
+            flag = flag||((c.getSlot()=='Q')&&(slot=='M'||slot=='H'));
+            flag = flag||((c.getSlot()=='R')&&(slot=='J'||slot=='K'));
+            flag= flag||((c.getSlot()=='S')&&(slot=='L'||slot=='J'));
+            flag = flag||((c.getSlot()=='T')&&(slot=='K'||slot=='L'));*/
+
+            if(c.getSlot()=='P'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='B'&&d.getDays()%prime[0][1]==0)||(d.getSlot()=='C'&&d.getDays()%prime[0][2]==0)||(d.getSlot()=='D'&&d.getDays()%prime[0][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='P'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='B'&&d.getDays()%prime[0][6]==0)||(d.getSlot()=='C'&&d.getDays()%prime[0][7]==0)||(d.getSlot()=='D'&&d.getDays()%prime[0][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='Q'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='C'&&d.getDays()%prime[1][1]==0)||(d.getSlot()=='D'&&d.getDays()%prime[1][2]==0)||(d.getSlot()=='E'&&d.getDays()%prime[1][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='Q'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='C'&&d.getDays()%prime[1][6]==0)||(d.getSlot()=='D'&&d.getDays()%prime[1][7]==0)||(d.getSlot()=='E'&&d.getDays()%prime[1][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='R'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='D'&&d.getDays()%prime[2][1]==0)||(d.getSlot()=='E'&&d.getDays()%prime[2][2]==0)||(d.getSlot()=='F'&&d.getDays()%prime[2][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='R'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='D'&&d.getDays()%prime[2][6]==0)||(d.getSlot()=='E'&&d.getDays()%prime[2][7]==0)||(d.getSlot()=='F'&&d.getDays()%prime[2][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='S'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='F'&&d.getDays()%prime[3][1]==0)||(d.getSlot()=='G'&&d.getDays()%prime[3][2]==0)||(d.getSlot()=='A'&&d.getDays()%prime[3][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='S'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='F'&&d.getDays()%prime[3][6]==0)||(d.getSlot()=='G'&&d.getDays()%prime[3][7]==0)||(d.getSlot()=='A'&&d.getDays()%prime[3][8]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='T'&&c.getFlag1()==0){
+                for(Course d:courses){
+                    if((d.getSlot()=='G'&&d.getDays()%prime[4][1]==0)||(d.getSlot()=='A'&&d.getDays()%prime[4][2]==0)||(d.getSlot()=='B'&&d.getDays()%prime[4][3]==0))
+                        flag=true;
+                }
+            }
+            if(c.getSlot()=='T'&&c.getFlag1()==1){
+                for(Course d:courses){
+                    if((d.getSlot()=='G'&&d.getDays()%prime[4][6]==0)||(d.getSlot()=='A'&&d.getDays()%prime[4][7]==0)||(d.getSlot()=='B'&&d.getDays()%prime[4][8]==0))
+                        flag=true;
+                }
+            }
+
         }
         return flag;
     }

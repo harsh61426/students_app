@@ -2,7 +2,6 @@ package in.ac.iitm.students.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,21 +9,29 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
@@ -37,8 +44,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView profilePicImage;
     EditText et_email, et_phone;
-    TextView tv_name, tv_roll, tv_hostel, tv_room, tv_phone, tv_email;
-    //final InputMethodManager imm = (InputMethodManager) getSystemService(.INPUT_METHOD_SERVICE);
+    TextView tv_name, tv_roll, tv_hostel, tv_room, tv_phone, tv_email, tv_mess;
+
     public static String reverse(String input) {
         char[] in = input.toCharArray();
         int begin = 0;
@@ -73,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
         tv_room = (TextView) findViewById(R.id.p_room);
         tv_phone = (TextView) findViewById(R.id.p_mobile);
         tv_email = (TextView) findViewById(R.id.p_email);
+        tv_mess = (TextView) findViewById(R.id.p_mess);
 
         et_email = (EditText) findViewById(R.id.p_edit_email);
         et_phone = (EditText) findViewById(R.id.p_edit_mobile);
@@ -85,13 +93,15 @@ public class ProfileActivity extends AppCompatActivity {
         String room = Utils.getprefString(UtilStrings.ROOM, this);
         String mobile = Utils.getprefString(UtilStrings.MOBILE,this);
         String email = Utils.getprefString(UtilStrings.MAIL,this);
+        String mess = Utils.getprefString(UtilStrings.MESS, this);
 
         tv_name.setText(name);
-        tv_roll.setText(roll_no);
+        tv_roll.setText(roll_no.toUpperCase());
         tv_hostel.setText("Hostel: "+hostel.toUpperCase());
         tv_room.setText("Room: "+room);
-        tv_email.setText("Email ID: "+email);
         tv_phone.setText("Contact No: "+mobile);
+        tv_mess.setText("Mess: "+mess);
+        getMess(roll_no.toUpperCase(),mess);
 
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
@@ -102,6 +112,12 @@ public class ProfileActivity extends AppCompatActivity {
                 .centerInside()
                 .into(profilePicImage);
 
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            tv_email.setText("Email ID: "+acct.getEmail());
+        }else {
+            tv_email.setText("Email ID: "+email);
+        }
 
         tv_phone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,12 +127,10 @@ public class ProfileActivity extends AppCompatActivity {
                 et_phone.requestFocus();
                 String phone = tv_phone.getText().toString();
                 phone=phone.replace("Contact No: ","");
+                phone=phone.replace("Enter mobile number","");
                 et_phone.setText(phone);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                //et_phone.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
-                //et_phone.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
-
             }
         });
 
@@ -128,21 +142,20 @@ public class ProfileActivity extends AppCompatActivity {
                 et_email.requestFocus();
                 String email = tv_email.getText().toString();
                 email=email.replace("Email ID: ","");
+                email=email.replace("Enter email","");
                 et_email.setText(email);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                //et_email.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
-                //et_email.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
             }
         });
 
         et_email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                Log.i("Event",Integer.toString(actionId));
+                //Log.i("Event",Integer.toString(actionId));
                 if(actionId== EditorInfo.IME_ACTION_DONE) {
                     String mail = et_email.getText().toString();
-                    Log.i("Mail",mail);
+                    //Log.i("Mail",mail);
                     if (!isEmailValid(mail)) {
                         final AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
                         builder.setMessage("Email is invalid.")
@@ -242,6 +255,37 @@ public class ProfileActivity extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getMess(final String roll, final String mess)
+    {
+
+        String url_mess = "https://students.iitm.ac.in/studentsapp/mess_reg/extract.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url_mess, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                tv_mess.setText("Mess: "+response);
+                if(!mess.equalsIgnoreCase(response))
+                {
+                    Utils.saveprefString(UtilStrings.MESS,response,ProfileActivity.this);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Log.i("Error","Unable to fetch");
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("rollno",roll);
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(this).addToRequestQueue(request);
     }
 
     private boolean isPhonenoValid(String s) {

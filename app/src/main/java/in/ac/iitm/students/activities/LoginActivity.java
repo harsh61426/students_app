@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,7 +29,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,14 +53,17 @@ import in.ac.iitm.students.others.Utils;
  * Created by sai_praneeth7777 on 03-Sep-16.
  */
 public class LoginActivity extends AppCompatActivity {
-    ProgressDialog progress;
+    private static final String TAG = "SIGNINTag";
+    public GoogleSignInClient mGoogleSignInClient;
+    ProgressDialog progress,progress3;
     EditText username, password;
-    Button login,ldap_login;
+    Button login;
     private Class<?> cls;
-    GoogleSignInClient mGoogleSignInClient;
     private Boolean isSignedIn = false;
-    private int  RC_SIGN_IN = 1;
-    private String TAG = "SIGNINTag";
+    private int  RC_SIGN_IN = 9001;
+    private FirebaseAuth mAuth;
+    private TextInputLayout user;
+    private TextInputLayout pass;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,26 +72,31 @@ public class LoginActivity extends AppCompatActivity {
         if (getIntent().hasExtra("class")) {
             cls_name = getIntent().getExtras().get("class").toString();
         }
+
         cls = HomeActivity.class;
         try {
             cls = Class.forName(cls_name);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        user=(TextInputLayout) findViewById(R.id.rollnowrapper);
+        pass=(TextInputLayout) findViewById(R.id.passwordwrapper);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Button ldap_login = (Button)this.findViewById(R.id.bt_ldap_login);
+//        ldap_login.setSize(SignInButton.SIZE_STANDARD);
 
-        ldap_login = (Button)this.findViewById(R.id.bt_ldap_login);
-
+//        setGoogleSigninButtonText(ldap_login,"Ldap Login");
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.webServerId))
                 .requestEmail()
                 .build();
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mAuth = FirebaseAuth.getInstance();
 
         // Set the dimensions of the sign-in button.
         final SignInButton signInButton = (SignInButton)this.findViewById(R.id.sign_in_button);
@@ -89,8 +106,8 @@ public class LoginActivity extends AppCompatActivity {
         ldap_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username.setVisibility(View.VISIBLE);
-                password.setVisibility(View.VISIBLE);
+                user.setVisibility(View.VISIBLE);
+                pass.setVisibility(View.VISIBLE);
                 login.setVisibility(View.VISIBLE);
             }
         });
@@ -98,16 +115,11 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.sign_in_button:
-                        username.setVisibility(View.GONE);
-                        password.setVisibility(View.GONE);
+                        user.setVisibility(View.GONE);
+                        pass.setVisibility(View.GONE);
                         login.setVisibility(View.GONE);
                         signIn();
-                        break;
                 }
-
-            }
         });
 
 
@@ -128,69 +140,141 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (username.getText().toString().trim().length() > 0 && password.getText().toString().trim().length() > 0) {
                     if (Utils.isNetworkAvailable(getBaseContext())) {
-                        progress = new ProgressDialog(LoginActivity.this);
-                        progress.setCancelable(false);
-                        progress.setMessage("Logging in...");
-                        progress.show();
+                        showProgressDialog("Logging in...");
                         PlacementLdaplogin(getBaseContext());
                     } else {
                         MakeSnSnackbar("No internet connection");
                     }
-
                 } else {
                     MakeSnSnackbar("Enter your username and password");
                 }
-
             }
         });
-
     }
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        showProgressDialog("Loading...");
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        hideProgressDialog();
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
+
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            try {
+                hideProgressDialog();
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if(account.getEmail().contains("smail.iitm.ac.in")){
+                    // Signed in successfully, show authenticated UI.
+                    firebaseAuthWithGoogle(account);
+                }else{
+                    signOut();
+                    Toast.makeText(this,"SignIn only with your Smail",Toast.LENGTH_LONG).show();
+                }
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w("panz", "signInResult:failed code=" + e.getStatusCode());
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_LONG).show();
+                updateUI(null);
+            }
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            updateUI(account);
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
-        }
+    private void signOut() {
+        // Firebase sign out
+        mAuth.signOut();
+        // Google sign out
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI(null);
+                        Snackbar.make(findViewById(R.id.loginButton),"SignIn with your Smail",1);
+                    }
+                });
     }
 
+    private void revokeAccess() {
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google revoke access
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI(null);
+                    }
+                });
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        // Check for existing Google Sign In account, if the user is already signed in
-// the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI(account);
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
 
-    public void updateUI(GoogleSignInAccount account){
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        showProgressDialog("Logging in...");
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            //Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Snackbar.make(findViewById(R.id.bt_ldap_login), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        hideProgressDialog();
+                    }
+                });
+    }
+
+
+    private void showProgressDialog(String message){
+        progress = new ProgressDialog(this);
+        progress.setCancelable(false);
+        progress.setMessage(message);
+        progress.show();
+    }
+
+    private void hideProgressDialog(){
+        if(progress!=null)
+            progress.dismiss();
+    }
+
+    public void updateUI(FirebaseUser account){
         if(account!=null){
-            isSignedIn = true;
+            if(account.getEmail().contains("smail.iitm.ac.in")){
+                isSignedIn = true;
+                hideProgressDialog();
+                Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+                intent.putExtra("sigin",account.getEmail().split("@")[0]);
+                startActivity(intent);
+            }else {
+                signOut();
+            }
+        }else {
+            Snackbar.make(findViewById(R.id.loginButton),"Error Occured",1);
         }
     }
 
@@ -213,7 +297,6 @@ public class LoginActivity extends AppCompatActivity {
         final int[] success = new int[1];
         final JSONObject[] responseJson = new JSONObject[1];
 
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getString(R.string.LoginURl),
                 new Response.Listener<String>() {
@@ -229,7 +312,6 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
 
                         if (success[0] == 1) {
                             JSONObject jsonResultObjuct = null;
@@ -256,30 +338,28 @@ public class LoginActivity extends AppCompatActivity {
                             Utils.saveprefString(UtilStrings.ROLLNO, username.getText().toString().toUpperCase(), getBaseContext());
                             Utils.saveprefBool(UtilStrings.LOGEDIN, true, context);
 
-
                             finish();
                         } else if (success[0] == 0) {
                             MakeSnSnackbar(message[0]);
-                            Log.d("invalid login", response + "Error connecting to server !!");
+                            //Log.d("invalid login", response + "Error connecting to server !!");
                             Utils.clearpref(context);
                         } else {
                             MakeSnSnackbar(getString(R.string.error_connection));
-                            Log.d("invalid login", response + "Error connecting to server !!");
+                            //Log.d("invalid login", response + "Error connecting to server !!");
                             Utils.clearpref(context);
                         }
-                        progress.dismiss();
+                        hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 MakeSnSnackbar(getString(R.string.error_connection));
-                Log.d("invalid login: ", error.toString() + "; Error connecting to server!");
+                //Log.d("invalid login: ", error.toString() + "; Error connecting to server!");
                 Utils.clearpref(context);
-                Log.d("brr", "onError");
+                //Log.d("brr", "onError");
                 progress.dismiss();
             }
         }) {
-
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();

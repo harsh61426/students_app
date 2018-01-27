@@ -8,20 +8,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +44,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,8 +55,6 @@ import in.ac.iitm.students.adapters.StudentSearchAdapter;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
-import in.ac.iitm.students.fragments.NameSearchFragment;
-import in.ac.iitm.students.fragments.RollSearchFragment;
 import in.ac.iitm.students.objects.Student;
 import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.LogOutAlertClass;
@@ -75,10 +66,6 @@ public class StudentSearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
-    private DrawerLayout drawer;
-    private Menu menu;
-    private NavigationView navigationView;
-
     ListView lvSuggestion;
     StudentSearchAdapter adapter;
     ArrayList<Student> listSuggestion = new ArrayList<>(25);
@@ -95,6 +82,9 @@ public class StudentSearchActivity extends AppCompatActivity
     TextView phoneno_;
     TextView abtyourself_;
     ScrollView sc_;
+    private DrawerLayout drawer;
+    private Menu menu;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +107,8 @@ public class StudentSearchActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
 
-        TextView username = (TextView) header.findViewById(R.id.tv_username);
-        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+        TextView username = header.findViewById(R.id.tv_username);
+        TextView rollNumber = header.findViewById(R.id.tv_roll_number);
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
@@ -126,7 +116,7 @@ public class StudentSearchActivity extends AppCompatActivity
         username.setText(name);
         rollNumber.setText(roll_no);
 
-        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
+        ImageView imageView = header.findViewById(R.id.user_pic);
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
@@ -156,16 +146,16 @@ public class StudentSearchActivity extends AppCompatActivity
                 //goToDetails(name);
             }
         });
-
-        profilePic_ = (CircleImageView) findViewById(R.id.profile_pic);
-        name_ = (TextView) findViewById(R.id.name_overview);
-        rollno_ = (TextView) findViewById(R.id.rollno_overview);
-        hostel_ = (TextView) findViewById(R.id.hostel_overview);
-        room_ = (TextView) findViewById(R.id.room_overview);
-        email_ = (TextView) findViewById(R.id.email_info);
-        phoneno_ = (TextView) findViewById(R.id.phone_info);
-        abtyourself_ = (TextView) findViewById(R.id.aboutyourself);
-        sc_=(ScrollView) findViewById(R.id.scroll_view);
+//
+//        profilePic_ = (CircleImageView) findViewById(R.id.profile_pic);
+//        name_ = (TextView) findViewById(R.id.name_overview);
+//        rollno_ = (TextView) findViewById(R.id.rollno_overview);
+//        hostel_ = (TextView) findViewById(R.id.hostel_overview);
+//        room_ = (TextView) findViewById(R.id.room_overview);
+//        email_ = (TextView) findViewById(R.id.email_info);
+//        phoneno_ = (TextView) findViewById(R.id.phone_info);
+//        abtyourself_ = (TextView) findViewById(R.id.aboutyourself);
+//        sc_=(ScrollView) findViewById(R.id.scroll_view);
 
 
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -210,6 +200,7 @@ public class StudentSearchActivity extends AppCompatActivity
         if (query.length() <= 2) {
             progressSearch.setVisibility(View.GONE);
             searchMessage.setText(R.string.error_enter_more_characters);
+            searchMessage.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
             searchMessage.setVisibility(View.VISIBLE);
             adapter.notifyDataSetChanged();
             return;
@@ -243,7 +234,7 @@ public class StudentSearchActivity extends AppCompatActivity
 
                     for (i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
-                        Log.i("JSON",jsonObject.toString());
+                        //Log.i("JSON",jsonObject.toString());
                         student = new Student();
                         student.setName(jsonObject.getString("fullname"));
                         student.setRollno(jsonObject.getString("username"));
@@ -293,7 +284,7 @@ public class StudentSearchActivity extends AppCompatActivity
             public Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("name", etSearch.getText().toString());
-                Log.i("name",etSearch.getText().toString());
+                //Log.i("name",etSearch.getText().toString());
                 return params;
             }
         };
@@ -307,13 +298,14 @@ public class StudentSearchActivity extends AppCompatActivity
         Dialog dialog = new Dialog(this);
         dialog.setTitle("Student details");
         dialog.setContentView(R.layout.dialog_details);
-        TextView rollno = (TextView)dialog.findViewById(R.id.d_rollno);
+        TextView rollno = dialog.findViewById(R.id.d_rollno);
         rollno.setText(student.getRollno());
-        TextView name = (TextView)dialog.findViewById(R.id.d_name);
+        TextView name = dialog.findViewById(R.id.d_name);
         name.setText(student.getName());
-        TextView room = (TextView)dialog.findViewById(R.id.d_room);
+        TextView room = dialog.findViewById(R.id.d_room);
         room.setText(student.getRoom()+", "+student.getHostel());
-        CircleImageView photo = (CircleImageView)dialog.findViewById(R.id.d_photo);Uri.Builder builder = new Uri.Builder();
+        CircleImageView photo = dialog.findViewById(R.id.d_photo);
+        Uri.Builder builder = new Uri.Builder();
 
         builder.scheme("https")
                 .authority("photos.iitm.ac.in")

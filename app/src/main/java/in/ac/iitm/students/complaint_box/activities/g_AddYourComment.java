@@ -2,6 +2,7 @@ package in.ac.iitm.students.complaint_box.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +41,7 @@ public class g_AddYourComment extends AppCompatActivity {
         final String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         final String NAME = Utils.getprefString(UtilStrings.NAME, this);
 
+        final TextInputLayout til_CmntDesc=(TextInputLayout)findViewById(R.id.til_editText);
         Intent i = getIntent();
         final Complaint hComplaint = (Complaint) i.getSerializableExtra("cardData");
 
@@ -50,12 +52,11 @@ public class g_AddYourComment extends AppCompatActivity {
         TextView description = (TextView) findViewById(R.id.comment_tv_description);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
         final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
-        TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
-        final EditText CmntDesc = (EditText) findViewById(R.id.editText);
+        final TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
+        final EditText CmntDesc = til_CmntDesc.getEditText();
         Button save = (Button) findViewById(R.id.bn_save);
 
         name.setText(hComplaint.getName());
-        //todo change narmad
         hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, g_AddYourComment.this));
         resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         title.setText(hComplaint.getTitle());
@@ -110,8 +111,8 @@ public class g_AddYourComment extends AppCompatActivity {
                         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
                         params.put("HOSTEL", hostel_name);
-                        params.put("NAME", "Omkar Patil");
-                        params.put("ROLL_NO", "me15b123");
+                        params.put("NAME", Utils.getprefString(UtilStrings.NAME, g_AddYourComment.this));
+                        params.put("ROLL_NO", Utils.getprefString(UtilStrings.ROLLNO, g_AddYourComment.this));
                         params.put("ROOM_NO", room);
                         params.put("COMMENT", cmntDescStr);
                         params.put("UUID", mUUID);

@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/mess_and_facilities_app_bar_mess_and_fac"
+        layout="@layout/m_app_bar_mess_and_fac"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -2,8 +2,6 @@ package in.ac.iitm.students.fragments;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,14 +12,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import in.ac.iitm.students.R;
-import in.ac.iitm.students.activities.main.TimetableActivity;
 import in.ac.iitm.students.adapters.BunksAdapter;
 import in.ac.iitm.students.objects.Bunks;
 import in.ac.iitm.students.others.UtilStrings;
@@ -32,7 +28,7 @@ public class BunkMonitorFragment extends Fragment {
     GridView gridView;
     BunksAdapter bunksAdapter;
     ArrayList<Bunks> bunks;
-    Dialog dialog;
+    //Dialog dialog;
     //TODO: Add reminders for slots
 
     public BunkMonitorFragment() {
@@ -49,27 +45,18 @@ public class BunkMonitorFragment extends Fragment {
 
         getcourses();
 
-        bunksAdapter = new BunksAdapter(getActivity(), bunks);
-        gridView = (GridView)view.findViewById(R.id.bunk_list);
+        gridView = (GridView) view.findViewById(R.id.bunk_list);
 
+        bunksAdapter = new BunksAdapter(getActivity(), bunks,gridView);
         gridView.setAdapter(bunksAdapter);
         gridView.setNumColumns((getActivity().getResources().getConfiguration().orientation
                 ==Configuration.ORIENTATION_PORTRAIT)?2:3);  //3 if landscape
 
-        final int size = gridView.getChildCount();
-        final int firstVisiblePosition = gridView.getFirstVisiblePosition();
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                initdialog(position);
-                //dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.show();
-
-            }
-        });
+        /*final int size = gridView.getChildCount();
+        final int firstVisiblePosition = gridView.getFirstVisiblePosition();*/
         return view;
     }
+    /*
     private void initdialog(int pos){
         dialog = new Dialog(getActivity());
         final int position=pos;
@@ -92,9 +79,9 @@ public class BunkMonitorFragment extends Fragment {
         minus.setText("-1");
 
         final EditText slot = (EditText) dialog.findViewById(R.id.slot);
-        slot.setVisibility(View.INVISIBLE);
+        slot.setVisibility(View.GONE);
         final EditText courseid = (EditText) dialog.findViewById(R.id.course_id);
-        courseid.setVisibility(View.INVISIBLE);
+        courseid.setVisibility(View.GONE);
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +112,7 @@ public class BunkMonitorFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-    }
+    }*/
 
 
     public void getcourses()
@@ -137,7 +124,7 @@ public class BunkMonitorFragment extends Fragment {
             String slot = Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_SLOT,getActivity());
             course.setSlot(slot.charAt(0));
             course.setCourse_id(Utils.getprefString(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_ID,getActivity()));
-            course.setDays(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
+            course.setDays(Utils.getprefLong(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_DAYS,getActivity()));
             course.setBunk_tot(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_TOTAL,getActivity()));
             course.setBunk_done(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.BUNKS_DONE,getActivity()));
             course.setFlag1(Utils.getprefInt(UtilStrings.COURSE_NUM+i+UtilStrings.COURSE_FLAG,getActivity()));

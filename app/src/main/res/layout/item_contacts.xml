@@ -7,6 +7,7 @@
     android:layout_marginBottom="1dp"
     android:background="@color/cardview_light_background"
     android:orientation="vertical"
+    android:paddingBottom="12dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingTop="16dp">
@@ -16,10 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="8dp"
         android:text="Decibels"
-        android:textColor="@color/colorPrimaryText"
-        android:textSize="24sp" />
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/text_event"
@@ -27,16 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Event"
-        android:textColor="@color/colorSecondaryText"
+        android:textColor="@color/colorPrimary"
         android:textSize="16sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/darker_gray" />
 
 </LinearLayout>

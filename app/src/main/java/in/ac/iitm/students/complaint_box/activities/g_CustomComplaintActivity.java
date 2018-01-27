@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,9 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +34,6 @@ import java.util.UUID;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
-import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -63,9 +60,13 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
 
 
         Button saveCustomCmplnt = (Button) findViewById(R.id.button_save);
-        final EditText tv_title = (EditText) findViewById(R.id.editText_complaint_title);
-        final EditText tv_description = (EditText) findViewById(R.id.editText_complaint_description);
-        final EditText tv_tags = (EditText) findViewById(R.id.editText_tags);
+        final TextInputLayout til_title= (TextInputLayout)findViewById(R.id.til_editText_complaint_title);
+        final TextInputLayout til_description= (TextInputLayout)findViewById(R.id.til_editText_complaint_description);
+        final TextInputLayout til_tags= (TextInputLayout)findViewById(R.id.til_editText_tags);
+
+        final EditText tv_title = til_title.getEditText();
+        final EditText tv_description = til_description.getEditText();
+        final EditText tv_tags = til_tags.getEditText();
 
         saveCustomCmplnt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +168,7 @@ public class g_CustomComplaintActivity extends AppCompatActivity {
                             params.put("UPVOTES", "0");
                             params.put("DOWNVOTES", "0");
                             params.put("UUID", mUUID);
+                            params.put("DATE", date);
                             params.put("TAGS", tags);
                             params.put("DATETIME", date);
                             params.put("COMMENTS", "0");

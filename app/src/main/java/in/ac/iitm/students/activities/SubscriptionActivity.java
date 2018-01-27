@@ -202,7 +202,7 @@ public class SubscriptionActivity extends AppCompatActivity implements CompoundB
             HashMap<String, String> hashMap = user_topics.get(i);
             editor.putBoolean(hashMap.get("topic"), subscriptionPref.get(hashMap.get("topic")));
 
-            Log.d("tada", hashMap.get("topic") + ":" + subscriptionPref.get(hashMap.get("topic")));
+            //Log.d("tada", hashMap.get("topic") + ":" + subscriptionPref.get(hashMap.get("topic")));
         }
         editor.apply();
     }

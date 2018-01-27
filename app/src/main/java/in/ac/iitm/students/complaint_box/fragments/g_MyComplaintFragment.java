@@ -28,7 +28,6 @@ import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.complaint_box.adapters.g_ComplaintAdapter;
-import in.ac.iitm.students.complaint_box.adapters.h_ComplaintAdapter;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
 import in.ac.iitm.students.complaint_box.others.g_JSONComplaintParser;
 import in.ac.iitm.students.others.MySingleton;
@@ -38,7 +37,6 @@ import in.ac.iitm.students.others.Utils;
 
 public class g_MyComplaintFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private final String hostel = "narmada";
     private final String KEY_HOSTEL = "HOSTEL";
     SwipeRefreshLayout swipeLayout;
 

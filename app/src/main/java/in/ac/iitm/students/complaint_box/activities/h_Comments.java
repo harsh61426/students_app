@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
 import in.ac.iitm.students.complaint_box.adapters.h_CommentsAdapter;
 import in.ac.iitm.students.complaint_box.objects.CommentObj;
 import in.ac.iitm.students.complaint_box.objects.Complaint;
@@ -58,6 +60,7 @@ public class h_Comments extends AppCompatActivity {
     private InputStream stream;
     private RelativeLayout relativeLayout;
     private Complaint hComplaint;
+    private TextView comment;
     private String url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/searchComment.php";
     //private String url = "https://rockstarharshitha.000webhostapp.com/hostel_complaints/searchComment.php";
 
@@ -86,6 +89,7 @@ public class h_Comments extends AppCompatActivity {
 
         final String add_url = "https://students.iitm.ac.in/studentsapp/complaints_portal/hostel_complaints/newComment.php";
 
+        final TextInputLayout til_editText = (TextInputLayout) findViewById(R.id.til_editText);
         Intent i = getIntent();
         hComplaint = (Complaint) i.getSerializableExtra("cardData");
 
@@ -96,8 +100,8 @@ public class h_Comments extends AppCompatActivity {
         TextView description = (TextView) findViewById(R.id.comment_tv_description);
         final TextView upvote = (TextView) findViewById(R.id.comment_tv_upvote);
         final TextView downvote = (TextView) findViewById(R.id.comment_tv_downvote);
-        TextView comment = (TextView) findViewById(R.id.comment_tv_comment);
-        final EditText CmntDesc = (EditText) findViewById(R.id.editText);
+        comment = (TextView) findViewById(R.id.comment_tv_comment);
+        final EditText CmntDesc = til_editText.getEditText();
         Button save = (Button) findViewById(R.id.bn_save);
         ImageView iv_pro = (ImageView) findViewById(R.id.imgProfilePicture);
 
@@ -111,7 +115,7 @@ public class h_Comments extends AppCompatActivity {
                 .into(iv_pro);
 
         name.setText(hComplaint.getName());
-        hostel.setText(Utils.getprefString(UtilStrings.HOSTEl, h_Comments.this));
+        hostel.setText(hComplaint.getHostel());
         resolved.setText(hComplaint.isResolved() ? "Resolved" : "Unresolved");
         title.setText(hComplaint.getTitle());
         description.setText(hComplaint.getDescription());
@@ -163,7 +167,7 @@ public class h_Comments extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 //get hostel from prefs
                 //put some dummy for now
-                params.put("HOSTEL", "narmada");
+                params.put("HOSTEL", Utils.getprefString(UtilStrings.HOSTEl, h_Comments.this));
                 params.put("UUID", mUUID);
                 return params;
             }
@@ -230,6 +234,9 @@ public class h_Comments extends AppCompatActivity {
                                                 cmtObj.setCommentStr(cmntDescStr);
                                                 cmtObj.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                                                 mAdapter.addComment(cmtObj);
+
+                                                int cmnts = Integer.parseInt(comment.getText().toString()) + 1;
+                                                comment.setText(cmnts + "");
                                             } else {
                                                 makeSnackbar("Error commenting");
                                                 hideKeyboard(h_Comments.this);
@@ -310,6 +317,14 @@ public class h_Comments extends AppCompatActivity {
         Snackbar snackbar = Snackbar
                 .make(relativeLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(this, HostelComplaintsActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
     }
 
 }

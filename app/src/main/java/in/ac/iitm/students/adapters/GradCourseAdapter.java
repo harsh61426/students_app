@@ -2,12 +2,9 @@ package in.ac.iitm.students.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +12,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.objects.Course;
 import in.ac.iitm.students.others.UtilStrings;
-import in.ac.iitm.students.others.Utils;
 
 /**
  * Created by SAM10795 on 14-06-2017.
@@ -34,48 +27,15 @@ import in.ac.iitm.students.others.Utils;
 
 public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.ViewHolder> {
 
-    private Context context;
     public static ArrayList<Course> courses;
     Dialog dialog;
     //int prime[][]={{2, 3, 5, 7, 11, 13, 17, 19},{23, 29, 31, 37, 41, 43, 47, 53},{59, 61, 67, 71, 73, 79, 83, 89},{97, 101, 103, 107, 109, 113, 127, 131},{137, 139, 149, 151, 157, 163, 167, 173}};
     int prime[][]={{2, 3, 5, 7, 11, 13, 17, 19,23},{29, 31, 37, 41, 43, 47, 53,59,61},{ 67, 71, 73, 79, 83, 89,97,101,103},{ 107, 109, 113, 127, 131,137,139,149,151},{ 157, 163, 167,173,179,181,191,193,197}};
+    private Context context;
     public GradCourseAdapter(Context context, ArrayList<Course> courses)
     {
         this.context = context;
-        this.courses = courses;
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
-        LinearLayout container;
-        TextView slot;
-        TextView days;
-        TextView courseid;
-        //Checkboxes: D1 = 2, D2 = 3, D3 = 5, D4 = 7
-        TextView c1;
-        TextView c2;
-        TextView c3;
-        TextView c4;
-
-
-
-        ViewHolder(View view)
-        {
-            super(view);
-            container = (LinearLayout) view.findViewById(R.id.container);
-            c1 = (TextView) view.findViewById(R.id.day1);
-            days=(TextView) view.findViewById(R.id.textView3);
-            c2 = (TextView) view.findViewById(R.id.day2);
-            c2.setVisibility(View.INVISIBLE);
-            c3 = (TextView) view.findViewById(R.id.day3);
-            c3.setVisibility(View.INVISIBLE);
-            c4 = (TextView) view.findViewById(R.id.day4);
-            c4.setVisibility(View.INVISIBLE);
-            slot = (TextView) view.findViewById(R.id.slot);
-            courseid = (TextView) view.findViewById(R.id.course_id);
-        }
-
-
+        GradCourseAdapter.courses = courses;
     }
 
     @Override
@@ -470,6 +430,11 @@ public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.Vi
                     dialog.dismiss();
                 }
                 else {
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_DAYS),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_ID),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.COURSE_SLOT),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.BUNKS_TOTAL),0).edit().clear().apply();
+                    context.getSharedPreferences((UtilStrings.COURSE_NUM+position+UtilStrings.BUNKS_DONE),0).edit().clear().apply();
                     courses.remove(position);
                     notifyDataSetChanged();
                     dialog.dismiss();
@@ -1296,7 +1261,6 @@ public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.Vi
         return flag;
     }
 
-
     private String gettext(char c, int pos)
     {
         switch (c) {
@@ -1468,6 +1432,7 @@ public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.Vi
             }
         }
     }
+
     private String getday(int pos){
         switch(pos){
             case 0:
@@ -1493,5 +1458,35 @@ public class GradCourseAdapter extends RecyclerView.Adapter<GradCourseAdapter.Vi
     @Override
     public int getItemCount() {
         return courses.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout container;
+        TextView slot;
+        TextView days;
+        TextView courseid;
+        //Checkboxes: D1 = 2, D2 = 3, D3 = 5, D4 = 7
+        TextView c1;
+        TextView c2;
+        TextView c3;
+        TextView c4;
+
+
+        ViewHolder(View view) {
+            super(view);
+            container = (LinearLayout) view.findViewById(R.id.container);
+            c1 = (TextView) view.findViewById(R.id.day1);
+            days = (TextView) view.findViewById(R.id.textView3);
+            c2 = (TextView) view.findViewById(R.id.day2);
+            c2.setVisibility(View.INVISIBLE);
+            c3 = (TextView) view.findViewById(R.id.day3);
+            c3.setVisibility(View.INVISIBLE);
+            c4 = (TextView) view.findViewById(R.id.day4);
+            c4.setVisibility(View.INVISIBLE);
+            slot = (TextView) view.findViewById(R.id.slot);
+            courseid = (TextView) view.findViewById(R.id.course_id);
+        }
+
+
     }
 }

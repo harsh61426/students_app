@@ -9,7 +9,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 import in.ac.iitm.students.organisations.activities.main.PostActivity;
-import in.ac.iitm.students.organisations.adapters.PostApapter;
 import in.ac.iitm.students.organisations.object_items.Posts;
 import in.ac.iitm.students.others.MySingleton;
 

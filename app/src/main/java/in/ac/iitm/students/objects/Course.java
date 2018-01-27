@@ -7,7 +7,7 @@ package in.ac.iitm.students.objects;
 public class Course {
     private char slot;
     private String course_id;
-    private int days;
+    private long days;
     //
     private int flag;
     //-1=FN
@@ -19,7 +19,7 @@ public class Course {
         return slot;
     }
 
-    public int getDays() {
+    public long getDays() {
         return days;
     }
 
@@ -31,7 +31,7 @@ public class Course {
         this.course_id = course_id;
     }
 
-    public void setDays(int days) {
+    public void setDays(long days) {
         this.days = days;
     }
 

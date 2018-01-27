@@ -1,10 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame_layout_name"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
     tools:context="in.ac.iitm.students.activities.main.StudentSearchActivity">
 
 
@@ -39,7 +38,7 @@
             android:drawableLeft="@drawable/ic_search_black_24dp"
             android:drawablePadding="4dp"
             android:drawableTint="@color/colorPrimaryDark"
-            android:hint="Search by name"
+            android:hint="Search by name or roll number"
             android:imeOptions="actionSearch"
             android:inputType="textPersonName|textCapWords"
             android:padding="8dp" />
