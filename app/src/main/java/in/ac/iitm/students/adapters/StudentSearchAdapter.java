@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.objects.Student;
 
@@ -40,19 +43,30 @@ public class StudentSearchAdapter extends ArrayAdapter {
             holder = new ViewHolder();
             holder.rollno = (TextView)convertView.findViewById(R.id.roll);
             holder.name = (TextView)convertView.findViewById(R.id.name);
+            holder.acco = (TextView)convertView.findViewById(R.id.acco);
             convertView.setTag(holder);
         }
         else {
             holder = (ViewHolder) convertView.getTag();
         }
         if(position<students.size()) {
-            holder.rollno.setText(students.get(position).getRollno());
-            holder.name.setText(students.get(position).getName());
+            Student s = students.get(position);
+            holder.rollno.setText(s.getRollno());
+            holder.name.setText(s.getName());
+            if(s.getRoom().isEmpty())
+            {
+                holder.acco.setText(s.getHostel().toUpperCase());
+            }
+            else
+            {
+                holder.acco.setText(s.getRoom()+", "+s.getHostel().toUpperCase());
+            }
         }
         else
         {
             holder.name.setText("N/A");
             holder.rollno.setText("N/A");
+            holder.acco.setText("N/A");
         }
         return convertView;
     }
@@ -61,6 +75,7 @@ public class StudentSearchAdapter extends ArrayAdapter {
     {
         TextView rollno;
         TextView name;
+        TextView acco;
     }
 
 }

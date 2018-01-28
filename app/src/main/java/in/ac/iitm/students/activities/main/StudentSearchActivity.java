@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,15 +74,6 @@ public class StudentSearchActivity extends AppCompatActivity
     ProgressBar progressSearch;
     TextView searchMessage;
     FrameLayout frameLayout;
-    CircleImageView profilePic_;
-    TextView name_;
-    TextView rollno_;
-    TextView hostel_;
-    TextView room_;
-    TextView email_;
-    TextView phoneno_;
-    TextView abtyourself_;
-    ScrollView sc_;
     private DrawerLayout drawer;
     private Menu menu;
     private NavigationView navigationView;
@@ -107,8 +99,8 @@ public class StudentSearchActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
 
-        TextView username = header.findViewById(R.id.tv_username);
-        TextView rollNumber = header.findViewById(R.id.tv_roll_number);
+        TextView username = (TextView) header.findViewById(R.id.tv_username);
+        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
@@ -116,7 +108,7 @@ public class StudentSearchActivity extends AppCompatActivity
         username.setText(name);
         rollNumber.setText(roll_no);
 
-        ImageView imageView = header.findViewById(R.id.user_pic);
+        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
@@ -146,7 +138,7 @@ public class StudentSearchActivity extends AppCompatActivity
                 //goToDetails(name);
             }
         });
-//
+
 //        profilePic_ = (CircleImageView) findViewById(R.id.profile_pic);
 //        name_ = (TextView) findViewById(R.id.name_overview);
 //        rollno_ = (TextView) findViewById(R.id.rollno_overview);
@@ -200,7 +192,6 @@ public class StudentSearchActivity extends AppCompatActivity
         if (query.length() <= 2) {
             progressSearch.setVisibility(View.GONE);
             searchMessage.setText(R.string.error_enter_more_characters);
-            searchMessage.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
             searchMessage.setVisibility(View.VISIBLE);
             adapter.notifyDataSetChanged();
             return;
@@ -298,14 +289,13 @@ public class StudentSearchActivity extends AppCompatActivity
         Dialog dialog = new Dialog(this);
         dialog.setTitle("Student details");
         dialog.setContentView(R.layout.dialog_details);
-        TextView rollno = dialog.findViewById(R.id.d_rollno);
+        TextView rollno = (TextView)dialog.findViewById(R.id.d_rollno);
         rollno.setText(student.getRollno());
-        TextView name = dialog.findViewById(R.id.d_name);
+        TextView name = (TextView)dialog.findViewById(R.id.d_name);
         name.setText(student.getName());
-        TextView room = dialog.findViewById(R.id.d_room);
+        TextView room = (TextView)dialog.findViewById(R.id.d_room);
         room.setText(student.getRoom()+", "+student.getHostel());
-        CircleImageView photo = dialog.findViewById(R.id.d_photo);
-        Uri.Builder builder = new Uri.Builder();
+        CircleImageView photo = (CircleImageView)dialog.findViewById(R.id.d_photo);Uri.Builder builder = new Uri.Builder();
 
         builder.scheme("https")
                 .authority("photos.iitm.ac.in")
