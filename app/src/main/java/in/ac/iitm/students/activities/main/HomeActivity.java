@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,17 +31,14 @@ import android.text.style.UnderlineSpan;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -98,7 +94,6 @@ import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity
@@ -216,12 +211,12 @@ public class HomeActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
 
-        TextView username = (TextView) header.findViewById(R.id.tv_username);
-        TextView userrollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+        TextView username = header.findViewById(R.id.tv_username);
+        TextView userrollNumber = header.findViewById(R.id.tv_roll_number);
 
         username.setText(name);
         userrollNumber.setText(roll_no.toUpperCase());
-        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
+        ImageView imageView = header.findViewById(R.id.user_pic);
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
@@ -361,6 +356,7 @@ public class HomeActivity extends AppCompatActivity
 
             @Override
             public void onResponse(String response) {
+                Log.d("tanglop", response);
 
                 try {
                     JSONArray jsonArray = new JSONArray(response);
@@ -833,7 +829,6 @@ public class HomeActivity extends AppCompatActivity
                 } else if (name.equals("image") && reader.peek() != JsonToken.NULL) {
                     //readImageUrlArray(reader);
                     notifObject.image_urls = reader.nextString();
-                    Log.i("XXXXL",reader.nextString());
 //                    reader.beginArray();
 //                    while (reader.hasNext()) {
 ////                        notifObject.image_urls.add(reader.nextString());
@@ -1800,22 +1795,22 @@ public class HomeActivity extends AppCompatActivity
             ViewHolder(View itemView) {
                 super(itemView);
 
-                tvorg = (TextView)itemView.findViewById(R.id.tv_org);
-                tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-                tvDetails = (TextView) itemView.findViewById(R.id.tvDetails);
-                tv_cag = (TextView) itemView.findViewById(R.id.tv_category);
-                tv_location = (TextView) itemView.findViewById(R.id.tv_loc);
-                tv_date = (TextView) itemView.findViewById(R.id.tv_date);
-                tv_time = (TextView) itemView.findViewById(R.id.tv_time);
-                tv_link = (TextView)itemView.findViewById(R.id.tv_link);
-                bt_show = (Button) itemView.findViewById(R.id.bt_show);
-                bt_share = (Button) itemView.findViewById(R.id.bt_share);
-                iv_fav= (ImageView) itemView.findViewById(R.id.iv_fav);
-                ibt_link = (ImageButton) itemView.findViewById(R.id.ibt_link);
-                iv_content = (ImageView) itemView.findViewById(R.id.iv_content);
-                iv_org_logo = (ImageView) itemView.findViewById(R.id.iv_org_logo);
-                bt_going = (Button)itemView.findViewById(R.id.bt_going);
-                ibt_less = (ImageButton)itemView.findViewById(R.id.bt_contract);
+                tvorg = itemView.findViewById(R.id.tv_org);
+                tvTitle = itemView.findViewById(R.id.tvTitle);
+                tvDetails = itemView.findViewById(R.id.tvDetails);
+                tv_cag = itemView.findViewById(R.id.tv_category);
+                tv_location = itemView.findViewById(R.id.tv_loc);
+                tv_date = itemView.findViewById(R.id.tv_date);
+                tv_time = itemView.findViewById(R.id.tv_time);
+                tv_link = itemView.findViewById(R.id.tv_link);
+                bt_show = itemView.findViewById(R.id.bt_show);
+                bt_share = itemView.findViewById(R.id.bt_share);
+                iv_fav = itemView.findViewById(R.id.iv_fav);
+                ibt_link = itemView.findViewById(R.id.ibt_link);
+                iv_content = itemView.findViewById(R.id.iv_content);
+                iv_org_logo = itemView.findViewById(R.id.iv_org_logo);
+                bt_going = itemView.findViewById(R.id.bt_going);
+                ibt_less = itemView.findViewById(R.id.bt_contract);
 
 //                fl_images = (FrameLayout)itemView.findViewById(R.id.fl_images);
 //                iv_imag11 = (ImageView)itemView.findViewById(R.id.iv_image11);
