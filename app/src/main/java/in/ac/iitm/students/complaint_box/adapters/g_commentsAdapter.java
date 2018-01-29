@@ -84,7 +84,9 @@ public class g_commentsAdapter extends ArrayAdapter {
         DateFormat df = new SimpleDateFormat("dd MMM yy");
         DateFormat pf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            holder.tv_date.setText(df.format(pf.parse(mDataset.get(position).getDate())));
+            if(mDataset.get(position).getDate() != null) {
+                holder.tv_date.setText(df.format(pf.parse(mDataset.get(position).getDate())));
+            }
         }
         catch (ParseException pe)
         {
