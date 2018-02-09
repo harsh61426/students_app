@@ -357,6 +357,18 @@
         <item>hotels</item>
         <item>electronics</item>
     </string-array>
+    <string name="title_activity_complaint_forum">Complaint Forum</string>
+    <string name="my_complaints">My Complaints</string>
+    <string name="general">General</string>
+    <string name="hostel">Hostel</string>
+    <string name="add_new">Add new</string>
+    <string name="mess_menu">Mess menu</string>
+    <string name="mess_complaints">Complaints</string>
+    <string name="mess_contact">Contacts</string>
+    <string name="title_activity_acads">Acads</string>
+    <string name="calendar">Calendar</string>
+    <string name="timetable">Timetable</string>
+    <string name="bunk_monitor">Bunk Monitor</string>
 
 
 </resources>

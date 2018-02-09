@@ -459,7 +459,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle nav_cmgfs view item clicks here.
 
         Boolean checkMenuItem = true;
         MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);

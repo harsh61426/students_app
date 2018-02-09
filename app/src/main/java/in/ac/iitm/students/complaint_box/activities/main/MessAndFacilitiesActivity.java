@@ -140,7 +140,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle nav_complaints view item clicks here.
 
         Boolean checkMenuItem = true;
         MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
