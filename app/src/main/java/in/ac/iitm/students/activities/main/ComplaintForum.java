@@ -23,6 +23,11 @@ public class ComplaintForum extends AppCompatActivity {
        * On clicking the list header, one should see the complaints in it(get back to me if it's unclear)
       */
 
+    /*TODO: navigation_mess should redirect to CMGFS complaints
+     * The users should be able to pick the facility they are complaining about
+     * The contact details of the coordinator responsible for that facility should be visible
+     */
+
     /*TODO: navigation_my_complaints should let users view and delete their complaints */
 
     /*TODO: navigation_add_complaint should let users add in new complaint
@@ -50,6 +55,8 @@ public class ComplaintForum extends AppCompatActivity {
                 case R.id.navigation_my_complaints:
                     mTextMessage.setText(R.string.my_complaints);
                     return true;
+                case R.id.navigation_mess:
+                    mTextMessage.setText(R.string.mess_complaints);
                 case R.id.navigation_add_complaint:
                     mTextMessage.setText(R.string.add_new);
                     return true;
