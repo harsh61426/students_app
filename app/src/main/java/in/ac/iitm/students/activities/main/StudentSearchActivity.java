@@ -156,16 +156,6 @@ public class StudentSearchActivity extends AppCompatActivity
             }
         });
 
-//        profilePic_ = (CircleImageView) findViewById(R.id.profile_pic);
-//        name_ = (TextView) findViewById(R.id.name_overview);
-//        rollno_ = (TextView) findViewById(R.id.rollno_overview);
-//        hostel_ = (TextView) findViewById(R.id.hostel_overview);
-//        room_ = (TextView) findViewById(R.id.room_overview);
-//        email_ = (TextView) findViewById(R.id.email_info);
-//        phoneno_ = (TextView) findViewById(R.id.phone_info);
-//        abtyourself_ = (TextView) findViewById(R.id.aboutyourself);
-//        sc_=(ScrollView) findViewById(R.id.scroll_view);
-
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -254,7 +244,13 @@ public class StudentSearchActivity extends AppCompatActivity
                             listSuggestion.add(student);//+", "+studRoll
                     }
                     adapter.notifyDataSetChanged();
-                    searchMessage.setText("Search Results");
+                    if(listSuggestion.size()!=1) {
+                        searchMessage.setText("Search returned " + listSuggestion.size() + " results");
+                    }
+                    else
+                    {
+                        searchMessage.setText("Search returned 1 result");
+                    }
                     searchMessage.setVisibility(View.VISIBLE);
                     progressSearch.setVisibility(View.GONE);
 
