@@ -37,7 +37,7 @@ public class MessMenuActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 text_menu.setText(response);
-                Utils.saveprefString(UtilStrings.MESS,response,getApplicationContext());
+                //Utils.saveprefString(UtilStrings.MESS,response,getApplicationContext());
             }
         }, new Response.ErrorListener() {
             @Override
