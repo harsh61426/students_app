@@ -2,6 +2,7 @@ package in.ac.iitm.students.activities.main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -9,6 +10,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +42,15 @@ public class MessMenuActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 text_menu.setText(response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    int length = jsonArray.length();
+                    for(int i=0;i<length;i++) {
+                        Log.i("JSON", jsonArray.getString(i));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 //Utils.saveprefString(UtilStrings.MESS,response,getApplicationContext());
             }
         }, new Response.ErrorListener() {
