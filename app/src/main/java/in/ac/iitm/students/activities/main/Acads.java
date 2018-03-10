@@ -104,13 +104,128 @@ public class Acads extends AppCompatActivity {
     };
 
 
+    private NavigationView.OnNavigationItemSelectedListener nOnNavigationItemSelectedListener
+            = new NavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Boolean checkMenuItem = true;
+            MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
+            MenuItem item2 = menu.findItem(R.id.nav_complaint_hostel);
+            MenuItem item3 = menu.findItem(R.id.nav_complaint_general);
+
+            int id = item.getItemId();
+            Intent intent = new Intent();
+            boolean flag = false;
+            final Context context = Acads.this;
+
+            if (id == R.id.nav_home) {
+                intent = new Intent(context, HomeActivity.class);
+                flag = true;
+
+            } else if (id == R.id.nav_organisations) {
+                intent = new Intent(context, OrganizationActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_search) {
+                intent = new Intent(context, StudentSearchActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_map) {
+                intent = new Intent(context, MapActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_complaint_box) {
+                if (!item2.isVisible()) {
+                    item1.setVisible(false);
+                    item2.setVisible(true);
+                    item3.setVisible(true);
+                    item.setIcon(ContextCompat.getDrawable(getApplication(), R.drawable.ic_keyboard_arrow_down_black_24dp));
+                    checkMenuItem = false;
+                } else {
+                    item1.setVisible(false);
+                    item2.setVisible(false);
+                    item3.setVisible(false);
+                    checkMenuItem = false;
+                    item.setIcon(ContextCompat.getDrawable(getApplication(), R.drawable.ic_forum_black_24dp));
+                }
+                navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_timetable)).setChecked(true);
+
+
+            } else if (id == R.id.nav_complaint_hostel) {
+                intent = new Intent(context, HostelComplaintsActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_complaint_general) {
+                intent = new Intent(context, GeneralComplaintsActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_complaint_mess) {
+                intent = new Intent(context, MessAndFacilitiesActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_calendar) {
+                intent = new Intent(context, CalendarActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_timetable) {
+                //intent = new Intent(context, TimetableActivity.class);
+                //flag = true;
+            } else if (id == R.id.nav_contacts) {
+                intent = new Intent(context, ImpContactsActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_subscriptions) {
+                intent = new Intent(context, SubscriptionActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_about) {
+                intent = new Intent(context, AboutUsActivity.class);
+                flag = true;
+            } else if (id == R.id.nav_profile) {
+                intent = new Intent(context, ProfileActivity.class);
+                flag = true;
+
+            } else if (id == R.id.nav_log_out) {
+                drawer.closeDrawer(GravityCompat.START);
+                Handler handler = new Handler();
+                handler.postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                LogOutAlertClass lg = new LogOutAlertClass();
+                                lg.isSure(Acads.this);
+                            }
+                        }
+                        , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
+                );
+                return true;
+            }
+
+            if (checkMenuItem) {
+                item1.setVisible(false);
+                item2.setVisible(false);
+                item3.setVisible(false);
+
+                drawer.closeDrawer(GravityCompat.START);
+
+                //Wait till the nav drawer is closed and then start new activity (for smooth animations)
+                Handler mHandler = new Handler();
+                final boolean finalFlag = flag;
+                final Intent finalIntent = intent;
+                mHandler.postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                if (finalFlag) {
+                                    context.startActivity(finalIntent);
+                                }
+                            }
+                        }
+                        , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
+                );
+            }
+            return true;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acads);
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         //mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -128,7 +243,7 @@ public class Acads extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_timetable)).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(nOnNavigationItemSelectedListener);
 
         View header = navigationView.getHeaderView(0);
 
@@ -178,6 +293,7 @@ public class Acads extends AppCompatActivity {
 
 
 
+    /*
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -292,6 +408,6 @@ public class Acads extends AppCompatActivity {
         }
         return true;
 
-    }
+    }*/
 
 }
