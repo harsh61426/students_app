@@ -673,7 +673,7 @@ public class HomeActivity extends AppCompatActivity
             intent = new Intent(context, CalendarActivity.class);
             flag = true;
         } else if (id == R.id.nav_timetable) {
-            intent = new Intent(context, TimetableActivity.class);
+            intent = new Intent(context, Acads.class);
             flag = true;
         } else if (id == R.id.nav_contacts) {
             intent = new Intent(context, ImpContactsActivity.class);

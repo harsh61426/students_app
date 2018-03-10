@@ -366,7 +366,10 @@
     <string name="mess_complaints">Complaints</string>
     <string name="mess_contact">Contacts</string>
     <string name="title_activity_acads">Acads</string>
+    <string name="title_activity_details">Details</string>
+    <string name="title_activity_add_review">AddReview</string>
     <string name="calendar">Calendar</string>
+    <string name="title_activity_read_review">ReadReview</string>
     <string name="timetable">Timetable</string>
     <string name="bunk_monitor">Bunk Monitor</string>
 
