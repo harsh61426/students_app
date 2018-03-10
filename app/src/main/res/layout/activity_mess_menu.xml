@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="in.ac.iitm.students.activities.main.MessMenuActivity">
 
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager_mess_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_menu"/>
-</android.support.constraint.ConstraintLayout>
+        <android.support.v4.view.PagerTitleStrip
+            android:id="@+id/pager_menu_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/colorPrimary"
+            android:textColor="#fff"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp" />
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

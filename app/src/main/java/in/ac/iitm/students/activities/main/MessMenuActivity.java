@@ -1,5 +1,9 @@
 package in.ac.iitm.students.activities.main;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,59 +19,63 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.ProfileActivity;
+import in.ac.iitm.students.fragments.EWFragment;
+import in.ac.iitm.students.fragments.ImpContactsFragment;
+import in.ac.iitm.students.fragments.MessMenuFragment;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
 public class MessMenuActivity extends AppCompatActivity {
 
-    TextView text_menu;
+    private ViewPager viewPager;
+    private MessMenuPagerAdapter adapter;
+    private ArrayList<Fragment> fragments;
+    private ArrayList<String> titles;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mess_menu);
-        text_menu = (TextView) findViewById(R.id.text_menu);
-        getMenu("South Indian 1");
+        fragments = new ArrayList<>();
+        titles = new ArrayList<>();
+        fragments.add(MessMenuFragment.newInstance("SI1"));
+        fragments.add(MessMenuFragment.newInstance("SI1"));
+        titles.add("South Indian 1");
+        titles.add("South Indian 2");
+        adapter = new MessMenuPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager)findViewById(R.id.pager_mess_menu);
+        viewPager.setAdapter(adapter);
     }
-    private void getMenu(final String menuname)
-    {
 
-        String url_mess = "https://students.iitm.ac.in/studentsapp/messmenu/getmessmenu.php";
-        StringRequest request = new StringRequest(Request.Method.POST, url_mess, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                text_menu.setText(response);
-                try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    int length = jsonArray.length();
-                    for(int i=0;i<length;i++) {
-                        Log.i("JSON", jsonArray.getString(i));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //Utils.saveprefString(UtilStrings.MESS,response,getApplicationContext());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Log.i("Error","Unable to fetch");
-            }
-        })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("menutype",menuname);
-                return params;
-            }
-        };
+    public class MessMenuPagerAdapter extends FragmentPagerAdapter {
 
-        MySingleton.getInstance(this).addToRequestQueue(request);
+        public MessMenuPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles.get(position);
+        }
     }
+
 }

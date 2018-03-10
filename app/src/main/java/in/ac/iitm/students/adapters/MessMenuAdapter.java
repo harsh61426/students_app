@@ -1,14 +1,18 @@
 package in.ac.iitm.students.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,42 +39,77 @@ public class MessMenuAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder menuholder;
-        if(convertView==null)
-        {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_mess_menu,parent,false);
+        if(convertView==null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.item_mess_menu, parent, false);
             menuholder = new ViewHolder();
-
-            MessMenu menu = menuArrayList.get(position);
-
             menuholder.messday = convertView.findViewById(R.id.mess_day);
-
-            menuholder.messmenu_b = convertView.findViewById(R.id.mess_menu_b);
-            menuholder.messmenu_b.setText(menu.getBreakfast());
-            menuholder.rate_b = convertView.findViewById(R.id.rate_b);
-            menuholder.b = convertView.findViewById(R.id.menu_rating_b);
-            menuholder.b.setRating(menu.getRate_breakfast());
-
-            menuholder.messmenu_l = convertView.findViewById(R.id.mess_menu_l);
-            menuholder.messmenu_l.setText(menu.getLunch());
-            menuholder.rate_l = convertView.findViewById(R.id.rate_l);
-            menuholder.l = convertView.findViewById(R.id.menu_rating_l);
-            menuholder.l.setRating(menu.getRate_lunch());
-
-            menuholder.messmenu_d = convertView.findViewById(R.id.mess_menu_d);
-            menuholder.messmenu_d.setText(menu.getDinner());
-            menuholder.rate_d = convertView.findViewById(R.id.rate_d);
-            menuholder.d = convertView.findViewById(R.id.menu_rating_d);
-            menuholder.d.setRating(menu.getRate_dinner());
+            menuholder.menutype = convertView.findViewById(R.id.menu_time);
+            menuholder.rate = convertView.findViewById(R.id.rate);
+            menuholder.r = convertView.findViewById(R.id.menu_rating);
+            menuholder.messmenu = convertView.findViewById(R.id.mess_menu);
+            convertView.setTag(menuholder);
         }
-        return super.getView(position, convertView, parent);
+        else {
+            menuholder = (ViewHolder)convertView.getTag();
+        }
+
+        MessMenu menu = menuArrayList.get(position);
+        menuholder.messday.setText(menu.getDay());
+
+        if(menu.getMenutype().equalsIgnoreCase("Breakfast"))
+        {
+            menuholder.menutype.setText(R.string.breakfast);
+            menuholder.messday.setVisibility(View.VISIBLE);
+        }
+        else if(menu.getMenutype().equalsIgnoreCase("Lunch"))
+        {
+            menuholder.menutype.setText(R.string.lunch);
+            menuholder.messday.setVisibility(View.GONE);
+        }
+        else
+        {
+            menuholder.menutype.setText(R.string.dinner);
+            menuholder.messday.setVisibility(View.GONE);
+        }
+
+        menuholder.rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewDialog();
+            }
+        });
+
+        menuholder.r.setRating(menu.getRating());
+
+        menuholder.messmenu.setText(menu.getMenu());
+
+        return convertView;
     }
 
     static class ViewHolder
     {
-        TextView messmenu_b,messmenu_l,messmenu_d;
-        TextView rate_b, rate_l, rate_d;
-        RatingBar b,l,d;
+        TextView messmenu;
+        TextView rate;
+        RatingBar r;
         TextView messday;
+        TextView menutype;
+    }
+
+    private void viewDialog()
+    {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_menu_rating);
+        final RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+        Button button = dialog.findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("Rating","R"+ratingBar.getRating());
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
     }
 }

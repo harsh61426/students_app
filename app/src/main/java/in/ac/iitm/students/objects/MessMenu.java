@@ -6,62 +6,58 @@ package in.ac.iitm.students.objects;
 
 public class MessMenu {
 
-    private String breakfast;
-    private String lunch;
-    private String dinner;
-    private float rate_breakfast;
-    private float rate_lunch;
-    private float rate_dinner;
-    private int num_b,num_l,num_d;
+    private String day;
+    private String menutype;
+    private String menu;
+    private float rating;
+    private int num;
 
-    public MessMenu(String breakfast, String lunch, String dinner,
-                    float rate_breakfast, float rate_lunch, float rate_dinner,
-                    int num_b, int num_d, int num_l)
+    public MessMenu(String day, String menutype, String menu, float rating, int num)
     {
-        this.breakfast = breakfast;
-        this.lunch = lunch;
-        this.dinner = dinner;
-        this.num_b = num_b;
-        this.num_l = num_l;
-        this.num_d =num_d;
-        this.rate_breakfast = rate_breakfast;
-        this.rate_lunch = rate_lunch;
-        this.rate_dinner = rate_dinner;
+        this.day = day;
+        this.menutype = menutype;
+        this.menu = menu;
+        this.rating = rating;
+        this.num = num;
     }
 
-    public float getRate_breakfast() {
-        return rate_breakfast;
+    public String getDay() {
+        return day;
     }
 
-    public float getRate_dinner() {
-        return rate_dinner;
+    public void setDay(String day) {
+        this.day = day;
     }
 
-    public float getRate_lunch() {
-        return rate_lunch;
+    public void setMenu(String menu) {
+        this.menu = menu;
     }
 
-    public int getNum_b() {
-        return num_b;
+    public float getRating() {
+        return rating;
     }
 
-    public int getNum_d() {
-        return num_d;
+    public int getNum() {
+        return num;
     }
 
-    public int getNum_l() {
-        return num_l;
+    public String getMenu() {
+        return menu;
     }
 
-    public String getBreakfast() {
-        return breakfast;
+    public String getMenutype() {
+        return menutype;
     }
 
-    public String getDinner() {
-        return dinner;
+    public void setMenutype(String menutype) {
+        this.menutype = menutype;
     }
 
-    public String getLunch() {
-        return lunch;
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }
