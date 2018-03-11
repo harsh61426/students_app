@@ -1005,7 +1005,7 @@ public class HomeActivity extends AppCompatActivity
                 Log.i("XXXX",image_urls);
                 Glide.with(context).
                         load(image_urls)
-                        .placeholder(R.color.Imageback)
+                        .placeholder(R.drawable.himalaya)
                         .crossFade(500)
                         .into(holder.iv_content);
             }
