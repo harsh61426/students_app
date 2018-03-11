@@ -258,7 +258,8 @@
             android:label="@string/title_activity_complaint_forum" />
         <activity
             android:name=".activities.main.Acads"
-            android:label="@string/title_activity_acads"/>
+            android:label="@string/title_activity_acads"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
