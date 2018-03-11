@@ -156,9 +156,6 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
             intent = new Intent(context, HomeActivity.class);
             flag = true;
 
-        } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, OrganizationActivity.class);
-            flag = true;
         } else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;
@@ -201,10 +198,7 @@ public class MessAndFacilitiesActivity extends AppCompatActivity implements Navi
         } else if (id == R.id.nav_contacts) {
             intent = new Intent(context, ImpContactsActivity.class);
             flag = true;
-        } else if (id == R.id.nav_subscriptions) {
-            intent = new Intent(context, SubscriptionActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_about) {
+        }  else if (id == R.id.nav_about) {
             intent = new Intent(context, AboutUsActivity.class);
             flag = true;
         } else if (id == R.id.nav_profile) {

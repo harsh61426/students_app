@@ -13,6 +13,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -147,36 +149,48 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+//        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        menu = navigationView.getMenu();
-        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        menu = navigationView.getMenu();
+//        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
+//        navigationView.setNavigationItemSelectedListener(this);
 
-        View header = navigationView.getHeaderView(0);
+//        View header = navigationView.getHeaderView(0);
 
-        TextView username = (TextView) header.findViewById(R.id.tv_username);
-        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_view);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        // attaching bottom sheet behaviour - hide / show on scroll
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavBehaviour());
+
+        navigation.setSelectedItemId(R.id.bot_nav_map);
+//        navigation.getMenu().getItem(getResources().getInteger(R.integer.na))
+
+//        TextView username = (TextView) header.findViewById(R.id.tv_username);
+//        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
 
-        username.setText(name);
-        rollNumber.setText(roll_no);
-        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
-        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
-        Picasso.with(this)
-                .load(urlPic)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .fit()
-                .centerCrop()
-                .into(imageView);
+//        username.setText(name);
+//        rollNumber.setText(roll_no);
+//        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
+//        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
+//        Picasso.with(this)
+//                .load(urlPic)
+//                .placeholder(R.mipmap.ic_launcher)
+//                .error(R.mipmap.ic_launcher)
+//                .fit()
+//                .centerCrop()
+//                .into(imageView);
 
 
         context = this;
@@ -527,6 +541,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 lg.isSure(MapActivity.this);
                 return true;
 
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -535,6 +553,34 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Intent intent1;
+            final Context context = MapActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    intent1 = new Intent(context, HomeActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_organisations:
+                    intent1 = new Intent(context, OrganizationActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    intent1 = new Intent(context, SubscriptionActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_map:
+                    return true;
+            }
+            return false;
+        }
+    };
     private void showCampusBoundary() {
         if (layer == null) {
             try {
@@ -965,13 +1011,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
             Intent intent = new Intent(MapActivity.this, HomeActivity.class);
             startActivity(intent);
-        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1002,10 +1043,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             intent = new Intent(context, HomeActivity.class);
             flag = true;
 
-        } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, OrganizationActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_search) {
+        }else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;
         } else if (id == R.id.nav_map) {
@@ -1046,10 +1084,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } else if (id == R.id.nav_contacts) {
             intent = new Intent(context, ImpContactsActivity.class);
             flag = true;
-        } else if (id == R.id.nav_subscriptions) {
-            intent = new Intent(context, SubscriptionActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_about) {
+        }  else if (id == R.id.nav_about) {
             intent = new Intent(context, AboutUsActivity.class);
             flag = true;
         } else if (id == R.id.nav_profile) {

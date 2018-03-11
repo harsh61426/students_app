@@ -186,10 +186,7 @@ public class ImpContactsActivity extends AppCompatActivity
             intent = new Intent(context, HomeActivity.class);
             flag = true;
 
-        } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, OrganizationActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_search) {
+        }  else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;
         } else if (id == R.id.nav_map) {
@@ -230,10 +227,7 @@ public class ImpContactsActivity extends AppCompatActivity
         } else if (id == R.id.nav_contacts) {
             //intent = new Intent(context, ImpContactsActivity.class);
             //flag = true;
-        } else if (id == R.id.nav_subscriptions) {
-            intent = new Intent(context, SubscriptionActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_about) {
+        }  else if (id == R.id.nav_about) {
             intent = new Intent(context, AboutUsActivity.class);
             flag = true;
         } else if (id == R.id.nav_profile) {

@@ -6,11 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
@@ -31,14 +36,17 @@ import android.text.style.UnderlineSpan;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -94,6 +102,7 @@ import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity
@@ -125,6 +134,7 @@ public class HomeActivity extends AppCompatActivity
     private NavigationView navigationView;
     private String url_roll = "https://students.iitm.ac.in/studentsapp/studentlist/search_by_roll.php";
     private String rollNO;
+    private String name;
 
 
 
@@ -152,6 +162,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         updatePreferences();
 
+
         Intent i = getIntent();
         if(i.getStringExtra("signin")!=null){
             rollNO = i.getStringExtra("signin");
@@ -162,6 +173,15 @@ public class HomeActivity extends AppCompatActivity
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefreshhome);
         swipeRefreshLayout.setOnRefreshListener(HomeActivity.this);
 
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_view);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // attaching bottom sheet behaviour - hide / show on scroll
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavBehaviour());
+        navigation.setSelectedItemId(R.id.bot_nav_home);
+
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -171,7 +191,6 @@ public class HomeActivity extends AppCompatActivity
         pbar = (ProgressBar) findViewById(R.id.pb_home);
 
         snackbar = Snackbar.make(drawer, R.string.error_connection, Snackbar.LENGTH_LONG);
-        getData();
 
         containerLayout2 = (RelativeLayout) findViewById(R.id.rl_multipopup);
         multipopup = new PopupWindow(HomeActivity.this);
@@ -181,6 +200,7 @@ public class HomeActivity extends AppCompatActivity
 
         layout1 = inflater.inflate(R.layout.multimagepopup, (ViewGroup) findViewById(R.id.rl_multipopup));
 
+        getData();
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
@@ -200,7 +220,7 @@ public class HomeActivity extends AppCompatActivity
         }
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
-        String name = Utils.getprefString(UtilStrings.NAME, this);
+        name = Utils.getprefString(UtilStrings.NAME, this);
         String firebaseToken = FirebaseInstanceId.getInstance().getToken();
         sendRegistrationToServer(firebaseToken, name, roll_no);
 
@@ -211,12 +231,12 @@ public class HomeActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
 
-        TextView username = header.findViewById(R.id.tv_username);
-        TextView userrollNumber = header.findViewById(R.id.tv_roll_number);
+        TextView username = (TextView) header.findViewById(R.id.tv_username);
+        TextView userrollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
 
         username.setText(name);
         userrollNumber.setText(roll_no.toUpperCase());
-        ImageView imageView = header.findViewById(R.id.user_pic);
+        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
         Picasso.with(this)
                 .load(urlPic)
@@ -349,24 +369,22 @@ public class HomeActivity extends AppCompatActivity
 
         pbar.setVisibility(View.VISIBLE);
         String url = getString(R.string.url_home);
-
         // Request a string response from the provided URL.
         StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
                 url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d("tanglop", response);
 
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     response = jsonArray.toString();
-                    Log.d("responseXXX", "home " + response);
+                    Log.i("EXX2",response);
                     Utils.saveprefString(UtilStrings.homeData, response, getBaseContext());
                     goToAdapter(response);
 
                 } catch (JSONException e) {
-
+                    Log.d("ErrorXXX","ERRorOCCUREDD");
                     TextView tvError = (TextView) findViewById(R.id.tv_error_home);
                     tvError.setText(R.string.error_parsing);
                     pbar.setVisibility(View.GONE);
@@ -408,7 +426,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void goToAdapter(String response) {
-
+        Log.i("Adage",response);
         recyclerView = (RecyclerView) findViewById(R.id.content_home);
         adapter = new HomeAdapter(response, this);
         recyclerView.setAdapter(adapter);
@@ -615,6 +633,35 @@ public class HomeActivity extends AppCompatActivity
         MySingleton.getInstance(HomeActivity.this).addToRequestQueue(stringRequest);
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Intent intent1;
+            final Context context = HomeActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    return true;
+                case R.id.bot_nav_organisations:
+                    intent1 = new Intent(context, OrganizationActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    intent1 = new Intent(context, SubscriptionActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_map:
+                    intent1 = new Intent(context, MapActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+            }
+            return false;
+        }
+    };
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -634,10 +681,7 @@ public class HomeActivity extends AppCompatActivity
             //intent = new Intent(context, HomeActivity.class);
             //flag = true;
 
-        } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, OrganizationActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_search) {
+        }  else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;
         } else if (id == R.id.nav_map) {
@@ -677,9 +721,6 @@ public class HomeActivity extends AppCompatActivity
             flag = true;
         } else if (id == R.id.nav_contacts) {
             intent = new Intent(context, ImpContactsActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_subscriptions) {
-            intent = new Intent(context, SubscriptionActivity.class);
             flag = true;
         } else if (id == R.id.nav_about) {
             intent = new Intent(context, AboutUsActivity.class);
@@ -731,6 +772,7 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+
     public interface ItemTouchHelperAdapter {
 
         boolean onItemMove(int fromPosition, int toPosition);
@@ -773,6 +815,7 @@ public class HomeActivity extends AppCompatActivity
 
             try {
                 setUpData(response);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -791,9 +834,12 @@ public class HomeActivity extends AppCompatActivity
                 HomeNotifObject obj = readNotif(reader);
                 //Log.d("taad",obj.Topic);
                 if (subscribed.size() != 0) {
-                    if (subscribed.contains(obj.Topic)) {
+                    Log.i("EXX4",subscribed.toString());
+
+//                    if (subscribed.contains(obj.Topic)) {
 
                         notifObjectList.add(obj);
+
                         if (obj.title.equals(swipedprefs.getString(obj.title, ""))) {
                             notifObjectList.remove(obj);
                         }
@@ -801,20 +847,22 @@ public class HomeActivity extends AppCompatActivity
                             obj.isfav = true;
                         }
 
-                    }
+//                    }
                 } else notifObjectList.add(obj);
             }
             reader.endArray();
+
         }
 
         private HomeNotifObject readNotif(JsonReader reader) throws IOException {
 
             HomeNotifObject notifObject = new HomeNotifObject();
             reader.beginObject();
-            Log.d("NAMEXX",reader.toString());
             while (reader.hasNext()) {
                 String name = reader.nextName();
-                if (name.equals("topic")) {
+                if(name.equals("id")){
+                    notifObject.id = reader.nextString();
+                }else if (name.equals("topic")) {
                     notifObject.Topic = reader.nextString();
                 } else if (name.equals("title")) {
                     notifObject.title = reader.nextString();
@@ -828,7 +876,15 @@ public class HomeActivity extends AppCompatActivity
                     notifObject.location = reader.nextString();
                 } else if (name.equals("image") && reader.peek() != JsonToken.NULL) {
                     //readImageUrlArray(reader);
-                    notifObject.image_urls = reader.nextString();
+                    try {
+                        notifObject.image_urls = reader.nextString();
+                        Log.i("EXX2",notifObject.image_urls);
+
+                    }catch (Exception e){
+                        notifObject.image_urls = null;
+
+                    }
+//                    Log.d("XXXXL",reader.nextString());
 //                    reader.beginArray();
 //                    while (reader.hasNext()) {
 ////                        notifObject.image_urls.add(reader.nextString());
@@ -858,6 +914,7 @@ public class HomeActivity extends AppCompatActivity
             }
             try {
                 readNotifArray(reader);
+
             } finally {
 
                 reader.close();
@@ -904,7 +961,7 @@ public class HomeActivity extends AppCompatActivity
             if(loc!=null && loc.length()>0){
 
                 holder.tv_cag.setText("Event");
-                holder.bt_show.setVisibility(View.VISIBLE);
+//                holder.bt_show.setVisibility(View.VISIBLE);
 
                 if(notifObjectList.get(holder.getAdapterPosition()).date!=null && notifObjectList.get(holder.getAdapterPosition()).time.equalsIgnoreCase(space)){
                     holder.tv_date.setText("Date: "+notifObjectList.get(holder.getAdapterPosition()).date);
@@ -921,16 +978,13 @@ public class HomeActivity extends AppCompatActivity
                     holder.tv_location.setText("Venue: "+notifObjectList.get(holder.getAdapterPosition()).location);
 //                holder.bt_loc.setVisibility(View.VISIBLE);
                     holder.tv_location.setVisibility(View.VISIBLE);
-
-
             }else{
                 holder.tv_cag.setText("Notification");
-                holder.bt_show.setVisibility(View.GONE);
+//                holder.bt_show.setVisibility(View.GONE);
                 holder.tvDetails.setVisibility(View.VISIBLE);
                 holder.tv_date.setVisibility(View.GONE);
                 holder.tv_location.setVisibility(View.GONE);
                 holder.tv_time.setVisibility(View.GONE);
-
             }
 
             final SpannableString content = new SpannableString(link);
@@ -1410,7 +1464,7 @@ public class HomeActivity extends AppCompatActivity
                 this.holder = holder;
                 this.link = link;
                 this.image_urls = image_urls;
-                holder.bt_show.setOnClickListener(this);
+                holder.cv_homefeed.setOnClickListener(this);
                 holder.ibt_less.setOnClickListener(this);
             }
 
@@ -1419,12 +1473,12 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 switch (v.getId()){
 
-                    case R.id.bt_show:
-                        if (holder.tvDetails.getVisibility()==View.GONE && holder.bt_show.getVisibility()==View.VISIBLE) {
+                    case R.id.cv_home_feed:
+                        if (holder.tvDetails.getVisibility()==View.GONE) {
                             // it's collapsed - expand it
                             holder.tvDetails.setVisibility(View.VISIBLE);
                             holder.bt_going.setVisibility(View.VISIBLE);
-                            holder.bt_show.setVisibility(View.GONE);
+//                            holder.bt_show.setVisibility(View.GONE);
                             holder.ibt_less.setVisibility(View.VISIBLE);
 //                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
 //                        holder.bt_not_going.setVisibility(View.VISIBLE);
@@ -1453,6 +1507,18 @@ public class HomeActivity extends AppCompatActivity
 //                            lp.addRule(RelativeLayout.BELOW, holder.tv_date.getId());
 //
 //                        }
+                        }else{
+                            // it's expanded - collapse it
+                            holder.tvDetails.setVisibility(View.GONE);
+                            holder.bt_going.setVisibility(View.GONE);
+//                            holder.bt_show.setVisibility(View.VISIBLE);
+                            holder.ibt_less.setVisibility(View.GONE);
+//                        holder.ibt_show.setImageResource(R.drawable.ic_expand_less_black_24dp);
+//                        holder.bt_not_going.setVisibility(View.VISIBLE);
+//                        holder.bt_going.setVisibility(View.VISIBLE);
+                            holder.tv_link.setVisibility(View.GONE);
+                            holder.ibt_link.setVisibility(View.GONE);
+
                         }
 //                                if(image_urls!=null && image_urls.size() >= 2){
 //
@@ -1743,13 +1809,14 @@ public class HomeActivity extends AppCompatActivity
                         animation.setDuration(200).start();
 
                         break;
+
                     case R.id.bt_contract:
                         // it's expanded - collapse it
                         holder.tvDetails.setVisibility(View.GONE);
                         holder.tv_link.setVisibility(View.GONE);
                         holder.bt_going.setVisibility(View.GONE);
                         holder.ibt_link.setVisibility(View.GONE);
-                        holder.bt_show.setVisibility(View.VISIBLE);
+//                        holder.bt_show.setVisibility(View.VISIBLE);
                         holder.ibt_less.setVisibility(View.GONE);
 //                        holder.ibt_show.setImageResource(R.drawable.ic_expand_more_black_24dp);
 //                        lp.removeRule(RelativeLayout.BELOW);
@@ -1767,6 +1834,35 @@ public class HomeActivity extends AppCompatActivity
 //                        holder.v_bottom.getLayoutParams().height = WRAP_CONTENT;
 
                         break;
+                    case R.id.bt_going:
+                        //To change
+                        final String url = getString(R.string.url_register_fcm);
+                        // Request a string response from the provided URL.
+                        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        //Toast.makeText(HomeActivity.this, response, Toast.LENGTH_LONG).show();
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //Toast.makeText(HomeActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("title",holder.tvTitle.getText().toString());
+                                params.put("user",name);
+                                return params;
+                            }
+                        };
+                        // Add the request to the RequestQueue.
+                        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+
+                        holder.bt_going.setBackgroundColor(Color.GREEN);
+
                     default:
                         break;
                 }
@@ -1778,9 +1874,10 @@ public class HomeActivity extends AppCompatActivity
 
             TextView tvTitle,tv_cag,tvDetails ,tvorg ,tv_time, tv_date, tv_location,tv_link;
             ImageButton ibt_link;
-            Button bt_show,bt_share,bt_going;
+            Button bt_share,bt_going;
             ImageButton ibt_less;
             ImageView iv_fav,iv_content,iv_org_logo;
+            CardView cv_homefeed;
 
 //            RelativeLayout rlHomeFeed;
 //            CardView cvhome;
@@ -1795,22 +1892,23 @@ public class HomeActivity extends AppCompatActivity
             ViewHolder(View itemView) {
                 super(itemView);
 
-                tvorg = itemView.findViewById(R.id.tv_org);
-                tvTitle = itemView.findViewById(R.id.tvTitle);
-                tvDetails = itemView.findViewById(R.id.tvDetails);
-                tv_cag = itemView.findViewById(R.id.tv_category);
-                tv_location = itemView.findViewById(R.id.tv_loc);
-                tv_date = itemView.findViewById(R.id.tv_date);
-                tv_time = itemView.findViewById(R.id.tv_time);
-                tv_link = itemView.findViewById(R.id.tv_link);
-                bt_show = itemView.findViewById(R.id.bt_show);
-                bt_share = itemView.findViewById(R.id.bt_share);
-                iv_fav = itemView.findViewById(R.id.iv_fav);
-                ibt_link = itemView.findViewById(R.id.ibt_link);
-                iv_content = itemView.findViewById(R.id.iv_content);
-                iv_org_logo = itemView.findViewById(R.id.iv_org_logo);
-                bt_going = itemView.findViewById(R.id.bt_going);
-                ibt_less = itemView.findViewById(R.id.bt_contract);
+                cv_homefeed = (CardView)itemView.findViewById(R.id.cv_home_feed);
+                tvorg = (TextView)itemView.findViewById(R.id.tv_org);
+                tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+                tvDetails = (TextView) itemView.findViewById(R.id.tvDetails);
+                tv_cag = (TextView) itemView.findViewById(R.id.tv_category);
+                tv_location = (TextView) itemView.findViewById(R.id.tv_loc);
+                tv_date = (TextView) itemView.findViewById(R.id.tv_date);
+                tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+                tv_link = (TextView)itemView.findViewById(R.id.tv_link);
+//                bt_show = (Button) itemView.findViewById(R.id.bt_show);
+                bt_share = (Button) itemView.findViewById(R.id.bt_share);
+                iv_fav= (ImageView) itemView.findViewById(R.id.iv_fav);
+                ibt_link = (ImageButton) itemView.findViewById(R.id.ibt_link);
+                iv_content = (ImageView) itemView.findViewById(R.id.iv_content);
+                iv_org_logo = (ImageView) itemView.findViewById(R.id.iv_org_logo);
+                bt_going = (Button)itemView.findViewById(R.id.bt_going);
+                ibt_less = (ImageButton)itemView.findViewById(R.id.bt_contract);
 
 //                fl_images = (FrameLayout)itemView.findViewById(R.id.fl_images);
 //                iv_imag11 = (ImageView)itemView.findViewById(R.id.iv_image11);

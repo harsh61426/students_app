@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +37,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.main.BottomNavBehaviour;
 import in.ac.iitm.students.activities.main.HomeActivity;
+import in.ac.iitm.students.activities.main.MapActivity;
+import in.ac.iitm.students.organisations.activities.main.OrganizationActivity;
 import in.ac.iitm.students.others.MySingleton;
 
 /**
@@ -61,6 +67,14 @@ public class SubscriptionActivity extends AppCompatActivity implements CompoundB
 
         Intent intent = getIntent();
         fromhome = intent.getIntExtra("fromhome", 0);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_view);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // attaching bottom sheet behaviour - hide / show on scroll
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavBehaviour());
+        navigation.setSelectedItemId(R.id.bot_nav_subscriptions);
 
         context = this;
         String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
@@ -209,10 +223,12 @@ public class SubscriptionActivity extends AppCompatActivity implements CompoundB
 
     @Override
     public void onBackPressed() {
-        if (getIntent().hasExtra("knock_knock")) {
-            Intent intent = new Intent(SubscriptionActivity.this, HomeActivity.class);
-            startActivity(intent);
-        } else super.onBackPressed();  // optional depending on your needs
+        Intent intent = new Intent(SubscriptionActivity.this, HomeActivity.class);
+        startActivity(intent);
+//        if (getIntent().hasExtra("knock_knock")) {
+//            Intent intent = new Intent(SubscriptionActivity.this, HomeActivity.class);
+//            startActivity(intent);
+//        } else super.onBackPressed();  // optional depending on your needs
     }
 
     @Override
@@ -237,19 +253,42 @@ public class SubscriptionActivity extends AppCompatActivity implements CompoundB
 
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Intent intent1;
+            final Context context = SubscriptionActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    intent1 = new Intent(context, HomeActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_organisations:
+                    intent1 = new Intent(context,OrganizationActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    return true;
+                case R.id.bot_nav_map:
+                    intent1 = new Intent(context, MapActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+            }
+            return false;
+        }
+    };
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-
-                if (getIntent().hasExtra("knock_knock")) {
-                    Intent intent = new Intent(SubscriptionActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                } else onBackPressed();
-
+                onBackPressed();
                 return true;
-        }
-
+            }
         return super.onOptionsItemSelected(item);
     }
 }
