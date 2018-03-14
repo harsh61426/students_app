@@ -132,6 +132,24 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".activities.main.AddReviewActivity"
+            android:label="@string/title_activity_add_review"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.main.ReadReviewActivity"
+            android:label="@string/title_activity_read_review"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.main.DetailsActivity"
+            android:label="@string/title_activity_details"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".activities.AboutUsActivity"
             android:label="@string/title_activity_about_us"
             android:screenOrientation="portrait"
@@ -240,6 +258,7 @@
             android:label="@string/title_activity_complaint_forum" />
         <activity
             android:name=".activities.main.Acads"
+            android:theme="@style/AppTheme.NoActionBar"/>
             android:label="@string/title_activity_acads" />
         <activity
             android:name=".activities.main.MessMenuActivity"
