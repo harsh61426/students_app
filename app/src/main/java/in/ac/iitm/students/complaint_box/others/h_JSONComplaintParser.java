@@ -28,7 +28,6 @@ public class h_JSONComplaintParser {
 
     Activity activity;
     private InputStream stream;
-    //private ArrayList<h_Complaint> hComplaintArray;
     private h_WashingMachine h_wm;
     private h_WaterDispenser h_wd;
     private h_Washroom h_w;

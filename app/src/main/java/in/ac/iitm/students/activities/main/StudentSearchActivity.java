@@ -66,6 +66,23 @@ import in.ac.iitm.students.others.Utils;
 public class StudentSearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /*TODO: Add in fragment to search for courses
+    * Get courses data from academic.iitm
+    * Should allow search by course number/title
+    * Should display course number, title, instructor name and room number as result*/
+
+    /*TODO: Add in fragment for places search
+     * Add in info of places which exist in insti i.e. departments, hostels, OAT, CLT, etc.
+     * Display information about place(if any) as given in heritage trails app
+     * Search fragment should show results on map(can reuse mapactivity)
+     */
+
+    /*TODO: Add in faculty search fragment
+     * Should display facult name and room number along with photo
+     * Information should be available on academic.iitm
+     * If not, let one of the MobOps cores know, we'll get it for you
+     */
+
     Toolbar toolbar;
     ListView lvSuggestion;
     StudentSearchAdapter adapter;
@@ -138,16 +155,6 @@ public class StudentSearchActivity extends AppCompatActivity
                 //goToDetails(name);
             }
         });
-
-//        profilePic_ = (CircleImageView) findViewById(R.id.profile_pic);
-//        name_ = (TextView) findViewById(R.id.name_overview);
-//        rollno_ = (TextView) findViewById(R.id.rollno_overview);
-//        hostel_ = (TextView) findViewById(R.id.hostel_overview);
-//        room_ = (TextView) findViewById(R.id.room_overview);
-//        email_ = (TextView) findViewById(R.id.email_info);
-//        phoneno_ = (TextView) findViewById(R.id.phone_info);
-//        abtyourself_ = (TextView) findViewById(R.id.aboutyourself);
-//        sc_=(ScrollView) findViewById(R.id.scroll_view);
 
 
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -237,7 +244,13 @@ public class StudentSearchActivity extends AppCompatActivity
                             listSuggestion.add(student);//+", "+studRoll
                     }
                     adapter.notifyDataSetChanged();
-                    searchMessage.setText("Search Results");
+                    if(listSuggestion.size()!=1) {
+                        searchMessage.setText("Search returned " + listSuggestion.size() + " results");
+                    }
+                    else
+                    {
+                        searchMessage.setText("Search returned 1 result");
+                    }
                     searchMessage.setVisibility(View.VISIBLE);
                     progressSearch.setVisibility(View.GONE);
 
@@ -362,7 +375,7 @@ public class StudentSearchActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle nav_cmgfs view item clicks here.
 
         Boolean checkMenuItem = true;
         MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
@@ -384,8 +397,8 @@ public class StudentSearchActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
-            if (!item1.isVisible()) {
-                item1.setVisible(true);
+            if (!item2.isVisible()) {
+                item1.setVisible(false);
                 item2.setVisible(true);
                 item3.setVisible(true);
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_24dp));

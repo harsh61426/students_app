@@ -110,11 +110,17 @@ public class g_Comments extends AppCompatActivity {
         TextView tv_tags = (TextView) header.findViewById(R.id.tv_tags);
         TextView tv_description = (TextView) header.findViewById(R.id.tv_description);
         TextView tv_upvote = (TextView) header.findViewById(R.id.tv_upvote);
+        tv_upvote.setVisibility(View.GONE);
         TextView tv_downvote = (TextView) header.findViewById(R.id.tv_downvote);
+        tv_downvote.setVisibility(View.GONE);
         TextView tv_comment = (TextView) header.findViewById(R.id.tv_comment);
+        tv_comment.setVisibility(View.GONE);
         Button bn_upvote = (Button) header.findViewById(R.id.bn_upvote);
+        bn_upvote.setVisibility(View.GONE);
         Button bn_downvote = (Button) header.findViewById(R.id.bn_downvote);
+        bn_downvote.setVisibility(View.GONE);
         Button bn_comment = (Button) header.findViewById(R.id.bn_comment);
+        bn_comment.setVisibility(View.GONE);
         ImageView iv_profile = (ImageView) header.findViewById(R.id.imgProfilePicture);
         LinearLayout linearLayout = (LinearLayout) header.findViewById(R.id.ll_title);
 

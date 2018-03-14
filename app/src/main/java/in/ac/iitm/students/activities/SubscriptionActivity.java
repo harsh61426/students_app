@@ -122,7 +122,7 @@ public class SubscriptionActivity extends AppCompatActivity implements CompoundB
 
                             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.ll_subscribe_list);
                             LinearLayout.LayoutParams rlParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            rlParams.setMargins(8, 0, 8, 48);
+                            rlParams.setMargins(8, 12, 8, 12);
 
                             RelativeLayout.LayoutParams textView_params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                             textView_params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -136,7 +136,7 @@ public class SubscriptionActivity extends AppCompatActivity implements CompoundB
 
                                 RelativeLayout rl = new RelativeLayout(context);
                                 rl.setLayoutParams(rlParams);
-                                rl.setPadding(8, 16, 8, 16);
+                                rl.setPadding(8, 12, 8, 12);
 
                                 TextView textView = new TextView(context);
                                 textView.setText(hashMap.get("name"));

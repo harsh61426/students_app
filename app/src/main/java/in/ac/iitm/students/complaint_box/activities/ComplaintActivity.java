@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -157,10 +156,8 @@ public class ComplaintActivity extends AppCompatActivity {
     }
 
     public void onPostClick(View v) {
-        TextInputLayout til_subject = (TextInputLayout)findViewById(R.id.til_new_complaint_title);
-        TextInputLayout til_body = (TextInputLayout)findViewById(R.id.til_desc);
-        EditText subject = til_subject.getEditText();
-        EditText body = til_body.getEditText();
+        EditText subject = (EditText) findViewById(R.id.new_complaint_title);
+        EditText body = (EditText) findViewById(R.id.desc);
         TextView header = (TextView) findViewById(R.id.typename);
         Spinner spinner = (Spinner) findViewById(R.id.spinnerComplaint);
 

@@ -128,9 +128,27 @@
         <activity
             android:name=".activities.main.TimetableActivity"
             android:label="@string/title_activity_timetable"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.main.AddReviewActivity"
+            android:label="@string/title_activity_add_review"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.main.ReadReviewActivity"
+            android:label="@string/title_activity_read_review"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.main.DetailsActivity"
+            android:label="@string/title_activity_details"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.AboutUsActivity"
             android:label="@string/title_activity_about_us"
@@ -218,7 +236,7 @@
             android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase"
             android:exported="false"
             android:protectionLevel="signature"
-            android:syncable="true"/>
+            android:syncable="true" />
 
         <activity
             android:name=".complaint_box.activities.g_CustomComplaintActivity"
@@ -235,7 +253,17 @@
             android:label="New Comment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".activities.main.ComplaintForum"
+            android:label="@string/title_activity_complaint_forum" />
+        <activity
+            android:name=".activities.main.Acads"
+            android:theme="@style/AppTheme.NoActionBar"/>
+            android:label="@string/title_activity_acads" />
+        <activity
+            android:name=".activities.main.MessMenuActivity"
+            android:label="@string/mess_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
