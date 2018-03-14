@@ -41,9 +41,13 @@ public class SearchAndFilterAdapter extends RecyclerView.Adapter<SearchAndFilter
         this.name = name;
     }
 
+    public void eraseCourseName(){this.name=new ArrayList<>();}
+
     public void setCourseCode(List<String> number) {
         this.number = number;
     }
+
+    public void eraseCourseCode(){this.number=new ArrayList<>();}
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
