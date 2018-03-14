@@ -391,9 +391,6 @@ public class StudentSearchActivity extends AppCompatActivity
             intent = new Intent(context, HomeActivity.class);
             flag = true;
 
-        } else if (id == R.id.nav_organisations) {
-            intent = new Intent(context, OrganizationActivity.class);
-            flag = true;
         } else if (id == R.id.nav_search) {
             return true;
         } else if (id == R.id.nav_map) {
@@ -433,9 +430,6 @@ public class StudentSearchActivity extends AppCompatActivity
             flag = true;
         } else if (id == R.id.nav_contacts) {
             intent = new Intent(context, ImpContactsActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_subscriptions) {
-            intent = new Intent(context, SubscriptionActivity.class);
             flag = true;
         } else if (id == R.id.nav_about) {
             intent = new Intent(context, AboutUsActivity.class);

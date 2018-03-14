@@ -100,6 +100,9 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabMode(TabLayout.GRAVITY_CENTER);
@@ -120,7 +123,7 @@ public class PostActivity extends AppCompatActivity implements VideoFragment.OnF
         Pagedes = i.getStringExtra("pagedes");
         logo_url = i.getStringExtra("logo_url");
 
-        setTitle(Pagename);
+        getSupportActionBar().setTitle(Pagename);
 
         isT5e = false;
         isLitsoc = false;

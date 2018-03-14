@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     app:cardCornerRadius="2dp"
+    android:id="@+id/cv_home_feed"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -84,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/himalaya" />
+            android:src="@drawable/himalaya" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -206,16 +207,16 @@
                     android:text="SHARE"
                     android:textColor="@color/colorPrimary" />
 
-                <Button
-                    android:id="@+id/bt_show"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:layout_toEndOf="@id/bt_share"
-                    android:text="LEARN MORE"
-                    android:visibility="visible"
-                    android:background="@color/white"
-                    android:textColor="@color/colorPrimary" />
+                <!--<Button-->
+                    <!--android:id="@+id/bt_show"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="8dp"-->
+                    <!--android:layout_toEndOf="@id/bt_share"-->
+                    <!--android:text="LEARN MORE"-->
+                    <!--android:visibility="visible"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:textColor="@color/colorPrimary" />-->
 
             </RelativeLayout>
         </RelativeLayout>
