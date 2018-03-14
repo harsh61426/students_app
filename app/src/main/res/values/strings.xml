@@ -373,5 +373,9 @@
     <string name="timetable">Timetable</string>
     <string name="bunk_monitor">Bunk Monitor</string>
 
+    <string name="breakfast">B\nR\nE\nA\nK\nF\nA\nS\nT</string>
+    <string name="lunch">L\nU\nN\nC\nH</string>
+    <string name="dinner">D\nI\nN\nN\nE\nR</string>
+
 
 </resources>
