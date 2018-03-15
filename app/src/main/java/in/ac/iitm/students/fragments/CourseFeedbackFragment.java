@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -52,6 +54,8 @@ public class CourseFeedbackFragment extends Fragment{
     Context context;
     Spinner spinner;
     TextView tvError;
+    EditText editText;
+    Button btn_search;
 
     public final static String EXTRA_MESSAGE1 = "TheExtraMessage1";
     public final static String EXTRA_MESSAGE2 = "TheExtraMessage2";
@@ -68,7 +72,7 @@ public class CourseFeedbackFragment extends Fragment{
 
         //Some operations that is run only for the first time the app is run
         boolean firstRun = getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("firstRun", true);
-        if (firstRun) firstRunOperations();
+        //if (firstRun) firstRunOperations();
 
         //setContentView(R.layout.fragment_course_feedback);
         view = inflater.inflate(R.layout.fragment_course_feedback, container, false);
@@ -82,35 +86,57 @@ public class CourseFeedbackFragment extends Fragment{
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         tvError = (TextView) view.findViewById(R.id.tv_error);
 
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        setSpinner(spinner);
+        //spinner = (Spinner) view.findViewById(R.id.spinner);
+        //setSpinner(spinner);
 
-        SearchAndFilterAdapter filterAdapter = new SearchAndFilterAdapter();
+        btn_search=(Button)view.findViewById(R.id.button);
 
-        List<String> name = new ArrayList<String>();
-        List<String> number = new ArrayList<String>();
-        int cnt;
+        editText=(EditText)view.findViewById(R.id.et_search_name) ;
 
-        Intent intent = getActivity().getIntent();
-        cnt = intent.getIntExtra("COUNT", 0);
-        name = intent.getStringArrayListExtra("NAME_LIST");
-        number = intent.getStringArrayListExtra("NUMBER_LIST");
-        Boolean isFromSubmit = intent.getBooleanExtra("BOOLEAN_FROM_ADD_REVIEW_ACTIVITY", false);
 
-        //If main activity started after a review was submitted then show the snackBar
-        View parentLayout = view.findViewById(android.R.id.content);
-        if (isFromSubmit) {
-            showSubmitSnackBar(parentLayout);
-        }
 
-        filterAdapter.setCount(cnt);
-        filterAdapter.setCourseName(name);
-        filterAdapter.setCourseCode(number);
+        final SearchAndFilterAdapter filterAdapter = new SearchAndFilterAdapter();
+
+
+
+
+
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterAdapter.setCount(0);
+                filterAdapter.eraseCourseName();
+                filterAdapter.eraseCourseCode();
+
+                List<String> name = new ArrayList<String>();
+                List<String> number = new ArrayList<String>();
+                int cnt;
+
+                Intent intent = getActivity().getIntent();
+                cnt = intent.getIntExtra("COUNT", 0);
+                name = intent.getStringArrayListExtra("NAME_LIST");
+                number = intent.getStringArrayListExtra("NUMBER_LIST");
+                Boolean isFromSubmit = intent.getBooleanExtra("BOOLEAN_FROM_ADD_REVIEW_ACTIVITY", false);
+
+                //If main activity started after a review was submitted then show the snackBar
+                View parentLayout = view.findViewById(android.R.id.content);
+                if (isFromSubmit) {
+                    showSubmitSnackBar(parentLayout);
+                }
+
+                filterAdapter.setCount(cnt);
+                filterAdapter.setCourseName(name);
+                filterAdapter.setCourseCode(number);
+
+
+            }
+        });
+
         recyclerView.setAdapter(filterAdapter);
         return view;
     }
 
-    private void firstRunOperations() {
+    /*private void firstRunOperations() {
         DatabaseMain db = new DatabaseMain(getActivity());
         //Filling up the databse on first run
 
@@ -181,7 +207,7 @@ public class CourseFeedbackFragment extends Fragment{
                 .edit()
                 .putBoolean("firstRun", false)
                 .commit();
-    }
+    }*/
 
     private void setSpinner(Spinner spinner) {
 
@@ -204,7 +230,7 @@ public class CourseFeedbackFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 depStatus = position;
-                chooseSpinnerTab(position, 0);
+                //chooseSpinnerTab(position, 0);
 
             }
 

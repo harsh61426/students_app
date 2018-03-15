@@ -20,13 +20,33 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <Spinner
+        <!--Spinner
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:tabGravity="fill"
-            app:tabMode="fixed" />
+            app:tabMode="fixed" /-->
+        <EditText
+            android:id="@+id/et_search_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_search_field"
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:drawablePadding="4dp"
+            android:drawableTint="@color/colorPrimaryDark"
+            android:hint="Search by name"
+            android:imeOptions="actionSearch"
+
+            android:inputType="textPersonName|textCapWords"
+            android:padding="8dp" />
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:id="@+id/button"
+            android:text="Search"/>
     </android.support.design.widget.AppBarLayout>
 
 

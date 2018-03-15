@@ -258,12 +258,8 @@
             android:label="@string/title_activity_complaint_forum" />
         <activity
             android:name=".activities.main.Acads"
+            android:label="@string/title_activity_acads"
             android:theme="@style/AppTheme.NoActionBar"/>
-            android:label="@string/title_activity_acads" />
-        <activity
-            android:name=".activities.main.MessMenuActivity"
-            android:label="@string/mess_menu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
