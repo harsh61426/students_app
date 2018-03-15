@@ -26,7 +26,8 @@
     <string name="error_sending">Error sending data, try again later…</string>
     <string name="error_enter_more_characters">Enter three or more characters to get results.</string>
     <string name="error_no_complaints">No Complaints registered.</string>
-
+    <string name="openDrawer">Open</string>
+    <string name="closeDrawer">Open</string>
 
     <integer name="close_nav_drawer_delay">150</integer>
 

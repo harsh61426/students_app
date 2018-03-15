@@ -3,6 +3,7 @@ package in.ac.iitm.students.activities.main;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -124,10 +128,7 @@ public class Acads extends AppCompatActivity {
                 intent = new Intent(context, HomeActivity.class);
                 flag = true;
 
-            } else if (id == R.id.nav_organisations) {
-                intent = new Intent(context, OrganizationActivity.class);
-                flag = true;
-            } else if (id == R.id.nav_search) {
+            }  else if (id == R.id.nav_search) {
                 intent = new Intent(context, StudentSearchActivity.class);
                 flag = true;
             } else if (id == R.id.nav_map) {
@@ -168,10 +169,7 @@ public class Acads extends AppCompatActivity {
             } else if (id == R.id.nav_contacts) {
                 intent = new Intent(context, ImpContactsActivity.class);
                 flag = true;
-            } else if (id == R.id.nav_subscriptions) {
-                intent = new Intent(context, SubscriptionActivity.class);
-                flag = true;
-            } else if (id == R.id.nav_about) {
+            }else if (id == R.id.nav_about) {
                 intent = new Intent(context, AboutUsActivity.class);
                 flag = true;
             } else if (id == R.id.nav_profile) {
@@ -244,7 +242,26 @@ public class Acads extends AppCompatActivity {
         */
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_gallery);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        //Setting the actionbarToggle to drawer layout
+        drawer.setDrawerListener(actionBarDrawerToggle);
+
+        //calling sync state is necessary or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
