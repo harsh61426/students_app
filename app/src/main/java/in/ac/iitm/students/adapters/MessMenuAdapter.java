@@ -14,10 +14,24 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.objects.MessMenu;
+import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.Utils;
 
 /**
  * Created by sam10795 on 14/2/18.
@@ -27,12 +41,14 @@ public class MessMenuAdapter extends ArrayAdapter {
 
     private Context context;
     private ArrayList<MessMenu> menuArrayList;
+    private String messtype;
 
-    public MessMenuAdapter(Context context, ArrayList<MessMenu> menuArrayList)
+    public MessMenuAdapter(Context context, ArrayList<MessMenu> menuArrayList, String messtype)
     {
         super(context, R.layout.item_mess_menu, menuArrayList);
         this.context = context;
         this.menuArrayList = menuArrayList;
+        this.messtype = messtype;
     }
 
     @NonNull
@@ -54,7 +70,7 @@ public class MessMenuAdapter extends ArrayAdapter {
             menuholder = (ViewHolder)convertView.getTag();
         }
 
-        MessMenu menu = menuArrayList.get(position);
+        final MessMenu menu = menuArrayList.get(position);
         menuholder.messday.setText(menu.getDay());
 
         if(menu.getMenutype().equalsIgnoreCase("Breakfast"))
@@ -76,9 +92,18 @@ public class MessMenuAdapter extends ArrayAdapter {
         menuholder.rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewDialog();
+                viewDialog(menu);
             }
         });
+
+        if(Utils.getprefBool(menu.getMenu()+menu.getDay()+menu.getMenutype()+menu.getMenu(),context))
+        {
+            menuholder.rate.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            menuholder.rate.setVisibility(View.VISIBLE);
+        }
 
         menuholder.r.setRating(menu.getRating());
 
@@ -96,7 +121,7 @@ public class MessMenuAdapter extends ArrayAdapter {
         TextView menutype;
     }
 
-    private void viewDialog()
+    private void viewDialog(final MessMenu menu)
     {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_menu_rating);
@@ -106,10 +131,43 @@ public class MessMenuAdapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 Log.i("Rating","R"+ratingBar.getRating());
+                rateMenu(menu,ratingBar.getRating());
                 dialog.dismiss();
             }
         });
         dialog.show();
+    }
 
+    private void rateMenu(final MessMenu menu, final float rating)
+    {
+
+        String url_mess = "https://students.iitm.ac.in/studentsapp/messmenu/ratemenu.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url_mess, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("Response",response);
+                Toast.makeText(context,"Your rating has been recorded",Toast.LENGTH_SHORT).show();
+                Utils.saveprefBool(menu.getMenu()+menu.getDay()+menu.getMenutype()+menu.getMenu(),true,context);
+                //Utils.saveprefString(UtilStrings.MESS,response,getApplicationContext());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("Error","Unable to fetch");
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("menutype",menu.getMenutype());
+                params.put("rating",Float.toString(rating));
+                params.put("messtype",messtype);
+                params.put("day",menu.getDay());
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
 }

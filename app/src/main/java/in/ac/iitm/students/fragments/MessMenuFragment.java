@@ -58,7 +58,7 @@ public class MessMenuFragment extends Fragment {
             menutitle = getArguments().getString(ARG_MENU_TITLE);
         }
         menuArrayList = new ArrayList<>();
-        adapter = new MessMenuAdapter(getContext(),menuArrayList);
+        adapter = new MessMenuAdapter(getContext(),menuArrayList,menutitle);
     }
 
     @Override

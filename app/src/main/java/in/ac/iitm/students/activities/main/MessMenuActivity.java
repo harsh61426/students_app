@@ -46,9 +46,13 @@ public class MessMenuActivity extends AppCompatActivity {
         fragments = new ArrayList<>();
         titles = new ArrayList<>();
         fragments.add(MessMenuFragment.newInstance("SI1"));
-        fragments.add(MessMenuFragment.newInstance("SI1"));
+        fragments.add(MessMenuFragment.newInstance("SI2"));
+        fragments.add(MessMenuFragment.newInstance("NI1"));
+        fragments.add(MessMenuFragment.newInstance("NI2"));
         titles.add("South Indian 1");
         titles.add("South Indian 2");
+        titles.add("North Indian 1");
+        titles.add("North Indian 2");
         adapter = new MessMenuPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager)findViewById(R.id.pager_mess_menu);
         viewPager.setAdapter(adapter);
