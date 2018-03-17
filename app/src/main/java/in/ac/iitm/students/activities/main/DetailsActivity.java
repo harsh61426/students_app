@@ -51,9 +51,9 @@ public class DetailsActivity extends AppCompatActivity {
                 "Random description of course - Apply Kirchhoff's laws to simple electric circuits and derive the basic circuit equations."
         };
 
-        final String nameString = intent.getStringExtra("NAME");
+        final String nameString = intent.getStringExtra("name");
         name.setText(nameString);
-        prof.setText(intent.getStringExtra("PROF"));
+        prof.setText(intent.getStringExtra("prof"));
         courseContent.setText(contents[randomPosition]);
 
 

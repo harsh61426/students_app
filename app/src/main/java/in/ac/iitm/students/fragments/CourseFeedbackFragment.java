@@ -1,5 +1,6 @@
 package in.ac.iitm.students.fragments;
 
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -26,8 +27,20 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
@@ -35,8 +48,10 @@ import in.ac.iitm.students.activities.main.Acads;
 import in.ac.iitm.students.adapters.MainAdapter;
 import in.ac.iitm.students.adapters.SearchAndFilterAdapter;
 import in.ac.iitm.students.objects.CourseFeedbackItem;
+import in.ac.iitm.students.objects.Student;
 import in.ac.iitm.students.others.DatabaseForSearch;
 import in.ac.iitm.students.others.DatabaseMain;
+import in.ac.iitm.students.others.MySingleton;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -56,6 +71,10 @@ public class CourseFeedbackFragment extends Fragment{
     TextView tvError;
     EditText editText;
     Button btn_search;
+    List<String> name;
+    List<String> number;
+    List<String> prof;
+    int cnt;
 
     public final static String EXTRA_MESSAGE1 = "TheExtraMessage1";
     public final static String EXTRA_MESSAGE2 = "TheExtraMessage2";
@@ -71,7 +90,7 @@ public class CourseFeedbackFragment extends Fragment{
         //super.onCreate(savedInstanceState);
 
         //Some operations that is run only for the first time the app is run
-        boolean firstRun = getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("firstRun", true);
+        //boolean firstRun = getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("firstRun", true);
         //if (firstRun) firstRunOperations();
 
         //setContentView(R.layout.fragment_course_feedback);
@@ -101,36 +120,119 @@ public class CourseFeedbackFragment extends Fragment{
 
 
 
+
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterAdapter.setCount(0);
-                filterAdapter.eraseCourseName();
-                filterAdapter.eraseCourseCode();
 
-                List<String> name = new ArrayList<String>();
-                List<String> number = new ArrayList<String>();
-                int cnt;
 
-                Intent intent = getActivity().getIntent();
-                cnt = intent.getIntExtra("COUNT", 0);
-                name = intent.getStringArrayListExtra("NAME_LIST");
-                number = intent.getStringArrayListExtra("NUMBER_LIST");
-                Boolean isFromSubmit = intent.getBooleanExtra("BOOLEAN_FROM_ADD_REVIEW_ACTIVITY", false);
+
+//                Intent intent = getActivity().getIntent();
+//                cnt = intent.getIntExtra("COUNT", 0);
+//                name = intent.getStringArrayListExtra("NAME_LIST");
+//                number = intent.getStringArrayListExtra("NUMBER_LIST");
+//                Boolean isFromSubmit = intent.getBooleanExtra("BOOLEAN_FROM_ADD_REVIEW_ACTIVITY", false);
 
                 //If main activity started after a review was submitted then show the snackBar
                 View parentLayout = view.findViewById(android.R.id.content);
-                if (isFromSubmit) {
-                    showSubmitSnackBar(parentLayout);
-                }
+//                if (isFromSubmit) {
+//                    showSubmitSnackBar(parentLayout);
+//                }
+//
 
-                filterAdapter.setCount(cnt);
-                filterAdapter.setCourseName(name);
-                filterAdapter.setCourseCode(number);
+                Uri.Builder builder = new Uri.Builder();
 
+                builder.scheme("https")//https://students.iitm.ac.in/course_feedback_api
+                        .authority("students.iitm.ac.in")
+                        .appendPath("course_feedback_api")
+                        .appendPath("read")
+                        .appendPath(editText.getText().toString());
+
+                String url = builder.build().toString();
+
+                StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
+                        url, new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            name = new ArrayList<String>();
+                            number = new ArrayList<String>();
+                            prof = new ArrayList<String>();
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject;
+                            int i;
+
+
+                            cnt=jsonArray.length();
+
+                            for (i = 0; i < jsonArray.length(); i++) {
+                                jsonObject = jsonArray.getJSONObject(i);
+                                //Log.i("JSON",jsonObject.toString());
+                                name.add(jsonObject.getString("name"));
+                                number.add(jsonObject.getString("number"));
+                                prof.add(jsonObject.getString("prof"));
+
+
+
+                            }
+                            filterAdapter.setCount(cnt);
+                            filterAdapter.setCourseName(name);
+                            filterAdapter.setCourseCode(number);
+                            filterAdapter.setProf(prof);
+                            filterAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+//                    Log.d("URL", response);
+                            if (response.equals("No results") || response.equals("")) //change{
+                            {
+                                tvError.setText(R.string.error_no_result);
+                            } else {
+//                                Snackbar snackbar = Snackbar
+//                                        .make(frameLayout, getString(R.string.error_parsing), Snackbar.LENGTH_LONG);
+//                                snackbar.show();
+                            }
+//                            listSuggestion.clear();
+                            cnt=0;
+                            name.clear();
+                            number.clear();
+                            prof.clear();
+                            filterAdapter.notifyDataSetChanged();
+//                            progressSearch.setVisibility(View.GONE);
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        cnt=0;
+                        name.clear();
+                        number.clear();
+                        prof.clear();
+                        filterAdapter.notifyDataSetChanged();
+                    }
+                })
+//                    @Override
+//                    public Map<String, String> getParams() throws AuthFailureError {
+//                        Map<String, String> params = new HashMap<>();
+//                        params.put("name", editText.getText().toString());//fix
+//                        //Log.i("name",etSearch.getText().toString());
+//                        return params;
+//                    }
+                ;
+
+                jsonObjReq.setTag("tag");
+                MySingleton.getInstance(getContext()).addToRequestQueue(jsonObjReq);
 
             }
         });
+
 
         recyclerView.setAdapter(filterAdapter);
         return view;

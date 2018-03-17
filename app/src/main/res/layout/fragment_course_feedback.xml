@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Activities.MainActivity">
+    tools:context=".activities.main.Acads">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -43,10 +43,10 @@
             android:padding="8dp" />
 
         <Button
-            android:layout_width="20dp"
-            android:layout_height="30dp"
             android:id="@+id/button"
-            android:text="Search"/>
+            android:layout_width="241dp"
+            android:layout_height="70dp"
+            android:text="Search" />
     </android.support.design.widget.AppBarLayout>
 
 
