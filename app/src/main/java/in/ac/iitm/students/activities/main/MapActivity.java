@@ -1046,7 +1046,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;
-        } else if (id == R.id.nav_map) {
+        } else if (id == R.id.nav_mess_menu) {
             //intent = new Intent(context, MapActivity.class);
             //flag = true;
         } else if (id == R.id.nav_complaint_box) {
@@ -1063,7 +1063,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
-            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_mess_menu)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

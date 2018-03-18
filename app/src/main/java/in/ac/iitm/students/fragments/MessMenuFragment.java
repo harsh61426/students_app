@@ -75,7 +75,6 @@ public class MessMenuFragment extends Fragment {
 
     private void getMenu(final String menuname)
     {
-
         String url_mess = "https://students.iitm.ac.in/studentsapp/messmenu/getmessmenu.php";
         StringRequest request = new StringRequest(Request.Method.POST, url_mess, new Response.Listener<String>() {
             @Override
