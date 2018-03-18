@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,17 +35,14 @@ import android.text.style.UnderlineSpan;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -102,7 +98,6 @@ import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static in.ac.iitm.students.activities.SubscriptionActivity.MY_PREFS_NAME;
 
 public class HomeActivity extends AppCompatActivity
@@ -135,8 +130,38 @@ public class HomeActivity extends AppCompatActivity
     private String url_roll = "https://students.iitm.ac.in/studentsapp/studentlist/search_by_roll.php";
     private String rollNO;
     private String name;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+            Intent intent1;
+            final Context context = HomeActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    return true;
+                case R.id.bot_nav_organisations:
+                    intent1 = new Intent(context, OrganizationActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    intent1 = new Intent(context, SubscriptionActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_map:
+                    intent1 = new Intent(context, MapActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_student_search:
+                    intent1 = new Intent(context, StudentSearchActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -246,7 +271,6 @@ public class HomeActivity extends AppCompatActivity
                 .centerCrop()
                 .into(imageView);
     }
-
 
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
@@ -577,7 +601,6 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-
     private void updatePreferences() {
         final ArrayList<HashMap<String, String>> database_topics = new ArrayList<>();
 
@@ -632,35 +655,6 @@ public class HomeActivity extends AppCompatActivity
                 });
         MySingleton.getInstance(HomeActivity.this).addToRequestQueue(stringRequest);
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            Intent intent1;
-            final Context context = HomeActivity.this;
-
-            switch (item.getItemId()) {
-                case R.id.bot_nav_home:
-                    return true;
-                case R.id.bot_nav_organisations:
-                    intent1 = new Intent(context, OrganizationActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_subscriptions:
-                    intent1 = new Intent(context, SubscriptionActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_map:
-                    intent1 = new Intent(context, MapActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -22,7 +22,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -37,7 +36,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +44,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -68,7 +65,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.kml.KmlLayer;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,6 +124,38 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private DrawerLayout drawer;
     private Menu menu;
     private NavigationView navigationView;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Intent intent1;
+            final Context context = MapActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    intent1 = new Intent(context, HomeActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_organisations:
+                    intent1 = new Intent(context, OrganizationActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    intent1 = new Intent(context, SubscriptionActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_student_search:
+                    intent1 = new Intent(context, StudentSearchActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_map:
+                    return true;
+            }
+            return false;
+        }
+    };
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -553,34 +581,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            Intent intent1;
-            final Context context = MapActivity.this;
-
-            switch (item.getItemId()) {
-                case R.id.bot_nav_home:
-                    intent1 = new Intent(context, HomeActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_organisations:
-                    intent1 = new Intent(context, OrganizationActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_subscriptions:
-                    intent1 = new Intent(context, SubscriptionActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_map:
-                    return true;
-            }
-            return false;
-        }
-    };
     private void showCampusBoundary() {
         if (layer == null) {
             try {
