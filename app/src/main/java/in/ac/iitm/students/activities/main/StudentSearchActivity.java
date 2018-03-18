@@ -405,8 +405,8 @@ public class StudentSearchActivity extends AppCompatActivity {
 //
 //        } else if (id == R.id.nav_search) {
 //            return true;
-//        } else if (id == R.id.nav_map) {
-//            intent = new Intent(context, MapActivity.class);
+//        } else if (id == R.id.nav_mess_menu) {
+//            intent = new Intent(context, MessMenuActivity.class);
 //            flag = true;
 //        } else if (id == R.id.nav_complaint_box) {
 //            if (!item2.isVisible()) {
