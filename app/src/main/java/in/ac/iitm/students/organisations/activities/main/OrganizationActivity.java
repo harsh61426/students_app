@@ -4,16 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationPresenter;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +26,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenSource;
 import com.facebook.FacebookSdk;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,18 +38,11 @@ import java.util.List;
 
 import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
-import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
 import in.ac.iitm.students.activities.main.BottomNavBehaviour;
-import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.activities.main.HomeActivity;
-import in.ac.iitm.students.activities.main.ImpContactsActivity;
 import in.ac.iitm.students.activities.main.MapActivity;
 import in.ac.iitm.students.activities.main.StudentSearchActivity;
-import in.ac.iitm.students.activities.main.TimetableActivity;
-import in.ac.iitm.students.complaint_box.activities.main.GeneralComplaintsActivity;
-import in.ac.iitm.students.complaint_box.activities.main.HostelComplaintsActivity;
-import in.ac.iitm.students.complaint_box.activities.main.MessAndFacilitiesActivity;
 import in.ac.iitm.students.organisations.activities.DeveloperKey;
 import in.ac.iitm.students.organisations.adapters.OrganisationAdapter;
 import in.ac.iitm.students.organisations.object_items.OrganisationObject;
@@ -85,6 +71,38 @@ public class OrganizationActivity extends AppCompatActivity{
     private DrawerLayout drawer;
     private Menu menu;
     private NavigationView navigationView;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Intent intent1;
+            final Context context = OrganizationActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    intent1 = new Intent(context, HomeActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_organisations:
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    intent1 = new Intent(context, SubscriptionActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_map:
+                    intent1 = new Intent(context, MapActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_student_search:
+                    intent1 = new Intent(context, StudentSearchActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle onRetainNonConfigurationChanges) {
@@ -301,9 +319,6 @@ public class OrganizationActivity extends AppCompatActivity{
 
     }
 
-
-
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(OrganizationActivity.this, HomeActivity.class);
@@ -317,35 +332,6 @@ public class OrganizationActivity extends AppCompatActivity{
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            Intent intent1;
-            final Context context = OrganizationActivity.this;
-
-            switch (item.getItemId()) {
-                case R.id.bot_nav_home:
-                    intent1 = new Intent(context, HomeActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_organisations:
-                    return true;
-                case R.id.bot_nav_subscriptions:
-                    intent1 = new Intent(context, SubscriptionActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_map:
-                    intent1 = new Intent(context, MapActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
