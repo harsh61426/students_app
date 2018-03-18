@@ -4,13 +4,13 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".activities.main.Acads">
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:orientation="vertical"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -27,26 +27,52 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:tabGravity="fill"
             app:tabMode="fixed" /-->
-        <EditText
-            android:id="@+id/et_search_name"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_search_field"
-            android:drawableLeft="@drawable/ic_search_black_24dp"
-            android:drawablePadding="4dp"
-            android:drawableTint="@color/colorPrimaryDark"
-            android:hint="Search by name"
-            android:imeOptions="actionSearch"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            android:inputType="textPersonName|textCapWords"
-            android:padding="8dp" />
+            <EditText
+                android:id="@+id/et_search_name"
+                android:layout_width="257dp"
+                android:layout_height="45dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toStartOf="@+id/button"
+                android:background="@drawable/bg_search_field"
+                android:drawableLeft="@drawable/ic_search_black_24dp"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/colorPrimaryDark"
+                android:hint="Search by name"
+                android:imeOptions="actionSearch"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.666" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="241dp"
-            android:layout_height="70dp"
-            android:text="Search" />
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/et_search_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="8dp"
+                android:text="Search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+        </android.support.constraint.ConstraintLayout>
     </android.support.design.widget.AppBarLayout>
 
 

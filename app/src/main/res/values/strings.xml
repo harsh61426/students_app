@@ -26,21 +26,21 @@
     <string name="error_sending">Error sending data, try again later…</string>
     <string name="error_enter_more_characters">Enter three or more characters to get results.</string>
     <string name="error_no_complaints">No Complaints registered.</string>
-
+    <string name="openDrawer">Open</string>
+    <string name="closeDrawer">Open</string>
 
     <integer name="close_nav_drawer_delay">150</integer>
 
     <integer name="nav_index_home">0</integer>
-    <integer name="nav_index_search">2</integer>
-    <integer name="nav_index_maps">3</integer>
-    <integer name="nav_index_organisations">1</integer>
-    <integer name="nav_index_complaint_box">7</integer>
-    <integer name="nav_index_complaint_mess">8</integer>
-    <integer name="nav_index_complaint_hostel">9</integer>
-    <integer name="nav_index_complaint_general">10</integer>
-    <integer name="nav_index_timetable">5</integer>
-    <integer name="nav_index_contacts">6</integer>
-    <integer name="nav_index_calendar">4</integer>
+    <integer name="nav_index_search">1</integer>
+    <integer name="nav_index_maps">2</integer>
+    <integer name="nav_index_complaint_box">6</integer>
+    <integer name="nav_index_complaint_mess">7</integer>
+    <integer name="nav_index_complaint_hostel">8</integer>
+    <integer name="nav_index_complaint_general">9</integer>
+    <integer name="nav_index_timetable">4</integer>
+    <integer name="nav_index_contacts">5</integer>
+    <integer name="nav_index_calendar">3</integer>
 
     <string name="LoginURl">https://students.iitm.ac.in/studentsapp/login/index.php</string>
     <string name="url_register_fcm">https://students.iitm.ac.in/studentsapp/general/token_register.php</string>

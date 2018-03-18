@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationPresenter;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -43,6 +47,7 @@ import in.ac.iitm.students.R;
 import in.ac.iitm.students.activities.AboutUsActivity;
 import in.ac.iitm.students.activities.ProfileActivity;
 import in.ac.iitm.students.activities.SubscriptionActivity;
+import in.ac.iitm.students.activities.main.BottomNavBehaviour;
 import in.ac.iitm.students.activities.main.CalendarActivity;
 import in.ac.iitm.students.activities.main.HomeActivity;
 import in.ac.iitm.students.activities.main.ImpContactsActivity;
@@ -60,7 +65,7 @@ import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
 
-public class OrganizationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class OrganizationActivity extends AppCompatActivity{
 
     public static AccessToken key;
     final String yt_url = "https://www.googleapis.com/youtube/v3/channels?part=id&forUsername=";
@@ -90,40 +95,50 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Organisations in IITM");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         //nav drawer code
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.syncState();
+//        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        menu = navigationView.getMenu();
-        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_organisations)).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        menu = navigationView.getMenu();
+//        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_organisations)).setChecked(true);
+//        navigationView.setNavigationItemSelectedListener(this);
 
-        View header = navigationView.getHeaderView(0);
+//        View header = navigationView.getHeaderView(0);
 
-        TextView username = (TextView) header.findViewById(R.id.tv_username);
-        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+//        TextView username = (TextView) header.findViewById(R.id.tv_username);
+//        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_view);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        // attaching bottom sheet behaviour - hide / show on scroll
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavBehaviour());
+
+        navigation.setSelectedItemId(R.id.bot_nav_organisations);
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
 
-        username.setText(name);
-        rollNumber.setText(roll_no);
-        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
-        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
-        Picasso.with(this)
-                .load(urlPic)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .fit()
-                .centerCrop()
-                .into(imageView);
+//        username.setText(name);
+//        rollNumber.setText(roll_no);
+//        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
+//        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
+//        Picasso.with(this)
+//                .load(urlPic)
+//                .placeholder(R.mipmap.ic_launcher)
+//                .error(R.mipmap.ic_launcher)
+//                .fit()
+//                .centerCrop()
+//                .into(imageView);
 
         //nav drawer code ends
 
@@ -291,15 +306,9 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
 
     @Override
     public void onBackPressed() {
-        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-        if(drawer!=null) {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                Intent intent = new Intent(OrganizationActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        }
+        Intent intent = new Intent(OrganizationActivity.this, HomeActivity.class);
+        startActivity(intent);
+
     }
 
     @Override
@@ -308,6 +317,35 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Intent intent1;
+            final Context context = OrganizationActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    intent1 = new Intent(context, HomeActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_organisations:
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    intent1 = new Intent(context, SubscriptionActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_map:
+                    intent1 = new Intent(context, MapActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -325,124 +363,127 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
             LogOutAlertClass lg = new LogOutAlertClass();
             lg.isSure(OrganizationActivity.this);
             return true;
+        }else if(id == android.R.id.home){
+            onBackPressed();
+            return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle nav_acads view item clicks here.
 
-        Boolean checkMenuItem = true;
-        MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
-        MenuItem item2 = menu.findItem(R.id.nav_complaint_hostel);
-        MenuItem item3 = menu.findItem(R.id.nav_complaint_general);
-
-        int id = item.getItemId();
-        Intent intent = new Intent();
-        boolean flag = false;
-        final Context context = OrganizationActivity.this;
-
-        if (id == R.id.nav_home) {
-            intent = new Intent(context, HomeActivity.class);
-            flag = true;
-
-        } else if (id == R.id.nav_organisations) {
-            //intent = new Intent(context, OrganizationActivity.class);
-            //flag = true;
-        } else if (id == R.id.nav_search) {
-            intent = new Intent(context, StudentSearchActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_map) {
-            intent = new Intent(context, MapActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_complaint_box) {
-            if (!item2.isVisible()) {
-                item1.setVisible(false);
-                item2.setVisible(true);
-                item3.setVisible(true);
-                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_24dp));
-                checkMenuItem = false;
-            } else {
-                item1.setVisible(false);
-                item2.setVisible(false);
-                item3.setVisible(false);
-                checkMenuItem = false;
-                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
-            }
-            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_organisations)).setChecked(true);
-
-
-        } else if (id == R.id.nav_complaint_hostel) {
-            intent = new Intent(context, HostelComplaintsActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_complaint_general) {
-            intent = new Intent(context, GeneralComplaintsActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_complaint_mess) {
-            intent = new Intent(context, MessAndFacilitiesActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_calendar) {
-            intent = new Intent(context, CalendarActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_timetable) {
-            intent = new Intent(context, TimetableActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_contacts) {
-            intent = new Intent(context, ImpContactsActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_subscriptions) {
-            intent = new Intent(context, SubscriptionActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_about) {
-            intent = new Intent(context, AboutUsActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_profile) {
-            intent = new Intent(context, ProfileActivity.class);
-            flag = true;
-
-        } else if (id == R.id.nav_log_out) {
-            drawer.closeDrawer(GravityCompat.START);
-            Handler handler = new Handler();
-            handler.postDelayed(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            LogOutAlertClass lg = new LogOutAlertClass();
-                            lg.isSure(OrganizationActivity.this);
-                        }
-                    }
-                    , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
-            );
-            return true;
-        }
-
-        if (checkMenuItem) {
-            item1.setVisible(false);
-            item2.setVisible(false);
-            item3.setVisible(false);
-
-            drawer.closeDrawer(GravityCompat.START);
-
-            //Wait till the nav drawer is closed and then start new activity (for smooth animations)
-            Handler mHandler = new Handler();
-            final boolean finalFlag = flag;
-            final Intent finalIntent = intent;
-            mHandler.postDelayed(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            if (finalFlag) {
-                                context.startActivity(finalIntent);
-                            }
-                        }
-                    }
-                    , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
-            );
-        }
-        return true;
-
-    }
+//    public boolean onNavigationItemSelected(MenuItem item) {
+//        // Handle navigation view item clicks here.
+//
+//        Boolean checkMenuItem = true;
+//        MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
+//        MenuItem item2 = menu.findItem(R.id.nav_complaint_hostel);
+//        MenuItem item3 = menu.findItem(R.id.nav_complaint_general);
+//
+//        int id = item.getItemId();
+//        Intent intent = new Intent();
+//        boolean flag = false;
+//        final Context context = OrganizationActivity.this;
+//
+//        if (id == R.id.nav_home) {
+//            intent = new Intent(context, HomeActivity.class);
+//            flag = true;
+//
+//        } else if (id == R.id.nav_organisations) {
+//            //intent = new Intent(context, OrganizationActivity.class);
+//            //flag = true;
+//        } else if (id == R.id.nav_search) {
+//            intent = new Intent(context, StudentSearchActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_map) {
+//            intent = new Intent(context, MapActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_complaint_box) {
+//            if (!item1.isVisible()) {
+//                item1.setVisible(true);
+//                item2.setVisible(true);
+//                item3.setVisible(true);
+//                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_24dp));
+//                checkMenuItem = false;
+//            } else {
+//                item1.setVisible(false);
+//                item2.setVisible(false);
+//                item3.setVisible(false);
+//                checkMenuItem = false;
+//                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
+//            }
+//            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_organisations)).setChecked(true);
+//
+//
+//        } else if (id == R.id.nav_complaint_hostel) {
+//            intent = new Intent(context, HostelComplaintsActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_complaint_general) {
+//            intent = new Intent(context, GeneralComplaintsActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_complaint_mess) {
+//            intent = new Intent(context, MessAndFacilitiesActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_calendar) {
+//            intent = new Intent(context, CalendarActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_timetable) {
+//            intent = new Intent(context, TimetableActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_contacts) {
+//            intent = new Intent(context, ImpContactsActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_subscriptions) {
+//            intent = new Intent(context, SubscriptionActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_about) {
+//            intent = new Intent(context, AboutUsActivity.class);
+//            flag = true;
+//        } else if (id == R.id.nav_profile) {
+//            intent = new Intent(context, ProfileActivity.class);
+//            flag = true;
+//
+//        } else if (id == R.id.nav_log_out) {
+//            drawer.closeDrawer(GravityCompat.START);
+//            Handler handler = new Handler();
+//            handler.postDelayed(
+//                    new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            LogOutAlertClass lg = new LogOutAlertClass();
+//                            lg.isSure(OrganizationActivity.this);
+//                        }
+//                    }
+//                    , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
+//            );
+//            return true;
+//        }
+//
+//        if (checkMenuItem) {
+//            item1.setVisible(false);
+//            item2.setVisible(false);
+//            item3.setVisible(false);
+//
+//            drawer.closeDrawer(GravityCompat.START);
+//
+//            //Wait till the nav drawer is closed and then start new activity (for smooth animations)
+//            Handler mHandler = new Handler();
+//            final boolean finalFlag = flag;
+//            final Intent finalIntent = intent;
+//            mHandler.postDelayed(
+//                    new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (finalFlag) {
+//                                context.startActivity(finalIntent);
+//                            }
+//                        }
+//                    }
+//                    , getResources().getInteger(R.integer.close_nav_drawer_delay)  // it takes around 200 ms for drawer to close
+//            );
+//        }
+//        return true;
+//
+//    }
 }
