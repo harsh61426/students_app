@@ -6,7 +6,8 @@
     android:layout_margin="4dp"
     app:cardCornerRadius="2dp"
     android:id="@+id/cv_home_feed"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,7 +62,7 @@
                 android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 android:visibility="gone"
-                android:src="@drawable/ic_expand_less_black_24dp">
+                app:srcCompat="@drawable/ic_expand_less_black_24dp">
             </ImageButton>
 
         </LinearLayout>
@@ -146,7 +147,7 @@
                 android:layout_margin="4dp"
                 android:padding="8dp"
                 android:background="@color/white"
-                android:src="@drawable/ic_link_black_24dp"
+                app:srcCompat="@drawable/ic_link_black_24dp"
                 android:visibility="gone" />
 
             <TextView
@@ -177,7 +178,7 @@
                 android:layout_margin="12dp"
                 android:visibility="visible"
                 android:tag="bookmark"
-                android:src="@drawable/bookmark" />
+                app:srcCompat="@drawable/bookmark" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

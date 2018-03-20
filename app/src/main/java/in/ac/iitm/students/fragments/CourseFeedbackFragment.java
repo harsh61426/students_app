@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -148,8 +149,9 @@ public class CourseFeedbackFragment extends Fragment{
                         .appendPath("read")
                         .appendPath(editText.getText().toString());
 
-                String url = builder.build().toString();
+                final String url = builder.build().toString();
 
+                Log.d("linkm8",url);
                 StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
                         url, new Response.Listener<String>() {
 
@@ -157,7 +159,9 @@ public class CourseFeedbackFragment extends Fragment{
                     public void onResponse(String response) {
 
                         try {
+                            Log.d("linkom8",url);
 
+                            Log.d("responsem8",response);
                             name = new ArrayList<String>();
                             number = new ArrayList<String>();
                             prof = new ArrayList<String>();
@@ -171,9 +175,9 @@ public class CourseFeedbackFragment extends Fragment{
                             for (i = 0; i < jsonArray.length(); i++) {
                                 jsonObject = jsonArray.getJSONObject(i);
                                 //Log.i("JSON",jsonObject.toString());
-                                name.add(jsonObject.getString("name"));
-                                number.add(jsonObject.getString("number"));
-                                prof.add(jsonObject.getString("prof"));
+                                name.add(jsonObject.getString("course_name"));
+                                number.add(jsonObject.getString("course_number"));
+                                prof.add(jsonObject.getString("instructor_name"));
 
 
 
@@ -182,7 +186,9 @@ public class CourseFeedbackFragment extends Fragment{
                             filterAdapter.setCourseName(name);
                             filterAdapter.setCourseCode(number);
                             filterAdapter.setProf(prof);
+                            Log.d("adapterset1",String.valueOf(filterAdapter.getItemCount()));
                             filterAdapter.notifyDataSetChanged();
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -191,9 +197,9 @@ public class CourseFeedbackFragment extends Fragment{
                             {
                                 tvError.setText(R.string.error_no_result);
                             } else {
-//                                Snackbar snackbar = Snackbar
-//                                        .make(frameLayout, getString(R.string.error_parsing), Snackbar.LENGTH_LONG);
-//                                snackbar.show();
+                                Snackbar snackbar = Snackbar
+                                        .make( view, getString(R.string.error_parsing), Snackbar.LENGTH_LONG);
+                                snackbar.show();
                             }
 //                            listSuggestion.clear();
                             cnt=0;
@@ -211,18 +217,21 @@ public class CourseFeedbackFragment extends Fragment{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-                        cnt=0;
-                        name.clear();
-                        number.clear();
-                        prof.clear();
-                        filterAdapter.notifyDataSetChanged();
+                        Snackbar snackbar = Snackbar
+                                .make( view, getString(R.string.error_server), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+//                        cnt=0;
+//                        name.clear();
+//                        number.clear();
+//                        prof.clear();
+//                        filterAdapter.notifyDataSetChanged();
                     }
                 })
 //                    @Override
 //                    public Map<String, String> getParams() throws AuthFailureError {
 //                        Map<String, String> params = new HashMap<>();
-//                        params.put("name", editText.getText().toString());//fix
-//                        //Log.i("name",etSearch.getText().toString());
+//                        params.put("course_name", editText.getText().toString());//fix
+//                        //Log.i("course_name",etSearch.getText().toString());
 //                        return params;
 //                    }
                 ;
@@ -234,6 +243,7 @@ public class CourseFeedbackFragment extends Fragment{
         });
 
 
+        Log.d("adapterset",String.valueOf(filterAdapter.getItemCount()));
         recyclerView.setAdapter(filterAdapter);
         return view;
     }

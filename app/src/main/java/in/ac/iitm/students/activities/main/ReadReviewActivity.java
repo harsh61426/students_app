@@ -43,15 +43,15 @@ public class ReadReviewActivity extends AppCompatActivity{
         ReviewsAdapter reviewsAdapter = new ReviewsAdapter();
 
 
-        String[] names = intent.getStringArrayExtra("names");
+        String[] numbers = intent.getStringArrayExtra("numbers");
         String[] reviewGrading = intent.getStringArrayExtra("grading");
         String[] reviewXp = intent.getStringArrayExtra("xp");
-        int anInt = intent.getIntExtra("count", 4);
+        //int anInt = intent.getIntExtra("count", 4);
 
-        reviewsAdapter.setNames(names);
+        reviewsAdapter.setNames(numbers);
         reviewsAdapter.setReviewGrading(reviewGrading);
         reviewsAdapter.setReviewXp(reviewXp);
-        reviewsAdapter.setCount(anInt);
+        //reviewsAdapter.setCount(anInt);
         recyclerView.setAdapter(reviewsAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

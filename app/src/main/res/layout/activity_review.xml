@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Activities.ReadReviewActivity">
+    tools:context=".activities.main.ReadReviewActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:tint="#FFFFFF"/>
-        <!--android:src="@drawable/ic_insert_comment_white_24dp" /-->
+        android:tint="#FFFFFF"
+        android:src="@drawable/ic_action_pencil" />
 
 </android.support.design.widget.CoordinatorLayout>

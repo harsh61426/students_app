@@ -50,7 +50,7 @@ public class SearchAndFilterAdapter extends RecyclerView.Adapter<SearchAndFilter
 
     ArrayList<String> numbers= new ArrayList<>();
     ArrayList<String> reviewXp= new ArrayList<>();
-    ArrayList<String> reviewGrading= new ArrayList<>();
+    ArrayList<String> sem= new ArrayList<>();
 
 
     public void setCount(int cnt) {
@@ -110,12 +110,13 @@ public class SearchAndFilterAdapter extends RecyclerView.Adapter<SearchAndFilter
 
         holder.courseName.setText(name.get(position));
         holder.courseNo.setText(number.get(position));
+        holder.courseNo.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ReadReviewActivity.class);
 //                String[] names = {"Abhishek Rao", "Romil Sonigra", "Shishir Bhat", "Rohan Singh", "Rohan Kaulgekar", "Divyashish Choudry", "Karteek Dhara"};
-//                String[] reviewGrading = {
+//                String[] sem = {
 //                        "Grading involves two quizzes and endsem.",
 //                        "Assignments carry 20 marks out of 100 otherwise 2 quizzes and endsem as usual.",
 //                        "2 quizzes and endsem but assignments carry 20 marks, but they are peace considering the course credits.",
@@ -134,7 +135,7 @@ public class SearchAndFilterAdapter extends RecyclerView.Adapter<SearchAndFilter
 //                };
 //
 //                shuffleArray(names);
-//                shuffleArray(reviewGrading);
+//                shuffleArray(sem);
 //                shuffleArray(reviewXp);
 //
 //                Random r = new Random();
@@ -145,7 +146,8 @@ public class SearchAndFilterAdapter extends RecyclerView.Adapter<SearchAndFilter
                 builder.scheme("https")//https://students.iitm.ac.in/course_feedback_api
                         .authority("students.iitm.ac.in")
                         .appendPath("course_feedback_api")
-                        .appendPath("read_review")
+                        .appendPath("read")
+                        .appendPath("feedback")
                         .appendPath(number.get(holder.getAdapterPosition()));//inform joey
 
                 String url = builder.build().toString();
@@ -160,7 +162,7 @@ public class SearchAndFilterAdapter extends RecyclerView.Adapter<SearchAndFilter
 
                             numbers.clear();
                             reviewXp.clear();
-                            reviewGrading.clear();
+                            sem.clear();
 
 //                            names = new ArrayList<String>();
 //                            number = new ArrayList<String>();
@@ -174,9 +176,11 @@ public class SearchAndFilterAdapter extends RecyclerView.Adapter<SearchAndFilter
                             for (i = 0; i < jsonArray.length(); i++) {
                                 jsonObject = jsonArray.getJSONObject(i);
                                 //Log.i("JSON",jsonObject.toString());
-                                numbers.add(jsonObject.getString("roll"));//roll number
-                                reviewGrading.add(jsonObject.getString("grading"));
-                                reviewXp.add(jsonObject.getString("xp"));
+                                if(prof.get(holder.getAdapterPosition()).equals(jsonObject.getString("instructor_name"))) {
+                                    numbers.add(jsonObject.getString("time"));//change to roll number
+                                    sem.add(jsonObject.getString("course_period"));
+                                    reviewXp.add(jsonObject.getString("feedback"));
+                                }
 
                             }
                         } catch (JSONException e) {
@@ -222,12 +226,12 @@ public class SearchAndFilterAdapter extends RecyclerView.Adapter<SearchAndFilter
 
 
                 intent.putExtra("numbers", numbers);
-                intent.putExtra("grading", reviewGrading);
+                intent.putExtra("grading", sem);
                 intent.putExtra("xp", reviewXp);
 
                 //intent.putExtra("count", anInt);
-                //intent.putExtra("furtherIntent", name.get(position));
-                //intent.putExtra("number", number.get(position));
+                intent.putExtra("furtherIntent", name.get(holder.getAdapterPosition()));
+                intent.putExtra("number", number.get(holder.getAdapterPosition()));
 
                 context.startActivity(intent);
             }
