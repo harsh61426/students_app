@@ -149,21 +149,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(getSupportActionBar()!=null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-//        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
+//        if(getSupportActionBar()!=null){
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-//        navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        menu = navigationView.getMenu();
-//        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
-//        navigationView.setNavigationItemSelectedListener(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        menu = navigationView.getMenu();
+        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
 
-//        View header = navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -172,25 +172,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         layoutParams.setBehavior(new BottomNavBehaviour());
 
         navigation.setSelectedItemId(R.id.bot_nav_map);
-//        navigation.getMenu().getItem(getResources().getInteger(R.integer.na))
+        navigation.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps));
 
-//        TextView username = (TextView) header.findViewById(R.id.tv_username);
-//        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
+        TextView username = (TextView) header.findViewById(R.id.tv_username);
+        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
 
-//        username.setText(name);
-//        rollNumber.setText(roll_no);
-//        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
-//        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
-//        Picasso.with(this)
-//                .load(urlPic)
-//                .placeholder(R.mipmap.ic_launcher)
-//                .error(R.mipmap.ic_launcher)
-//                .fit()
-//                .centerCrop()
-//                .into(imageView);
+        username.setText(name);
+        rollNumber.setText(roll_no);
+        ImageView imageView = (ImageView) header.findViewById(R.id.user_pic);
+        String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";
+        Picasso.with(this)
+                .load(urlPic)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .fit()
+                .centerCrop()
+                .into(imageView);
 
 
         context = this;
