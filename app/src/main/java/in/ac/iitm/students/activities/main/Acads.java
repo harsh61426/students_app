@@ -124,14 +124,11 @@ public class Acads extends AppCompatActivity {
                 intent = new Intent(context, HomeActivity.class);
                 flag = true;
 
-            } else if (id == R.id.nav_organisations) {
-                intent = new Intent(context, OrganizationActivity.class);
-                flag = true;
             } else if (id == R.id.nav_search) {
                 intent = new Intent(context, StudentSearchActivity.class);
                 flag = true;
-            } else if (id == R.id.nav_map) {
-                intent = new Intent(context, MapActivity.class);
+            } else if (id == R.id.nav_mess_menu) {
+                intent = new Intent(context, MessMenuActivity.class);
                 flag = true;
             } else if (id == R.id.nav_complaint_box) {
                 if (!item2.isVisible()) {
@@ -167,9 +164,6 @@ public class Acads extends AppCompatActivity {
                 //flag = true;
             } else if (id == R.id.nav_contacts) {
                 intent = new Intent(context, ImpContactsActivity.class);
-                flag = true;
-            } else if (id == R.id.nav_subscriptions) {
-                intent = new Intent(context, SubscriptionActivity.class);
                 flag = true;
             } else if (id == R.id.nav_about) {
                 intent = new Intent(context, AboutUsActivity.class);

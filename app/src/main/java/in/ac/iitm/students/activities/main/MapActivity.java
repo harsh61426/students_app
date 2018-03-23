@@ -46,7 +46,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -128,6 +127,38 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private DrawerLayout drawer;
     private Menu menu;
     private NavigationView navigationView;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Intent intent1;
+            final Context context = MapActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    intent1 = new Intent(context, HomeActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_organisations:
+                    intent1 = new Intent(context, OrganizationActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    intent1 = new Intent(context, SubscriptionActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_student_search:
+                    intent1 = new Intent(context, StudentSearchActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_map:
+                    return true;
+            }
+            return false;
+        }
+    };
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -160,7 +191,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
-        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
+//        navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
         View header = navigationView.getHeaderView(0);
@@ -172,7 +203,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         layoutParams.setBehavior(new BottomNavBehaviour());
 
         navigation.setSelectedItemId(R.id.bot_nav_map);
-        navigation.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps));
+//        navigation.getMenu().getItem(getResources().getInteger(R.integer.na));
 
         TextView username = (TextView) header.findViewById(R.id.tv_username);
         TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
@@ -553,34 +584,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            Intent intent1;
-            final Context context = MapActivity.this;
-
-            switch (item.getItemId()) {
-                case R.id.bot_nav_home:
-                    intent1 = new Intent(context, HomeActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_organisations:
-                    intent1 = new Intent(context, OrganizationActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_subscriptions:
-                    intent1 = new Intent(context, SubscriptionActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_map:
-                    return true;
-            }
-            return false;
-        }
-    };
     private void showCampusBoundary() {
         if (layer == null) {
             try {
@@ -1046,7 +1049,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;
-        } else if (id == R.id.nav_map) {
+        } else if (id == R.id.nav_mess_menu) {
             //intent = new Intent(context, MapActivity.class);
             //flag = true;
         } else if (id == R.id.nav_complaint_box) {
@@ -1063,7 +1066,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 checkMenuItem = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_forum_black_24dp));
             }
-            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_maps)).setChecked(true);
+            navigationView.getMenu().getItem(getResources().getInteger(R.integer.nav_index_mess_menu)).setChecked(true);
 
 
         } else if (id == R.id.nav_complaint_hostel) {

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationPresenter;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -85,6 +84,38 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
     private DrawerLayout drawer;
     private Menu menu;
     private NavigationView navigationView;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Intent intent1;
+            final Context context = OrganizationActivity.this;
+
+            switch (item.getItemId()) {
+                case R.id.bot_nav_home:
+                    intent1 = new Intent(context, HomeActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_organisations:
+                    return true;
+                case R.id.bot_nav_subscriptions:
+                    intent1 = new Intent(context, SubscriptionActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_map:
+                    intent1 = new Intent(context, MapActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+                case R.id.bot_nav_student_search:
+                    intent1 = new Intent(context, StudentSearchActivity.class);
+                    context.startActivity(intent1);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle onRetainNonConfigurationChanges) {
@@ -301,9 +332,6 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
 
     }
 
-
-
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(OrganizationActivity.this, HomeActivity.class);
@@ -317,35 +345,6 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            Intent intent1;
-            final Context context = OrganizationActivity.this;
-
-            switch (item.getItemId()) {
-                case R.id.bot_nav_home:
-                    intent1 = new Intent(context, HomeActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_organisations:
-                    return true;
-                case R.id.bot_nav_subscriptions:
-                    intent1 = new Intent(context, SubscriptionActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_map:
-                    intent1 = new Intent(context, MapActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -395,10 +394,7 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
         } else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;
-        } else if (id == R.id.nav_map) {
-            intent = new Intent(context, MapActivity.class);
-            flag = true;
-        } else if (id == R.id.nav_complaint_box) {
+        }  else if (id == R.id.nav_complaint_box) {
             if (!item1.isVisible()) {
                 item1.setVisible(true);
                 item2.setVisible(true);

@@ -32,7 +32,7 @@
 
     <integer name="nav_index_home">0</integer>
     <integer name="nav_index_search">1</integer>
-    <integer name="nav_index_maps">2</integer>
+    <integer name="nav_index_mess_menu">2</integer>
     <integer name="nav_index_complaint_box">6</integer>
     <integer name="nav_index_complaint_mess">7</integer>
     <integer name="nav_index_complaint_hostel">8</integer>

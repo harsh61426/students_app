@@ -8,20 +8,15 @@
             android:icon="@drawable/ic_home_white_24dp"
             android:title="@string/title_activity_home" />
 
-        <!--<item-->
-            <!--android:id="@+id/nav_organisations"-->
-            <!--android:icon="@drawable/ic_pages_black_24dp"-->
-            <!--android:title="@string/title_activity_organisations" />-->
-
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_search_white_24dp"
             android:title="@string/title_activity_student_search" />
 
         <item
-            android:id="@+id/nav_map"
-            android:icon="@drawable/ic_map_black_24dp"
-            android:title="@string/title_activity_map" />
+            android:id="@+id/nav_mess_menu"
+            android:icon="@drawable/ic_local_dining_black_24dp"
+            android:title="@string/mess_menu" />
 
         <item
             android:id="@+id/nav_calendar"

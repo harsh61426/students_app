@@ -194,8 +194,8 @@ public class ImpContactsActivity extends AppCompatActivity
         }  else if (id == R.id.nav_search) {
             intent = new Intent(context, StudentSearchActivity.class);
             flag = true;
-        } else if (id == R.id.nav_map) {
-            intent = new Intent(context, MapActivity.class);
+        } else if (id == R.id.nav_mess_menu) {
+            intent = new Intent(context, MessMenuActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
             if (!item2.isVisible()) {
