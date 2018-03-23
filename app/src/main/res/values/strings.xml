@@ -191,13 +191,10 @@
         <item>"nss.iitm/"</item>
         <item>"mitr.iitm/"</item>
         <item>"saathi.iitm/"</item>
-        <item>"152210554869211"</item>
-        <item>"362692757076050"</item>
+
 
     </string-array>
 
-    <string name="ID_Techsoc">"362692757076050"</string>
-    <string name="ID_Litsoc">"152210554869211"</string>
 
     <string-array name="organisations">
         <item>IIT Madras</item>
