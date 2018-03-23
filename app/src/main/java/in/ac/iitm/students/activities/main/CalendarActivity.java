@@ -360,7 +360,7 @@ public class CalendarActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle nav_cmgfs view item clicks here.
 
         Boolean checkMenuItem = true;
         MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
@@ -383,8 +383,8 @@ public class CalendarActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
-            if (!item1.isVisible()) {
-                item1.setVisible(true);
+            if (!item2.isVisible()) {
+                item1.setVisible(false);
                 item2.setVisible(true);
                 item3.setVisible(true);
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_24dp));

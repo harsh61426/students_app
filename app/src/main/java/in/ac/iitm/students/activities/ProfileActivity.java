@@ -1,6 +1,7 @@
 package in.ac.iitm.students.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.main.MessMenuActivity;
 import in.ac.iitm.students.others.MySingleton;
 import in.ac.iitm.students.others.UtilStrings;
 import in.ac.iitm.students.others.Utils;
@@ -101,6 +103,14 @@ public class ProfileActivity extends AppCompatActivity {
         tv_room.setText("Room: "+room);
         tv_phone.setText("Contact No: "+mobile);
         tv_mess.setText("Mess: "+mess);
+
+        tv_mess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this,MessMenuActivity.class));
+            }
+        });
+
         getMess(roll_no.toUpperCase(),mess);
 
         String urlPic = "https://ccw.iitm.ac.in/sites/default/files/photos/" + roll_no.toUpperCase() + ".JPG";

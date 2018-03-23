@@ -100,7 +100,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="16dp"
-                android:background="@drawable/arrow_up" />
+                android:background="@drawable/ic_thumb_up_black_24dp"
+                android:backgroundTint="@color/colorLightGreen"/>
 
             <TextView
                 android:id="@+id/tv_upvote"
@@ -117,7 +118,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="16dp"
-                android:background="@drawable/arrow_down" />
+                android:background="@drawable/ic_thumb_down_black_24dp"
+                android:backgroundTint="@color/lightRed"/>
 
             <TextView
                 android:id="@+id/tv_downvote"

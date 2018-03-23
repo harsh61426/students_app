@@ -91,8 +91,8 @@ public class BunksAdapter extends ArrayAdapter {
         });
         if(bunks.get(position).getBunk_done()*2>=bunks.get(position).getBunk_tot())
         {
-            holder.bunkcount.setTextColor(ContextCompat.getColor(context,R.color.red));
-            holder.slot.setTextColor(ContextCompat.getColor(context,R.color.red));
+            holder.bunkcount.setTextColor(ContextCompat.getColor(context,R.color.colorLightGreen));
+            holder.slot.setTextColor(ContextCompat.getColor(context,R.color.colorLightGreen));
 
         }
         return convertView;

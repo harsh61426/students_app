@@ -42,6 +42,11 @@ import in.ac.iitm.students.others.Utils;
 public class ImpContactsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /*TODO:
+    * Add in contacts of Medall/MiTR for counselling and the wildlife club in a seperate fragment
+    * Add in an emergency button(as a widget) if you can, which calls security section
+    * */
+
     Toolbar toolbar;
     private DrawerLayout drawer;
     private Menu menu;
@@ -170,7 +175,7 @@ public class ImpContactsActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle nav_acads view item clicks here.
 
         Boolean checkMenuItem = true;
         MenuItem item1 = menu.findItem(R.id.nav_complaint_mess);
@@ -193,8 +198,8 @@ public class ImpContactsActivity extends AppCompatActivity
             intent = new Intent(context, MapActivity.class);
             flag = true;
         } else if (id == R.id.nav_complaint_box) {
-            if (!item1.isVisible()) {
-                item1.setVisible(true);
+            if (!item2.isVisible()) {
+                item1.setVisible(false);
                 item2.setVisible(true);
                 item3.setVisible(true);
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_black_24dp));

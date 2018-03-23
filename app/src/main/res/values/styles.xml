@@ -27,6 +27,7 @@
         </item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
+
     <style name="AppTheme.NoActionBar.noAnimation">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
