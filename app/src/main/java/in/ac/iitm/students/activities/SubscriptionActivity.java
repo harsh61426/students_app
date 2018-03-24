@@ -98,14 +98,6 @@ public class SubscriptionActivity extends AppCompatActivity implements CompoundB
                     return true;
                 case R.id.bot_nav_subscriptions:
                     return true;
-                case R.id.bot_nav_map:
-                    intent1 = new Intent(context, MapActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_student_search:
-                    intent1 = new Intent(context, StudentSearchActivity.class);
-                    context.startActivity(intent1);
-                    return true;
             }
             return false;
         }

@@ -110,6 +110,7 @@ public class HomeActivity extends AppCompatActivity
     public CardView containerLayout;
     public RelativeLayout containerLayout2;
     public View layout1;
+    BottomNavigationView navigation;
     String url = "https://students.iitm.ac.in/studentsapp/general/subs.php";
     HomeAdapter adapter;
     RecyclerView recyclerView;
@@ -149,14 +150,6 @@ public class HomeActivity extends AppCompatActivity
                     return true;
                 case R.id.bot_nav_subscriptions:
                     intent1 = new Intent(context, SubscriptionActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_map:
-                    intent1 = new Intent(context, MapActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_student_search:
-                    intent1 = new Intent(context, StudentSearchActivity.class);
                     context.startActivity(intent1);
                     return true;
             }
@@ -199,7 +192,7 @@ public class HomeActivity extends AppCompatActivity
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefreshhome);
         swipeRefreshLayout.setOnRefreshListener(HomeActivity.this);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_view);
+        navigation = (BottomNavigationView) findViewById(R.id.bot_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // attaching bottom sheet behaviour - hide / show on scroll
@@ -1404,6 +1397,16 @@ public class HomeActivity extends AppCompatActivity
                 }
             });
 
+            if (link != null && !link.isEmpty() && !(link.compareToIgnoreCase("nada") == 0)) {
+                holder.tv_link.setVisibility(View.VISIBLE);
+                holder.ibt_link.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.tv_link.setVisibility(View.GONE);
+                holder.ibt_link.setVisibility(View.GONE);
+            }
+
 //                holder.rlHomeFeed.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View view) {
@@ -1456,7 +1459,7 @@ public class HomeActivity extends AppCompatActivity
            return notifObjectList.size();
         }
 
-        public class MyOnClickListener implements View.OnClickListener
+        public class MyOnClickListener //implements View.OnClickListener
         {
 
             ViewHolder holder;
@@ -1467,13 +1470,13 @@ public class HomeActivity extends AppCompatActivity
             public MyOnClickListener(ViewHolder holder, String link) {
                 this.holder = holder;
                 this.link = link;
-                holder.cv_homefeed.setOnClickListener(this);
-                holder.ibt_less.setOnClickListener(this);
+                //holder.cv_homefeed.setOnClickListener(this);
+                //holder.ibt_less.setOnClickListener(this);
 
             }
 
 
-            @Override
+            /*@Override
             public void onClick(View v) {
 
                 switch (v.getId()){
@@ -1489,7 +1492,7 @@ public class HomeActivity extends AppCompatActivity
                                     holder.li_event_det.setVisibility(View.GONE);
 
                                 holder.tvDetails.setVisibility(View.VISIBLE);
-                                holder.bt_going.setVisibility(View.VISIBLE);
+                                //holder.bt_going.setVisibility(View.VISIBLE);
                                 holder.ibt_less.setVisibility(View.VISIBLE);
                                 if (link != null && !link.isEmpty() && !(link.compareToIgnoreCase("nada") == 0)) {
                                     holder.li_link.setVisibility(View.VISIBLE);
@@ -1536,7 +1539,7 @@ public class HomeActivity extends AppCompatActivity
                                 holder.li_event_det.setVisibility(View.GONE);
 
                             holder.tvDetails.setVisibility(View.VISIBLE);
-                            holder.bt_going.setVisibility(View.VISIBLE);
+                            //holder.bt_going.setVisibility(View.VISIBLE);
                             holder.ibt_less.setVisibility(View.VISIBLE);
 
                             if (link != null && !link.isEmpty() && !(link.compareToIgnoreCase("nada") == 0)) {
@@ -1596,7 +1599,7 @@ public class HomeActivity extends AppCompatActivity
                     default:
                         break;
                 }
-            }
+            }*/
 
         }
 
@@ -1734,6 +1737,7 @@ public class HomeActivity extends AppCompatActivity
                         }
                     });
             snackbar.show();
+            navigation.animate().translationY(navigation.getHeight());
         }
 
     }

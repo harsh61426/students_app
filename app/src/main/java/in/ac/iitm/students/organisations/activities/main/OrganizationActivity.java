@@ -104,14 +104,6 @@ public class OrganizationActivity extends AppCompatActivity implements Navigatio
                     intent1 = new Intent(context, SubscriptionActivity.class);
                     context.startActivity(intent1);
                     return true;
-                case R.id.bot_nav_map:
-                    intent1 = new Intent(context, MapActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_student_search:
-                    intent1 = new Intent(context, StudentSearchActivity.class);
-                    context.startActivity(intent1);
-                    return true;
             }
             return false;
         }

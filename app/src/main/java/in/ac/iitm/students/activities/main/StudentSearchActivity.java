@@ -81,38 +81,38 @@ public class StudentSearchActivity extends AppCompatActivity {
     //    private DrawerLayout drawer;
 //    private Menu menu;
 //    private NavigationView navigationView;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            Intent intent1;
-            final Context context = StudentSearchActivity.this;
-
-            switch (item.getItemId()) {
-                case R.id.bot_nav_home:
-                    intent1 = new Intent(context, HomeActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_organisations:
-                    intent1 = new Intent(context, OrganizationActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_subscriptions:
-                    intent1 = new Intent(context, SubscriptionActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_map:
-                    intent1 = new Intent(context, MapActivity.class);
-                    context.startActivity(intent1);
-                    return true;
-                case R.id.bot_nav_student_search:
-                    return true;
-            }
-            return false;
-        }
-    };
+//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//            Intent intent1;
+//            final Context context = StudentSearchActivity.this;
+//
+//            switch (item.getItemId()) {
+//                case R.id.bot_nav_home:
+//                    intent1 = new Intent(context, HomeActivity.class);
+//                    context.startActivity(intent1);
+//                    return true;
+//                case R.id.bot_nav_organisations:
+//                    intent1 = new Intent(context, OrganizationActivity.class);
+//                    context.startActivity(intent1);
+//                    return true;
+//                case R.id.bot_nav_subscriptions:
+//                    intent1 = new Intent(context, SubscriptionActivity.class);
+//                    context.startActivity(intent1);
+//                    return true;
+//                case R.id.bot_nav_map:
+//                    intent1 = new Intent(context, MapActivity.class);
+//                    context.startActivity(intent1);
+//                    return true;
+//                case R.id.bot_nav_student_search:
+//                    return true;
+//            }
+//            return false;
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,13 +142,13 @@ public class StudentSearchActivity extends AppCompatActivity {
 //
 //        View header = navigationView.getHeaderView(0);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_view);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        //BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_view);
+        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // attaching bottom sheet behaviour - hide / show on scroll
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
-        layoutParams.setBehavior(new BottomNavBehaviour());
-        navigation.setSelectedItemId(R.id.bot_nav_student_search);
+        //CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        //layoutParams.setBehavior(new BottomNavBehaviour());
+        //navigation.setSelectedItemId(R.id.bot_nav_student_search);
 
 //        TextView username = (TextView) header.findViewById(R.id.tv_username);
 //        TextView rollNumber = (TextView) header.findViewById(R.id.tv_roll_number);
