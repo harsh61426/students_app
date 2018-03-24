@@ -5,22 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="4dp"
+    android:layout_margin="2dp"
     card_view:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/title1"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp"
             android:text="@string/type_wm"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/white" />
 
         <View
             android:layout_width="match_parent"
@@ -31,7 +34,9 @@
             android:id="@+id/ll1_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/t1description1"
@@ -64,8 +69,9 @@
             android:id="@+id/ll1_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/unresolved_colour"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/t1description2"
@@ -98,7 +104,9 @@
             android:id="@+id/ll1_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/t1description3"
@@ -131,8 +139,9 @@
             android:id="@+id/ll1_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/unresolved_colour"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/t1description4"
@@ -165,7 +174,9 @@
             android:id="@+id/ll1_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/t1description5"
@@ -197,8 +208,9 @@
             android:id="@+id/ll1_6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/unresolved_colour"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/t1description6"

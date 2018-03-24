@@ -80,8 +80,8 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
     public String mGeneralString;
     public static ViewPagerAdapter adapter;
-    MaterialSearchView searchView;
-    private MenuItem searchIcon;
+    //MaterialSearchView searchView;
+    //private MenuItem searchIcon;
     String[] suggestions;
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -112,7 +112,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         actionBar.setTitle(R.string.title_activity_complaint_general);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
         //toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        searchView =(MaterialSearchView)findViewById(R.id.search_view);
+        //searchView =(MaterialSearchView)findViewById(R.id.search_view);
 
         searchViewCode();
         //mRecyclerView = (RecyclerView) findViewById(R.id.latest_thread_recycler);
@@ -170,7 +170,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
 
     private void searchViewCode(){
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        /*searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SearchQuery(query);
@@ -288,7 +288,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                             } catch (IOException e) {
                                 e.printStackTrace();
                                 Toast.makeText(GeneralComplaintsActivity.this, "IOException", Toast.LENGTH_SHORT).show();
-                            }*/
+                            }
                         } else {
                             makeSnackbar("Error Searching");
                             //Toast.makeText(GeneralComplaintsActivity.this, jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
@@ -299,7 +299,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                     for (i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
                         suggestions[i] = (jsonObject.getString("tags"));
-                    }*/
+                    }*//*
 
                 } catch (JSONException e) {
                     makeSnackbar("Error Searching");
@@ -321,7 +321,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             }
         };
 
-        MySingleton.getInstance(GeneralComplaintsActivity.this).addToRequestQueue(jsonObjReq);
+        MySingleton.getInstance(GeneralComplaintsActivity.this).addToRequestQueue(jsonObjReq);*/
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -340,27 +340,27 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
     @Override
     public void onBackPressed() {
 
-        if(searchView.isOpen()){
-            searchView.closeSearch();
-        }else{
+        //if(searchView.isOpen()){
+        //    searchView.closeSearch();
+        //}else{
             Intent intent = new Intent(GeneralComplaintsActivity.this, HomeActivity.class);
             startActivity(intent);
-        }
+        //}
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (position == 0) {
             fab.show();
-            if(searchIcon!=null)
-                searchIcon.setVisible(true);
-            searchView.setVisibility(View.VISIBLE);
+            //if(searchIcon!=null)
+            //    searchIcon.setVisible(true);
+            //searchView.setVisibility(View.VISIBLE);
         }
         else {
             fab.hide();
-            if(searchIcon!=null)
-                searchIcon.setVisible(false);
-            searchView.setVisibility(View.GONE);
+            //if(searchIcon!=null)
+            //    searchIcon.setVisible(false);
+            //searchView.setVisibility(View.GONE);
         }
     }
 
@@ -371,9 +371,9 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 adapter.notifyDataSetChanged();
                 g_ComplaintAdapter.DATA_CHANGED = 0;
             }
-            if(searchIcon!=null)
-                searchIcon.setVisible(true);
-            searchView.setVisibility(View.VISIBLE);
+            //if(searchIcon!=null)
+             //   searchIcon.setVisible(true);
+            //searchView.setVisibility(View.VISIBLE);
             fab.show();
         } else {
             if (g_ComplaintAdapter.DATA_CHANGED == 1) {
@@ -381,10 +381,10 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
                 adapter.notifyDataSetChanged();
                 g_ComplaintAdapter.DATA_CHANGED = 0;
             }
-            if(searchIcon!=null)
-                searchIcon.setVisible(false);
+            //if(searchIcon!=null)
+            //    searchIcon.setVisible(false);
             fab.hide();
-            searchView.setVisibility(View.GONE);
+            //searchView.setVisibility(View.GONE);
         }
     }
 
@@ -404,8 +404,8 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
         // Inflate the menu; this adds items to the action bar if it is present.
        // getMenuInflater().inflate(R.menu.main_menu, menu);
        getMenuInflater().inflate(R.menu.search_item,menu);
-       searchIcon = menu.findItem(R.id.action_search);
-       searchIcon.setVisible(true);
+       //searchIcon = menu.findItem(R.id.action_search);
+       //searchIcon.setVisible(true);
 
        //MenuItem item=menu.findItem(R.id.action_search);
        //searchView.setMenuItem(item);
@@ -449,7 +449,7 @@ public class GeneralComplaintsActivity extends AppCompatActivity implements View
             onBackPressed();
             return true;
         }else if(id==R.id.action_search){
-            searchView.openSearch();
+            //searchView.openSearch();
             return true;
 
         }

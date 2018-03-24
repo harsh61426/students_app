@@ -350,7 +350,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
                     progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_LatThCompAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new g_ComplaintAdapter(hComplaintList,getActivity(),getContext(),true,(CoordinatorLayout) getActivity().findViewById(R.id.main_content));//h_LatThCompAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
@@ -358,7 +358,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
                     Log.d("pip", "onResponse: " + hComplaintList.get(0).getName());
                     progressDialog.dismiss();
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new h_LatThCompAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                    mAdapter = new g_ComplaintAdapter(hComplaintList,getActivity(),getContext(),true,(CoordinatorLayout) getActivity().findViewById(R.id.main_content));//new h_LatThCompAdapter(hComplaintList, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                     mRecyclerView.setAdapter(mAdapter);
                     mRecyclerView.setNestedScrollingEnabled(false);
                 }
@@ -379,7 +379,7 @@ public class h_LatestThreadFragment extends Fragment implements Updateable,Swipe
 
                 progressDialog.dismiss();
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new h_LatThCompAdapter(hComplaintArray, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
+                mAdapter = new g_ComplaintAdapter(hComplaintList,getActivity(),getContext(),true,(CoordinatorLayout) getActivity().findViewById(R.id.main_content));//new h_LatThCompAdapter(hComplaintArray, getActivity(), getContext(), (CoordinatorLayout) getActivity().findViewById(R.id.main_content));
                 mRecyclerView.setAdapter(mAdapter);
 
             }

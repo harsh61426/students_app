@@ -310,7 +310,7 @@
     <string name="wm_2">Check water error</string>
     <string name="wm_3">Water outlet problem</string>
     <string name="wm_4">Dryer not functional</string>
-    <string name="wm_5">Not even starting wash cycle</string>
+    <string name="wm_5">Not starting wash cycle</string>
     <string name="wm_6">Others</string>
 
     <string name="type_wd">Water Dispenser</string>
@@ -322,9 +322,9 @@
 
     <string name="type_wash">Washroom</string>
     <string name="wash_1">Power supply not proper</string>
-    <string name="wash_2">Taps not properly working</string>
-    <string name="wash_3">Showers not properly working</string>
-    <string name="wash_4">Towel Hangers not present</string>
+    <string name="wash_2">Taps not working properly</string>
+    <string name="wash_3">Showers not working properly</string>
+    <string name="wash_4">Towel Hangers missing</string>
     <string name="wash_5">Washroom doors not closing properly</string>
     <string name="wash_6">Flush tanks not working</string>
     <string name="wash_7">Pipes leaking</string>
@@ -343,7 +343,7 @@
     <string name="piw_3">Furniture broken</string>
     <string name="piw_4">Internet problem</string>
     <string name="piw_5">Wing not cleaned regularly</string>
-    <string name="piw_6">Does not have a dustbin</string>
+    <string name="piw_6">Dustbin missing</string>
     <string name="piw_7">Cloth wires not proper</string>
     <string name="piw_8">Others</string>
 

@@ -351,7 +351,8 @@ public class g_Comments extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                Intent intent = new Intent(this, GeneralComplaintsActivity.class);
+                startActivity(intent);
                 return true;
         }
         return true;
@@ -360,8 +361,8 @@ public class g_Comments extends AppCompatActivity {
     @Override
     public void onBackPressed(){
 
-        Intent intent = new Intent(this, GeneralComplaintsActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, GeneralComplaintsActivity.class);
+        //startActivity(intent);
         super.onBackPressed();
     }
 

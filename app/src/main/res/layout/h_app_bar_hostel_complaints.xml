@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_black_24dp"
+        android:srcCompat="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/colorSecondary"
         app:layout_anchor="@id/viewpager"
         app:layout_anchorGravity="bottom|right|end"
@@ -65,10 +65,10 @@
 
     <br.com.mauker.materialsearchview.MaterialSearchView
         android:id="@+id/search_view"
+        style="@style/MaterialSearchViewStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="10dp"
-        app:elevation="10dp"
         android:visibility="gone"
-        style="@style/MaterialSearchViewStyle"/>
+        app:elevation="10dp" />
 </android.support.design.widget.CoordinatorLayout>

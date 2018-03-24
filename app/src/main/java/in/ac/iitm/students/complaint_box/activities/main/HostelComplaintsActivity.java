@@ -68,7 +68,7 @@ import in.ac.iitm.students.others.Utils;
 public class HostelComplaintsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     public String mGeneralString;
-    MaterialSearchView searchView;
+    //MaterialSearchView searchView;
     String[] suggestions;
     HostelComplaintsActivity.ViewPagerAdapter adapter;
     private Toolbar toolbar;
@@ -102,7 +102,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             Hostel = String.valueOf(hostel.charAt(0)).toUpperCase() + hostel.substring(1, hostel.length());
         }
         actionBar.setTitle(Hostel + " Complaints");
-        searchViewCode();
+        //searchViewCode();
 
         String roll_no = Utils.getprefString(UtilStrings.ROLLNO, this);
         String name = Utils.getprefString(UtilStrings.NAME, this);
@@ -149,7 +149,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
 
     }
 
-    private void searchViewCode(){
+    /*private void searchViewCode(){
         searchView =(MaterialSearchView)findViewById(R.id.search_view);
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -257,7 +257,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
         MySingleton.getInstance(HostelComplaintsActivity.this).addToRequestQueue(jsonObjReq);
 
 
-    }
+    }*/
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -270,12 +270,12 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
     @Override
     public void onBackPressed() {
 
-        if(searchView.isOpen()){
-            searchView.closeSearch();
-        }else{
+        //if(searchView.isOpen()){
+        //    searchView.closeSearch();
+        //}else{
             Intent intent = new Intent(HostelComplaintsActivity.this, HomeActivity.class);
             startActivity(intent);
-        }
+        //}
     }
 
     @Override
@@ -334,7 +334,7 @@ public class HostelComplaintsActivity extends AppCompatActivity implements ViewP
             onBackPressed();
             return true;
         }else if(id==R.id.action_search){
-            searchView.openSearch();
+            //searchView.openSearch();
             return true;
 
         }
