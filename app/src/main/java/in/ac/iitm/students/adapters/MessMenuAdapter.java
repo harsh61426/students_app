@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ public class MessMenuAdapter extends ArrayAdapter {
     private Context context;
     private ArrayList<MessMenu> menuArrayList;
     private String messtype;
+    int currentDay;
 
     public MessMenuAdapter(Context context, ArrayList<MessMenu> menuArrayList, String messtype)
     {
@@ -72,6 +74,9 @@ public class MessMenuAdapter extends ArrayAdapter {
 
         final MessMenu menu = menuArrayList.get(position);
         menuholder.messday.setText(menu.getDay());
+
+        //currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+       //menuArrayList.smoothScrollToPosition(currentDay);
 
         if(menu.getMenutype().equalsIgnoreCase("Breakfast"))
         {

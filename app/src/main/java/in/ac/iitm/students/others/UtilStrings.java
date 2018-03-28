@@ -15,6 +15,7 @@ public class    UtilStrings {
     public static String REVEAL_PHOTO = "reveal_photo";
     public static String LOGEDIN = "logedin";
     public static String homeData = "homeData";
+    public static String messmenu = "messmenu";
 
     public static String COURSES_COUNT = "crscnt";
     public static String COURSE_NUM = "crsn";

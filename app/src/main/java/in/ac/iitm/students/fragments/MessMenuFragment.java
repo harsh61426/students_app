@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,13 +22,19 @@ import org.json.JSONObject;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 
 import in.ac.iitm.students.R;
+import in.ac.iitm.students.activities.main.HomeActivity;
+import in.ac.iitm.students.activities.main.MessMenuActivity;
 import in.ac.iitm.students.adapters.MessMenuAdapter;
 import in.ac.iitm.students.objects.MessMenu;
 import in.ac.iitm.students.others.MySingleton;
+import in.ac.iitm.students.others.UtilStrings;
+import in.ac.iitm.students.others.Utils;
 
 public class MessMenuFragment extends Fragment {
 
@@ -37,6 +44,9 @@ public class MessMenuFragment extends Fragment {
 
     private ArrayList<MessMenu> menuArrayList;
     private MessMenuAdapter adapter;
+    int currentDay;
+    String day;
+    ListView listView;
 
 
     public MessMenuFragment() {
@@ -66,9 +76,11 @@ public class MessMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mess_menu, container, false);
-        ListView listView = (ListView)view.findViewById(R.id.list_menu);
+        listView = (ListView)view.findViewById(R.id.list_menu);
         listView.setAdapter(adapter);
         getMenu(menutitle);
+
+        currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         return view;
     }
 
@@ -81,6 +93,9 @@ public class MessMenuFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
+                    response = jsonArray.toString();
+                    Log.i("EXX2",response);
+                    Utils.saveprefString(UtilStrings.messmenu, response, getContext());
                     int length = jsonArray.length();
                     for(int i=0;i<length;i++) {
                         Log.i("JSON", jsonArray.getString(i));
@@ -88,6 +103,8 @@ public class MessMenuFragment extends Fragment {
                         menuArrayList.add(new MessMenu(object.getString("day"),
                                 object.getString("menutype"), object.getString("menu"),
                                 Float.parseFloat(object.getString("rating")),object.getInt("raters")));
+
+                        listView.smoothScrollToPosition((currentDay*3)-1);
                     }
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -99,6 +116,34 @@ public class MessMenuFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Log.i("Error","Unable to fetch");
+                try {
+                    String dataBuffer = Utils.getprefString(UtilStrings.messmenu, getContext());
+                    if (!dataBuffer.equals("")) {
+                        String response = dataBuffer;
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            int length = jsonArray.length();
+                            for(int i=0;i<length;i++) {
+                                Log.i("JSON", jsonArray.getString(i));
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                menuArrayList.add(new MessMenu(object.getString("day"),
+                                        object.getString("menutype"), object.getString("menu"),
+                                        Float.parseFloat(object.getString("rating")),object.getInt("raters")));
+                                listView.smoothScrollToPosition((currentDay*3)-1);
+
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        error.printStackTrace();
+
+
+                    }
+                } catch (EmptyStackException e) {
+                    error.printStackTrace();
+                }
             }
         })
         {
