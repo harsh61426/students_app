@@ -105,8 +105,8 @@ public class MessMenuFragment extends Fragment {
                                 Float.parseFloat(object.getString("rating")),object.getInt("raters")));
 
                         listView.smoothScrollToPosition((currentDay*3)-1);
+                        adapter.notifyDataSetChanged();
                     }
-                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -130,9 +130,9 @@ public class MessMenuFragment extends Fragment {
                                         object.getString("menutype"), object.getString("menu"),
                                         Float.parseFloat(object.getString("rating")),object.getInt("raters")));
                                 listView.smoothScrollToPosition((currentDay*3)-1);
-
+                                adapter.notifyDataSetChanged();
                             }
-                            adapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
