@@ -373,5 +373,7 @@
     <string name="lunch">L\nU\nN\nC\nH</string>
     <string name="dinner">D\nI\nN\nN\nE\nR</string>
 
+    <string name="DisSI">Disclaimer: This menu has been verified with SK(SI) mess.\nIt may not match perfectly with other SI mess menus.</string>
+    <string name="DisNI">Disclaimer: This menu has been verified with A-Diet(NI) mess.\nIt may not match perfectly with other NI mess menus.</string>
 
 </resources>
