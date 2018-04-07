@@ -162,6 +162,21 @@ public class CalendarActivity extends AppCompatActivity
         return isConnected;
     }
 
+    private void readResponse(String response)
+    {
+        InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+        JsonReader reader = null;
+        try {
+
+            reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+            reader.setLenient(true);
+            new DDLTask().execute(reader);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void instantiate_calendar()
     {
 
@@ -185,17 +200,8 @@ public class CalendarActivity extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 //Log.d("kaka", response);
-                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-                JsonReader reader = null;
-                try {
-
-                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-                    reader.setLenient(true);
-                    new DDLTask().execute(reader);
-
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                readResponse(response);
+                Utils.saveprefString(UtilStrings.calendarData,response,CalendarActivity.this);
 
             }
 
@@ -203,9 +209,19 @@ public class CalendarActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Log.e("VolleyError", error.toString());
-                Snackbar snackbar = Snackbar
+                String savedresp = Utils.getprefString(UtilStrings.calendarData,CalendarActivity.this);
+                if(savedresp.isEmpty())
+                {
+                    progressDialog.dismiss();
+                    Snackbar snackbar = Snackbar
                         .make(drawer, "No internet connection", Snackbar.LENGTH_LONG);
-                snackbar.show();
+                    snackbar.show();
+                }
+                else
+                {
+                    readResponse(savedresp);
+                }
+
 
             }
         });

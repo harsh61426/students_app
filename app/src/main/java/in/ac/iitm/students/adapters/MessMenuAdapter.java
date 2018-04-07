@@ -66,6 +66,7 @@ public class MessMenuAdapter extends ArrayAdapter {
             menuholder.rate = convertView.findViewById(R.id.rate);
             menuholder.r = convertView.findViewById(R.id.menu_rating);
             menuholder.messmenu = convertView.findViewById(R.id.mess_menu);
+            menuholder.disclaimer = convertView.findViewById(R.id.disclaimer);
             convertView.setTag(menuholder);
         }
         else {
@@ -82,16 +83,19 @@ public class MessMenuAdapter extends ArrayAdapter {
         {
             menuholder.menutype.setText(R.string.breakfast);
             menuholder.messday.setVisibility(View.VISIBLE);
+            menuholder.disclaimer.setVisibility(View.GONE);
         }
         else if(menu.getMenutype().equalsIgnoreCase("Lunch"))
         {
             menuholder.menutype.setText(R.string.lunch);
             menuholder.messday.setVisibility(View.GONE);
+            menuholder.disclaimer.setVisibility(View.GONE);
         }
         else
         {
             menuholder.menutype.setText(R.string.dinner);
             menuholder.messday.setVisibility(View.GONE);
+            menuholder.disclaimer.setVisibility(View.VISIBLE);
         }
 
         menuholder.rate.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +118,15 @@ public class MessMenuAdapter extends ArrayAdapter {
 
         menuholder.messmenu.setText(menu.getMenu());
 
+        if(messtype.contains("NI"))
+        {
+            menuholder.disclaimer.setText(R.string.DisNI);
+        }
+        else
+        {
+            menuholder.disclaimer.setText(R.string.DisSI);
+        }
+
         return convertView;
     }
 
@@ -124,6 +137,7 @@ public class MessMenuAdapter extends ArrayAdapter {
         RatingBar r;
         TextView messday;
         TextView menutype;
+        TextView disclaimer;
     }
 
     private void viewDialog(final MessMenu menu)

@@ -16,6 +16,7 @@ public class    UtilStrings {
     public static String LOGEDIN = "logedin";
     public static String homeData = "homeData";
     public static String messmenu = "messmenu";
+    public static String calendarData = "calendarData";
 
     public static String COURSES_COUNT = "crscnt";
     public static String COURSE_NUM = "crsn";

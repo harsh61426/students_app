@@ -82,5 +82,15 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/disclaimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:text="@string/DisNI"
+        android:textSize="10sp" />
+
 
 </LinearLayout>

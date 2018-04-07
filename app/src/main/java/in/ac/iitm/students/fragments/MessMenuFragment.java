@@ -94,8 +94,7 @@ public class MessMenuFragment extends Fragment {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     response = jsonArray.toString();
-                    Log.i("EXX2",response);
-                    Utils.saveprefString(UtilStrings.messmenu, response, getContext());
+                    Utils.saveprefString(UtilStrings.messmenu+menutitle, response, getContext());
                     int length = jsonArray.length();
                     for(int i=0;i<length;i++) {
                         Log.i("JSON", jsonArray.getString(i));
@@ -117,7 +116,7 @@ public class MessMenuFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 //Log.i("Error","Unable to fetch");
                 try {
-                    String dataBuffer = Utils.getprefString(UtilStrings.messmenu, getContext());
+                    String dataBuffer = Utils.getprefString(UtilStrings.messmenu+menutitle, getContext());
                     if (!dataBuffer.equals("")) {
                         String response = dataBuffer;
                         try {

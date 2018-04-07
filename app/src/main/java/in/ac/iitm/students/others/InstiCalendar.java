@@ -363,39 +363,42 @@ public class InstiCalendar {
             @Override
             public void onResponse(String response) {
                 Log.d("kaka", response);
-                InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-
-                JsonReader reader = null;
-                try {
-                    reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
-                    reader.setLenient(true);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    try {
-                        readMonthObject(reader, context);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } finally {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                readResponse(response);
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("VolleyError", error.toString());
-                //Toast.makeText(context,"No Internet Access",Toast.LENGTH_SHORT).show();
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(stringRequest);
 
+    }
+
+    private void readResponse(String response)
+    {
+        InputStream stream = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+        JsonReader reader = null;
+        try {
+            reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
+            reader.setLenient(true);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        try {
+            try {
+                readMonthObject(reader, context);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void getAllEvents(final Activity activity) {
